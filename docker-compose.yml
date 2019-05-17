@@ -1,0 +1,24 @@
+# Use postgres/example user/password credentials
+version: '3.2'
+
+services:
+
+  test_db:
+    #user: postgres
+    # produces 
+    restart: always
+    #image: postgres:9.4
+    build: .
+    ports:
+      - 5432:5432
+    #volumes:
+    #  - type: bind
+    #    source: ./docker-entrypoint-initdb.d
+    #    target: ./docker-entrypoint-initdb.d
+    command: postgres -c log_statement=all -c logging_collector=on -c log_destination=stderr -c log_directory=/logs
+networks:
+  default:
+    external:
+      name: proforma_net
+
+
