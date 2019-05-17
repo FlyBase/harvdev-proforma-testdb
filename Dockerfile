@@ -34,7 +34,8 @@ USER postgres
 # Note: here we use ``&&\`` to run commands one after the other - the ``\``
 #       allows the RUN command to span multiple lines.
 RUN    /etc/init.d/postgresql start &&\
-    createdb fb_test &&\
+    psql --command "CREATE USER tester WITH SUPERUSER PASSWORD 'tester';" &&\
+    createdb -O tester fb_test &&\
     psql -d fb_test < schema.sql > /dev/null &&\
     python3 add-test_data.py
 
