@@ -171,7 +171,7 @@ cursor.execute(cvterm_sql, (dbxref_id, cv_id['FlyBase miscellaneous CV'], 'umbre
 cvterm_id['umbrella project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], 'project_type'))
 
-author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s, %s) """
+author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
 # create pubs
 pub_id = 0
 pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
