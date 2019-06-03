@@ -171,8 +171,7 @@ cursor.execute(cvterm_sql, (dbxref_id, cv_id['FlyBase miscellaneous CV'], 'umbre
 cvterm_id['umbrella project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], 'project_type'))
 
-author_id = 1
-author_sql = """ INSERT INTO pubauthor (pubauthor_id, pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s, %s) """
+author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s, %s) """
 # create pubs
 pub_id = 0
 pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
@@ -180,9 +179,8 @@ pubprop_sql = """ INSERT INTO pubprop (pub_id, type_id, value, rank) VALUES (%s,
 cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature', 'FBrf0000001', '1967'))
 pub_id = cursor.fetchone()[0]
 cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
-cursor.execute( author_sql,( author_id, pub_id, 1, "Bueller", "Ferris"))
-author_id += 1
-cursor.execute( author_sql,( author_id, pub_id, 2, "Bueller", "Lesser"))
+cursor.execute( author_sql,(pub_id, 1, "Bueller", "Ferris"))
+cursor.execute( author_sql,(pub_id, 2, "Bueller", "Lesser"))
 
 cursor.execute( pub_sql, (cvterm_id['unattributed'], 'unattributed', 'unattributed', '1973'))
 pub_id = cursor.fetchone()[0]
