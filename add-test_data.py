@@ -180,6 +180,7 @@ pubprop_sql = """ INSERT INTO pubprop (pub_id, type_id, value, rank) VALUES (%s,
 cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature', 'FBrf0000001', '1967'))
 pub_id = cursor.fetchone()[0]
 cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
+cursor.execute( pubprop_sql, (pub_id, cvterm_id["personal communication to FlyBase"], "1", pub_id))
 cursor.execute( author_sql,(pub_id, 1, "Bueller", "Ferris"))
 cursor.execute( author_sql,(pub_id, 2, "Bueller", "Lesser"))
 
