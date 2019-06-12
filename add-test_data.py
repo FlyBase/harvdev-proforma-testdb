@@ -198,7 +198,8 @@ for fly_ref in ('FBrf0104946', 'FBrf0105495'):
 
 # multi pubs?
 parent_pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
-cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub', 'multipub_1', '1967', 'Nature1'))
+cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub2', 'multipub_2', '1967', 'Unused'))
+cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub1', 'multipub_1', '1967', 'Nature1'))
 parent_pub_id = cursor.fetchone()[0]
 pub_relationship_sql = """ INSERT INTO pub_relationship (type_id, subject_id, object_id) VALUES (%s, %s, %s) """
 for i in range(11, 16):
