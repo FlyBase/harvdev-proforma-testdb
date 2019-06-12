@@ -102,6 +102,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'pubprop type': ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text', 
                               'abstract_languages', 'not_Drospub'],
              'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of'],
+             'pub relationship type': ['also_in'],
              'property type': ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
                                'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
                                'internalnotes', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
@@ -183,7 +184,8 @@ cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBo
 cursor.execute( pubprop_sql, (pub_id, cvterm_id["personal communication to FlyBase"], "1", pub_id))
 cursor.execute( author_sql,(pub_id, 1, "Bueller", "Ferris"))
 cursor.execute( author_sql,(pub_id, 2, "Bueller", "Lesser"))
-
+for i in range(2, 9):
+    cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature_{}'.format(i), 'FBrf000000{}'.format(i), '1967'))
 cursor.execute( pub_sql, (cvterm_id['unattributed'], 'unattributed', 'unattributed', '1973'))
 pub_id = cursor.fetchone()[0]
 cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
