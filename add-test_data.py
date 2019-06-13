@@ -205,7 +205,7 @@ pub_relationship_sql = """ INSERT INTO pub_relationship (type_id, subject_id, ob
 for i in range(11, 16):
     cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1967'))
     pub_id = cursor.fetchone()[0]
-    cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], parent_pub_id, pub_id))
+    cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
 
 #################
 # feature has a dbxref_id but also we ALSO have another table feature_dbxref?
