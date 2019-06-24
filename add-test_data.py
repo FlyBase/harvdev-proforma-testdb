@@ -92,7 +92,9 @@ cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) values (%s, %s, %s)
 
 cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'FlyBase miscellaneous CV': ['unspecified', 'comment', 'natural population', 'single balancer',
-                                          'faint', 'qualifier', 'assay'],
+                                          'faint', 'qualifier', 'assay', 
+                                          'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
+                                          'in vitro construct - amino acid replacement', ],
              'SO': ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non-protein-coding_gene', 
                     'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
                     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
@@ -108,7 +110,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'property type': ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
                                'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
                                'internalnotes', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
-                               'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment'],
+                               'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment', 'molecular_info'],
              'FlyBase_internal': ['pubprop type:curated_by'],
              'feature_cvtermprop type': ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv'],
              'feature_pubprop type': ['abstract_languages'],
@@ -320,6 +322,25 @@ for i in range(5):
 
     #feature_dbxref not done by magic so we need to add it.
     cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
+
+# Tools
+for i in range(1):
+    name = "FBto{:07d}".format(i+1)
+    # create the dbxref
+    cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+    dbxref_count = cursor.fetchone()[0]
+
+    #create the tool feature
+    cursor.execute(feat_sql, (dbxref_count, organism_id, name,
+                              name, None, None, cvterm_id['DNA_segment']))
+    feature_id[name] = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, ("Tag:FLAG", cvterm_id['symbol'], "Tag:FLAG"))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, feature_id[name], pub_id)) 
 
 # create transposon
 name = 'FBte0000001'
