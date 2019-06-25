@@ -105,7 +105,8 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'pubprop type': ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text', 
                               'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
                               'diseasenotes', 'deposited_files', 'graphical_abstract'],
-             'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with'],
+             'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
+                                   'alleleof', 'has_reg_region'],
              'pub relationship type': ['also_in', 'related_to', 'published_in'],
              'property type': ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
                                'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
@@ -324,7 +325,7 @@ for i in range(5):
     cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
 
 # Tools
-for i in range(1):
+for i in range(5):
     name = "FBto{:07d}".format(i+1)
     # create the dbxref
     cursor.execute(dbx_sql, (db_id['FlyBase'], name))
@@ -336,7 +337,8 @@ for i in range(1):
     feature_id[name] = cursor.fetchone()[0]
 
     # add synonyms
-    cursor.execute(syn_sql, ("Tag:FLAG", cvterm_id['symbol'], "Tag:FLAG"))
+    tool_sym = "Tool-sym-{}".format(i)
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
