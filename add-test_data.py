@@ -331,13 +331,13 @@ for i in range(5):
     cursor.execute(dbx_sql, (db_id['FlyBase'], name))
     dbxref_count = cursor.fetchone()[0]
 
+    tool_sym = "Tool-sym-{}".format(i)
     #create the tool feature
-    cursor.execute(feat_sql, (dbxref_count, organism_id, name,
+    cursor.execute(feat_sql, (dbxref_count, organism_id, tool_sym,
                               name, None, None, cvterm_id['DNA_segment']))
     feature_id[name] = cursor.fetchone()[0]
 
     # add synonyms
-    tool_sym = "Tool-sym-{}".format(i)
     cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
     symbol_id = cursor.fetchone()[0]
 
