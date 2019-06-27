@@ -1,18 +1,16 @@
 # harvdev-proforma-testdb
-
+```
 docker build . -t proformatestdb
 
-docker run -p 127.0.0.1:5432:5432 proformatestdb:latest
+docker run -p 127.0.0.1:5436:5432 proformatestdb:latest
 
-
-psql -h 127.0.0.1 -U tester -d fb_test  (password is *tester*)
-
+psql -h 127.0.0.1 -p 5436 -U tester -d fb_test  (password is *tester*)
+```
 ## Example sql.
-
+```
 SELECT f.name, f.uniquename, cvt.name 
   FROM feature f, cvterm cvt 
   WHERE f.type_id = cvt.cvterm_id;
-
 
     name     | uniquename  |             name             
 -------------+-------------+------------------------------
@@ -31,7 +29,9 @@ SELECT f.name, f.uniquename, cvt.name
  symbol-1RA  | FBtr0000001 | mRNA
  2L          | 2L          | golden_path_region
  P-element   | FBte0000001 | natural_transposable_element
+```
 
 ## Use FlyBase dockerhub image
-
-docker run -p 127.0.0.1:5432:5432 flybase/proformatestdb:latest
+```
+docker run -p 127.0.0.1:5436:5432 flybase/proformatestdb:latest
+```
