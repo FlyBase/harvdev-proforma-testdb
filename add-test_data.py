@@ -94,7 +94,8 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'FlyBase miscellaneous CV': ['unspecified', 'comment', 'natural population', 'single balancer',
                                           'faint', 'qualifier', 'assay', 
                                           'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
-                                          'in vitro construct - amino acid replacement'],
+                                          'in vitro construct - amino acid replacement',
+                                          'evidence_code'],
              'SO': ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non-protein-coding_gene', 
                     'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
                     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
@@ -134,6 +135,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'pubmed': [],
              'isbn': [],
              'PMCID': [],
+             'DOID': [],
              'disease_ontology': ['hh-1'],
              'humanhealth_cvtermprop type': ['doid_term'],
              'humanhealth_featureprop type': ['dmel_gene_implicated'],
@@ -159,6 +161,11 @@ for cv_name in (cv_cvterm.keys()):
         cursor.execute(cvterm_sql, (dbxref_id, cv_id[cv_name], cvterm_name))
         cvterm_id[cvterm_name] = cursor.fetchone()[0]
         print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id))
+
+# DOID:14330 "Parkinson's disease"
+cursor.execute(dbxref_sql, (db_id['DOID'], '14330')) 
+dbxref_id = cursor.fetchone()[0]
+cursor.execute(cvterm_sql, (dbxref_id, cv_id['DOID'], "Parkinson's disease"))
 
 #projects need different db names and cv's 
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
