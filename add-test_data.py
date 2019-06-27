@@ -136,7 +136,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'isbn': [],
              'PMCID': [],
              'DOID': [],
-             'disease_ontology': ['hh-1'],
+             'disease_ontology': ['hh-1', "Parkinson's disease"],
              'humanhealth_cvtermprop type': ['doid_term'],
              'humanhealth_featureprop type': ['dmel_gene_implicated'],
              'humanhealth_pubprop type': []}
@@ -165,7 +165,7 @@ for cv_name in (cv_cvterm.keys()):
 # DOID:14330 "Parkinson's disease"
 cursor.execute(dbxref_sql, (db_id['DOID'], '14330')) 
 dbxref_id = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id, cv_id['DOID'], "Parkinson's disease"))
+cursor.execute(cvterm_sql, (dbxref_id, cv_id['disease_ontology'], "Parkinson's disease"))
 
 #projects need different db names and cv's 
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
