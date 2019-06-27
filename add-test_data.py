@@ -136,7 +136,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'isbn': [],
              'PMCID': [],
              'DOID': [],
-             'disease_ontology': ['hh-1', "Parkinson's disease"],
+             'disease_ontology': ['hh-1'],
              'humanhealth_cvtermprop type': ['doid_term'],
              'humanhealth_featureprop type': ['dmel_gene_implicated'],
              'humanhealth_pubprop type': []}
