@@ -167,6 +167,11 @@ cursor.execute(dbxref_sql, (db_id['DOID'], '14330'))
 dbxref_id = cursor.fetchone()[0]
 cursor.execute(cvterm_sql, (dbxref_id, cv_id['disease_ontology'], "Parkinson's disease"))
 
+#provenance
+cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance')) 
+dbxref_id = cursor.fetchone()[0]
+cursor.execute(cvterm_sql, (dbxref_id, cv_id['FlyBase miscellaneous CV'], "provenance"))
+
 #projects need different db names and cv's 
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
 
