@@ -209,6 +209,8 @@ cursor.execute( author_sql,(pub_id, 1, "Bueller", "Ferris"))
 cursor.execute( author_sql,(pub_id, 2, "Bueller", "Katie"))
 cursor.execute( author_sql,(pub_id, 3, "Bueller", "Jeannie"))
 cursor.execute( author_sql,(pub_id, 4, "Bueller", "Tom"))
+cursor.execute( author_sql,(pub_id, 5, "Frye", "Cameron"))
+
 
 
 for i in range(2, 9):
@@ -236,6 +238,11 @@ for i in range(11, 16):
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
 
+for i in range(30, 36):
+    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1967'))
+    pub_id = cursor.fetchone()[0]
+    cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
+    
 # parent with miniref with space inside
 cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_Space'.format(i), 'FBrf0000020', '1967'))
 pub_id = cursor.fetchone()[0]
