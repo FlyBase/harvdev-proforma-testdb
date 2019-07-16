@@ -238,8 +238,10 @@ for i in range(11, 16):
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
 
+cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_29', 'FBrf0000029', '1980'))
+parent_pub_id = cursor.fetchone()[0]
 for i in range(30, 36):
-    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1967'))
+    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
     
