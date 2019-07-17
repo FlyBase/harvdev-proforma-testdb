@@ -240,12 +240,19 @@ for i in range(11, 16):
 
 cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_29', 'FBrf0000029', '1980'))
 parent_pub_id = cursor.fetchone()[0]
+pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 for i in range(30, 36):
     cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
     for j in range(1,5):
-        cursor.execute( pubprop_sql, (pub_id, cvterm_id["perscommtext"], "blah blah {}".format(j), j))
+        cursor.execute(pubprop_sql, (pub_id, cvterm_id["perscommtext"], "blah blah {}".format(j), j))
+        if i < 32:
+            k = (( 32 - i) *10) + j
+            cursor.execute(dbxref_sql, (db_id['isbn'], "{}".format(k)*5))
+            new_dbxref_id = cursor.fetchone()[0]
+            cursor.execute(pub_dbxref_sql, (pub_id, new_dbxref_id))
+
 # parent with miniref with space inside
 cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_Space'.format(i), 'FBrf0000020', '1967'))
 pub_id = cursor.fetchone()[0]
