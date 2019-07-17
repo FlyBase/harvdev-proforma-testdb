@@ -244,7 +244,8 @@ for i in range(30, 36):
     cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
-    
+    for j in range(1,5):
+        cursor.execute( pubprop_sql, (pub_id, cvterm_id["perscommtext"], "blah blah {}".format(j), j))
 # parent with miniref with space inside
 cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_Space'.format(i), 'FBrf0000020', '1967'))
 pub_id = cursor.fetchone()[0]
