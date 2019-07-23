@@ -46,11 +46,14 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.co
 # And add ``listen_addresses`` to ``/etc/postgresql/9.3/main/postgresql.conf``
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
+# Turn on verbose logging for all SQL commands
+RUN echo "log_destination = 'stderr'" >> /etc/postgresql/9.3/main/postgresql.conf
+RUN echo "logging_collector = on" >> /etc/postgresql/9.3/main/postgresql.conf
+RUN echo "log_statement = 'all'" >> /etc/postgresql/9.3/main/postgresql.conf
+RUN echo "log_directory = '/var/log/postgresql'" >> /etc/postgresql/9.3/main/postgresql.conf
+
 # Expose the PostgreSQL port
 EXPOSE 5432
 
-
-
 # Set the default command to run when starting the container
 CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
-
