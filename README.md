@@ -35,3 +35,17 @@ SELECT f.name, f.uniquename, cvt.name
 ```
 docker run -p 127.0.0.1:5436:5432 flybase/proformatestdb:latest
 ```
+
+## Viewing Postgres logs
+
+- The container must be running in order to view the logs.
+- Connect to the running container.
+  - `docker exec -it proformatestdb /bin/bash`
+
+- Navigate to the log directory.
+  -  `cd /var/log/postgresql`
+
+- Use `tail`, `head`, or `cat` to view the logs.
+  -  The log filename will change depending on the date.
+  -  `tail -f postgresql-2019-07-23_200159.log`
+  
