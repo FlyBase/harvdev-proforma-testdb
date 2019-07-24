@@ -47,5 +47,4 @@ docker run -p 127.0.0.1:5436:5432 flybase/proformatestdb:latest
 
 - Use `tail`, `head`, or `cat` to view the logs.
   -  The log filename will change depending on the date.
-  -  `tail -f postgresql-2019-07-23_200159.log`
-  
+  -  `tail -f postgresql-2019-07-23_200159.log`  
