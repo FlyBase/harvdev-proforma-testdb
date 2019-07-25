@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import psycopg2
 import os
-
   
 
 def reset(cursor):
@@ -101,17 +100,17 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
                     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
                     'natural_transposable_element', 'gene_group'],
              'synonym type': ['fullname', 'symbol', 'unspecified'],
-             'pub type': ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
-                          'perscommtext', 'journal', 'paper'],
              'pubprop type': ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text', 
                               'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
                               'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes'],
+             'pub type': ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
+                          'perscommtext', 'journal', 'paper'],
              'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
                                    'alleleof', 'has_reg_region'],
              'pub relationship type': ['also_in', 'related_to', 'published_in'],
              'property type': ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
                                'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
-                               'internalnotes', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
+                               'internalnotes+', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
                                'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment', 'molecular_info', 'disease_associated',
                                'propagate_transgenic_uses'],
              'FlyBase_internal': ['pubprop type:curated_by'],
