@@ -100,11 +100,11 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
                     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
                     'natural_transposable_element', 'gene_group'],
              'synonym type': ['fullname', 'symbol', 'unspecified'],
+             'pub type': ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
+                          'perscommtext', 'journal', 'paper'],
              'pubprop type': ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text', 
                               'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
                               'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes'],
-             'pub type': ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
-                          'perscommtext', 'journal', 'paper'],
              'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
                                    'alleleof', 'has_reg_region'],
              'pub relationship type': ['also_in', 'related_to', 'published_in'],
@@ -239,6 +239,11 @@ for i in range(11, 16):
 
 cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_29', 'FBrf0000029', '1980'))
 parent_pub_id = cursor.fetchone()[0]
+
+# Quick fix for now, ensure we have the correct perscommtext in the cvterm dict 
+cursor.execute("select cvterm_id from cvterm where name = 'perscommtext' and cv_id = {}".format(cv_id['pubprop type']))
+cvterm_id['perscommtext'] = cursor.fetchone()[0]
+
 pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 for i in range(30, 36):
     cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
