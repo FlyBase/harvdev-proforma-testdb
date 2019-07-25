@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import psycopg2
 import os
-
   
 
 def reset(cursor):
@@ -240,6 +239,11 @@ for i in range(11, 16):
 
 cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_29', 'FBrf0000029', '1980'))
 parent_pub_id = cursor.fetchone()[0]
+
+# Quick fix for now, ensure we have the correct perscommtext in the cvterm dict 
+cursor.execute("select cvterm_id from cvterm where name = 'perscommtext' and cv_id = {}".format(cv_id['pubprop type']))
+cvterm_id['perscommtext'] = cursor.fetchone()[0]
+
 pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 for i in range(30, 36):
     cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
