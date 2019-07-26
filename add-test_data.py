@@ -101,7 +101,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'SO': ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non-protein-coding_gene', 
                     'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
                     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-                    'natural_transposable_element', 'gene_group'],
+                    'natural_transposable_element', 'gene_group', 'protein'],
              'synonym type': ['fullname', 'symbol', 'unspecified'],
              'pub type': ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
                           'perscommtext', 'journal', 'paper'],
@@ -362,6 +362,30 @@ for i in range(5):
     feature_id[al_name] = cursor.fetchone()[0]
     cursor.execute(feat_rel_sql, (feature_id[al_name], feature_id[name], cvterm_id['alleleof']))
 
+# Add Proteins
+for i in range(5):
+    name = "FBpp{:07d}".format(i+1)
+    # create the dbxref
+    cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+    dbxref_count = cursor.fetchone()[0]
+
+    #create the protein feature
+    cursor.execute(feat_sql, (dbxref_count, organism_id, "pp-symbol-{}".format(i+1),
+                              name, None, None, cvterm_id['protein']))
+    feature_id[name] = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)) )
+    name_id = cursor.fetchone()[0]
+    cursor.execute(syn_sql, ("pp-symbol-{}".format(i+1), cvterm_id['symbol'], "pp-symbol-{}".format(i+1)) )
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (name_id, feature_id[name], pub_id))
+    cursor.execute(fs_sql, (symbol_id, feature_id[name], pub_id)) 
+
+    #feature_dbxref not done by magic so we need to add it.
+    cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
 
 # human health
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id"""
