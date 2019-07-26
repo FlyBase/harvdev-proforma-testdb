@@ -65,6 +65,9 @@ feature_count = 0
 sql = """ insert into organism (abbreviation, genus, species, common_name) values (%s,%s,%s,%s) RETURNING organism_id"""
 cursor.execute(sql, ('Dmel', 'Drosophila', 'melanogaster', 'fruit_fly'))
 organism_id = cursor.fetchone()[0]
+# Add human for FBhh etc.
+cursor.execute(sql, ('Hsap', 'Homo', 'sapiens', 'Human'))
+human_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
 sql = """ insert into organism (species, genus) values (%s,%s) RETURNING organism_id"""
@@ -137,6 +140,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'isbn': [],
              'PMCID': [],
              'DOID': [],
+             'HGNC': [1, 2, 3, 4, 5],
              'ClinVar': ['ClinVar1', 'ClinVar2', 'Clinvar3', 'Clinvar4', 'Clinvar5'],
              'UniProtKB/Swiss-Prot': ['SW1', 'SW2', 'SW3', 'SW4', 'SW5'],
              'disease_ontology': ['hh-1'],
@@ -322,6 +326,7 @@ fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) 
 dbx_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
 syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
 fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
+feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) """
 
 for i in range(5):
     name = "FBgn{:07d}".format(i+1)
@@ -350,10 +355,33 @@ for i in range(5):
     #feature_dbxref not done by magic so we need to add it.
     cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
 
-    #add allele for each gene
+    #add allele for each gene and add feature_relationship
     al_name =  "FBal{:07d}".format(i+1)
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
-                              al_name, None, 200, cvterm_id['alleleof']))
+                              al_name, None, 200, cvterm_id['gene']))
+    feature_id[al_name] = cursor.fetchone()[0]
+    cursor.execute(feat_rel_sql, (feature_id[al_name], feature_id[name], cvterm_id['alleleof']))
+
+
+# human health
+hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id"""
+hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
+for i in range(5):
+    # create human health feature, No need to attach to gene for now.
+    hh_name =  "FBhh{:07d}".format(i+1)
+    cursor.execute(hh_sql, ("hh-name-{}".format(i+1), hh_name, human_id))
+    feature_id[hh_name] = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, ("hh-fullname-{}".format(i+1), cvterm_id['fullname'], "hh-fullname-{}".format(i+1)) )
+    name_id = cursor.fetchone()[0]
+    cursor.execute(syn_sql, ("hh-symbol-{}".format(i+1), cvterm_id['symbol'], "hh-symbol-{}".format(i+1)) )
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(hh_fs_sql, (name_id, feature_id[hh_name], pub_id, True))
+    cursor.execute(hh_fs_sql, (symbol_id, feature_id[hh_name], pub_id, True)) 
+
 # mRNA
 for i in range(5):
     name = "FBtr{:07d}".format(i+1)
