@@ -106,13 +106,15 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
                               'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
                               'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes'],
              'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
-                                   'alleleof', 'has_reg_region'],
+                                   'alleleof', 'has_reg_region', 'representative isoform'],
              'pub relationship type': ['also_in', 'related_to', 'published_in'],
              'property type': ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
                                'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
                                'internalnotes', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
                                'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment', 'molecular_info', 'disease_associated',
-                               'propagate_transgenic_uses'],
+                               'propagate_transgenic_uses', 'fly disease-implication change', 'other disease-implication change',
+                               'primary disease-implication change', 'additional disease-implication change', 'HDM comment',
+                               'allele report comment'],
              'FlyBase_internal': ['pubprop type:curated_by'],
              'feature_cvtermprop type': ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv'],
              'feature_pubprop type': ['abstract_languages'],
@@ -135,9 +137,11 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'isbn': [],
              'PMCID': [],
              'DOID': [],
+             'ClinVar': ['ClinVar1', 'ClinVar2', 'Clinvar3', 'Clinvar4', 'Clinvar5'],
+             'UniProtKB/Swiss-Prot': ['SW1', 'SW2', 'SW3', 'SW4', 'SW5'],
              'disease_ontology': ['hh-1'],
              'humanhealth_cvtermprop type': ['doid_term'],
-             'humanhealth_featureprop type': ['dmel_gene_implicated'],
+             'humanhealth_featureprop type': ['dmel_gene_implicated', 'human disease relevant'],
              'humanhealth_pubprop type': []}
 
 ''' # testdb used in HH tests and other things
@@ -311,6 +315,7 @@ cursor.execute(feat_sql, (None, organism_id, 'unspecified', 'unspecified', 'ACTG
 ##################
 # create 5 genes
 # including their locations
+# and alleles
 ##################
 loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, strand) VALUES (%s, %s, %s, %s, %s) """
 fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) """
@@ -345,6 +350,10 @@ for i in range(5):
     #feature_dbxref not done by magic so we need to add it.
     cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
 
+    #add allele for each gene
+    al_name =  "FBal{:07d}".format(i+1)
+    cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
+                              al_name, None, 200, cvterm_id['alleleof']))
 # mRNA
 for i in range(5):
     name = "FBtr{:07d}".format(i+1)
