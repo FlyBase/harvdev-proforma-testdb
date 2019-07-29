@@ -330,14 +330,15 @@ feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  typ
 
 for i in range(5):
     name = "FBgn{:07d}".format(i+1)
-    # create the dbxref
-    cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    dbxref_count = cursor.fetchone()[0]
+    print("Adding gene {}".format(i+1))
+    # create the dbxref: NOT needed with FBgn:temp_x as it is created as default
+    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+    # dbxref_count = cursor.fetchone()[0]
 
     #create the gene feature
-    cursor.execute(feat_sql, (dbxref_count, organism_id, "symbol-{}".format(i+1),
-                              name, "ACTG"*50, 200, cvterm_id['gene']))
-    feature_id[name] = cursor.fetchone()[0]
+    cursor.execute(feat_sql, (None, organism_id, "symbol-{}".format(i+1),
+                              'FBgn:temp_{}'.format(i+1), "ACTG"*50, 200, cvterm_id['gene']))
+    gene_id = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}".format(i+1)) )
@@ -346,33 +347,33 @@ for i in range(5):
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
-    cursor.execute(fs_sql, (name_id, feature_id[name], pub_id))
-    cursor.execute(fs_sql, (symbol_id, feature_id[name], pub_id)) 
+    cursor.execute(fs_sql, (name_id, gene_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, gene_id, pub_id)) 
 
     # now add the feature loc
-    cursor.execute(loc_sql, (feature_id[name], feature_id['2L'], i*100, (i+1)*100, 1))
+    cursor.execute(loc_sql, (gene_id, feature_id['2L'], i*100, (i+1)*100, 1))
 
-    #feature_dbxref not done by magic so we need to add it.
-    cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
+    #feature_dbxref not done by magic so we need to add it. OR is it witg FBgn:temp_x ??
+    # cursor.execute(fd_sql, (gene_id, dbxref_count ))
 
     #add allele for each gene and add feature_relationship
-    al_name =  "FBal{:07d}".format(i+1)
+    ###al_name =  "FBal{:07d}".format(i+1)
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
-                              al_name, None, 200, cvterm_id['gene']))
-    feature_id[al_name] = cursor.fetchone()[0]
-    cursor.execute(feat_rel_sql, (feature_id[al_name], feature_id[name], cvterm_id['alleleof']))
+                              'FBal:temp_0', None, 200, cvterm_id['gene']))
+    allele_id = cursor.fetchone()[0]
+    cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
 # Add Proteins
 for i in range(5):
     name = "FBpp{:07d}".format(i+1)
     # create the dbxref
-    cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    dbxref_count = cursor.fetchone()[0]
+    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+    #dbxref_count = cursor.fetchone()[0]
 
     #create the protein feature
-    cursor.execute(feat_sql, (dbxref_count, organism_id, "pp-symbol-{}".format(i+1),
-                              name, None, None, cvterm_id['protein']))
-    feature_id[name] = cursor.fetchone()[0]
+    cursor.execute(feat_sql, (None, organism_id, "pp-symbol-{}".format(i+1),
+                              'FBpp:temp_0', None, None, cvterm_id['protein']))
+    protein_id = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)) )
@@ -381,20 +382,20 @@ for i in range(5):
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
-    cursor.execute(fs_sql, (name_id, feature_id[name], pub_id))
-    cursor.execute(fs_sql, (symbol_id, feature_id[name], pub_id)) 
+    cursor.execute(fs_sql, (name_id, protein_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, protein_id, pub_id)) 
 
-    #feature_dbxref not done by magic so we need to add it.
-    cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
+    #feature_dbxref not done by magic so we need to add it. See gene
+    # cursor.execute(fd_sql, (protein_id, dbxref_count ))
 
 # human health
-hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id"""
+hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
 for i in range(5):
     # create human health feature, No need to attach to gene for now.
-    hh_name =  "FBhh{:07d}".format(i+1)
-    cursor.execute(hh_sql, ("hh-name-{}".format(i+1), hh_name, human_id))
-    feature_id[hh_name] = cursor.fetchone()[0]
+    #hh_name =  "FBhh{:07d}".format(i+1)
+    cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id))
+    hh_id = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, ("hh-fullname-{}".format(i+1), cvterm_id['fullname'], "hh-fullname-{}".format(i+1)) )
@@ -403,20 +404,20 @@ for i in range(5):
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
-    cursor.execute(hh_fs_sql, (name_id, feature_id[hh_name], pub_id, True))
-    cursor.execute(hh_fs_sql, (symbol_id, feature_id[hh_name], pub_id, True)) 
+    cursor.execute(hh_fs_sql, (name_id, hh_id, pub_id, True))
+    cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True)) 
 
 # mRNA
 for i in range(5):
     name = "FBtr{:07d}".format(i+1)
     # create the dbxref
-    cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    dbxref_count = cursor.fetchone()[0]
+    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+    # dbxref_count = cursor.fetchone()[0]
 
     #create the gene feature
-    cursor.execute(feat_sql, (dbxref_count, organism_id, "symbol-{}RA".format(i+1),
-                              name, None, None, cvterm_id['mRNA']))
-    feature_id[name] = cursor.fetchone()[0]
+    cursor.execute(feat_sql, (None, organism_id, "symbol-{}RA".format(i+1),
+                              'FBtr:temp_0', None, None, cvterm_id['mRNA']))
+    mrna_id = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}RA".format(i+1)) )
@@ -425,40 +426,40 @@ for i in range(5):
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
-    cursor.execute(fs_sql, (name_id, feature_id[name], pub_id))
-    cursor.execute(fs_sql, (symbol_id, feature_id[name], pub_id)) 
+    cursor.execute(fs_sql, (name_id, mrna_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id)) 
 
     #feature_dbxref not done by magic so we need to add it.
-    cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
+    #cursor.execute(fd_sql, (mrna_id, dbxref_count ))
 
 # Tools
 for i in range(5):
     name = "FBto{:07d}".format(i+1)
     # create the dbxref
-    cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    dbxref_count = cursor.fetchone()[0]
+    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+    # dbxref_count = cursor.fetchone()[0]
 
     tool_sym = "Tool-sym-{}".format(i)
     #create the tool feature
-    cursor.execute(feat_sql, (dbxref_count, organism_id, tool_sym,
-                              name, None, None, cvterm_id['DNA_segment']))
-    feature_id[name] = cursor.fetchone()[0]
+    cursor.execute(feat_sql, (None, organism_id, tool_sym,
+                              'FBto:temp_0', None, None, cvterm_id['DNA_segment']))
+    tool_id = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
-    cursor.execute(fs_sql, (symbol_id, feature_id[name], pub_id)) 
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id)) 
 
 # create transposon
 name = 'FBte0000001'
-cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-dbxref_count = cursor.fetchone()[0]
+# cursor.execute(dbx_sql, (db_id['FlyBase'], name))
+#dbxref_count = cursor.fetchone()[0]
 
-cursor.execute(feat_sql, (dbxref_count, organism_id, 'P-element', name, None, None, cvterm_id['natural_transposable_element']))
-feature_id[name] = cursor.fetchone()[0]
-cursor.execute(fd_sql, (feature_id[name], dbxref_count ))
+cursor.execute(feat_sql, (None, organism_id, 'P-element', 'FBte:temp_0', None, None, cvterm_id['natural_transposable_element']))
+# transposon_id = cursor.fetchone()[0]
+# cursor.execute(fd_sql, (transposon_id, dbxref_count ))
 
 #Cell line
 cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES (%s, %s, %s) """
