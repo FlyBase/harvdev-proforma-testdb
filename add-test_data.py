@@ -96,7 +96,7 @@ dbxref_id = {}
 
 cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'FlyBase miscellaneous CV': ['unspecified', 'comment', 'natural population', 'single balancer',
-                                          'faint', 'qualifier', 'assay', 
+                                          'faint', 'qualifier', 'assay', 'chemical',
                                           'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
                                           'in vitro construct - amino acid replacement',
                                           'evidence_code'],
@@ -445,8 +445,8 @@ cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES 
 cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id))
 
 # Chemical data
-chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id) VALUES (%s, %s, %s) """
-cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id))
+chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id) VALUES (%s, %s, %s, %s) """
+cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id, cvterm_id['chemical']))
 
 # strain
 #strain_id = {}
