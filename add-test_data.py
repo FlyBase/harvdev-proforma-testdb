@@ -445,7 +445,7 @@ cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES 
 cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id))
 
 # Chemical data
-chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id) VALUES (%s, %s, %s, %s) """
+chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id) VALUES (%s, %s, %s, %s) """
 cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id, cvterm_id['chemical']))
 
 # strain
