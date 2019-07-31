@@ -92,6 +92,8 @@ dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING
 cvterm_id = {}
 cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) values (%s, %s, %s) RETURNING cvterm_id"""
 
+dbxref_id = {}
+
 cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'FlyBase miscellaneous CV': ['unspecified', 'comment', 'natural population', 'single balancer',
                                           'faint', 'qualifier', 'assay', 
@@ -141,7 +143,7 @@ cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'PMCID': [],
              'DOID': [],
              'HGNC': [1, 2, 3, 4, 5],
-             'ClinVar': ['ClinVar1', 'ClinVar2', 'Clinvar3', 'Clinvar4', 'Clinvar5'],
+             'ClinVar': ['ClinVar1', 'ClinVar2', 'ClinVar3', 'ClinVar4', 'ClinVar5'],
              'UniProtKB/Swiss-Prot': ['SW1', 'SW2', 'SW3', 'SW4', 'SW5'],
              'disease_ontology': ['hh-1'],
              'humanhealth_cvtermprop type': ['doid_term'],
@@ -164,20 +166,20 @@ for cv_name in (cv_cvterm.keys()):
  
     for cvterm_name in cv_cvterm[cv_name]:
         cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
-        dbxref_id = cursor.fetchone()[0]
-        cursor.execute(cvterm_sql, (dbxref_id, cv_id[cv_name], cvterm_name))
+        dbxref_id[cvterm_name] = cursor.fetchone()[0]
+        cursor.execute(cvterm_sql, (dbxref_id[cvterm_name], cv_id[cv_name], cvterm_name))
         cvterm_id[cvterm_name] = cursor.fetchone()[0]
-        print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id))
+        print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
 
 # DOID:14330 "Parkinson's disease"
 cursor.execute(dbxref_sql, (db_id['DOID'], '14330')) 
-dbxref_id = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id, cv_id['disease_ontology'], "Parkinson's disease"))
+dbxref_id['14330'] = cursor.fetchone()[0]
+cursor.execute(cvterm_sql, (dbxref_id['14330'], cv_id['disease_ontology'], "Parkinson's disease"))
 
 #provenance
 cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance')) 
-dbxref_id = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id, cv_id['FlyBase miscellaneous CV'], "provenance"))
+dbxref_id['FlyBase miscellaneous CV:provenance'] = cursor.fetchone()[0]
+cursor.execute(cvterm_sql, (dbxref_id['FlyBase miscellaneous CV:provenance'], cv_id['FlyBase miscellaneous CV'], "provenance"))
 
 #projects need different db names and cv's 
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
@@ -187,8 +189,8 @@ db_id['FBcv'] = cursor.fetchone()[0]
 
 # project
 cursor.execute(dbxref_sql, (db_id['FBcv'], '0003023'))
-dbxref_id = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id, cv_id['FlyBase miscellaneous CV'], 'project'))
+dbxref_id['0003023'] = cursor.fetchone()[0]
+cursor.execute(cvterm_sql, (dbxref_id['0003023'], cv_id['FlyBase miscellaneous CV'], 'project'))
 cvterm_id['project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['project'], cvterm_id['webcv'], 'dataset_entity_type'))
 
@@ -198,8 +200,8 @@ cursor.execute(cvprop_sql, (cvterm_id['project'], cvterm_id['webcv'], 'dataset_e
 #	        and  cv.name = 'FlyBase miscellaneous CV' and cvt.is_obsolete = 0 and cvt.cvterm_id = cvp.cvterm_id  
 #	        and cvp.type_id = cvt2.cvterm_id and cvt2.name = 'webcv' and cvp.value = 'project_type'
 cursor.execute(dbxref_sql, (db_id['FBcv'], '0003030'))
-dbxref_id = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id, cv_id['FlyBase miscellaneous CV'], 'umbrella project'))
+dbxref_id['0003030'] = cursor.fetchone()[0]
+cursor.execute(cvterm_sql, (dbxref_id['0003030'], cv_id['FlyBase miscellaneous CV'], 'umbrella project'))
 cvterm_id['umbrella project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], 'project_type'))
 
@@ -331,9 +333,6 @@ feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  typ
 for i in range(5):
     name = "FBgn{:07d}".format(i+1)
     print("Adding gene {}".format(i+1))
-    # create the dbxref: NOT needed with FBgn:temp_x as it is created as default
-    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    # dbxref_count = cursor.fetchone()[0]
 
     #create the gene feature
     cursor.execute(feat_sql, (None, organism_id, "symbol-{}".format(i+1),
@@ -353,22 +352,19 @@ for i in range(5):
     # now add the feature loc
     cursor.execute(loc_sql, (gene_id, feature_id['2L'], i*100, (i+1)*100, 1))
 
-    #feature_dbxref not done by magic so we need to add it. OR is it witg FBgn:temp_x ??
-    # cursor.execute(fd_sql, (gene_id, dbxref_count ))
-
     #add allele for each gene and add feature_relationship
-    ###al_name =  "FBal{:07d}".format(i+1)
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
                               'FBal:temp_0', None, 200, cvterm_id['gene']))
     allele_id = cursor.fetchone()[0]
     cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
+    # add ClinVar dbxrefs to allele for testing changing description and removal
+    for j in range(5):
+        cursor.execute(fd_sql, (allele_id, dbxref_id['ClinVar{}'.format(j+1)]))
+        
 # Add Proteins
 for i in range(5):
     name = "FBpp{:07d}".format(i+1)
-    # create the dbxref
-    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    #dbxref_count = cursor.fetchone()[0]
 
     #create the protein feature
     cursor.execute(feat_sql, (None, organism_id, "pp-symbol-{}".format(i+1),
@@ -385,15 +381,11 @@ for i in range(5):
     cursor.execute(fs_sql, (name_id, protein_id, pub_id))
     cursor.execute(fs_sql, (symbol_id, protein_id, pub_id)) 
 
-    #feature_dbxref not done by magic so we need to add it. See gene
-    # cursor.execute(fd_sql, (protein_id, dbxref_count ))
-
 # human health
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
 for i in range(5):
     # create human health feature, No need to attach to gene for now.
-    #hh_name =  "FBhh{:07d}".format(i+1)
     cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id))
     hh_id = cursor.fetchone()[0]
 
@@ -410,10 +402,7 @@ for i in range(5):
 # mRNA
 for i in range(5):
     name = "FBtr{:07d}".format(i+1)
-    # create the dbxref
-    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    # dbxref_count = cursor.fetchone()[0]
-
+ 
     #create the gene feature
     cursor.execute(feat_sql, (None, organism_id, "symbol-{}RA".format(i+1),
                               'FBtr:temp_0', None, None, cvterm_id['mRNA']))
@@ -429,15 +418,10 @@ for i in range(5):
     cursor.execute(fs_sql, (name_id, mrna_id, pub_id))
     cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id)) 
 
-    #feature_dbxref not done by magic so we need to add it.
-    #cursor.execute(fd_sql, (mrna_id, dbxref_count ))
-
+ 
 # Tools
 for i in range(5):
     name = "FBto{:07d}".format(i+1)
-    # create the dbxref
-    # cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-    # dbxref_count = cursor.fetchone()[0]
 
     tool_sym = "Tool-sym-{}".format(i)
     #create the tool feature
@@ -454,12 +438,7 @@ for i in range(5):
 
 # create transposon
 name = 'FBte0000001'
-# cursor.execute(dbx_sql, (db_id['FlyBase'], name))
-#dbxref_count = cursor.fetchone()[0]
-
 cursor.execute(feat_sql, (None, organism_id, 'P-element', 'FBte:temp_0', None, None, cvterm_id['natural_transposable_element']))
-# transposon_id = cursor.fetchone()[0]
-# cursor.execute(fd_sql, (transposon_id, dbxref_count ))
 
 #Cell line
 cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES (%s, %s, %s) """
