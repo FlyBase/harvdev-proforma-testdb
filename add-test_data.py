@@ -96,7 +96,7 @@ dbxref_id = {}
 
 cv_cvterm = {'FlyBase': ['FlyBase analysis'],
              'FlyBase miscellaneous CV': ['unspecified', 'comment', 'natural population', 'single balancer',
-                                          'faint', 'qualifier', 'assay', 
+                                          'faint', 'qualifier', 'assay', 'chemical entity',
                                           'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
                                           'in vitro construct - amino acid replacement',
                                           'evidence_code'],
@@ -365,7 +365,7 @@ for i in range(5):
 # Add Proteins
 for i in range(5):
     name = "FBpp{:07d}".format(i+1)
-
+    print("Adding protein {}".format(i+1))
     #create the protein feature
     cursor.execute(feat_sql, (None, organism_id, "pp-symbol-{}".format(i+1),
                               'FBpp:temp_0', None, None, cvterm_id['protein']))
@@ -385,6 +385,7 @@ for i in range(5):
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
 for i in range(5):
+    print("Adding human health {}".format(i+1))
     # create human health feature, No need to attach to gene for now.
     cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id))
     hh_id = cursor.fetchone()[0]
@@ -402,7 +403,7 @@ for i in range(5):
 # mRNA
 for i in range(5):
     name = "FBtr{:07d}".format(i+1)
- 
+    print("Adding mRNA {}".format(i+1))
     #create the gene feature
     cursor.execute(feat_sql, (None, organism_id, "symbol-{}RA".format(i+1),
                               'FBtr:temp_0', None, None, cvterm_id['mRNA']))
@@ -422,7 +423,7 @@ for i in range(5):
 # Tools
 for i in range(5):
     name = "FBto{:07d}".format(i+1)
-
+    print("Adding tool {}".format(i+1))
     tool_sym = "Tool-sym-{}".format(i)
     #create the tool feature
     cursor.execute(feat_sql, (None, organism_id, tool_sym,
@@ -437,12 +438,19 @@ for i in range(5):
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id)) 
 
 # create transposon
+print("Adding transposon data.")
 name = 'FBte0000001'
 cursor.execute(feat_sql, (None, organism_id, 'P-element', 'FBte:temp_0', None, None, cvterm_id['natural_transposable_element']))
 
-#Cell line
+# Cell line
+print("Adding cell line data.")
 cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES (%s, %s, %s) """
 cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id))
+
+# Chemical data
+print("Adding chemical data.")
+chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id) VALUES (%s, %s, %s, %s) """
+cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id, cvterm_id['chemical entity']))
 
 # strain
 #strain_id = {}
