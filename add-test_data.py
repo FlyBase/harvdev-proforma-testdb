@@ -440,9 +440,13 @@ for i in range(5):
 name = 'FBte0000001'
 cursor.execute(feat_sql, (None, organism_id, 'P-element', 'FBte:temp_0', None, None, cvterm_id['natural_transposable_element']))
 
-#Cell line
+# Cell line
 cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES (%s, %s, %s) """
 cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id))
+
+# Chemical data
+chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id) VALUES (%s, %s, %s) """
+cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id))
 
 # strain
 #strain_id = {}
