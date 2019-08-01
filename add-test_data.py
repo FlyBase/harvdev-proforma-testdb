@@ -355,7 +355,7 @@ for i in range(5):
     #add allele for each gene and add feature_relationship
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
                               'FBal:temp_0', None, 200, cvterm_id['gene']))
-    allele_id = cursor.fetchone()[0]
+    feature_id['allele'] = allele_id = cursor.fetchone()[0]
     cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
     # add ClinVar dbxrefs to allele for testing changing description and removal
@@ -384,6 +384,8 @@ for i in range(5):
 # human health
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
+hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
+hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id) VALUES (%s, %s) """
 for i in range(5):
     print("Adding human health {}".format(i+1))
     # create human health feature, No need to attach to gene for now.
@@ -399,6 +401,11 @@ for i in range(5):
     # add feature_synonym
     cursor.execute(hh_fs_sql, (name_id, hh_id, pub_id, True))
     cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True)) 
+
+    # add humanhealth_feature + prop to allele.
+    cursor.execute(hh_f_sql, (hh_id, feature_id['allele'], pub_id ))
+    hh_f_id = cursor.fetchone()[0]
+    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human disease relevant']))
 
 # mRNA
 for i in range(5):
