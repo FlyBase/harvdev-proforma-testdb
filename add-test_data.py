@@ -337,7 +337,7 @@ for i in range(5):
     #create the gene feature
     cursor.execute(feat_sql, (None, organism_id, "symbol-{}".format(i+1),
                               'FBgn:temp_{}'.format(i+1), "ACTG"*50, 200, cvterm_id['gene']))
-    gene_id = cursor.fetchone()[0]
+    feature_id['gene'] = gene_id = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}".format(i+1)) )
@@ -385,7 +385,7 @@ for i in range(5):
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
 hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
-hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id) VALUES (%s, %s) """
+hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id, value) VALUES (%s, %s, %s) """
 for i in range(5):
     print("Adding human health {}".format(i+1))
     # create human health feature, No need to attach to gene for now.
@@ -405,7 +405,12 @@ for i in range(5):
     # add humanhealth_feature + prop to allele.
     cursor.execute(hh_f_sql, (hh_id, feature_id['allele'], pub_id ))
     hh_f_id = cursor.fetchone()[0]
-    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human disease relevant']))
+    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human disease relevant'], 'Comment {}'.format(i+1)))
+
+    # add humanhealth_feature + prop to gene.
+    cursor.execute(hh_f_sql, (hh_id, feature_id['gene'], pub_id ))
+    hh_f_id = cursor.fetchone()[0]
+    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['hh_ortholog_comment'], 'Another Comment {}'.format(i+1)))
 
 # mRNA
 for i in range(5):
