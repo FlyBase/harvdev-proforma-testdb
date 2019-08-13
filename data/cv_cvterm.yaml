@@ -1,0 +1,55 @@
+FlyBase: ['FlyBase analysis']
+FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'single balancer',
+                           'faint', 'qualifier', 'assay', 'chemical entity',
+                           'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
+                           'in vitro construct - amino acid replacement',
+                           'evidence_code']
+SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non-protein-coding_gene',
+       'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
+       'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
+       'natural_transposable_element', 'gene_group', 'protein']
+synonym type: ['fullname', 'symbol', 'unspecified']
+pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
+             'perscommtext', 'journal', 'paper']
+pubprop type: ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text',
+               'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
+               'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes']
+relationship type: ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
+                    'alleleof', 'has_reg_region', 'representative isoform']
+pub relationship type: ['also_in', 'related_to', 'published_in']
+property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
+                'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
+                'internalnotes', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
+                'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment', 'molecular_info', 'disease_associated',
+                'propagate_transgenic_uses', 'fly disease-implication change', 'other disease-implication change',
+                'primary disease-implication change', 'additional disease-implication change', 'HDM comment',
+                'allele report comment']
+FlyBase_internal: ['pubprop type:curated_by']
+feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
+feature_pubprop type: ['abstract_languages']
+transgene_description: ['transposon']
+transgene_uses: ['characterization']
+library_cvtermprop type: ['lc2btype']
+FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5']
+FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage']
+cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment']
+cell_line_relationship: ['targeted_mutant_from']
+grp property type: ['gg_description']
+grpmember type: ['grpmember_feature']
+experimental assays: ['distribution deduced from reporter (Gal4 UAS)']
+expression slots: ['stage', 'anatomy', 'assay']
+feature_expression property type: ['curated_as', 'comment']
+testdb: ['hh-1']
+GB: []
+DOI: []
+pubmed: []
+isbn: []
+PMCID: []
+DOID: []
+HGNC: [1, 2, 3, 4, 5]
+ClinVar: ['ClinVar1', 'ClinVar2', 'ClinVar3', 'ClinVar4', 'ClinVar5']
+UniProtKB/Swiss-Prot: ['SW1', 'SW2', 'SW3', 'SW4', 'SW5']
+disease_ontology: ['hh-1']
+humanhealth_cvtermprop type: ['doid_term']
+humanhealth_featureprop type: ['dmel_gene_implicated', 'human disease relevant']
+humanhealth_pubprop type: []

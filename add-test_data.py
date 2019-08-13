@@ -1,63 +1,84 @@
 #!/usr/bin/python
 import psycopg2
 import os
-  
-
-def reset(cursor):
-    # in reverse order of creation to avoid broken FK constraints etc
-    tables = ['audit_chado',
-              'humanhealthprop', 'humanhealth_synonym', 'humanhealth_cvterm', 'humanhealth', 
-              'humanhealth_featureprop', 'humanhealth_feature',
-              'cell_lineprop_pub', 'cell_lineprop', 'cell_line_synonym', 'cell_line_dbxref', 'cell_line_pub','cell_line',
-              'strain',
-              'feature_expression', 'expression',
-              'feature_grpmember','grpmember', 'grp_dbxref', 'grp_relationship', 'grp_pub', 'grpprop', 'grp',
-              'library_synonym', 'library_dbxref', 'library_pub', 'library',
-              'feature_relationship','feature_synonym', 'feature_dbxref', 'feature_pub', 'featureloc', 'feature',
-              'synonym', 'pub', 'cvterm', 'cv', 'dbxref', 'db', 
-              'environment', 'organism']
-    for table in tables:
-        ## print("Deleting data from table {}".format(table))
-        cursor.execute('delete from {}'.format(table))
-
-    '''cursor.execute('delete from audit_chado')
-    cursor.execute('delete from cell_line_synonym')
-    cursor.execute('delete from strain')
-    cursor.execute('delete from library_synonym')
-    cursor.execute('delete from library_pub')
-    cursor.execute('delete from library_dbxref')
-    cursor.execute('delete from library')
-    cursor.execute('delete from feature_synonym')
-    cursor.execute('delete from synonym')
-    cursor.execute('delete from featureloc')
-    cursor.execute('delete from feature')
-    cursor.execute('delete from pub')
-    cursor.execute('delete from cvterm')
-    cursor.execute('delete from cv')
-    cursor.execute('delete from dbxref')
-    cursor.execute('delete from db')
-    cursor.execute('delete from environment')
-    cursor.execute('delete from organism') '''
-    # and now get rid of the sequence stuff so the number stay the same for each run
-    # Not vital or anything just saves having to look things up later. (once you get used to the ids)
-    sequences = ['feature_feature_id_seq', 'synonym_synonym_id_seq', 'feature_synonym_feature_synonym_id_seq',
-                 'pub_pub_id_seq', 'pubprop_pubprop_id_seq', 'pubauthor_pubauthor_id_seq',
-                 'feature_pub_feature_pub_id_seq', 'featureloc_featureloc_id_seq', 'db_db_id_seq',
-                 'dbxref_dbxref_id_seq', 'cv_cv_id_seq', 'cvterm_cvterm_id_seq', 'feature_uniquename_seq',
-                 'feature_feature_id_seq', 'organism_organism_id_seq', 'strain_strain_id_seq',
-                 'synonym_synonym_id_seq', 'humanhealth_humanhealth_id_seq', 'humanhealth_dbxref_humanhealth_dbxref_id_seq',
-                 'humanhealth_feature_humanhealth_feature_id_seq', 'humanhealth_featureprop_humanhealth_featureprop_id_seq',
-                 'humanhealth_synonym_humanhealth_synonym_id_seq']
-
-    for seq in (sequences):
-        cursor.execute('ALTER SEQUENCE {} RESTART WITH 1'.format(seq))
+import yaml
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
-# no need to reset, db is created each time
-#reset(cursor)
 
 feature_count = 0
+
+# Global variables used throughout the script.
+cv_id = {}
+db_id = {}
+cvterm_id = {}
+dbxref_id = {}
+
+# Global SQL queries.
+cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
+db_sql = """  INSERT INTO db (name) VALUES (%s) RETURNING db_id"""
+dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
+cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) VALUES (%s, %s, %s) RETURNING cvterm_id"""
+
+
+def yaml_parse_and_dispatch():
+    # A dictionary to choose the correct function to load data based on
+    # the filename from the yaml file. When adding new yamls, be sure to
+    # update this dictionary and create an appropriate function.
+
+    dispatch_dictionary = {
+        'cv_cvterm.yaml': load_cv_cvterm,
+    }
+
+    location = '/data'
+
+    for filename in os.listdir(location):
+        if filename.endswith('.yaml'):
+            with open(os.path.join(location, filename)) as yaml_location:
+                yaml_to_process = yaml.full_load(yaml_location)
+
+                # Filename is used as the lookup for the function.
+                # Yaml data is based as a parameter.
+                dispatch_dictionary[filename](yaml_to_process)
+
+
+def load_cv_cvterm(parsed_yaml):
+
+    #################
+    # add a CV (controlled Vocabulary)
+    #################
+
+    cv_cvterm = parsed_yaml
+
+    ''' # testdb used in HH tests and other things
+    cursor.execute(db_sql, ('testdb',))
+    db_id['testdb'] = cursor.fetchone()[0]
+    cursor.execute(dbxref_sql, (db_id['testdb'], '1'))
+      '''
+    for cv_name in (cv_cvterm.keys()):
+        cursor.execute(db_sql, (cv_name,))
+        db_id[cv_name] = cursor.fetchone()[0]
+
+        cursor.execute(cv_sql, (cv_name,))
+        cv_id[cv_name] = cursor.fetchone()[0]
+
+        print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
+
+        for cvterm_name in cv_cvterm[cv_name]:
+            cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
+            dbxref_id[cvterm_name] = cursor.fetchone()[0]
+            cursor.execute(cvterm_sql, (dbxref_id[cvterm_name], cv_id[cv_name], cvterm_name))
+            cvterm_id[cvterm_name] = cursor.fetchone()[0]
+            print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
+
+
+############################
+# Load data from YAML files.
+############################
+
+
+yaml_parse_and_dispatch()
+
 
 #################
 # Add an organism
@@ -77,99 +98,6 @@ cursor.execute(sql, ( 'autogenetic', 'Unknown'))
 # add an enviroment ?
 sql = """ INSERT INTO environment (uniquename) VALUES (%s) """
 cursor.execute(sql, ('unspecified',))
-
-#################
-# add a CV (controlled Vocabulary)
-#################
-cv_id = {}
-cv_sql = """  insert into cv (name) values (%s) RETURNING cv_id"""
-
-db_id = {}
-db_sql = """  insert into db (name) values (%s) RETURNING db_id"""
-
-dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
-
-cvterm_id = {}
-cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) values (%s, %s, %s) RETURNING cvterm_id"""
-
-dbxref_id = {}
-
-cv_cvterm = {'FlyBase': ['FlyBase analysis'],
-             'FlyBase miscellaneous CV': ['unspecified', 'comment', 'natural population', 'single balancer',
-                                          'faint', 'qualifier', 'assay', 'chemical entity',
-                                          'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
-                                          'in vitro construct - amino acid replacement',
-                                          'evidence_code'],
-             'SO': ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non-protein-coding_gene', 
-                    'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
-                    'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-                    'natural_transposable_element', 'gene_group', 'protein'],
-             'synonym type': ['fullname', 'symbol', 'unspecified'],
-             'pub type': ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
-                          'perscommtext', 'journal', 'paper'],
-             'pubprop type': ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text', 
-                              'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
-                              'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes'],
-             'relationship type': ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
-                                   'alleleof', 'has_reg_region', 'representative isoform'],
-             'pub relationship type': ['also_in', 'related_to', 'published_in'],
-             'property type': ['comment', 'reported_genomic_loc', 'origin_comment', 'description', 'molobject_type',
-                               'in_vitro_progenitor', 'balancer_status', 'members_in_db', 'data_link', 'stage',
-                               'internalnotes', 'phenotype_description', 'hh_internal_notes', 'genetics_description', 'category',
-                               'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment', 'molecular_info', 'disease_associated',
-                               'propagate_transgenic_uses', 'fly disease-implication change', 'other disease-implication change',
-                               'primary disease-implication change', 'additional disease-implication change', 'HDM comment',
-                               'allele report comment'],
-             'FlyBase_internal': ['pubprop type:curated_by'],
-             'feature_cvtermprop type': ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv'],
-             'feature_pubprop type': ['abstract_languages'],
-             'transgene_description': ['transposon'],
-             'transgene_uses': ['characterization'],
-             'library_cvtermprop type': ['lc2btype'],
-             'FlyBase anatomy CV': ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5'],
-             'FlyBase development CV': ['late embryonic stage', 'embryonic stage', 'adult stage'],
-             'cell_lineprop type': ['internalnotes', 'lab_of_origin', 'comment'],
-             'cell_line_relationship': ['targeted_mutant_from'],
-             'grp property type': ['gg_description'],
-             'grpmember type': ['grpmember_feature'],
-             'experimental assays': ['distribution deduced from reporter (Gal4 UAS)'],
-             'expression slots': ['stage', 'anatomy', 'assay'],
-             'feature_expression property type': ['curated_as', 'comment'],
-             'testdb': ['hh-1'],
-             'GB': [],
-             'DOI': [],
-             'pubmed': [],
-             'isbn': [],
-             'PMCID': [],
-             'DOID': [],
-             'HGNC': [1, 2, 3, 4, 5],
-             'ClinVar': ['ClinVar1', 'ClinVar2', 'ClinVar3', 'ClinVar4', 'ClinVar5'],
-             'UniProtKB/Swiss-Prot': ['SW1', 'SW2', 'SW3', 'SW4', 'SW5'],
-             'disease_ontology': ['hh-1'],
-             'humanhealth_cvtermprop type': ['doid_term'],
-             'humanhealth_featureprop type': ['dmel_gene_implicated', 'human disease relevant'],
-             'humanhealth_pubprop type': []}
-
-''' # testdb used in HH tests and other things
-cursor.execute(db_sql, ('testdb',))
-db_id['testdb'] = cursor.fetchone()[0]
-cursor.execute(dbxref_sql, (db_id['testdb'], '1'))
-  '''
-for cv_name in (cv_cvterm.keys()):
-    cursor.execute(db_sql, (cv_name,))
-    db_id[cv_name] = cursor.fetchone()[0]
-
-    cursor.execute(cv_sql, (cv_name,))
-    cv_id[cv_name] = cursor.fetchone()[0]
-    
-    print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
- 
-    for cvterm_name in cv_cvterm[cv_name]:
-        cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
-        dbxref_id[cvterm_name] = cursor.fetchone()[0]
-        cursor.execute(cvterm_sql, (dbxref_id[cvterm_name], cv_id[cv_name], cvterm_name))
-        cvterm_id[cvterm_name] = cursor.fetchone()[0]
-        print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
 
 # DOID:14330 "Parkinson's disease"
 cursor.execute(dbxref_sql, (db_id['DOID'], '14330')) 
@@ -219,7 +147,6 @@ cursor.execute( author_sql,(pub_id, 2, "Bueller", "Katie"))
 cursor.execute( author_sql,(pub_id, 3, "Bueller", "Jeannie"))
 cursor.execute( author_sql,(pub_id, 4, "Bueller", "Tom"))
 cursor.execute( author_sql,(pub_id, 5, "Frye", "Cameron"))
-
 
 
 for i in range(2, 9):
@@ -472,8 +399,6 @@ cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id, cvterm_id['
 
 #cursor.execute(strain_sql, ("Strain 2", "FBsn0000002", organism_id))
 #strain_id["Strain 2"] = cursor.fetchone()[0]
-
-
 
 conn.commit()
 conn.close()

@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y python-software-properties software-pro
 ADD add-test_data.py .
 ADD schema.sql .
 ADD requirements.txt .
+ADD data /data
 
 RUN pip3 install -r requirements.txt
 
