@@ -11,7 +11,7 @@
     - [3, 'Bueller', 'Jeannie']
     - [4, 'Bueller', 'Tom']
     - [5, 'Frye', 'Cameron']
-- pub : ['database', '', 'FBrf0243181', '2019-']
+- pub : ['database', 'ChEBI: Chemical Entities of Biological Interest, EBI.', 'FBrf0243181', '2019-']
   pubprop :
     - [1, 'curated_by', 'Curator: M. Crosby;Proforma: ChEBI.lc.db.190812;timelastmodified: Thu Aug 15 10:41:06 2019']
     - [2, 'URL', '']
