@@ -19,6 +19,9 @@ cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
 db_sql = """  INSERT INTO db (name) VALUES (%s) RETURNING db_id"""
 dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
 cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) VALUES (%s, %s, %s) RETURNING cvterm_id"""
+pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
+pubprop_sql = """ INSERT INTO pubprop (pub_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
 
 
 def yaml_parse_and_dispatch():
@@ -28,6 +31,7 @@ def yaml_parse_and_dispatch():
 
     dispatch_dictionary = {
         'cv_cvterm.yaml': load_cv_cvterm,
+        'pub_author_pubprop.yaml': load_pub_author_pubprop
     }
 
     location = '/data'
@@ -50,11 +54,6 @@ def load_cv_cvterm(parsed_yaml):
 
     cv_cvterm = parsed_yaml
 
-    ''' # testdb used in HH tests and other things
-    cursor.execute(db_sql, ('testdb',))
-    db_id['testdb'] = cursor.fetchone()[0]
-    cursor.execute(dbxref_sql, (db_id['testdb'], '1'))
-      '''
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
         db_id[cv_name] = cursor.fetchone()[0]
@@ -71,6 +70,46 @@ def load_cv_cvterm(parsed_yaml):
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
 
+
+def load_pub_author_pubprop(parsed_yaml):
+
+    #################################
+    # add pubs, pubprops, and authors
+    #################################
+
+    pub_author_pubprop = parsed_yaml
+
+    for entry in pub_author_pubprop:
+
+        pub_cvterm_id = cvterm_id[entry['pub'][0]]
+        pub_title = entry['pub'][1]
+        pub_uniquename = entry['pub'][2]
+        pub_pyear = entry['pub'][3]
+
+        print("adding pub {}".format(pub_title))
+
+        cursor.execute(pub_sql, (pub_cvterm_id, pub_title, pub_uniquename, pub_pyear))
+        pub_id = cursor.fetchone()[0]
+
+        for pubprop in entry['pubprop']:
+
+            pubprop_type_id = cvterm_id[pubprop[0]]
+            pubprop_value = pubprop[1]
+            pubprop_rank = pubprop[2]
+
+            print("adding pubprop {}".format(pubprop_value))
+
+            cursor.execute(pubprop_sql, (pub_id, pubprop_type_id, pubprop_value, pubprop_rank))
+
+        for author in entry['author']:
+
+            author_rank = author[0]
+            author_surname = author[1]
+            author_givennames = author[2]
+
+            print("adding author {} {}".format(author_surname, author_givennames))
+
+            cursor.execute(author_sql, (pub_id, author_rank, author_surname, author_givennames))
 
 ############################
 # Load data from YAML files.
@@ -133,21 +172,8 @@ cursor.execute(cvterm_sql, (dbxref_id['0003030'], cv_id['FlyBase miscellaneous C
 cvterm_id['umbrella project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], 'project_type'))
 
-author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
 # create pubs
 pub_id = 0
-pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
-pubprop_sql = """ INSERT INTO pubprop (pub_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
-cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature', 'FBrf0000001', '1967'))
-pub_id = cursor.fetchone()[0]
-cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
-cursor.execute( pubprop_sql, (pub_id, cvterm_id["personal communication to FlyBase"], "1", pub_id))
-cursor.execute( author_sql,(pub_id, 1, "Bueller", "Ferris"))
-cursor.execute( author_sql,(pub_id, 2, "Bueller", "Katie"))
-cursor.execute( author_sql,(pub_id, 3, "Bueller", "Jeannie"))
-cursor.execute( author_sql,(pub_id, 4, "Bueller", "Tom"))
-cursor.execute( author_sql,(pub_id, 5, "Frye", "Cameron"))
-
 
 for i in range(2, 9):
     cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature_{}'.format(i), 'FBrf000000{}'.format(i), '1967'))
