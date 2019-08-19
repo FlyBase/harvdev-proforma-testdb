@@ -1,5 +1,5 @@
-# pub: type_id, title, uniquename, pyear
-# pubprop: type_id, value, rank
+# pub: title, type_id, uniquename, pyear
+# pubprop: rank, type_id, value
 # author: rank, surname, givennames
 - pub :  ['Nature', 'computer file', 'FBrf0000001', '1967']
   pubprop :

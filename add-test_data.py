@@ -46,14 +46,19 @@ def yaml_parse_and_dispatch():
 
     location = '/data'
 
-    for filename in os.listdir(location):
-        if filename.endswith('.yaml'):
-            with open(os.path.join(location, filename)) as yaml_location:
-                yaml_to_process = yaml.full_load(yaml_location)
+    # Need to load in a specific order due to CV term reliance.
+    files_to_load = [
+        'cv_cvterm.yaml',
+        'pub_author_pubprop.yaml'
+    ]
 
-                # Filename is used as the lookup for the function.
-                # Yaml data is based as a parameter.
-                dispatch_dictionary[filename](yaml_to_process)
+    for filename in files_to_load:
+        with open(os.path.join(location, filename)) as yaml_location:
+            yaml_to_process = yaml.full_load(yaml_location)
+
+            # Filename is used as the lookup for the function.
+            # Yaml data is based as a parameter.
+            dispatch_dictionary[filename](yaml_to_process)
 
 
 def load_cv_cvterm(parsed_yaml):
