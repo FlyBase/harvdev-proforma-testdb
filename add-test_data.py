@@ -186,15 +186,18 @@ cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], '
 pub_id = 0
 
 for i in range(2, 9):
-    cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature_{}'.format(i), 'FBrf000000{}'.format(i), '1967'))
-cursor.execute( pub_sql, (cvterm_id['unattributed'], 'unattributed', 'unattributed', '1973'))
+    cursor.execute( pub_sql, ('Nature_{}'.format(i), cvterm_id['computer file'], 'FBrf000000{}'.format(i), '1967'))
+cursor.execute( pub_sql, ('unattributed', cvterm_id['unattributed'], 'unattributed', '1973'))
 pub_id = cursor.fetchone()[0]
-cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
+cursor.execute(pubprop_sql, (pub_id, 0, cvterm_id['curated_by'], "Curator:bob McBob...."))
+# cursor.execute(pubprop_sql, (pub_id, pubprop_rank, pubprop_type_id, pubprop_value))
 
+temp_rank = 0
 for fly_ref in ('FBrf0104946', 'FBrf0105495'):
-    cursor.execute( pub_sql, (cvterm_id['FlyBase analysis'], 'predefined pubs {}'.format(fly_ref[:3]), fly_ref ,'2000'))
+    temp_rank += 1
+    cursor.execute( pub_sql, ('predefined pubs {}'.format(fly_ref[:3]), cvterm_id['FlyBase analysis'], fly_ref ,'2000'))
     pub_id = cursor.fetchone()[0]
-    cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
+    cursor.execute(pubprop_sql, (pub_id, temp_rank, cvterm_id['curated_by'], "Curator:bob McBob...."))
 
 # multi pubs?
 parent_pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
@@ -206,11 +209,11 @@ cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub1', 'multipub_
 parent_pub_id = cursor.fetchone()[0]
 pub_relationship_sql = """ INSERT INTO pub_relationship (type_id, subject_id, object_id) VALUES (%s, %s, %s) """
 for i in range(11, 16):
-    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1967'))
+    cursor.execute( pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1967'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
 
-cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_29', 'FBrf0000029', '1980'))
+cursor.execute( pub_sql, ('Paper_29', cvterm_id['paper'], 'FBrf0000029', '1980'))
 parent_pub_id = cursor.fetchone()[0]
 
 # Quick fix for now, ensure we have the correct perscommtext in the cvterm dict 
@@ -219,11 +222,11 @@ cvterm_id['perscommtext'] = cursor.fetchone()[0]
 
 pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 for i in range(30, 36):
-    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
+    cursor.execute( pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1980'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
     for j in range(1,5):
-        cursor.execute(pubprop_sql, (pub_id, cvterm_id["perscommtext"], "blah blah {}".format(j), j))
+        cursor.execute(pubprop_sql, (pub_id, j, cvterm_id["perscommtext"], "blah blah {}".format(j)))
         if i < 32:
             k = (( 32 - i) *10) + j
             cursor.execute(dbxref_sql, (db_id['isbn'], "{}".format(k)*5))
@@ -231,7 +234,7 @@ for i in range(30, 36):
             cursor.execute(pub_dbxref_sql, (pub_id, new_dbxref_id))
 
 # parent with miniref with space inside
-cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_Space'.format(i), 'FBrf0000020', '1967'))
+cursor.execute( pub_sql, ('Paper_Space'.format(i), cvterm_id['paper'], 'FBrf0000020', '1967'))
 pub_id = cursor.fetchone()[0]
 cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_space_pub_id))
 
