@@ -8,6 +8,16 @@ cursor = conn.cursor()
 
 feature_count = 0
 
+# Set variables to replace numbers in arrays.
+RANK = 0
+TITLE = 0
+TYPE_ID = 1
+SURNAME = 1
+UNIQUENAME = 2
+GIVENNAMES = 2
+VALUE = 2
+PYEAR = 3
+
 # Global variables used throughout the script.
 cv_id = {}
 db_id = {}
@@ -19,8 +29,8 @@ cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
 db_sql = """  INSERT INTO db (name) VALUES (%s) RETURNING db_id"""
 dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
 cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) VALUES (%s, %s, %s) RETURNING cvterm_id"""
-pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
-pubprop_sql = """ INSERT INTO pubprop (pub_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+pub_sql = """ INSERT INTO pub (title, type_id, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
+pubprop_sql = """ INSERT INTO pubprop (pub_id, rank, type_id, value) VALUES (%s, %s, %s, %s) """
 author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
 
 
@@ -81,31 +91,31 @@ def load_pub_author_pubprop(parsed_yaml):
 
     for entry in pub_author_pubprop:
 
-        pub_cvterm_id = cvterm_id[entry['pub'][0]]
-        pub_title = entry['pub'][1]
-        pub_uniquename = entry['pub'][2]
-        pub_pyear = entry['pub'][3]
+        pub_title = entry['pub'][TITLE]
+        pub_type_id = cvterm_id[entry['pub'][TYPE_ID]]
+        pub_uniquename = entry['pub'][UNIQUENAME]
+        pub_pyear = entry['pub'][PYEAR]
 
         print("adding pub {}".format(pub_title))
 
-        cursor.execute(pub_sql, (pub_cvterm_id, pub_title, pub_uniquename, pub_pyear))
+        cursor.execute(pub_sql, (pub_title, pub_type_id, pub_uniquename, pub_pyear))
         pub_id = cursor.fetchone()[0]
 
         for pubprop in entry['pubprop']:
 
-            pubprop_type_id = cvterm_id[pubprop[0]]
-            pubprop_value = pubprop[1]
-            pubprop_rank = pubprop[2]
+            pubprop_rank = pubprop[RANK]
+            pubprop_type_id = cvterm_id[pubprop[TYPE_ID]]
+            pubprop_value = pubprop[VALUE]
 
             print("adding pubprop {}".format(pubprop_value))
 
-            cursor.execute(pubprop_sql, (pub_id, pubprop_type_id, pubprop_value, pubprop_rank))
+            cursor.execute(pubprop_sql, (pub_id, pubprop_rank, pubprop_type_id, pubprop_value))
 
         for author in entry['author']:
 
-            author_rank = author[0]
-            author_surname = author[1]
-            author_givennames = author[2]
+            author_rank = author[RANK]
+            author_surname = author[SURNAME]
+            author_givennames = author[GIVENNAMES]
 
             print("adding author {} {}".format(author_surname, author_givennames))
 

@@ -1,10 +1,10 @@
 # pub: type_id, title, uniquename, pyear
 # pubprop: type_id, value, rank
 # author: rank, surname, givennames
-- pub : ['computer file', 'Nature', 'FBrf0000001', '1967']
+- pub :  ['Nature', 'computer file', 'FBrf0000001', '1967']
   pubprop :
-    - ['curated_by', 'Curator:bob McBob....', 1]
-    - ['personal communication to FlyBase', '', 2]
+    - [1, 'curated_by', 'Curator:bob McBob....']
+    - [2, 'personal communication to FlyBase', '']
   author :
     - [1, 'Bueller', 'Ferris']
     - [2, 'Bueller', 'Katie']
@@ -13,7 +13,7 @@
     - [5, 'Frye', 'Cameron']
 - pub : ['database', '', 'FBrf0243181', '2019-']
   pubprop :
-    - ['curated_by', 'Curator: M. Crosby;Proforma: ChEBI.lc.db.190812;timelastmodified: Thu Aug 15 10:41:06 2019', 1]
-    - ['URL', '', 2]
+    - [1, 'curated_by', 'Curator: M. Crosby;Proforma: ChEBI.lc.db.190812;timelastmodified: Thu Aug 15 10:41:06 2019']
+    - [2, 'URL', '']
   author:
-      - [1, 'ChEBI', '']
+      - [1, '', 'ChEBI']
