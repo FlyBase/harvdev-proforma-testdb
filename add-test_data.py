@@ -8,6 +8,16 @@ cursor = conn.cursor()
 
 feature_count = 0
 
+# Set variables to replace numbers in arrays.
+RANK = 0
+TITLE = 0
+TYPE_ID = 1
+SURNAME = 1
+UNIQUENAME = 2
+GIVENNAMES = 2
+VALUE = 2
+PYEAR = 3
+
 # Global variables used throughout the script.
 cv_id = {}
 db_id = {}
@@ -19,6 +29,9 @@ cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
 db_sql = """  INSERT INTO db (name) VALUES (%s) RETURNING db_id"""
 dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
 cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) VALUES (%s, %s, %s) RETURNING cvterm_id"""
+pub_sql = """ INSERT INTO pub (title, type_id, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
+pubprop_sql = """ INSERT INTO pubprop (pub_id, rank, type_id, value) VALUES (%s, %s, %s, %s) """
+author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
 
 
 def yaml_parse_and_dispatch():
@@ -28,18 +41,24 @@ def yaml_parse_and_dispatch():
 
     dispatch_dictionary = {
         'cv_cvterm.yaml': load_cv_cvterm,
+        'pub_author_pubprop.yaml': load_pub_author_pubprop
     }
 
     location = '/data'
 
-    for filename in os.listdir(location):
-        if filename.endswith('.yaml'):
-            with open(os.path.join(location, filename)) as yaml_location:
-                yaml_to_process = yaml.full_load(yaml_location)
+    # Need to load in a specific order due to CV term reliance.
+    files_to_load = [
+        'cv_cvterm.yaml',
+        'pub_author_pubprop.yaml'
+    ]
 
-                # Filename is used as the lookup for the function.
-                # Yaml data is based as a parameter.
-                dispatch_dictionary[filename](yaml_to_process)
+    for filename in files_to_load:
+        with open(os.path.join(location, filename)) as yaml_location:
+            yaml_to_process = yaml.full_load(yaml_location)
+
+            # Filename is used as the lookup for the function.
+            # Yaml data is based as a parameter.
+            dispatch_dictionary[filename](yaml_to_process)
 
 
 def load_cv_cvterm(parsed_yaml):
@@ -50,11 +69,6 @@ def load_cv_cvterm(parsed_yaml):
 
     cv_cvterm = parsed_yaml
 
-    ''' # testdb used in HH tests and other things
-    cursor.execute(db_sql, ('testdb',))
-    db_id['testdb'] = cursor.fetchone()[0]
-    cursor.execute(dbxref_sql, (db_id['testdb'], '1'))
-      '''
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
         db_id[cv_name] = cursor.fetchone()[0]
@@ -71,6 +85,46 @@ def load_cv_cvterm(parsed_yaml):
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
 
+
+def load_pub_author_pubprop(parsed_yaml):
+
+    #################################
+    # add pubs, pubprops, and authors
+    #################################
+
+    pub_author_pubprop = parsed_yaml
+
+    for entry in pub_author_pubprop:
+
+        pub_title = entry['pub'][TITLE]
+        pub_type_id = cvterm_id[entry['pub'][TYPE_ID]]
+        pub_uniquename = entry['pub'][UNIQUENAME]
+        pub_pyear = entry['pub'][PYEAR]
+
+        print("adding pub {}".format(pub_title))
+
+        cursor.execute(pub_sql, (pub_title, pub_type_id, pub_uniquename, pub_pyear))
+        pub_id = cursor.fetchone()[0]
+
+        for pubprop in entry['pubprop']:
+
+            pubprop_rank = pubprop[RANK]
+            pubprop_type_id = cvterm_id[pubprop[TYPE_ID]]
+            pubprop_value = pubprop[VALUE]
+
+            print("adding pubprop {}".format(pubprop_value))
+
+            cursor.execute(pubprop_sql, (pub_id, pubprop_rank, pubprop_type_id, pubprop_value))
+
+        for author in entry['author']:
+
+            author_rank = author[RANK]
+            author_surname = author[SURNAME]
+            author_givennames = author[GIVENNAMES]
+
+            print("adding author {} {}".format(author_surname, author_givennames))
+
+            cursor.execute(author_sql, (pub_id, author_rank, author_surname, author_givennames))
 
 ############################
 # Load data from YAML files.
@@ -133,32 +187,22 @@ cursor.execute(cvterm_sql, (dbxref_id['0003030'], cv_id['FlyBase miscellaneous C
 cvterm_id['umbrella project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], 'project_type'))
 
-author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
 # create pubs
 pub_id = 0
-pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear) VALUES (%s, %s, %s, %s) RETURNING pub_id """
-pubprop_sql = """ INSERT INTO pubprop (pub_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
-cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature', 'FBrf0000001', '1967'))
-pub_id = cursor.fetchone()[0]
-cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
-cursor.execute( pubprop_sql, (pub_id, cvterm_id["personal communication to FlyBase"], "1", pub_id))
-cursor.execute( author_sql,(pub_id, 1, "Bueller", "Ferris"))
-cursor.execute( author_sql,(pub_id, 2, "Bueller", "Katie"))
-cursor.execute( author_sql,(pub_id, 3, "Bueller", "Jeannie"))
-cursor.execute( author_sql,(pub_id, 4, "Bueller", "Tom"))
-cursor.execute( author_sql,(pub_id, 5, "Frye", "Cameron"))
-
 
 for i in range(2, 9):
-    cursor.execute( pub_sql, (cvterm_id['computer file'], 'Nature_{}'.format(i), 'FBrf000000{}'.format(i), '1967'))
-cursor.execute( pub_sql, (cvterm_id['unattributed'], 'unattributed', 'unattributed', '1973'))
+    cursor.execute( pub_sql, ('Nature_{}'.format(i), cvterm_id['computer file'], 'FBrf000000{}'.format(i), '1967'))
+cursor.execute( pub_sql, ('unattributed', cvterm_id['unattributed'], 'unattributed', '1973'))
 pub_id = cursor.fetchone()[0]
-cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
+cursor.execute(pubprop_sql, (pub_id, 0, cvterm_id['curated_by'], "Curator:bob McBob...."))
+# cursor.execute(pubprop_sql, (pub_id, pubprop_rank, pubprop_type_id, pubprop_value))
 
+temp_rank = 0
 for fly_ref in ('FBrf0104946', 'FBrf0105495'):
-    cursor.execute( pub_sql, (cvterm_id['FlyBase analysis'], 'predefined pubs {}'.format(fly_ref[:3]), fly_ref ,'2000'))
+    temp_rank += 1
+    cursor.execute( pub_sql, ('predefined pubs {}'.format(fly_ref[:3]), cvterm_id['FlyBase analysis'], fly_ref ,'2000'))
     pub_id = cursor.fetchone()[0]
-    cursor.execute( pubprop_sql, (pub_id, cvterm_id['curated_by'], "Curator:bob McBob....", pub_id))
+    cursor.execute(pubprop_sql, (pub_id, temp_rank, cvterm_id['curated_by'], "Curator:bob McBob...."))
 
 # multi pubs?
 parent_pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
@@ -170,11 +214,11 @@ cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub1', 'multipub_
 parent_pub_id = cursor.fetchone()[0]
 pub_relationship_sql = """ INSERT INTO pub_relationship (type_id, subject_id, object_id) VALUES (%s, %s, %s) """
 for i in range(11, 16):
-    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1967'))
+    cursor.execute( pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1967'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
 
-cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_29', 'FBrf0000029', '1980'))
+cursor.execute( pub_sql, ('Paper_29', cvterm_id['paper'], 'FBrf0000029', '1980'))
 parent_pub_id = cursor.fetchone()[0]
 
 # Quick fix for now, ensure we have the correct perscommtext in the cvterm dict 
@@ -183,11 +227,11 @@ cvterm_id['perscommtext'] = cursor.fetchone()[0]
 
 pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 for i in range(30, 36):
-    cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_{}'.format(i), 'FBrf00000{}'.format(i), '1980'))
+    cursor.execute( pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1980'))
     pub_id = cursor.fetchone()[0]
     cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
     for j in range(1,5):
-        cursor.execute(pubprop_sql, (pub_id, cvterm_id["perscommtext"], "blah blah {}".format(j), j))
+        cursor.execute(pubprop_sql, (pub_id, j, cvterm_id["perscommtext"], "blah blah {}".format(j)))
         if i < 32:
             k = (( 32 - i) *10) + j
             cursor.execute(dbxref_sql, (db_id['isbn'], "{}".format(k)*5))
@@ -195,7 +239,7 @@ for i in range(30, 36):
             cursor.execute(pub_dbxref_sql, (pub_id, new_dbxref_id))
 
 # parent with miniref with space inside
-cursor.execute( pub_sql, (cvterm_id['paper'], 'Paper_Space'.format(i), 'FBrf0000020', '1967'))
+cursor.execute( pub_sql, ('Paper_Space'.format(i), cvterm_id['paper'], 'FBrf0000020', '1967'))
 pub_id = cursor.fetchone()[0]
 cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_space_pub_id))
 

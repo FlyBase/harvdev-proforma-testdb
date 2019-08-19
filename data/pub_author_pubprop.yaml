@@ -1,0 +1,19 @@
+# pub: title, type_id, uniquename, pyear
+# pubprop: rank, type_id, value
+# author: rank, surname, givennames
+- pub :  ['Nature', 'computer file', 'FBrf0000001', '1967']
+  pubprop :
+    - [1, 'curated_by', 'Curator:bob McBob....']
+    - [2, 'personal communication to FlyBase', '']
+  author :
+    - [1, 'Bueller', 'Ferris']
+    - [2, 'Bueller', 'Katie']
+    - [3, 'Bueller', 'Jeannie']
+    - [4, 'Bueller', 'Tom']
+    - [5, 'Frye', 'Cameron']
+- pub : ['ChEBI: Chemical Entities of Biological Interest, EBI.', 'database', 'FBrf0243181', '2019-']
+  pubprop :
+    - [1, 'curated_by', 'Curator: M. Crosby;Proforma: ChEBI.lc.db.190812;timelastmodified: Thu Aug 15 10:41:06 2019']
+    - [2, 'URL', '']
+  author:
+      - [1, '', 'ChEBI']
