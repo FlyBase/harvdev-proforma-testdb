@@ -376,7 +376,7 @@ for i in range(5):
     # add humanhealth_feature + prop to allele.
     cursor.execute(hh_f_sql, (hh_id, feature_id['allele'], pub_id ))
     hh_f_id = cursor.fetchone()[0]
-    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human disease relevant'], 'Comment {}'.format(i+1)))
+    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human_disease_relevant'], 'Comment {}'.format(i+1)))
 
     # add humanhealth_feature + prop to gene.
     cursor.execute(hh_f_sql, (hh_id, feature_id['gene'], pub_id ))
