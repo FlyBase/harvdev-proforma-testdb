@@ -301,7 +301,7 @@ syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, 
 fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
 feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
 feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value) VALUES (%s, %s, %s) """
-
+feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
 for i in range(5):
     name = "FBgn{:07d}".format(i+1)
     print("Adding gene {}".format(i+1))
@@ -358,6 +358,7 @@ for i in range(5):
     fr_id = cursor.fetchone()[0]
     print("fr_id = {}, type = {}".format(fr_id, cvterm_id['fly_disease-implication_change']))
     cursor.execute(feat_relprop_sql, (fr_id, cvterm_id['fly_disease-implication_change'], 'frp-{}'.format(i+1)))
+    cursor.execute(feat_rel_pub, (fr_id, pub_id))
 
 # human health
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
