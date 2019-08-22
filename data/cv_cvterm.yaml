@@ -1,3 +1,4 @@
+# Each entries create a cv / cvterm entry, a db entry, and a dbxref.
 FlyBase: ['FlyBase analysis']
 FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'single balancer',
                            'faint', 'qualifier', 'assay', 'chemical entity',
@@ -46,7 +47,7 @@ pubmed: []
 isbn: []
 PMCID: []
 DOID: []
-CHEBI: ['37868']
+CHEBI: ['16188']
 HGNC: [1, 2, 3, 4, 5]
 ClinVar: ['ClinVar1', 'ClinVar2', 'ClinVar3', 'ClinVar4', 'ClinVar5']
 UniProtKB/Swiss-Prot: ['SW1', 'SW2', 'SW3', 'SW4', 'SW5']
