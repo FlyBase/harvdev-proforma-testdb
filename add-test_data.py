@@ -442,8 +442,8 @@ cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id))
 
 # Chemical data
 print("Adding chemical data.")
-chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id) VALUES (%s, %s, %s, %s) """
-cursor.execute(chemical_sql, ('octanol', 'FBch0037868', organism_id, cvterm_id['chemical entity']))
+chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id, dbxref_id) VALUES (%s, %s, %s, %s, %s) """
+cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id, cvterm_id['chemical entity'], dbxref_id['16188']))
 
 # strain
 #strain_id = {}
