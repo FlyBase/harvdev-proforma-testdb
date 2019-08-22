@@ -299,8 +299,10 @@ fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) 
 dbx_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
 syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
 fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
-feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) """
-
+feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value) VALUES (%s, %s, %s) """
+feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
+alleles = []
 for i in range(5):
     name = "FBgn{:07d}".format(i+1)
     print("Adding gene {}".format(i+1))
@@ -327,6 +329,7 @@ for i in range(5):
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
                               'FBal:temp_0', None, 200, cvterm_id['gene']))
     feature_id['allele'] = allele_id = cursor.fetchone()[0]
+    alleles.append(allele_id)
     cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
     # add ClinVar dbxrefs to allele for testing changing description and removal
@@ -352,6 +355,13 @@ for i in range(5):
     cursor.execute(fs_sql, (name_id, protein_id, pub_id))
     cursor.execute(fs_sql, (symbol_id, protein_id, pub_id)) 
 
+    # add feature_relationship to allele and prop for it
+    cursor.execute(feat_rel_sql, (alleles[i], protein_id, cvterm_id['representative_isoform']))
+    fr_id = cursor.fetchone()[0]
+    print("fr_id = {}, type = {}".format(fr_id, cvterm_id['fly_disease-implication_change']))
+    cursor.execute(feat_relprop_sql, (fr_id, cvterm_id['fly_disease-implication_change'], 'frp-{}'.format(i+1)))
+    cursor.execute(feat_rel_pub, (fr_id, pub_id))
+
 # human health
 hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
@@ -376,7 +386,7 @@ for i in range(5):
     # add humanhealth_feature + prop to allele.
     cursor.execute(hh_f_sql, (hh_id, feature_id['allele'], pub_id ))
     hh_f_id = cursor.fetchone()[0]
-    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human disease relevant'], 'Comment {}'.format(i+1)))
+    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human_disease_relevant'], 'Comment {}'.format(i+1)))
 
     # add humanhealth_feature + prop to gene.
     cursor.execute(hh_f_sql, (hh_id, feature_id['gene'], pub_id ))
