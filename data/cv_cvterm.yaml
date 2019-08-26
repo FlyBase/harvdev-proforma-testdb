@@ -24,7 +24,8 @@ property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'descriptio
                 'sub_datatype', 'data_link_bdsc', 'hh_ortholog_comment', 'molecular_info', 'disease_associated',
                 'propagate_transgenic_uses', 'other_disease-implication_change',
                 'primary_disease-implication_change', 'additional_disease-implication_change', 'HDM_comment',
-                'allele_report_comment']
+                'allele_report_comment', 'cellular_description', 'molecular_description', 'process_description',
+                'dros_model_overview', 'hdm_internal_notes']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
 feature_pubprop type: ['abstract_languages']
