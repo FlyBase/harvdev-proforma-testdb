@@ -367,12 +367,16 @@ hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s,
 hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
 hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
 hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id, value) VALUES (%s, %s, %s) """
+hh_pub_sql = """ INSERT INTO humanhealth_pub (humanhealth_id, pub_id) VALUES (%s, %s) """
 for i in range(5):
     print("Adding human health {}".format(i+1))
     # create human health feature, No need to attach to gene for now.
     cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id))
     hh_id = cursor.fetchone()[0]
 
+    # add humanheath_pub
+    cursor.execute(hh_pub_sql, (hh_id, pub_id))
+    
     # add synonyms
     cursor.execute(syn_sql, ("hh-fullname-{}".format(i+1), cvterm_id['fullname'], "hh-fullname-{}".format(i+1)) )
     name_id = cursor.fetchone()[0]
