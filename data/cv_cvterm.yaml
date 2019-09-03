@@ -25,7 +25,7 @@ property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'descriptio
                 'propagate_transgenic_uses', 'other_disease-implication_change',
                 'primary_disease-implication_change', 'additional_disease-implication_change', 'HDM_comment',
                 'allele_report_comment', 'cellular_description', 'molecular_description', 'process_description',
-                'dros_model_overview', 'hdm_internal_notes']
+                'dros_model_overview', 'hdm_internal_notes', 'hgnc_link', 'hh2c_link', 'OMIM_pheno_table']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
 feature_pubprop type: ['abstract_languages']
@@ -54,6 +54,8 @@ HGNC: [1, 2, 3, 4, 5]
 ClinVar: ['ClinVar1', 'ClinVar2', 'ClinVar3', 'ClinVar4', 'ClinVar5']
 UniProtKB/Swiss-Prot: ['SW1', 'SW2', 'SW3', 'SW4', 'SW5']
 disease_ontology: ['hh-1']
+OMIM_PHENOTYPE: []
 humanhealth_cvtermprop type: ['doid_term']
-humanhealth_featureprop type: ['dmel_gene_implicated', 'human_disease_relevant']
+humanhealth_featureprop type: ['dmel_gene_implicated', 'human_disease_relevant', 'other_mammalian_gene',
+                               'human_gene_implicated)', 'dmel_gene', 'syn_gene_implicated']
 humanhealth_pubprop type: []
