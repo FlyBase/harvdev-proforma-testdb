@@ -133,7 +133,7 @@ def create_gene(organism_name, organism_id, gene_count):
         sym_name = "symbol-{}".format(gene_count+1)
         fb_code = 'gn'
     else:
-        sym_name = '{}\symbol-{}'.format(organism_name, gene_count+1)
+        sym_name = '{}\\symbol-{}'.format(organism_name, gene_count+1)
         fb_code = 'og'
 
     print("Adding gene {} for species {} - syn {}".format(gene_count+1, organism_name, sym_name))
