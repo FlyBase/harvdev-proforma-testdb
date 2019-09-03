@@ -126,6 +126,39 @@ def load_pub_author_pubprop(parsed_yaml):
 
             cursor.execute(author_sql, (pub_id, author_rank, author_surname, author_givennames))
 
+
+def create_gene(organism_name, organism_id, gene_count):
+
+    if organism_name == 'Dmel':
+        sym_name = "symbol-{}".format(gene_count+1)
+        fb_code = 'gn'
+    else:
+        sym_name = '{}\\000000{}'.format(organism_name, gene_count+1)
+        fb_code = 'og'
+
+    print("Adding gene {} for species {} - syn {}".format(gene_count+1, organism_name, sym_name))
+
+    #create the gene feature
+    cursor.execute(feat_sql, (None, organism_id, sym_name,
+                              'FB{}:temp_{}'.format(fb_code, gene_count+1), "ACTG"*5, 20, cvterm_id['gene']))
+    gene_id = cursor.fetchone()[0]
+
+    # add synonyms
+    if organism_name == 'Dmel':
+        cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)) )
+        name_id = cursor.fetchone()[0]
+    cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sym_name) )
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    if organism_name == 'Dmel':
+        cursor.execute(fs_sql, (name_id, gene_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, gene_id, pub_id)) 
+
+    # now add the feature loc
+    cursor.execute(loc_sql, (gene_id, feature_id['2L'], gene_count*100, (gene_count+1)*100, 1)) 
+    return gene_id
+
 ############################
 # Load data from YAML files.
 ############################
@@ -143,6 +176,9 @@ organism_id = cursor.fetchone()[0]
 # Add human for FBhh etc.
 cursor.execute(sql, ('Hsap', 'Homo', 'sapiens', 'Human'))
 human_id = cursor.fetchone()[0]
+# add mouse (another mamalian)
+cursor.execute(sql, ('Mmus', 'Mus', 'musculus', 'laboratory mouse'))
+mouse_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
 sql = """ insert into organism (species, genus) values (%s,%s) RETURNING organism_id"""
@@ -304,26 +340,12 @@ feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationshi
 feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
 alleles = []
 for i in range(5):
-    name = "FBgn{:07d}".format(i+1)
-    print("Adding gene {}".format(i+1))
+ 
+    feature_id['gene'] = gene_id = create_gene('Dmel', organism_id, i)
 
-    #create the gene feature
-    cursor.execute(feat_sql, (None, organism_id, "symbol-{}".format(i+1),
-                              'FBgn:temp_{}'.format(i+1), "ACTG"*50, 200, cvterm_id['gene']))
-    feature_id['gene'] = gene_id = cursor.fetchone()[0]
-
-    # add synonyms
-    cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}".format(i+1)) )
-    name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}".format(i+1)) )
-    symbol_id = cursor.fetchone()[0]
-
-    # add feature_synonym
-    cursor.execute(fs_sql, (name_id, gene_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, gene_id, pub_id)) 
-
-    # now add the feature loc
-    cursor.execute(loc_sql, (gene_id, feature_id['2L'], i*100, (i+1)*100, 1))
+    # create mouse and human genes
+    create_gene('Hsap', human_id, i)
+    create_gene('Mmus', mouse_id, i)
 
     #add allele for each gene and add feature_relationship
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
