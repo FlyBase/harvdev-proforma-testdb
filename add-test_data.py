@@ -180,7 +180,7 @@ human_id = cursor.fetchone()[0]
 cursor.execute(sql, ('Mmus', 'Mus', 'musculus', 'laboratory mouse'))
 mouse_id = cursor.fetchone()[0]
 # add aritificial
-cursor.execute(sql, ('Zzzz', 'artificial', 'atificial', 'artificial/synthetic'))
+cursor.execute(sql, ('Zzzz', 'artificial', 'artificial', 'artificial/synthetic'))
 artificial_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
