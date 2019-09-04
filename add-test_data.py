@@ -168,7 +168,7 @@ yaml_parse_and_dispatch()
 
 
 #################
-# Add an organism
+# Add organisms
 #################
 sql = """ insert into organism (abbreviation, genus, species, common_name) values (%s,%s,%s,%s) RETURNING organism_id"""
 cursor.execute(sql, ('Dmel', 'Drosophila', 'melanogaster', 'fruit_fly'))
@@ -179,6 +179,9 @@ human_id = cursor.fetchone()[0]
 # add mouse (another mamalian)
 cursor.execute(sql, ('Mmus', 'Mus', 'musculus', 'laboratory mouse'))
 mouse_id = cursor.fetchone()[0]
+# add aritificial
+cursor.execute(sql, ('Zzzz', 'artificial', 'artificial', 'artificial/synthetic'))
+artificial_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
 sql = """ insert into organism (species, genus) values (%s,%s) RETURNING organism_id"""
@@ -346,6 +349,7 @@ for i in range(5):
     # create mouse and human genes
     create_gene('Hsap', human_id, i)
     create_gene('Mmus', mouse_id, i)
+    create_gene('Zzzz', artificial_id, i)
 
     #add allele for each gene and add feature_relationship
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
