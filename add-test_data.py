@@ -134,7 +134,7 @@ def create_gene(organism_name, organism_id, gene_count):
         fb_code = 'gn'
     else:
         sym_name = '{}\\symbol-{}'.format(organism_name, gene_count+1)
-        fb_code = 'og'
+        fb_code = 'gn'  # Not og else get_feat_ukeys_by_name will not find them.
 
     print("Adding gene {} for species {} - syn {}".format(gene_count+1, organism_name, sym_name))
 
