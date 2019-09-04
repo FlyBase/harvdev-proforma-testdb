@@ -57,5 +57,5 @@ disease_ontology: ['hh-1']
 OMIM_PHENOTYPE: []
 humanhealth_cvtermprop type: ['doid_term']
 humanhealth_featureprop type: ['dmel_gene_implicated', 'human_disease_relevant', 'other_mammalian_gene',
-                               'human_gene_implicated)', 'dmel_gene', 'syn_gene_implicated']
+                               'human_gene_implicated', 'dmel_gene', 'syn_gene_implicated']
 humanhealth_pubprop type: []
