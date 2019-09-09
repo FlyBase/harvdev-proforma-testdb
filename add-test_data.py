@@ -22,7 +22,8 @@ PYEAR = 3
 cv_id = {}
 db_id = {}
 cvterm_id = {}
-dbxref_id = {}
+dbxref_id = {} # dbxref[accession] = dbxref_id
+db_dbxref ={}  # db_dbxref[dbname][acession] = dbxref_id
 
 # Global SQL queries.
 cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
@@ -81,6 +82,9 @@ def load_cv_cvterm(parsed_yaml):
         for cvterm_name in cv_cvterm[cv_name]:
             cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
             dbxref_id[cvterm_name] = cursor.fetchone()[0]
+            if cv_name not in db_dbxref:
+                db_dbxref[cv_name] = {}
+            db_dbxref[cv_name][cvterm_name] = dbxref_id[cvterm_name]
             cursor.execute(cvterm_sql, (dbxref_id[cvterm_name], cv_id[cv_name], cvterm_name))
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
@@ -158,6 +162,24 @@ def create_gene(organism_name, organism_id, gene_count):
     # now add the feature loc
     cursor.execute(loc_sql, (gene_id, feature_id['2L'], gene_count*100, (gene_count+1)*100, 1)) 
     return gene_id
+
+
+hh_dbxref_sql = """ INSERT INTO humanhealth_dbxref (humanhealth_id, dbxref_id) VALUES (%s, %s) RETURNING humanhealth_dbxref_id """
+hh_dbxrefprop_sql = """ INSERT INTO humanhealth_dbxrefprop (humanhealth_dbxref_id, type_id) VALUES (%s, %s) RETURNING humanhealth_dbxrefprop_id """
+hh_dbxrefproppub_sql = """ INSERT INTO humanhealth_dbxrefprop_pub (humanhealth_dbxrefprop_id, pub_id) VALUES (%s, %s) """
+
+def create_hh_dbxref(hh_id, dbxref_id, types):
+    """
+    Add humanhealth_dbxrefproppub, humanhealth_dbxrefprop, humanhealth_dbxref.
+    """
+    cursor.execute(hh_dbxref_sql, (hh_id, dbxref_id))
+    hh_dbxref_id = cursor.fetchone()[0]
+
+    for type_id in types:
+        cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id))
+        hh_dbxrefprop_id = cursor.fetchone()[0]
+
+        cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id))
 
 ############################
 # Load data from YAML files.
@@ -422,6 +444,21 @@ for i in range(5):
     cursor.execute(hh_f_sql, (hh_id, feature_id['gene'], pub_id ))
     hh_f_id = cursor.fetchone()[0]
     cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['hh_ortholog_comment'], 'Another Comment {}'.format(i+1)))
+
+    # Add 2 OMIM_PHENOTYPE dbxrefs to hh2c_link and OMIM_pheno_table hh_dbxrefs
+    cvterms_to_add = [cvterm_id['hh2c_link'],
+                      cvterm_id['OMIM_pheno_table']]
+    create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE']["{}".format(i+1)], cvterms_to_add)
+
+    # Add 2 HGNC dbxrefs to data_link, hgnc_link and hh_ortho_rel_comment
+    cvterms_to_add = [cvterm_id['data_link'],
+                      cvterm_id['hgnc_link'],
+                      cvterm_id['hh_ortho_rel_comment']]
+    create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+1)], cvterms_to_add)
+
+    # Add BDSC_HD
+    cvterms_to_add = [cvterm_id['data_link_bdsc']]
+    create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+1)], cvterms_to_add)
 
 # mRNA
 for i in range(5):
