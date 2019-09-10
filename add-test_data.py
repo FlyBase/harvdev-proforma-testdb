@@ -165,21 +165,29 @@ def create_gene(organism_name, organism_id, gene_count):
 
 
 hh_dbxref_sql = """ INSERT INTO humanhealth_dbxref (humanhealth_id, dbxref_id) VALUES (%s, %s) RETURNING humanhealth_dbxref_id """
-hh_dbxrefprop_sql = """ INSERT INTO humanhealth_dbxrefprop (humanhealth_dbxref_id, type_id) VALUES (%s, %s) RETURNING humanhealth_dbxrefprop_id """
+hh_dbxrefprop_sql = """ INSERT INTO humanhealth_dbxrefprop (humanhealth_dbxref_id, type_id, rank) VALUES (%s, %s, %s) RETURNING humanhealth_dbxrefprop_id """
 hh_dbxrefproppub_sql = """ INSERT INTO humanhealth_dbxrefprop_pub (humanhealth_dbxrefprop_id, pub_id) VALUES (%s, %s) """
 
-def create_hh_dbxref(hh_id, dbxref_id, types):
+def create_hh_dbxref(hh_id, dbxref_id, types, extra=False):
     """
     Add humanhealth_dbxrefproppub, humanhealth_dbxrefprop, humanhealth_dbxref.
+    Extra is a fudge to get a dbxrefprop on another pub to test dbxref is not deleted
+    in a dissociation event.
     """
     cursor.execute(hh_dbxref_sql, (hh_id, dbxref_id))
     hh_dbxref_id = cursor.fetchone()[0]
 
     for type_id in types:
-        cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id))
+        cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id, 0))
         hh_dbxrefprop_id = cursor.fetchone()[0]
 
         cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id))
+
+        if extra :
+           cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id, 1))
+           hh_dbxrefprop_id = cursor.fetchone()[0]
+
+           cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id - 1)) 
 
 ############################
 # Load data from YAML files.
@@ -449,16 +457,19 @@ for i in range(5):
     cvterms_to_add = [cvterm_id['hh2c_link'],
                       cvterm_id['OMIM_pheno_table']]
     create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE']["{}".format(i+1)], cvterms_to_add)
+    create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE']["{}".format(i+6)], cvterms_to_add)
 
     # Add 2 HGNC dbxrefs to data_link, hgnc_link and hh_ortho_rel_comment
     cvterms_to_add = [cvterm_id['data_link'],
                       cvterm_id['hgnc_link'],
                       cvterm_id['hh_ortho_rel_comment']]
     create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+1)], cvterms_to_add)
+    create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+6)], cvterms_to_add)
 
-    # Add BDSC_HD
+    # Add 2 BDSC_HD
     cvterms_to_add = [cvterm_id['data_link_bdsc']]
     create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+1)], cvterms_to_add)
+    create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+6)], cvterms_to_add, True)
 
 # mRNA
 for i in range(5):
