@@ -30,7 +30,7 @@ property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'descriptio
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
 feature_pubprop type: ['abstract_languages']
-feature_relationshipprop type: ['fly_disease-implication_change']
+feature_relationshipprop type: ['fly_disease-implication_change', 'comment']
 transgene_description: ['transposon']
 transgene_uses: ['characterization']
 library_cvtermprop type: ['lc2btype']
