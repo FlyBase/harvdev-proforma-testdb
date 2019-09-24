@@ -168,11 +168,9 @@ hh_dbxref_sql = """ INSERT INTO humanhealth_dbxref (humanhealth_id, dbxref_id) V
 hh_dbxrefprop_sql = """ INSERT INTO humanhealth_dbxrefprop (humanhealth_dbxref_id, type_id, rank) VALUES (%s, %s, %s) RETURNING humanhealth_dbxrefprop_id """
 hh_dbxrefproppub_sql = """ INSERT INTO humanhealth_dbxrefprop_pub (humanhealth_dbxrefprop_id, pub_id) VALUES (%s, %s) """
 
-def create_hh_dbxref(hh_id, dbxref_id, types, extra=False):
+def create_hh_dbxref(hh_id, dbxref_id, types):
     """
     Add humanhealth_dbxrefproppub, humanhealth_dbxrefprop, humanhealth_dbxref.
-    Extra is a fudge to get a dbxrefprop on another pub to test dbxref is not deleted
-    in a dissociation event.
     """
     cursor.execute(hh_dbxref_sql, (hh_id, dbxref_id))
     hh_dbxref_id = cursor.fetchone()[0]
@@ -183,11 +181,6 @@ def create_hh_dbxref(hh_id, dbxref_id, types, extra=False):
 
         cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id))
 
-        if extra :
-           cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id, 1))
-           hh_dbxrefprop_id = cursor.fetchone()[0]
-
-           cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id - 1)) 
 
 ############################
 # Load data from YAML files.
@@ -469,7 +462,7 @@ for i in range(5):
     # Add 2 BDSC_HD
     cvterms_to_add = [cvterm_id['data_link_bdsc']]
     create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+1)], cvterms_to_add)
-    create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+6)], cvterms_to_add, True)
+    create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+6)], cvterms_to_add)
 
 # mRNA
 for i in range(5):
