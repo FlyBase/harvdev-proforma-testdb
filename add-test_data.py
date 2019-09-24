@@ -462,7 +462,7 @@ for i in range(5):
     # Add 2 BDSC_HD
     cvterms_to_add = [cvterm_id['data_link_bdsc']]
     create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+1)], cvterms_to_add)
-    create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+6)], cvterms_to_add, True)
+    create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+6)], cvterms_to_add)
 
 # mRNA
 for i in range(5):
