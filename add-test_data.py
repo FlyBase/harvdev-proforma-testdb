@@ -180,7 +180,7 @@ def create_hh_dbxref(hh_id, dbxref_id, types):
         hh_dbxrefprop_id = cursor.fetchone()[0]
 
         cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id))
-
+    return hh_dbxref_id
 
 ############################
 # Load data from YAML files.
@@ -417,6 +417,8 @@ hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pu
 hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
 hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id, value) VALUES (%s, %s, %s) """
 hh_pub_sql = """ INSERT INTO humanhealth_pub (humanhealth_id, pub_id) VALUES (%s, %s) """
+f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
+
 for i in range(5):
     print("Adding human health {}".format(i+1))
     # create human health feature, No need to attach to gene for now.
@@ -453,11 +455,14 @@ for i in range(5):
     create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE']["{}".format(i+6)], cvterms_to_add)
 
     # Add 2 HGNC dbxrefs to data_link, hgnc_link and hh_ortho_rel_comment
+    # also add feature_humanhealth_dbxref
     cvterms_to_add = [cvterm_id['data_link'],
                       cvterm_id['hgnc_link'],
                       cvterm_id['hh_ortho_rel_comment']]
-    create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+1)], cvterms_to_add)
-    create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+6)], cvterms_to_add)
+    hh_dbxref_id = create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+1)], cvterms_to_add)
+    cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
+    hh_dbxref_id = create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+6)], cvterms_to_add)
+    cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
 
     # Add 2 BDSC_HD
     cvterms_to_add = [cvterm_id['data_link_bdsc']]
