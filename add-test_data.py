@@ -165,7 +165,7 @@ def create_gene(organism_name, organism_id, gene_count):
 
 
 hh_dbxref_sql = """ INSERT INTO humanhealth_dbxref (humanhealth_id, dbxref_id) VALUES (%s, %s) RETURNING humanhealth_dbxref_id """
-hh_dbxrefprop_sql = """ INSERT INTO humanhealth_dbxrefprop (humanhealth_dbxref_id, type_id, rank) VALUES (%s, %s, %s) RETURNING humanhealth_dbxrefprop_id """
+hh_dbxrefprop_sql = """ INSERT INTO humanhealth_dbxrefprop (humanhealth_dbxref_id, type_id, rank, value) VALUES (%s, %s, %s, %s) RETURNING humanhealth_dbxrefprop_id """
 hh_dbxrefproppub_sql = """ INSERT INTO humanhealth_dbxrefprop_pub (humanhealth_dbxrefprop_id, pub_id) VALUES (%s, %s) """
 
 def create_hh_dbxref(hh_id, dbxref_id, types):
@@ -176,7 +176,7 @@ def create_hh_dbxref(hh_id, dbxref_id, types):
     hh_dbxref_id = cursor.fetchone()[0]
 
     for type_id in types:
-        cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id, 0))
+        cursor.execute(hh_dbxrefprop_sql, (hh_dbxref_id, type_id, 0, "test value"))
         hh_dbxrefprop_id = cursor.fetchone()[0]
 
         cursor.execute(hh_dbxrefproppub_sql, (hh_dbxrefprop_id, pub_id))
