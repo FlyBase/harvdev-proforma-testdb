@@ -56,7 +56,7 @@ BDSC_HD: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 ClinVar: ['ClinVar1', 'ClinVar2', 'ClinVar3', 'ClinVar4', 'ClinVar5']
 UniProtKB/Swiss-Prot: ['SW1', 'SW2', 'SW3', 'SW4', 'SW5']
 disease_ontology: ['hh-1']
-OMIM_PHENOTYPE: ['1', '2', '3' , '4', '5', '6', '7', '8', '9', '10']
+OMIM_PHENOTYPE: ['111111', '222222', '333333' , '444444', '555555', '666666', '777777', '888888', '999999', '101010']
 humanhealth_cvtermprop type: ['doid_term']
 humanhealth_featureprop type: ['dmel_gene_implicated', 'human_disease_relevant', 'other_mammalian_gene',
                                'human_gene_implicated', 'dmel_gene', 'syn_gene_implicated']

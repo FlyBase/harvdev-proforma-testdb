@@ -451,8 +451,14 @@ for i in range(5):
     # Add 2 OMIM_PHENOTYPE dbxrefs to hh2c_link and OMIM_pheno_table hh_dbxrefs
     cvterms_to_add = [cvterm_id['hh2c_link'],
                       cvterm_id['OMIM_pheno_table']]
-    create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE']["{}".format(i+1)], cvterms_to_add)
-    create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE']["{}".format(i+6)], cvterms_to_add)
+    if i < 4:  # OMIM is 6 chars 111111, 222222 -> 999999, 101010
+        acc = "{}".format(i+1)*6
+        acc2 = "{}".format(i+6)*6
+    else:
+        acc = "{}".format(i+1)*6
+        acc2 = "{}".format(i+6)*3
+    create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE'][acc], cvterms_to_add)
+    create_hh_dbxref(hh_id, db_dbxref['OMIM_PHENOTYPE'][acc2], cvterms_to_add)
 
     # Add 2 HGNC dbxrefs to data_link, hgnc_link and hh_ortho_rel_comment
     # also add feature_humanhealth_dbxref
