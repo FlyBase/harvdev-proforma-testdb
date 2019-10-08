@@ -24,6 +24,7 @@ db_id = {}
 cvterm_id = {}
 dbxref_id = {} # dbxref[accession] = dbxref_id
 db_dbxref ={}  # db_dbxref[dbname][acession] = dbxref_id
+feature_id = {} # feature_id[name] = feature_id
 
 # Global SQL queries.
 cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
@@ -145,7 +146,7 @@ def create_gene(organism_name, organism_id, gene_count):
     #create the gene feature
     cursor.execute(feat_sql, (None, organism_id, sym_name,
                               'FB{}:temp_{}'.format(fb_code, gene_count+1), "ACTG"*5, 20, cvterm_id['gene']))
-    gene_id = cursor.fetchone()[0]
+    feature_id[sym_name] = gene_id = cursor.fetchone()[0]
 
     # add synonyms
     if organism_name == 'Dmel':
@@ -339,7 +340,7 @@ count = cursor.rowcount
 # create chromosome
 # Hope i do not need the actual sequence
 ###################
-feature_id = {}
+
 feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
                  VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
 
@@ -443,10 +444,19 @@ for i in range(5):
     hh_f_id = cursor.fetchone()[0]
     cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human_disease_relevant'], 'Comment {}'.format(i+1)))
 
-    # add humanhealth_feature + prop to gene.
-    cursor.execute(hh_f_sql, (hh_id, feature_id['gene'], pub_id ))
-    hh_f_id = cursor.fetchone()[0]
-    cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['hh_ortholog_comment'], 'Another Comment {}'.format(i+1)))
+    # create various hh feature props
+    cvterm_to_sym = {'human_gene_implicated': 'Hsap\\symbol',
+                     'other_mammalian_gene': 'Mmus\\symbol',
+                     'syn_gene_implicated': 'Zzzz\\symbol',
+                     'dmel_gene_implicated': 'symbol'}
+    for cv_key in cvterm_to_sym.keys():
+        # create hh_feat
+        cursor.execute(hh_f_sql, (hh_id, feature_id['{}-{}'.format(cvterm_to_sym[cv_key], i+1)], pub_id ))
+        hh_f_id = cursor.fetchone()[0]
+        # add prop for hh_feat
+        cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id[cv_key], 'blank'))
+        if cv_key == 'dmel_gene_implicated':
+            cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['hh_ortholog_comment'], 'Another Comment {}'.format(i+1)))
 
     # Add 2 OMIM_PHENOTYPE dbxrefs to hh2c_link and OMIM_pheno_table hh_dbxrefs
     cvterms_to_add = [cvterm_id['hh2c_link'],
