@@ -419,12 +419,22 @@ hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_
 hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id, value) VALUES (%s, %s, %s) """
 hh_pub_sql = """ INSERT INTO humanhealth_pub (humanhealth_id, pub_id) VALUES (%s, %s) """
 f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
+hh_rel_sql = """ INSERT INTO humanhealth_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) """
 
 for i in range(5):
     print("Adding human health {}".format(i+1))
     # create human health feature, No need to attach to gene for now.
     cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id))
-    hh_id = cursor.fetchone()[0]
+    feature_id["hh-symbol-{}".format(i+1)] = hh_id = cursor.fetchone()[0]
+
+    # Add relationships
+    # hh1 associated with hh[2345]
+    # hh5 belongs to hh4 belongs to hh3 .....
+    if i:
+        cursor.execute(hh_rel_sql, (feature_id["hh-symbol-{}".format(i)], hh_id, cvterm_id['belongs_to']))
+        print("{} belongs to {}".format("hh-name-{}".format(i+1), "hh-name-{}".format(i)))
+        cursor.execute(hh_rel_sql, (hh_id, feature_id["hh-symbol-1"], cvterm_id['associated_with']))
+        print("{} associated with {}".format("hh-symbol-1", "hh-name-{}".format(i+1)))
 
     # add humanheath_pub
     cursor.execute(hh_pub_sql, (hh_id, pub_id))
