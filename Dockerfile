@@ -22,10 +22,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software
 # Note: The official Debian and Ubuntu images automatically ``apt-get clean``
 # after each ``apt-get``
 
-ADD add-test_data.py .
-ADD schema.sql .
-ADD requirements.txt .
-ADD data /data
+ADD . .
+#ADD data /data
 
 RUN pip3 install -r requirements.txt
 
