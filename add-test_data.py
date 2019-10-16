@@ -349,7 +349,7 @@ feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  typ
 feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value) VALUES (%s, %s, %s) """
 feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
 alleles = []
-for i in range(5):
+for i in range(10):
  
     feature_id['gene'] = gene_id = create_gene('Dmel', organism_id, i)
 

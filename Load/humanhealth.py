@@ -250,7 +250,7 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
     ######################
     # Adding Gene Features
     ######################
-    for i in range(5):
+    for i in range(10):
         hh_id = feature_id["hh-symbol-{}".format(i+1)]
         cvterm_to_sym = {'human_gene_implicated': 'Hsap\\symbol',
                          'other_mammalian_gene': 'Mmus\\symbol',
