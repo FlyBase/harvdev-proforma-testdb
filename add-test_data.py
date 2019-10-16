@@ -396,7 +396,7 @@ for i in range(5):
     cursor.execute(feat_rel_pub, (fr_id, pub_id))
 
 # Humanhealth
-add_humanhealth_data(cursor, feature_id, cvterm_id, db_dbxref, gene_id, pub_id, human_id)
+add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gene_id, pub_id, human_id)
 
 
 # mRNA

@@ -122,10 +122,85 @@
 #      hh-name-2 | HGNC           | 7         | hh_ortho_rel_comment | test value
 #      hh-name-2 | BDSC_HD        | 2         | data_link_bdsc       | test value
 #      hh-name-2 | BDSC_HD        | 7         | data_link_bdsc       | test value
+#
+#    Humanhealth Cvterms and props.
+#    ------------------------------
+#    hh1 -> DOID cvterm 'my definition of 1'
+#    hh2 -> 1 and 2
+#    hh3 -> 2 and 3 etc 
+#     SELECT dbx.accession, hh.uniquename, cvt2.name, cvt.name
+#      FROM dbxref dbx, humanhealth_cvtermprop hcp, humanhealth_cvterm hc, humanhealth hh, cvterm cvt, cvterm cvt2
+#      WHERE hc.humanhealth_id = hh.humanhealth_id AND
+#             hc.humanhealth_cvterm_id = hcp.humanhealth_cvterm_id AND
+#             hc.cvterm_id = cvt.cvterm_id AND dbx.dbxref_id = cvt.dbxref_id AND
+#             cvt2.cvterm_id = hcp.type_id;
+#
+#  accession | uniquename  |   name    |        name        
+# -----------+-------------+-----------+--------------------
+#  111111    | FBhh0000001 | doid_term | my definition of 1
+#  222222    | FBhh0000002 | doid_term | my definition of 2
+#  111111    | FBhh0000002 | doid_term | my definition of 1
+#  333333    | FBhh0000003 | doid_term | my definition of 3
+#  222222    | FBhh0000003 | doid_term | my definition of 2
+#  444444    | FBhh0000004 | doid_term | my definition of 4
+#  333333    | FBhh0000004 | doid_term | my definition of 3
+#  555555    | FBhh0000005 | doid_term | my definition of 5
+#  444444    | FBhh0000005 | doid_term | my definition of 4
+#  666666    | FBhh0000006 | doid_term | my definition of 6
+#  555555    | FBhh0000006 | doid_term | my definition of 5
+#  777777    | FBhh0000007 | doid_term | my definition of 7
+#  666666    | FBhh0000007 | doid_term | my definition of 6
+#  888888    | FBhh0000008 | doid_term | my definition of 8
+#  777777    | FBhh0000008 | doid_term | my definition of 7
+#  999999    | FBhh0000009 | doid_term | my definition of 9
+#  888888    | FBhh0000009 | doid_term | my definition of 8
+#
 ###################################################################################
 
+def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
+    """
+    Add doid dbxrefs and link to disease_ontology cvterms.
+    Add humanhealth_cvterms, to enable testing of bangc, bangd
+    
+    # get DOID db from db_id
+    # create dbxrefs
+    # create cvterms for these in cv disease_ontology
+    # create humanhealth_cvterms to test bangc, bangd
+    """
+    dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
+    cvterm_sql = """ INSERT INTO cvterm (cv_id, dbxref_id, name) VALUES (%s, %s, %s) RETURNING cvterm_id """
+    hh_cvterm_sql = """ INSERT INTO humanhealth_cvterm (humanhealth_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_cvterm_id """
+    hh_c_prop_sql = """ INSERT INTO humanhealth_cvtermprop (humanhealth_cvterm_id, type_id) VALUES (%s, %s) """
 
-def add_humanhealth_data(cursor, feature_id, cvterm_id, db_dbxref, gene_id, pub_id, human_id):
+    cursor.execute("SELECT cvterm.cvterm_id FROM cvterm WHERE cvterm.name = 'doid_term' ")
+    doid_term_id = cursor.fetchone()[0]
+    print("doid is {}".format(doid_term_id))
+    for i in range(9):
+        # DOID chars 111111, 222222 -> 999999
+        acc = "{}".format(i+1)*6
+        # create dbxref
+        cursor.execute(dbxref_sql, (db_id['DOID'], acc))
+        dbxref_id = cursor.fetchone()[0]
+        # create cvterm
+        cursor.execute(cvterm_sql, (cv_id['disease_ontology'], dbxref_id, "my definition of {}".format(i+1)))
+        cvterm_id = cursor.fetchone()[0]
+        # create humanhealth_cvterm
+        cursor.execute(hh_cvterm_sql, (feature_id['hh-symbol-{}'.format(i+1)], cvterm_id, pub_id))
+        hh_c = cursor.fetchone()[0]
+        # create humanhealth_cvtermprop
+        cursor.execute(hh_c_prop_sql, (hh_c, doid_term_id))
+
+        if i:  # add previous one too so we have 2 DOID per humanhealth
+            # create humanhealth_cvterm
+            cursor.execute(hh_cvterm_sql, (feature_id['hh-symbol-{}'.format(i+1)], last_cvterm_id, pub_id))
+            hh_c = cursor.fetchone()[0]
+            # create humanhealth_cvtermprop
+            cursor.execute(hh_c_prop_sql, (hh_c, doid_term_id))
+            last_cvterm_id = cvterm_id
+        else:
+            last_cvterm_id = cvterm_id
+
+def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gene_id, pub_id, human_id):
     hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
     hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
     hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
@@ -235,6 +310,10 @@ def add_humanhealth_data(cursor, feature_id, cvterm_id, db_dbxref, gene_id, pub_
         create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+1)], cvterms_to_add, cursor, pub_id)
         create_hh_dbxref(hh_id, db_dbxref['BDSC_HD']["{}".format(i+6)], cvterms_to_add, cursor, pub_id)
 
+    ###############################################
+    # Add doid dbxrefs and disease_onotlogy cvterms
+    ###############################################
+    add_doid_data(cursor, cv_id, db_id, feature_id, pub_id)
 
 def create_hh_dbxref(hh_id, dbxref_id, types, cursor, pub_id):
     """
