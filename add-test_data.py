@@ -452,6 +452,11 @@ chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id, 
 cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id, cvterm_id['chemical entity'], dbxref_id['16188']))
 cursor.execute(syn_sql, ('CHEBI:16188', cvterm_id['symbol'], 'CHEBI:16188'))
 
+# Gene grp
+grp_sql = """ INSERT INTO grp (name, uniquename, type_id) VALUES(%s, %s, %s) """
+cursor.execute(grp_sql, ("TEST_GENE_GROUP", "FBgg:temp_0", cvterm_id['gene_group']))
+
+
 # strain
 #strain_id = {}
 #strain_sql  = """ INSERT INTO strain (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING strain_id """
