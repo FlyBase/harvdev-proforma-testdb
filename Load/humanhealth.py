@@ -243,7 +243,7 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
         cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True))
 
         # add humanhealth_feature + prop to allele.
-        cursor.execute(hh_f_sql, (hh_id, feature_id['allele'], pub_id))
+        cursor.execute(hh_f_sql, (hh_id, feature_id["al-symbol-{}".format(i+1)], pub_id))
         hh_f_id = cursor.fetchone()[0]
         cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human_disease_relevant'], 'Comment {}'.format(i+1)))
 
