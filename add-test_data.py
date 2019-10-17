@@ -361,7 +361,7 @@ for i in range(10):
     #add allele for each gene and add feature_relationship
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
                               'FBal:temp_{}'.format(i), None, 200, cvterm_id['gene']))
-    feature_id['allele'] = allele_id = cursor.fetchone()[0]
+    feature_id["al-symbol-{}".format(i+1)] = allele_id = cursor.fetchone()[0]
     alleles.append(allele_id)
     cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
