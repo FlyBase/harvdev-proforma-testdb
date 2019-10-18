@@ -229,6 +229,10 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
         hh_id = feature_id["hh-symbol-{}".format(i+1)]
         cursor.execute(hh_prop_sql, (hh_id, hh_type, value))
 
+        # add props for HH4b and HH4c
+        cursor.execute(hh_prop_sql, (hh_id, cvterm_id['genetics_description'], "gen desc {}".format(i+1)))  # HH4b
+        cursor.execute(hh_prop_sql, (hh_id, cvterm_id['cellular_description'], "cell desc {}".format(i+1)))  # HH4c
+
         # add humanheath_pub
         cursor.execute(hh_pub_sql, (hh_id, pub_id))
 
