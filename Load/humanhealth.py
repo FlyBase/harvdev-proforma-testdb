@@ -260,15 +260,17 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
             value = 'sub-entity'
         hh_id = feature_id["hh-symbol-{}".format(i+1)]
         cursor.execute(hh_prop_sql, (hh_id, hh_type, value))
+        hhp_id = cursor.fetchone()[0]
+        cursor.execute(hh_prop_pub_sql, (hhp_id, pub_id))
 
         # add props for HH4b and HH4c
         cursor.execute(hh_prop_sql, (hh_id, cvterm_id['genetics_description'], "gen desc {}".format(i+1)))  # HH4b
-        hhpp_id = cursor.fetchone()[0]
-        cursor.execute(hh_prop_pub_sql, (hhpp_id, pub_id))
+        hhp_id = cursor.fetchone()[0]
+        cursor.execute(hh_prop_pub_sql, (hhp_id, pub_id))
 
         cursor.execute(hh_prop_sql, (hh_id, cvterm_id['cellular_description'], "cell desc {}".format(i+1)))  # HH4c
-        hhpp_id = cursor.fetchone()[0]
-        cursor.execute(hh_prop_pub_sql, (hhpp_id, pub_id))
+        hhp_id = cursor.fetchone()[0]
+        cursor.execute(hh_prop_pub_sql, (hhp_id, pub_id))
 
         # add humanheath_pub
         cursor.execute(hh_pub_sql, (hh_id, pub_id))
