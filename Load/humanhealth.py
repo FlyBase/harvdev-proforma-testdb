@@ -135,25 +135,51 @@
 #             hc.cvterm_id = cvt.cvterm_id AND dbx.dbxref_id = cvt.dbxref_id AND
 #             cvt2.cvterm_id = hcp.type_id;
 #
-#  accession | uniquename  |   name    |        name        
-# -----------+-------------+-----------+--------------------
-#  111111    | FBhh0000001 | doid_term | my definition of 1
-#  222222    | FBhh0000002 | doid_term | my definition of 2
-#  111111    | FBhh0000002 | doid_term | my definition of 1
-#  333333    | FBhh0000003 | doid_term | my definition of 3
-#  222222    | FBhh0000003 | doid_term | my definition of 2
-#  444444    | FBhh0000004 | doid_term | my definition of 4
-#  333333    | FBhh0000004 | doid_term | my definition of 3
-#  555555    | FBhh0000005 | doid_term | my definition of 5
-#  444444    | FBhh0000005 | doid_term | my definition of 4
-#  666666    | FBhh0000006 | doid_term | my definition of 6
-#  555555    | FBhh0000006 | doid_term | my definition of 5
-#  777777    | FBhh0000007 | doid_term | my definition of 7
-#  666666    | FBhh0000007 | doid_term | my definition of 6
-#  888888    | FBhh0000008 | doid_term | my definition of 8
-#  777777    | FBhh0000008 | doid_term | my definition of 7
-#  999999    | FBhh0000009 | doid_term | my definition of 9
-#  888888    | FBhh0000009 | doid_term | my definition of 8
+#      accession | uniquename  |   name    |        name        
+#     -----------+-------------+-----------+--------------------
+#      111111    | FBhh0000001 | doid_term | my definition of 1
+#      222222    | FBhh0000002 | doid_term | my definition of 2
+#      111111    | FBhh0000002 | doid_term | my definition of 1
+#      333333    | FBhh0000003 | doid_term | my definition of 3
+#      222222    | FBhh0000003 | doid_term | my definition of 2
+#      444444    | FBhh0000004 | doid_term | my definition of 4
+#      333333    | FBhh0000004 | doid_term | my definition of 3
+#      555555    | FBhh0000005 | doid_term | my definition of 5
+#      444444    | FBhh0000005 | doid_term | my definition of 4
+#      666666    | FBhh0000006 | doid_term | my definition of 6
+#      555555    | FBhh0000006 | doid_term | my definition of 5
+#      777777    | FBhh0000007 | doid_term | my definition of 7
+#      666666    | FBhh0000007 | doid_term | my definition of 6
+#      888888    | FBhh0000008 | doid_term | my definition of 8
+#      777777    | FBhh0000008 | doid_term | my definition of 7
+#      999999    | FBhh0000009 | doid_term | my definition of 9
+#      888888    | FBhh0000009 | doid_term | my definition of 8
+#
+#    Humanheathprop's
+#    ----------------
+#
+#    SELECT h.uniquename, h.is_obsolete, c.name, hp.value 
+#      FROM humanhealthprop hp, cvterm c, humanhealth h 
+#      WHERE hp.humanhealth_id = h.humanhealth_id and hp.type_id = c.cvterm_id;
+#
+#      uniquename  | is_obsolete |         name         |     value     
+#     -------------+-------------+----------------------+---------------
+#      FBhh0000001 | f           | category             | parent-entity
+#      FBhh0000001 | f           | genetics_description | gen desc 1
+#      FBhh0000001 | f           | cellular_description | cell desc 1
+#      FBhh0000002 | f           | category             | parent-entity
+#      FBhh0000002 | f           | genetics_description | gen desc 2
+#      FBhh0000002 | f           | cellular_description | cell desc 2
+#      FBhh0000003 | f           | category             | parent-entity
+#      FBhh0000003 | f           | genetics_description | gen desc 3
+#      FBhh0000003 | f           | cellular_description | cell desc 3
+#      ....
+#      FBhh0000010 | f           | category             | sub-entity
+#      FBhh0000010 | f           | genetics_description | gen desc 10
+#      FBhh0000010 | f           | cellular_description | cell desc 10
+#      FBhh0000011 | t           | category             | sub-entity
+#      FBhh0000011 | t           | genetics_description | gen desc 11
+#      FBhh0000011 | t           | cellular_description | cell desc 11
 #
 ###################################################################################
 
@@ -201,7 +227,7 @@ def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
             last_cvterm_id = cvterm_id
 
 def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gene_id, pub_id, human_id):
-    hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING humanhealth_id """
+    hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id, is_obsolete) VALUES (%s, %s, %s, %s) RETURNING humanhealth_id """
     hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
     hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
     hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id, value) VALUES (%s, %s, %s) """
@@ -209,15 +235,21 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
     f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
     hh_rel_sql = """ INSERT INTO humanhealth_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) """
     syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
-    hh_prop_sql = """ INSERT INTO humanhealthprop (humanhealth_id, type_id, value) VALUES (%s, %s, %s) """
-
+    hh_prop_sql = """ INSERT INTO humanhealthprop (humanhealth_id, type_id, value) VALUES (%s, %s, %s) RETURNING humanhealthprop_id """
+    hh_prop_pub_sql = """ INSERT INTO humanhealthprop_pub (humanhealthprop_id, pub_id) VALUES (%s, %s) """
     ###################################################
-    # Create 10 Humanhealths with synonyms and type etc
+    # Create 11 Humanhealths with synonyms and type etc
+    # 1 -> 10 are NOT obsolete so can be used generally.
+    # and hh11 which is obsolete and is used for specific test.
     ###################################################
-    for i in range(10):
-        print("Adding human health {}".format(i+1))
+    for i in range(11):
         # create human health feature, No need to attach to gene for now.
-        cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id))
+        if i == 10:
+            is_obsolete = True
+        else:
+            is_obsolete = False
+        print("Adding human health {} is_obsolete is {}".format(i+1, is_obsolete))  
+        cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id, is_obsolete))
         feature_id["hh-symbol-{}".format(i+1)] = hh_id = cursor.fetchone()[0]
 
         # set the type
@@ -231,7 +263,12 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
 
         # add props for HH4b and HH4c
         cursor.execute(hh_prop_sql, (hh_id, cvterm_id['genetics_description'], "gen desc {}".format(i+1)))  # HH4b
+        hhpp_id = cursor.fetchone()[0]
+        cursor.execute(hh_prop_pub_sql, (hhpp_id, pub_id))
+
         cursor.execute(hh_prop_sql, (hh_id, cvterm_id['cellular_description'], "cell desc {}".format(i+1)))  # HH4c
+        hhpp_id = cursor.fetchone()[0]
+        cursor.execute(hh_prop_pub_sql, (hhpp_id, pub_id))
 
         # add humanheath_pub
         cursor.execute(hh_pub_sql, (hh_id, pub_id))
@@ -245,11 +282,6 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
         # add feature_synonym
         cursor.execute(hh_fs_sql, (name_id, hh_id, pub_id, True))
         cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True))
-
-        # add humanhealth_feature + prop to allele.
-        cursor.execute(hh_f_sql, (hh_id, feature_id["al-symbol-{}".format(i+1)], pub_id))
-        hh_f_id = cursor.fetchone()[0]
-        cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human_disease_relevant'], 'Comment {}'.format(i+1)))
 
     ######################
     # Adding Gene Features
