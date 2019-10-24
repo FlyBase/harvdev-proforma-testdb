@@ -303,6 +303,17 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
             if cv_key == 'dmel_gene_implicated':
                 cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['hh_ortholog_comment'], 'Another Comment {}'.format(i+1)))
 
+    #####################
+    # Add allele Features
+    #####################
+    for i in range(10):
+        hh_id = feature_id["hh-symbol-{}".format(i+1)]
+        allele_id = feature_id['al-symbol-{}'.format(i+1)]
+        cursor.execute(hh_f_sql, (hh_id, allele_id, pub_id))
+        hh_f_id = cursor.fetchone()[0]
+        # add prop for hh_feat
+        cursor.execute(hh_fp_sql, (hh_f_id, cvterm_id['human_disease_relevant'], 'blank'))
+
     ###################
     # Add relationships
     ###################
