@@ -11,7 +11,7 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region'
        'natural_transposable_element', 'gene_group', 'protein']
 synonym type: ['fullname', 'symbol', 'unspecified']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
-             'perscommtext', 'journal', 'paper', 'database']
+             'perscommtext', 'journal', 'paper', 'database', 'book']
 pubprop type: ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text',
                'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
                'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes']
