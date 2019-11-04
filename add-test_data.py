@@ -267,6 +267,10 @@ for i in range(11, 16):
 cursor.execute( pub_sql, ('Paper_29', cvterm_id['paper'], 'FBrf0000029', '1980'))
 parent_pub_id = cursor.fetchone()[0]
 
+# create general multipubs for testing
+for i in range(4, 14):
+    cursor.execute(pub_sql, ('Journal_{}'.format(i+1), cvterm_id['journal'], 'multipub:temp_{}'.format(i), '2018'))
+
 # Quick fix for now, ensure we have the correct perscommtext in the cvterm dict 
 cursor.execute("select cvterm_id from cvterm where name = 'perscommtext' and cv_id = {}".format(cv_id['pubprop type']))
 cvterm_id['perscommtext'] = cursor.fetchone()[0]
