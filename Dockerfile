@@ -38,7 +38,8 @@ RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER tester WITH SUPERUSER PASSWORD 'tester';" &&\
     createdb -O tester fb_test &&\
     psql -d fb_test < schema.sql > /dev/null &&\
-    python3 add-test_data.py
+    python3 add-test_data.py &&\
+    /etc/init.d/postgresql stop
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
@@ -51,6 +52,13 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/10/main/postgresql.conf
 RUN echo "log_destination = 'stderr'" >> /etc/postgresql/10/main/postgresql.conf
 RUN echo "logging_collector = on" >> /etc/postgresql/10/main/postgresql.conf
 RUN echo "log_statement = 'all'" >> /etc/postgresql/10/main/postgresql.conf
+
+# https://pythonspeed.com/articles/faster-db-tests/
+RUN echo "fsync = off" >> /etc/postgresql/10/main/postgresql.conf
+
+# https://serverfault.com/questions/323356/postgres-connection-establishment-slow
+RUN echo "log_hostname = off" >> /etc/postgresql/10/main/postgresql.conf
+
 RUN echo "log_directory = '/var/log/postgresql'" >> /etc/postgresql/10/main/postgresql.conf
 
 # Expose the PostgreSQL port
