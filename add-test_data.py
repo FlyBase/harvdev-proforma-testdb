@@ -23,9 +23,9 @@ PYEAR = 3
 cv_id = {}
 db_id = {}
 cvterm_id = {}
-dbxref_id = {} # dbxref[accession] = dbxref_id
-db_dbxref ={}  # db_dbxref[dbname][acession] = dbxref_id
-feature_id = {} # feature_id[name] = feature_id
+dbxref_id = {}   # dbxref[accession] = dbxref_id
+db_dbxref = {}   # db_dbxref[dbname][acession] = dbxref_id
+feature_id = {}  # feature_id[name] = feature_id
 
 # Global SQL queries.
 cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
@@ -44,6 +44,7 @@ def yaml_parse_and_dispatch():
 
     dispatch_dictionary = {
         'cv_cvterm.yaml': load_cv_cvterm,
+        'db_dbxref.yaml': load_db_dbxref,
         'pub_author_pubprop.yaml': load_pub_author_pubprop
     }
 
@@ -52,6 +53,7 @@ def yaml_parse_and_dispatch():
     # Need to load in a specific order due to CV term reliance.
     files_to_load = [
         'cv_cvterm.yaml',
+        'db_dbxref.yaml',
         'pub_author_pubprop.yaml'
     ]
 
@@ -62,6 +64,29 @@ def yaml_parse_and_dispatch():
             # Filename is used as the lookup for the function.
             # Yaml data is based as a parameter.
             dispatch_dictionary[filename](yaml_to_process)
+
+
+def load_db_dbxref(parsed_yaml):
+
+    #####################
+    # add db and dbxrefs.
+    #####################
+
+    db_acc = parsed_yaml
+
+    for db in (db_acc.keys()):
+        cursor.execute(db_sql, (db,))
+        db_id[db] = cursor.fetchone()[0]
+        print("adding dbxrefs for db {} [{}]".format(db, db_id[db]))
+
+        for acc in db_acc[db]:
+            cursor.execute(dbxref_sql, (db_id[db], acc))
+            dbxref_id[acc] = cursor.fetchone()[0]
+            if db not in db_dbxref:
+                db_dbxref[db] = {}
+            db_dbxref[db][acc] = dbxref_id[acc]
+            if db == 'OMIM_PHENOTYPE':
+                print("\tAdded {} [{}] for {} ".format(acc, db_dbxref[db][acc], db))
 
 
 def load_cv_cvterm(parsed_yaml):
@@ -144,25 +169,25 @@ def create_gene(organism_name, organism_id, gene_count):
 
     print("Adding gene {} for species {} - syn {}".format(gene_count+1, organism_name, sym_name))
 
-    #create the gene feature
+    # create the gene feature
     cursor.execute(feat_sql, (None, organism_id, sym_name,
                               'FB{}:temp_{}'.format(fb_code, gene_count+1), "ACTG"*5, 20, cvterm_id['gene']))
     feature_id[sym_name] = gene_id = cursor.fetchone()[0]
 
     # add synonyms
     if organism_name == 'Dmel':
-        cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)) )
+        cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)))
         name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sym_name) )
+    cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sym_name))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
     if organism_name == 'Dmel':
         cursor.execute(fs_sql, (name_id, gene_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, gene_id, pub_id)) 
+    cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
 
     # now add the feature loc
-    cursor.execute(loc_sql, (gene_id, feature_id['2L'], gene_count*100, (gene_count+1)*100, 1)) 
+    cursor.execute(loc_sql, (gene_id, feature_id['2L'], gene_count*100, (gene_count+1)*100, 1))
     return gene_id
 
 
@@ -192,24 +217,24 @@ artificial_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
 sql = """ insert into organism (species, genus) values (%s,%s) RETURNING organism_id"""
-cursor.execute(sql, ( 'xenogenetic', 'Unknown'))
-cursor.execute(sql, ( 'autogenetic', 'Unknown'))
+cursor.execute(sql, ('xenogenetic', 'Unknown'))
+cursor.execute(sql, ('autogenetic', 'Unknown'))
 
 # add an enviroment ?
 sql = """ INSERT INTO environment (uniquename) VALUES (%s) """
 cursor.execute(sql, ('unspecified',))
 
 # DOID:14330 "Parkinson's disease"
-cursor.execute(dbxref_sql, (db_id['DOID'], '14330')) 
+cursor.execute(dbxref_sql, (db_id['DOID'], '14330'))
 dbxref_id['14330'] = cursor.fetchone()[0]
 cursor.execute(cvterm_sql, (dbxref_id['14330'], cv_id['disease_ontology'], "Parkinson's disease"))
 
-#provenance
-cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance')) 
+# provenance
+cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance'))
 dbxref_id['FlyBase miscellaneous CV:provenance'] = cursor.fetchone()[0]
 cursor.execute(cvterm_sql, (dbxref_id['FlyBase miscellaneous CV:provenance'], cv_id['FlyBase miscellaneous CV'], "provenance"))
 
-#projects need different db names and cv's 
+# projects need different db names and cv's
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
 
 cursor.execute(db_sql, ('FBcv',))
@@ -223,10 +248,6 @@ cvterm_id['project'] = cursor.fetchone()[0]
 cursor.execute(cvprop_sql, (cvterm_id['project'], cvterm_id['webcv'], 'dataset_entity_type'))
 
 # umbrella project
-#SELECT cvt.cvterm_id FROM cvterm cvt, cv, cvtermprop cvp, cvterm cvt2
-#	      WHERE  cvt.name = 'umbrella project' and cvt.cv_id = cv.cv_id
-#	        and  cv.name = 'FlyBase miscellaneous CV' and cvt.is_obsolete = 0 and cvt.cvterm_id = cvp.cvterm_id  
-#	        and cvp.type_id = cvt2.cvterm_id and cvt2.name = 'webcv' and cvp.value = 'project_type'
 cursor.execute(dbxref_sql, (db_id['FBcv'], '0003030'))
 dbxref_id['0003030'] = cursor.fetchone()[0]
 cursor.execute(cvterm_sql, (dbxref_id['0003030'], cv_id['FlyBase miscellaneous CV'], 'umbrella project'))
@@ -237,8 +258,8 @@ cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], '
 pub_id = 0
 
 for i in range(2, 9):
-    cursor.execute( pub_sql, ('Nature_{}'.format(i), cvterm_id['computer file'], 'FBrf000000{}'.format(i), '1967', 'miniref_{}'.format(i)))
-cursor.execute( pub_sql, ('unattributed', cvterm_id['unattributed'], 'unattributed', '1973', 'miniref_10'))
+    cursor.execute(pub_sql, ('Nature_{}'.format(i), cvterm_id['computer file'], 'FBrf000000{}'.format(i), '1967', 'miniref_{}'.format(i)))
+cursor.execute(pub_sql, ('unattributed', cvterm_id['unattributed'], 'unattributed', '1973', 'miniref_10'))
 pub_id = cursor.fetchone()[0]
 cursor.execute(pubprop_sql, (pub_id, 0, cvterm_id['curated_by'], "Curator:bob McBob...."))
 # cursor.execute(pubprop_sql, (pub_id, pubprop_rank, pubprop_type_id, pubprop_value))
@@ -246,52 +267,52 @@ cursor.execute(pubprop_sql, (pub_id, 0, cvterm_id['curated_by'], "Curator:bob Mc
 temp_rank = 0
 for fly_ref in ('FBrf0104946', 'FBrf0105495'):
     temp_rank += 1
-    cursor.execute( pub_sql, ('predefined pubs {}'.format(fly_ref[:3]), cvterm_id['FlyBase analysis'], fly_ref ,'2000', 'miniref_{}'.format(temp_rank)))
+    cursor.execute(pub_sql, ('predefined pubs {}'.format(fly_ref[:3]), cvterm_id['FlyBase analysis'], fly_ref, '2000', 'miniref_{}'.format(temp_rank)))
     pub_id = cursor.fetchone()[0]
     cursor.execute(pubprop_sql, (pub_id, temp_rank, cvterm_id['curated_by'], "Curator:bob McBob...."))
 
 # multi pubs?
 parent_pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
-cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub2', 'multipub_2', '1967', 'Unused'))
-cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub3', 'multipub_3', '1967', 'Mol. Cell'))
+cursor.execute(parent_pub_sql, (cvterm_id['journal'], 'Parent_pub2', 'multipub_2', '1967', 'Unused'))
+cursor.execute(parent_pub_sql, (cvterm_id['journal'], 'Parent_pub3', 'multipub_3', '1967', 'Mol. Cell'))
 parent_space_pub_id = cursor.fetchone()[0]
-cursor.execute( parent_pub_sql, (cvterm_id['journal'], 'Parent_pub1', 'multipub_1', '1967', 'Nature1'))
+cursor.execute(parent_pub_sql, (cvterm_id['journal'], 'Parent_pub1', 'multipub_1', '1967', 'Nature1'))
 
 parent_pub_id = cursor.fetchone()[0]
 pub_relationship_sql = """ INSERT INTO pub_relationship (type_id, subject_id, object_id) VALUES (%s, %s, %s) """
 for i in range(11, 16):
-    cursor.execute( pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1967', 'miniref_{}'.format(i)))
+    cursor.execute(pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1967', 'miniref_{}'.format(i)))
     pub_id = cursor.fetchone()[0]
-    cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
+    cursor.execute(pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_pub_id))
 
-cursor.execute( pub_sql, ('Paper_29', cvterm_id['paper'], 'FBrf0000029', '1980', 'miniref_{}'.format(17)))
+cursor.execute(pub_sql, ('Paper_29', cvterm_id['paper'], 'FBrf0000029', '1980', 'miniref_{}'.format(17)))
 parent_pub_id = cursor.fetchone()[0]
 
 # create general multipubs for testing
 for i in range(4, 14):
     cursor.execute(pub_sql, ('Journal_{}'.format(i+1), cvterm_id['journal'], 'multipub:temp_{}'.format(i), '2018', 'miniref_{}'.format(i+1)))
 
-# Quick fix for now, ensure we have the correct perscommtext in the cvterm dict 
+# Quick fix for now, ensure we have the correct perscommtext in the cvterm dict
 cursor.execute("select cvterm_id from cvterm where name = 'perscommtext' and cv_id = {}".format(cv_id['pubprop type']))
 cvterm_id['perscommtext'] = cursor.fetchone()[0]
 
 pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 for i in range(30, 36):
-    cursor.execute( pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1980', 'miniref_{}'.format(i)))
+    cursor.execute(pub_sql, ('Paper_{}'.format(i), cvterm_id['paper'], 'FBrf00000{}'.format(i), '1980', 'miniref_{}'.format(i)))
     pub_id = cursor.fetchone()[0]
-    cursor.execute( pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
-    for j in range(1,5):
+    cursor.execute(pub_relationship_sql, (cvterm_id['also_in'], pub_id, parent_pub_id))
+    for j in range(1, 5):
         cursor.execute(pubprop_sql, (pub_id, j, cvterm_id["perscommtext"], "blah blah {}".format(j)))
         if i < 32:
-            k = (( 32 - i) *10) + j
+            k = ((32 - i) * 10) + j
             cursor.execute(dbxref_sql, (db_id['isbn'], "{}".format(k)*5))
             new_dbxref_id = cursor.fetchone()[0]
             cursor.execute(pub_dbxref_sql, (pub_id, new_dbxref_id))
 
 # parent with miniref with space inside
-cursor.execute( pub_sql, ('Paper_Space'.format(i), cvterm_id['paper'], 'FBrf0000020', '1967', 'miniref_{}'.format(20)))
+cursor.execute(pub_sql, ('Paper_Space'.format(i), cvterm_id['paper'], 'FBrf0000020', '1967', 'miniref_{}'.format(20)))
 pub_id = cursor.fetchone()[0]
-cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_space_pub_id))
+cursor.execute(pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_space_pub_id))
 
 #################
 # feature has a dbxref_id but also we ALSO have another table feature_dbxref?
@@ -300,23 +321,22 @@ cursor.execute( pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent
 
 conn.commit()
 count = cursor.rowcount
-#print(count, ' Records added')
 
 ###########
 # features
 ###########
 """
                                             Table "public.feature"
-      Column      |            Type             |                          Modifiers                           
+      Column      |            Type             |                          Modifiers
 ------------------+-----------------------------+--------------------------------------------------------------
  feature_id       | integer                     | not null default nextval('feature_feature_id_seq'::regclass)
- dbxref_id        | integer                     | 
+ dbxref_id        | integer                     |
  organism_id      | integer                     | not null
- name             | character varying(255)      | 
+ name             | character varying(255)      |
  uniquename       | text                        | not null
- residues         | text                        | 
- seqlen           | integer                     | 
- md5checksum      | character(32)               | 
+ residues         | text                        |
+ seqlen           | integer                     |
+ md5checksum      | character(32)               |
  type_id          | integer                     | not null
  is_analysis      | boolean                     | not null default false
  timeaccessioned  | timestamp without time zone | not null default ('now'::text)::timestamp(6) with time zone
@@ -354,7 +374,6 @@ feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationshi
 feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
 alleles = []
 for i in range(10):
- 
     feature_id['gene'] = gene_id = create_gene('Dmel', organism_id, i)
 
     # create mouse and human genes
@@ -362,7 +381,7 @@ for i in range(10):
     create_gene('Mmus', mouse_id, i)
     create_gene('Zzzz', artificial_id, i)
 
-    #add allele for each gene and add feature_relationship
+    # add allele for each gene and add feature_relationship
     cursor.execute(feat_sql, (None, organism_id, "al-symbol-{}".format(i+1),
                               'FBal:temp_{}'.format(i), None, 200, cvterm_id['gene']))
     feature_id["al-symbol-{}".format(i+1)] = allele_id = cursor.fetchone()[0]
@@ -372,25 +391,25 @@ for i in range(10):
     # add ClinVar dbxrefs to allele for testing changing description and removal
     for j in range(5):
         cursor.execute(fd_sql, (allele_id, dbxref_id['ClinVar{}'.format(j+1)]))
-        
+
 # Add Proteins
 for i in range(5):
     name = "FBpp{:07d}".format(i+1)
     print("Adding protein {}".format(i+1))
-    #create the protein feature
+    # create the protein feature
     cursor.execute(feat_sql, (None, organism_id, "pp-symbol-{}".format(i+1),
                               'FBpp:temp_0', None, None, cvterm_id['protein']))
     protein_id = cursor.fetchone()[0]
 
     # add synonyms
-    cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)) )
+    cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)))
     name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, ("pp-symbol-{}".format(i+1), cvterm_id['symbol'], "pp-symbol-{}".format(i+1)) )
+    cursor.execute(syn_sql, ("pp-symbol-{}".format(i+1), cvterm_id['symbol'], "pp-symbol-{}".format(i+1)))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
     cursor.execute(fs_sql, (name_id, protein_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, protein_id, pub_id)) 
+    cursor.execute(fs_sql, (symbol_id, protein_id, pub_id))
 
     # add feature_relationship to allele and prop for it
     cursor.execute(feat_rel_sql, (alleles[i], protein_id, cvterm_id['representative_isoform']))
@@ -407,28 +426,27 @@ add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gen
 for i in range(5):
     name = "FBtr{:07d}".format(i+1)
     print("Adding mRNA {}".format(i+1))
-    #create the gene feature
+    # create the gene feature
     cursor.execute(feat_sql, (None, organism_id, "symbol-{}RA".format(i+1),
                               'FBtr:temp_0', None, None, cvterm_id['mRNA']))
     mrna_id = cursor.fetchone()[0]
 
     # add synonyms
-    cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}RA".format(i+1)) )
+    cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}RA".format(i+1)))
     name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}RA".format(i+1)) )
+    cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}RA".format(i+1)))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
     cursor.execute(fs_sql, (name_id, mrna_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id)) 
+    cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id))
 
- 
 # Tools
 for i in range(5):
     name = "FBto{:07d}".format(i+1)
     print("Adding tool {}".format(i+1))
     tool_sym = "Tool-sym-{}".format(i)
-    #create the tool feature
+    # create the tool feature
     cursor.execute(feat_sql, (None, organism_id, tool_sym,
                               'FBto:temp_0', None, None, cvterm_id['DNA_segment']))
     tool_id = cursor.fetchone()[0]
@@ -438,7 +456,7 @@ for i in range(5):
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
-    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id)) 
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
 # create transposon
 print("Adding transposon data.")
@@ -462,13 +480,13 @@ cursor.execute(grp_sql, ("TEST_GENE_GROUP", "FBgg:temp_0", cvterm_id['gene_group
 
 
 # strain
-#strain_id = {}
-#strain_sql  = """ INSERT INTO strain (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING strain_id """
-#cursor.execute(strain_sql, ("Strain 1", "FBsn0000001", organism_id))
-#strain_id["Strain 1"] = cursor.fetchone()[0]
+# strain_id = {}
+# strain_sql  = """ INSERT INTO strain (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING strain_id """
+# cursor.execute(strain_sql, ("Strain 1", "FBsn0000001", organism_id))
+# strain_id["Strain 1"] = cursor.fetchone()[0]
 
-#cursor.execute(strain_sql, ("Strain 2", "FBsn0000002", organism_id))
-#strain_id["Strain 2"] = cursor.fetchone()[0]
+# cursor.execute(strain_sql, ("Strain 2", "FBsn0000002", organism_id))
+# strain_id["Strain 2"] = cursor.fetchone()[0]
 
 conn.commit()
 conn.close()
