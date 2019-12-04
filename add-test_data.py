@@ -35,7 +35,7 @@ cvterm_sql = """ INSERT INTO cvterm (dbxref_id, cv_id, name) VALUES (%s, %s, %s)
 pub_sql = """ INSERT INTO pub (title, type_id, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
 pubprop_sql = """ INSERT INTO pubprop (pub_id, rank, type_id, value) VALUES (%s, %s, %s, %s) """
 author_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames) VALUES (%s, %s, %s, %s) """
-
+editor_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames, editor) VALUES (%s, %s, %s, %s, %s) """
 
 def yaml_parse_and_dispatch():
     # A dictionary to choose the correct function to load data based on
@@ -291,6 +291,10 @@ parent_pub_id = cursor.fetchone()[0]
 # create general multipubs for testing
 for i in range(4, 14):
     cursor.execute(pub_sql, ('Journal_{}'.format(i+1), cvterm_id['journal'], 'multipub:temp_{}'.format(i), '2018', 'miniref_{}'.format(i+1)))
+    pub_id = cursor.fetchone()[0]
+    cursor.execute(editor_sql, (pub_id, 1, 'Surname', 'one', True))
+    cursor.execute(editor_sql, (pub_id, 2, 'Surname', 'two', True))
+    cursor.execute(editor_sql, (pub_id, 3, 'Surname_{}'.format(i+1), 'Whatever', True))
 
 # Quick fix for now, ensure we have the correct perscommtext in the cvterm dict
 cursor.execute("select cvterm_id from cvterm where name = 'perscommtext' and cv_id = {}".format(cv_id['pubprop type']))
