@@ -127,7 +127,7 @@
 #    ------------------------------
 #    hh1 -> DOID cvterm 'my definition of 1'
 #    hh2 -> 1 and 2
-#    hh3 -> 2 and 3 etc 
+#    hh3 -> 2 and 3 etc
 #     SELECT dbx.accession, hh.uniquename, cvt2.name, cvt.name
 #      FROM dbxref dbx, humanhealth_cvtermprop hcp, humanhealth_cvterm hc, humanhealth hh, cvterm cvt, cvterm cvt2
 #      WHERE hc.humanhealth_id = hh.humanhealth_id AND
@@ -135,7 +135,7 @@
 #             hc.cvterm_id = cvt.cvterm_id AND dbx.dbxref_id = cvt.dbxref_id AND
 #             cvt2.cvterm_id = hcp.type_id;
 #
-#      accession | uniquename  |   name    |        name        
+#      accession | uniquename  |   name    |        name
 #     -----------+-------------+-----------+--------------------
 #      111111    | FBhh0000001 | doid_term | my definition of 1
 #      222222    | FBhh0000002 | doid_term | my definition of 2
@@ -158,11 +158,11 @@
 #    Humanheathprop's
 #    ----------------
 #
-#    SELECT h.uniquename, h.is_obsolete, c.name, hp.value 
-#      FROM humanhealthprop hp, cvterm c, humanhealth h 
+#    SELECT h.uniquename, h.is_obsolete, c.name, hp.value
+#      FROM humanhealthprop hp, cvterm c, humanhealth h
 #      WHERE hp.humanhealth_id = h.humanhealth_id and hp.type_id = c.cvterm_id;
 #
-#      uniquename  | is_obsolete |         name         |     value     
+#      uniquename  | is_obsolete |         name         |     value
 #     -------------+-------------+----------------------+---------------
 #      FBhh0000001 | f           | category             | parent-entity
 #      FBhh0000001 | f           | genetics_description | gen desc 1
@@ -183,11 +183,12 @@
 #
 ###################################################################################
 
+
 def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
     """
     Add doid dbxrefs and link to disease_ontology cvterms.
     Add humanhealth_cvterms, to enable testing of bangc, bangd
-    
+
     # get DOID db from db_id
     # create dbxrefs
     # create cvterms for these in cv disease_ontology
@@ -201,6 +202,7 @@ def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
     cursor.execute("SELECT cvterm.cvterm_id FROM cvterm WHERE cvterm.name = 'doid_term' ")
     doid_term_id = cursor.fetchone()[0]
     print("doid is {}".format(doid_term_id))
+    last_cvterm_id = 0
     for i in range(9):
         # DOID chars 111111, 222222 -> 999999
         acc = "{}".format(i+1)*6
@@ -226,7 +228,8 @@ def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
         else:
             last_cvterm_id = cvterm_id
 
-def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gene_id, pub_id, human_id):
+
+def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gene_id, pub_id, human_id):  # noqa: C901
     hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id, is_obsolete) VALUES (%s, %s, %s, %s) RETURNING humanhealth_id """
     hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
     hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
@@ -248,7 +251,7 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
             is_obsolete = True
         else:
             is_obsolete = False
-        print("Adding human health {} is_obsolete is {}".format(i+1, is_obsolete))  
+        print("Adding human health {} is_obsolete is {}".format(i+1, is_obsolete))
         cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id, is_obsolete))
         feature_id["hh-symbol-{}".format(i+1)] = hh_id = cursor.fetchone()[0]
 
@@ -363,6 +366,7 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
     # Add doid dbxrefs and disease_onotlogy cvterms
     ###############################################
     add_doid_data(cursor, cv_id, db_id, feature_id, pub_id)
+
 
 def create_hh_dbxref(hh_id, dbxref_id, types, cursor, pub_id):
     """
