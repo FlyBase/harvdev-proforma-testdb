@@ -213,6 +213,9 @@ mouse_id = cursor.fetchone()[0]
 # add aritificial
 cursor.execute(sql, ('Zzzz', 'artificial', 'artificial', 'artificial/synthetic'))
 artificial_id = cursor.fetchone()[0]
+# add specific test one
+cursor.execute(sql, ('Test', 'test_genus', 'test_species', 'test organism'))
+artificial_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
 sql = """ insert into organism (species, genus) values (%s,%s) RETURNING organism_id"""
