@@ -214,7 +214,7 @@ mouse_id = cursor.fetchone()[0]
 cursor.execute(sql, ('Zzzz', 'artificial', 'artificial', 'artificial/synthetic'))
 artificial_id = cursor.fetchone()[0]
 # add specific test one
-cursor.execute(sql, ('Test', 'test_genus', 'test_species', 'test organism'))
+cursor.execute(sql, ('Test', 'test_genus', 'test_species', 'Test organism'))
 artificial_id = cursor.fetchone()[0]
 
 # see if we add the following organisms we help things later on?
