@@ -26,7 +26,7 @@ property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'descriptio
                 'primary_disease-implication_change', 'additional_disease-implication_change', 'HDM_comment',
                 'allele_report_comment', 'cellular_description', 'molecular_description', 'process_description',
                 'dros_model_overview', 'hdm_internal_notes', 'hgnc_link', 'hh2c_link', 'OMIM_pheno_table',
-                'hh_ortho_rel_comment', 'taxgroup', 'diopt_ortholog']
+                'hh_ortho_rel_comment', 'taxgroup', 'diopt_ortholog', 'official_db']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
 feature_pubprop type: ['abstract_languages']

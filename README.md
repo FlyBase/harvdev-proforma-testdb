@@ -31,6 +31,11 @@ SELECT f.name, f.uniquename, cvt.name
  2L          | 2L          | golden_path_region
  P-element   | FBte0000001 | natural_transposable_element
 ```
+## Using this testdb locally for testing.
+You may want to update the testdb and test that before commiting. If you create a test db image
+docker build . -t testdb
+Then when you run the test add the --local_testdb flag.
+
 
 ## Use FlyBase dockerhub image
 ```
