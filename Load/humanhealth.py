@@ -229,7 +229,7 @@ def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
             last_cvterm_id = cvterm_id
 
 
-def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, gene_id, pub_id, human_id):  # noqa: C901
+def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, human_id):  # noqa: C901
     hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id, is_obsolete) VALUES (%s, %s, %s, %s) RETURNING humanhealth_id """
     hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
     hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
@@ -353,9 +353,9 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
                           cvterm_id['hgnc_link'],
                           cvterm_id['hh_ortho_rel_comment']]
         hh_dbxref_id = create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+1)], cvterms_to_add, cursor, pub_id)
-        cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
+        cursor.execute(f_hh_dbxref_sql, (feature_id['gene'], hh_dbxref_id, pub_id))
         hh_dbxref_id = create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+6)], cvterms_to_add, cursor, pub_id)
-        cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
+        cursor.execute(f_hh_dbxref_sql, (feature_id['gene'], hh_dbxref_id, pub_id))
 
         # Add 2 BDSC_HD
         cvterms_to_add = [cvterm_id['data_link_bdsc']]
