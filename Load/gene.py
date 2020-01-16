@@ -8,16 +8,18 @@ feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, re
                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
 
 
-def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id, pub_id):
+def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id, pub_id, add_alpha=False):
     syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
     fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
     loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, strand) VALUES (%s, %s, %s, %s, %s) """
-    if organism_name == 'Dmel':
-        sym_name = "symbol-{}".format(gene_count+1)
-        fb_code = 'gn'
+    fb_code = 'gn'
+    if add_alpha:
+        sgml_name = "genechar-α-<up>0002</up>"
+        sym_name = "genechar-alpha-[0002]"
+    elif organism_name == 'Dmel':
+        sgml_name = sym_name = "symbol-{}".format(gene_count+1)
     else:
-        sym_name = '{}\\symbol-{}'.format(organism_name, gene_count+1)
-        fb_code = 'gn'  # Not og else get_feat_ukeys_by_name will not find them.
+        sgml_name = sym_name = '{}\\symbol-{}'.format(organism_name, gene_count+1)
 
     print("Adding gene {} for species {} - syn {}".format(gene_count+1, organism_name, sym_name))
 
@@ -30,7 +32,7 @@ def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id
     if organism_name == 'Dmel':
         cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)))
         name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sym_name))
+    cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sgml_name))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
@@ -47,6 +49,8 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id)
     fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) """
     feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
     alleles = []
+
+    feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id['Dmel'], 40, cvterm_id, feature_id, pub_id, add_alpha=True)
     for i in range(10):
         feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id['Dmel'], i, cvterm_id, feature_id, pub_id)
 
@@ -65,4 +69,5 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id)
         # add ClinVar dbxrefs to allele for testing changing description and removal
         for j in range(5):
             cursor.execute(fd_sql, (allele_id, dbxref_id['ClinVar{}'.format(j+1)]))
+
     return gene_id
