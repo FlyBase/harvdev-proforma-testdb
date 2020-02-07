@@ -56,6 +56,9 @@ RUN echo "log_statement = 'all'" >> /etc/postgresql/10/main/postgresql.conf
 # https://pythonspeed.com/articles/faster-db-tests/
 RUN echo "fsync = off" >> /etc/postgresql/10/main/postgresql.conf
 
+# Do not add '\' in front of '\' to make '\\'
+RUN echo "standard_conforming_strings = off" >> /etc/postgresql/10/main/postgresql.conf
+
 # https://serverfault.com/questions/323356/postgres-connection-establishment-slow
 RUN echo "log_hostname = off" >> /etc/postgresql/10/main/postgresql.conf
 
