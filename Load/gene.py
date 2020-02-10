@@ -7,25 +7,49 @@
 feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
 
+gene_sub_count = 0
+
 
 def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id, pub_id, add_alpha=False):
+    ####################################
+    # Create the genes.
+    # To be able to test uniquename lookups wrt symbols we generate the unique names by hane now.
+    #
+    # So the Dmel gene will look like
+    # FBgn0000100 -> symbol-1
+    # FBgn0000200 -> symbol-2
+    #
+    # Other species the name is incremented so:-
+    #
+    # Hsap\symbol-1 -> FBgn0000101, Hsap\symbol-2 -> FBgn0000201
+    # Mmus\symbol-1 -> FBgn0000102
+    # Zzzz\symbol-1 -> FBgn0000103
+    ###################################
+    global gene_sub_count
+
     syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
     fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
     loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, strand) VALUES (%s, %s, %s, %s, %s) """
     fb_code = 'gn'
+
+    unique_name = None
     if add_alpha:
         sgml_name = "genechar-α-<up>0002</up>"
         sym_name = "genechar-alpha-[0002]"
+        unique_name = 'FB{}:temp_{}'.format(fb_code, gene_count+1)
     elif organism_name == 'Dmel':
+        gene_sub_count = 0
         sgml_name = sym_name = "symbol-{}".format(gene_count+1)
+        unique_name = 'FB{}{:07d}'.format(fb_code, ((gene_count+1)*100 + gene_sub_count))
     else:
+        gene_sub_count += 1
         sgml_name = sym_name = '{}\\symbol-{}'.format(organism_name, gene_count+1)
+        unique_name = 'FB{}{:07d}'.format(fb_code, ((gene_count+1)*100 + gene_sub_count))
 
     print("Adding gene {} for species {} - syn {}".format(gene_count+1, organism_name, sym_name))
 
     # create the gene feature
-    cursor.execute(feat_sql, (None, org_id, sym_name,
-                              'FB{}:temp_{}'.format(fb_code, gene_count+1), "ACTG"*5, 20, cvterm_id['gene']))
+    cursor.execute(feat_sql, (None, org_id, sym_name, unique_name, "ACTG"*5, 20, cvterm_id['gene']))
     feature_id[sym_name] = gene_id = cursor.fetchone()[0]
 
     # add synonyms
