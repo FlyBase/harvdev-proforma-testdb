@@ -86,7 +86,9 @@ def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id
     cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
 
     # now add the feature loc
-    cursor.execute(loc_sql, (gene_id, feature_id['2L'], gene_count*100, (gene_count+1)*100, 1))
+    # make them overlap in sets of 10.
+    start = int(gene_count/10)+1
+    cursor.execute(loc_sql, (gene_id, feature_id['2L'], start*100, (start+1)*100, 1))
 
     # add a dbxref to test merges/renames etc
     if organism_name == 'Dmel':
