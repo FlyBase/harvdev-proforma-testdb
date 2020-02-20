@@ -260,7 +260,7 @@ cursor.execute(feat_sql, (None, organism_id['Dmel'], 'unspecified', 'unspecified
 pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
 
 # add genes
-gene_id = add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id)
+add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 # add extra db's
 add_db_data(cursor, db_id)
