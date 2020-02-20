@@ -89,7 +89,7 @@ def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id
     # now add the feature loc
     # make them overlap in sets of 10.
     start = int(gene_count/10)+1
-    if start != 1:  # genes 10 -> 19 do  not have loc, as to be megred etc
+    if start != 2:  # genes 10 -> 19 do  not have loc, as to be megred etc
         cursor.execute(loc_sql, (gene_id, feature_id['2L'], start*100, (start+1)*100, 1))
 
     # add a dbxref to test merges/renames etc
