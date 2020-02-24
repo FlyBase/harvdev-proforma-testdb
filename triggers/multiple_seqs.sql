@@ -15,7 +15,7 @@ END;
 $bob$
 LANGUAGE plpgsql;
 
-SELECT make_fb_seqs(ARRAY['al', 'ti', 'tp', 'te', 'mc', 'ms', 'ba', 'ab', 'gn', 'tr', 'pp', 'og', 'sf',
+SELECT make_fb_seqs(ARRAY['al', 'ti', 'tp', 'te', 'mc', 'ms', 'ba', 'ab', 'gn', 'tr', 'pp', 'og',
                           'cl', 'gg', 'hh', 'ig', 'lc', 'rf', 'sf', 'sn', 'st', 'tc', 'to']);
 
 CREATE OR REPLACE FUNCTION public.feature_assignname_fn_i()
@@ -55,7 +55,7 @@ BEGIN
       SELECT INTO f_row_g * from feature where uniquename=NEW.uniquename and organism_id=NEW.organism_id;      
       IF (letter_t = 'sf' or letter_t = 'og') THEN
         maxid = nextval(seq_name);
-        IF maxid = 2 THEN
+        IF maxid = 1 THEN
           SELECT INTO maxid max(to_number(substring(accession from 5 for 10), '9999999999'))+1 
             FROM dbxref dx, db d
             WHERE dx.db_id=d.db_id AND
@@ -72,7 +72,7 @@ BEGIN
       ELSE
         maxid = nextval(seq_name);
         RAISE NOTICE 'MAX from seq is %', maxid;
-        IF maxid = 2 THEN
+        IF maxid = 1 THEN
           SELECT INTO maxid max(to_number(substring(accession from 5 for 7), '9999999'))+1 
             FROM dbxref dx, db d  
             WHERE dx.db_id=d.db_id AND
@@ -113,7 +113,7 @@ BEGIN
     letter_t := substring(NEW.uniquename from 3 for 2);
     --IF (letter_t = 'gn') THEN
       RAISE NOTICE 'NOT temp?? %', NEW.uniquename;
-      SELECT INTO maxid setval(letter_t || '_seq', 1);
+      SELECT INTO maxid setval(letter_t || '_seq', 0);
     --END IF;
   END IF;
   RAISE NOTICE 'leave f_i .......';
