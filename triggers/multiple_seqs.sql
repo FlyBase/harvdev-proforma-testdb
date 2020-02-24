@@ -16,7 +16,7 @@ $bob$
 LANGUAGE plpgsql;
 
 SELECT make_fb_seqs(ARRAY['al', 'ti', 'tp', 'te', 'mc', 'ms', 'ba', 'ab', 'gn', 'tr', 'pp', 'og',
-                          'cl', 'gg', 'hh', 'ig', 'lc', 'rf', 'sf', 'sn', 'st', 'tc', 'to']);
+                          'cl', 'gg', 'hh', 'ig', 'lc', 'rf', 'sf', 'sn', 'st', 'tc', 'to', 'ch']);
 
 CREATE OR REPLACE FUNCTION public.feature_assignname_fn_i()
  RETURNS trigger
