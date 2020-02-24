@@ -39,6 +39,7 @@ RUN    /etc/init.d/postgresql start &&\
     createdb -O tester fb_test &&\
     psql -d fb_test < schema.sql > /dev/null &&\
     python3 add-test_data.py &&\
+    psql -d fb_test < triggers/multiple_seqs.sql &&\
     /etc/init.d/postgresql stop
 
 # Adjust PostgreSQL configuration so that remote connections to the
