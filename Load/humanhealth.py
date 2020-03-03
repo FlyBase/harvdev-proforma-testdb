@@ -229,8 +229,23 @@ def add_doid_data(cursor, cv_id, db_id, feature_id, pub_id):
             last_cvterm_id = cvterm_id
 
 
+def create_hh(cursor, feature_id, db_id, human_id, hh_count, is_obsolete=False):
+    """Create hh creating a specific uniquename based on the hh_count."""
+    dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
+    hh_sql = """ INSERT INTO humanhealth (name, uniquename, dbxref_id, organism_id, is_obsolete) VALUES (%s, %s, %s, %s, %s) RETURNING humanhealth_id """
+
+    uniquename = "FBhh{:07d}".format(hh_count)
+
+    # create db_xref
+    cursor.execute(dbxref_sql, (db_id['FlyBase'], uniquename))
+    dbxref_id = cursor.fetchone()[0]
+
+    cursor.execute(hh_sql, ("hh-name-{}".format(hh_count), uniquename, dbxref_id, human_id, is_obsolete))
+    feature_id["hh-symbol-{}".format(hh_count)] = hh_id = cursor.fetchone()[0]
+    return hh_id
+
+
 def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, human_id):  # noqa: C901
-    hh_sql = """ INSERT INTO humanhealth (name, uniquename, organism_id, is_obsolete) VALUES (%s, %s, %s, %s) RETURNING humanhealth_id """
     hh_fs_sql = """ INSERT INTO humanhealth_synonym (synonym_id, humanhealth_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
     hh_f_sql = """ INSERT INTO humanhealth_feature (humanhealth_id, feature_id, pub_id) VALUES (%s, %s, %s) RETURNING humanhealth_feature_id """
     hh_fp_sql = """ INSERT INTO humanhealth_featureprop (humanhealth_feature_id, type_id, value) VALUES (%s, %s, %s) """
@@ -252,8 +267,16 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
         else:
             is_obsolete = False
         print("Adding human health {} is_obsolete is {}".format(i+1, is_obsolete))
-        cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id, is_obsolete))
-        feature_id["hh-symbol-{}".format(i+1)] = hh_id = cursor.fetchone()[0]
+
+        #
+        # Need to NOT use temp as gene also creates HH and we have no way off knowing
+        # what the FBhh uniques names will be.
+        # Some tests have this in AND HH1f and HH1b are used as a check so we need to know
+        # what tehse are!!!!
+        #
+        hh_id = create_hh(cursor, feature_id, db_id, human_id, i+1, is_obsolete)
+        # cursor.execute(hh_sql, ("hh-name-{}".format(i+1), 'FBhh:temp_0', human_id, is_obsolete))
+        # feature_id["hh-symbol-{}".format(i+1)] = hh_id = cursor.fetchone()[0]
 
         # set the type
         hh_type = cvterm_id['category']

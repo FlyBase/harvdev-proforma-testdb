@@ -32,6 +32,7 @@ To help know which genes to use for tests try to keep this list up to date.
 Genes used in tests that cannot be used again (due to renames or deletions):-
     FBgn0000100 - symbol-1 -> 0003_Gene
 """
+from .humanhealth import create_hh, create_hh_dbxref
 
 feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
@@ -40,7 +41,7 @@ fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) 
 gene_sub_count = 0
 
 
-def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id, pub_id, db_id, add_alpha=False):
+def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_id, pub_id, db_id, add_alpha=False):
     """Create a gene."""
     global gene_sub_count
 
@@ -48,8 +49,13 @@ def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id
     dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
     fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
     loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, strand) VALUES (%s, %s, %s, %s, %s) """
+    fp_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s) """
+    fprop_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) """
+    f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
     fb_code = 'gn'
 
+    org_id = org_dict[organism_name]
     unique_name = None
     if add_alpha:
         sgml_name = "genechar-α-<up>0002</up>"
@@ -86,14 +92,31 @@ def create_gene(cursor, organism_name, org_id, gene_count, cvterm_id, feature_id
         cursor.execute(fs_sql, (name_id, gene_id, pub_id))
     cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
 
+    # add feature pub
+    cursor.execute(fp_sql, (gene_id, pub_id))
+
     # now add the feature loc
     # make them overlap in sets of 10.
     start = int(gene_count/10)+1
     if start != 2:  # genes 10 -> 19 do  not have loc, as to be megred etc
         cursor.execute(loc_sql, (gene_id, feature_id['2L'], start*100, (start+1)*100, 1))
+    elif organism_name == 'Dmel':  # add extra info for merging genes to check.
+        # add featureprop
+        cursor.execute(fprop_sql, (gene_id, cvterm_id['symbol'], "featprop-{}".format(gene_count+1), 0))
 
-    # add a dbxref to test merges/renames etc
-    if organism_name == 'Dmel':
+        # add feature_cvterm
+        cursor.execute(fc_sql, (gene_id, cvterm_id['protein_coding_gene'], pub_id))
+
+        # add feature_humanheath_dbxref
+        # get hh, dbxref
+        hh_id = create_hh(cursor, feature_id, db_id, org_dict['Hsap'], (gene_count+1)*100 + gene_sub_count, is_obsolete=False)
+        cursor.execute(dbxref_sql, (db_id['HGNC'], "HGNC-{}".format((gene_count+1)*100 + gene_sub_count)))
+        dbxref_id = cursor.fetchone()[0]
+        print("HHID is {}".format(hh_id))
+        hh_dbxref_id = create_hh_dbxref(hh_id, dbxref_id, [cvterm_id['hgnc_link']], cursor, pub_id)
+        cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
+
+        # add a dbxref to test merges/renames etc
         cursor.execute(dbxref_sql, (db_id['testdb2'], 'testdb2-{}'.format(gene_count+1)))
         dbxref_id = cursor.fetchone()[0]
         cursor.execute(fd_sql, (gene_id, dbxref_id))
@@ -107,12 +130,12 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
     alleles = []
 
     for i in range(50):
-        feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id['Dmel'], i, cvterm_id, feature_id, pub_id, db_id)
+        feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id, i, cvterm_id, feature_id, pub_id, db_id)
 
         # create mouse and human genes
-        create_gene(cursor, 'Hsap', organism_id['Hsap'], i, cvterm_id, feature_id, pub_id, db_id)
-        create_gene(cursor, 'Mmus', organism_id['Mmus'], i, cvterm_id, feature_id, pub_id, db_id)
-        create_gene(cursor, 'Zzzz', organism_id['Zzzz'], i, cvterm_id, feature_id, pub_id, db_id)
+        create_gene(cursor, 'Hsap', organism_id, i, cvterm_id, feature_id, pub_id, db_id)
+        create_gene(cursor, 'Mmus', organism_id, i, cvterm_id, feature_id, pub_id, db_id)
+        create_gene(cursor, 'Zzzz', organism_id, i, cvterm_id, feature_id, pub_id, db_id)
 
         # add allele for each gene and add feature_relationship
         cursor.execute(feat_sql, (None, organism_id['Dmel'], "al-symbol-{}".format(i+1),
@@ -126,5 +149,5 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
             cursor.execute(fd_sql, (allele_id, dbxref_id['ClinVar{}'.format(j+1)]))
 
     # add gene with &agr; to check special lookups. 0007_Gene_lookup_check.txt
-    feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id['Dmel'], i+1, cvterm_id, feature_id, pub_id, db_id, add_alpha=True)
+    feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id, i+1, cvterm_id, feature_id, pub_id, db_id, add_alpha=True)
     return
