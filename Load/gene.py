@@ -51,9 +51,13 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
     loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, strand) VALUES (%s, %s, %s, %s, %s) """
     fp_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s) """
     fprop_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
-    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) """
+    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    fc_dx_sql = """ INSERT INTO feature_cvterm_dbxref (feature_cvterm_id, dbxref_id) VALUES (%s, %s) """
     f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
     fb_code = 'gn'
+    grp_sql = """ INSERT INTO grp (name, uniquename, type_id) VALUES (%s, %s, %s) RETURNING grp_id """
+    gm_sql = """ INSERT INTO grpmember (type_id, grp_id) VALUES (%s, %s) RETURNING grpmember_id """
+    f_gm_sql = """ INSERT INTO feature_grpmember (feature_id, grpmember_id) VALUES (%s, %s) """
 
     org_id = org_dict[organism_name]
     unique_name = None
@@ -106,6 +110,20 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
 
         # add feature_cvterm
         cursor.execute(fc_sql, (gene_id, cvterm_id['protein_coding_gene'], pub_id))
+        fc_id = cursor.fetchone()[0]
+
+        # add feature_cvterm_dbxref
+        cursor.execute(dbxref_sql, (db_id['testdb'], 'testdb-{}'.format(gene_count+1)))
+        dbxref_id = cursor.fetchone()[0]
+        cursor.execute(fc_dx_sql, (fc_id, dbxref_id))
+
+        # feature_grpmember
+        cursor.execute(grp_sql, ('grp-{}'.format(gene_count + 1), 'FBgg:temp_{}'.format(gene_count + 1), cvterm_id['gene_group']))
+        grp_id = cursor.fetchone()[0]
+        cursor.execute(gm_sql, (cvterm_id['grpmember_feature'], grp_id))
+        gm_id = cursor.fetchone()[0]
+        print("grp {}, grpmem {}".format(grp_id, gm_id))
+        cursor.execute(f_gm_sql, (gene_id, gm_id))
 
         # add feature_humanheath_dbxref
         # get hh, dbxref
@@ -120,6 +138,8 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
         cursor.execute(dbxref_sql, (db_id['testdb2'], 'testdb2-{}'.format(gene_count+1)))
         dbxref_id = cursor.fetchone()[0]
         cursor.execute(fd_sql, (gene_id, dbxref_id))
+
+        # feature interaction not needed, only one in chado for gene features
 
     return gene_id
 
