@@ -113,7 +113,9 @@ BEGIN
     letter_t := substring(NEW.uniquename from 3 for 2);
     --IF (letter_t = 'gn') THEN
       RAISE NOTICE 'NOT temp?? %', NEW.uniquename;
-      SELECT INTO maxid setval(letter_t || '_seq', 0);
+      IF ( NEW.uniquename like 'FB%') THEN
+          SELECT INTO maxid setval(letter_t || '_seq', 0);
+      END IF;
     --END IF;
   END IF;
   RAISE NOTICE 'leave f_i .......';

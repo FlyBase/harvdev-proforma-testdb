@@ -4,7 +4,7 @@ FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'sing
                            'faint', 'qualifier', 'assay', 'chemical entity',
                            'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
                            'in vitro construct - amino acid replacement',
-                           'evidence_code']
+                           'evidence_code', 'div']
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non-protein-coding_gene',
        'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
        'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
