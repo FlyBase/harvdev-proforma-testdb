@@ -7,6 +7,7 @@ from Load.pubs import add_pub_data
 from Load.db import add_db_data
 from Load.gene import add_gene_data
 from Load.organism import add_organism_data
+from Load.div import add_div_data
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -300,6 +301,9 @@ for i in range(5):
 
 # Humanhealth
 add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, organism_id['Hsap'])
+
+# Disease Implicated Variants (DIV)
+add_div_data(cursor, organism_id, cvterm_id, feature_id, pub_id, db_dbxref)
 
 # mRNA
 for i in range(5):
