@@ -29,10 +29,11 @@ PYEAR = 3
 cv_id = {}
 db_id = {}
 cvterm_id = {}
-dbxref_id = {}    # dbxref[accession] = dbxref_id
-db_dbxref = {}    # db_dbxref[dbname][acession] = dbxref_id
-feature_id = {}   # feature_id[name] = feature_id
-organism_id = {}  # organism_id['Hsap'] = organism_id
+cv_cvterm_id = {}  # cv_cvterm_id[cvname][cvtermname] = cvterm_id
+dbxref_id = {}     # dbxref[accession] = dbxref_id
+db_dbxref = {}     # db_dbxref[dbname][acession] = dbxref_id
+feature_id = {}    # feature_id[name] = feature_id
+organism_id = {}   # organism_id['Hsap'] = organism_id
 
 # Global SQL queries.
 cv_sql = """  INSERT INTO cv (name) VALUES (%s) RETURNING cv_id"""
@@ -117,9 +118,11 @@ def load_cv_cvterm(parsed_yaml):
             dbxref_id[cvterm_name] = cursor.fetchone()[0]
             if cv_name not in db_dbxref:
                 db_dbxref[cv_name] = {}
+                cv_cvterm_id[cv_name] = {}
             db_dbxref[cv_name][cvterm_name] = dbxref_id[cvterm_name]
             cursor.execute(cvterm_sql, (dbxref_id[cvterm_name], cv_id[cv_name], cvterm_name))
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
+            cv_cvterm_id[cv_name][cvterm_name] = cvterm_id[cvterm_name]
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
 
 
@@ -303,7 +306,7 @@ for i in range(5):
 add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, organism_id['Hsap'])
 
 # Disease Implicated Variants (DIV)
-add_div_data(cursor, organism_id, cvterm_id, feature_id, pub_id, db_dbxref)
+add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 
 # mRNA
 for i in range(5):
