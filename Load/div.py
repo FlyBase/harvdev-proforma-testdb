@@ -5,13 +5,14 @@
 """
 
 
-def add_div_data(cursor, org_dict, cvterm_id, feature_id, pub_id, db_dbxref_id):
+def add_div_data(cursor, org_dict, cv_cvterm_id, feature_id, pub_id, db_dbxref_id):
     """Add data for Divs.
 
     Lets create 10 of these and link then to 10 hh's.
-    Name might as well be Div:p.ArgxGly
+    Name might as well be Div:p.Arg{x}Gly
 
-    Add dbxref to HGNC
+    Add dbxref to HGNC, 2 so we can test bangc and bangd
+    Similarly for humanhealth_features and feature props.
     """
     div_sql = """ INSERT INTO feature (uniquename, name, type_id, organism_id)
                   VALUES (%s, %s, %s, %s) RETURNING feature_id """
@@ -19,14 +20,28 @@ def add_div_data(cursor, org_dict, cvterm_id, feature_id, pub_id, db_dbxref_id):
                VALUES (%s, %s ,%s) """
     f_dbx = """ INSERT INTO feature_dbxref (feature_id, dbxref_id)
                 VALUES (%s, %s) """
+    fp_sql = """ INSERT INTO featureprop (feature_id, type_id, rank, value)
+                 VALUES (%s, %s, %s, %s) """
     for i in range(1, 11):
         # Add new div feature
         name = "DIV:p.Arg{}Gly".format(i)
-        cursor.execute(div_sql, (name, name, cvterm_id['div'], org_dict['Dmel']))
+        cursor.execute(div_sql, (name, name, cv_cvterm_id['FlyBase miscellaneous CV']['div'], org_dict['Dmel']))
         div_id = cursor.fetchone()[0]
 
-        # add humanhealth feature for this
+        # add 2 humanhealth features for this
         cursor.execute(f_hh, (feature_id['hh-symbol-{}'.format(i)], div_id, pub_id))
+        cursor.execute(f_hh, (feature_id['hh-symbol-{}'.format(i+1)], div_id, pub_id))
 
-        # add feature dbxref
+        # add 2 feature dbxref's
         cursor.execute(f_dbx, (div_id, db_dbxref_id['HGNC']['{}'.format(i)]))
+        cursor.execute(f_dbx, (div_id, db_dbxref_id['HGNC']['{}'.format(i+1)]))
+
+        # add 2 featureprop comments
+        cursor.execute(fp_sql, (div_id,
+                                cv_cvterm_id['FlyBase miscellaneous CV']['comment'],
+                                0,
+                                'set comment {}'.format(i)))
+        cursor.execute(fp_sql, (div_id,
+                                cv_cvterm_id['FlyBase miscellaneous CV']['comment'],
+                                1,
+                                'set comment {}'.format(i+1)))
