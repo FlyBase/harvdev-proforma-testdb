@@ -28,7 +28,7 @@ property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'descriptio
                 'dros_model_overview', 'hdm_internal_notes', 'hgnc_link', 'hh2c_link', 'OMIM_pheno_table',
                 'hh_ortho_rel_comment', 'taxgroup', 'diopt_ortholog', 'official_db', 'is_variant', 'gene_summary_date',
                 'gene_summary_info', 'gene_summary_internal_notes', 'gene_summary_text', 'inchikey', 'merge_source',
-                'protein_coding_gene']
+                'protein_coding_gene', 'deliberate_omission']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
 feature_pubprop type: ['abstract_languages']
@@ -50,6 +50,5 @@ DOID: []
 disease_ontology: ['hh-1']
 humanhealth_cvtermprop type: ['doid_term']
 humanhealth_featureprop type: ['dmel_gene_implicated', 'human_disease_relevant', 'other_mammalian_gene',
-                               'human_gene_implicated', 'dmel_gene', 'syn_gene_implicated',
-                               'deliberate_omission']
+                               'human_gene_implicated', 'dmel_gene', 'syn_gene_implicated']
 humanhealth_pubprop type: []
