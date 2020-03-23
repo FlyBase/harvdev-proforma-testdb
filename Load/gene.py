@@ -148,6 +148,8 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
 def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
     """Add all the genes needed for testing."""
     feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+    syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
+    fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
     alleles = []
 
     for i in range(50):
@@ -159,10 +161,19 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
         create_gene(cursor, 'Zzzz', organism_id, i, cvterm_id, feature_id, pub_id, db_id)
 
         # add allele for each gene and add feature_relationship
-        cursor.execute(feat_sql, (None, organism_id['Dmel'], "al-symbol-{}".format(i+1),
+        al_sym_name = "al-symbol-{}".format(i+1)
+        cursor.execute(feat_sql, (None, organism_id['Dmel'], al_sym_name,
                        'FBal:temp_{}'.format(i), None, 200, cvterm_id['gene']))
-        feature_id["al-symbol-{}".format(i+1)] = allele_id = cursor.fetchone()[0]
+        feature_id[al_sym_name] = allele_id = cursor.fetchone()[0]
         alleles.append(allele_id)
+
+        # add synonym for allele
+        cursor.execute(syn_sql, (al_sym_name, cvterm_id['symbol'], al_sym_name))
+        symbol_id = cursor.fetchone()[0]
+        # add feature_synonym for allele
+        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
+
+        # add as feature relationship
         cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
         # add ClinVar dbxrefs to allele for testing changing description and removal
