@@ -22,6 +22,11 @@ def add_div_data(cursor, org_dict, cv_cvterm_id, feature_id, pub_id, db_dbxref_i
                 VALUES (%s, %s) """
     fp_sql = """ INSERT INTO featureprop (feature_id, type_id, rank, value)
                  VALUES (%s, %s, %s, %s) """
+    syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml)
+                  VALUES (%s, %s, %s) RETURNING synonym_id """
+    fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id)
+                 VALUES (%s, %s, %s) """
+
     for i in range(1, 11):
         # Add new div feature
         name = "DIV:p.Arg{}Gly".format(i)
@@ -45,3 +50,10 @@ def add_div_data(cursor, org_dict, cv_cvterm_id, feature_id, pub_id, db_dbxref_i
                                 cv_cvterm_id['FlyBase miscellaneous CV']['comment'],
                                 1,
                                 'set comment {}'.format(i+1)))
+
+        # synonym
+        cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+        symbol_id = cursor.fetchone()[0]
+
+        # add feature_synonym
+        cursor.execute(fs_sql, (symbol_id, div_id, pub_id))
