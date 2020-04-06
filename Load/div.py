@@ -30,7 +30,7 @@ def add_div_data(cursor, org_dict, cv_cvterm_id, feature_id, pub_id, db_dbxref_i
     for i in range(1, 11):
         # Add new div feature
         name = "DIV:p.Arg{}Gly".format(i)
-        cursor.execute(div_sql, (name, name, cv_cvterm_id['FlyBase miscellaneous CV']['div'], org_dict['Dmel']))
+        cursor.execute(div_sql, (name, name, cv_cvterm_id['FlyBase miscellaneous CV']['disease implicated variant'], org_dict['Dmel']))
         div_id = cursor.fetchone()[0]
 
         # add 2 humanhealth features for this
