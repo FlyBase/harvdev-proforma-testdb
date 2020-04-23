@@ -117,7 +117,7 @@ def load_cv_cvterm(parsed_yaml):
         for cvterm_name in cv_cvterm[cv_name]:
             if cv_name == 'SO':  # special, SO has different dbxref accession to cvterm name
                 count += 1
-                cursor.execute(dbxref_sql, (db_id[cv_name],  'SO{:07d}'.format(count)))
+                cursor.execute(dbxref_sql, (db_id[cv_name],  '{:07d}'.format(count)))
             else:
                 cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
             dbxref_id[cvterm_name] = cursor.fetchone()[0]
