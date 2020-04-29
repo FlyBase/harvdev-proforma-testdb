@@ -18,7 +18,7 @@ pubprop type: ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag
                'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes']
 relationship type: ['associated_with', 'belongs_to', 'attributed_as_expression_of', 'tagged_with',
                     'alleleof', 'has_reg_region', 'representative_isoform', 'derived_from', 'has_variant',
-                    'cyto_left_end', 'cyto_right_end', 'cyto_loc_comment',
+                    'cyto_left_end', 'cyto_right_end',
                     'maps_to_clone', 'nomaps_to_clone', 'identified_with', 'molecular_info', 'fnally_comps',
                     'fnally_noncomps', 'fnally_partcomps', 'gain_of_fn_species']
 pub relationship type: ['also_in', 'related_to', 'published_in']
@@ -38,7 +38,7 @@ property type: ['comment', 'reported_genomic_loc', 'origin_comment', 'descriptio
                 'is_expression_analysed_in_wildtype', 'is_expression_analysed_in_mutant', 
                 'is_genome_annotation_analysed', 'is_physical_interaction_analysed',
                 'is_cis-reg_analysed', 'is_gene_model_decorated','is_polymorphism_reported', 'has_GO_curation',
-                'gene_order', 'internal_notes']
+                'gene_order', 'internal_notes', 'cyto_loc_comment']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
 feature_pubprop type: ['abstract_languages']
