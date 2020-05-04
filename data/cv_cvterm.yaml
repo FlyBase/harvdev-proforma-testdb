@@ -23,7 +23,8 @@ relationship type: ['alleleof', 'associated_with', 'attributed_as_expression_of'
                     'identified_with', 'maps_to_clone', 'molecular_info', 'nomaps_to_clone',
                     'representative_isoform', 'tagged_with']
 pub relationship type: ['also_in', 'related_to', 'published_in']
-property type: ['HDM_comment', 'OMIM_pheno_table', 'additional_disease-implication_change',
+property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table',
+                'additional_disease-implication_change',
                 'allele_report_comment', 'balancer_status', 'category', 'cellular_description',
                 'comment', 'cyto_loc_comment', 'data_link', 'data_link_bdsc', 'deliberate_omission',
                 'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
@@ -43,7 +44,7 @@ property type: ['HDM_comment', 'OMIM_pheno_table', 'additional_disease-implicati
                 'molobject_type', 'official_db', 'origin_comment',
                 'other_disease-implication_change', 'phenotype_description',
                 'primary_disease-implication_change', 'process_description',
-                'propagate_transgenic_uses', 'protein_coding_gene', 'reported_genomic_loc',
+                'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen', 'reported_genomic_loc',
                 'significant_subject_in_review', 'stage', 'sub_datatype', 'taxgroup', 'wild_type_role']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
