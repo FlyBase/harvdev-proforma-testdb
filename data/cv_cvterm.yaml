@@ -6,10 +6,11 @@ FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'sing
                            'in vitro construct - amino acid replacement',
                            'evidence_code', 'disease implicated variant']
 # Order is important only add to end of SO list. Tests relie on this!!
-SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non_protein_coding_gene',
+SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path','ncRNA_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
-     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-     'natural_transposable_element', 'gene_group', 'protein']
+     'natural population', 'transgenic_transposon', 'transposable_element',
+     'natural_transposable_element', 'gene_group', 'polypeptide',
+     'allele', 'cloned_region', 'engineered_region']
 synonym type: ['fullname', 'symbol', 'unspecified']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
              'perscommtext', 'journal', 'paper', 'database', 'book']

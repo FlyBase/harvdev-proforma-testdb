@@ -287,7 +287,7 @@ for i in range(5):
     print("Adding protein {}".format(i+1))
     # create the protein feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], "pp-symbol-{}".format(i+1),
-                              'FBpp:temp_0', None, None, cvterm_id['protein']))
+                              'FBpp:temp_0', None, None, cvterm_id['polypeptide']))
     protein_id = cursor.fetchone()[0]
 
     # add synonyms
