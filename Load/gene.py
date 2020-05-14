@@ -163,7 +163,7 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
         # add allele for each gene and add feature_relationship
         al_sym_name = "al-symbol-{}".format(i+1)
         cursor.execute(feat_sql, (None, organism_id['Dmel'], al_sym_name,
-                       'FBal:temp_{}'.format(i), None, 200, cvterm_id['gene']))
+                       'FBal:temp_{}'.format(i), None, 200, cvterm_id['allele']))
         feature_id[al_sym_name] = allele_id = cursor.fetchone()[0]
         alleles.append(allele_id)
 

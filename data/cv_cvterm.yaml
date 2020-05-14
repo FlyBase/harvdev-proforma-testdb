@@ -4,13 +4,13 @@ FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'sing
                            'faint', 'qualifier', 'assay', 'chemical entity',
                            'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
                            'in vitro construct - amino acid replacement',
-                           'evidence_code', 'disease implicated variant']
+                           'evidence_code', 'disease implicated variant', 'spontaneous']
 # Order is important only add to end of SO list. Tests relie on this!!
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path','ncRNA_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
-     'natural population', 'transgenic_transposon', 'transposable_element',
+     'natural population', 'transposable_element',
      'natural_transposable_element', 'gene_group', 'polypeptide',
-     'allele', 'cloned_region', 'engineered_region']
+     'allele', 'cloned_region', 'engineered_region', 'transgenic_transposable_element' ]
 synonym type: ['fullname', 'symbol', 'unspecified']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
              'perscommtext', 'journal', 'paper', 'database', 'book']

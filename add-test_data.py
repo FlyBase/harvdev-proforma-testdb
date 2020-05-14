@@ -261,7 +261,7 @@ cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 
 feature_id['2L'] = cursor.fetchone()[0]
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
-cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['golden_path_region']))
+cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['golden_path']))
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], 'unspecified', 'unspecified', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
 
@@ -339,7 +339,7 @@ for i in range(5):
     tool_sym = "Tool-sym-{}".format(i)
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
-                              'FBto:temp_0', None, None, cvterm_id['DNA_segment']))
+                              'FBto:temp_0', None, None, cvterm_id['engineered_region']))
     tool_id = cursor.fetchone()[0]
 
     # add synonyms
