@@ -7,6 +7,7 @@ from Load.pubs import add_pub_data
 from Load.db import add_db_data
 from Load.gene import add_gene_data
 from Load.organism import add_organism_data
+from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
 
 conn = psycopg2.connect(database="fb_test")
@@ -378,6 +379,9 @@ cursor.execute(grp_sql, ("TEST_GENE_GROUP", "FBgg:temp_0", cvterm_id['gene_group
 
 # cursor.execute(strain_sql, ("Strain 2", "FBsn0000002", organism_id))
 # strain_id["Strain 2"] = cursor.fetchone()[0]
+
+# add single balancers
+add_sb_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 
 conn.commit()
 conn.close()
