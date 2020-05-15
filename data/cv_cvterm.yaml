@@ -3,25 +3,25 @@ FlyBase: ['FlyBase analysis']
 FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'single balancer',
                            'faint', 'qualifier', 'assay', 'chemical entity',
                            'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
-                           'in vitro construct - amino acid replacement',
-                           'evidence_code', 'disease implicated variant']
+                           'in vitro construct - amino acid replacement', 'CRISPR/Cas9',
+                           'evidence_code', 'disease implicated variant', 'spontaneous']
 # Order is important only add to end of SO list. Tests relie on this!!
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non_protein_coding_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
      'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-     'natural_transposable_element', 'gene_group', 'protein']
-synonym type: ['fullname', 'symbol', 'unspecified']
+     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint']
+synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
              'perscommtext', 'journal', 'paper', 'database', 'book']
 pubprop type: ['curated_by', 'languages', 'perscommtext', 'cam_flag', 'harv_flag', 'associated_text',
                'abstract_languages', 'not_Drospub', 'URL', 'pubmed_abstract', 'onto_flag', 'dis_flag',
                'diseasenotes', 'deposited_files', 'graphical_abstract', 'internalnotes']
 relationship type: ['alleleof', 'associated_with', 'attributed_as_expression_of',
-                    'belongs_to', 'cyto_left_end', 'cyto_right_end', 'derived_from',
+                    'belongs_to', 'break_of', 'carried_on', 'cyto_left_end', 'cyto_right_end', 'derived_from',
                     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
-                    'gain_of_fn_species', 'has_reg_region', 'has_variant',
+                    'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
                     'identified_with', 'maps_to_clone', 'molecular_info', 'nomaps_to_clone',
-                    'representative_isoform', 'tagged_with']
+                    'progenitor', 'representative_isoform', 'tagged_with']
 pub relationship type: ['also_in', 'related_to', 'published_in']
 property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table',
                 'additional_disease-implication_change',
@@ -39,7 +39,7 @@ property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_phen
                 'is_cis-reg_analysed', 'is_expression_analysed_in_mutant',
                 'is_expression_analysed_in_wildtype', 'is_gene_model_decorated',
                 'is_genome_annotation_analysed', 'is_physical_interaction_analysed',
-                'is_polymorphism_reported', 'is_variant', 'members_in_db',
+                'is_polymorphism_reported', 'is_variant', 'linked_to', 'members_in_db',
                 'merge_source', 'misc', 'molecular_description', 'molecular_info',
                 'molobject_type', 'official_db', 'origin_comment',
                 'other_disease-implication_change', 'phenotype_description',
@@ -59,6 +59,7 @@ cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment']
 cell_line_relationship: ['targeted_mutant_from']
 grp property type: ['gg_description']
 grpmember type: ['grpmember_feature']
+GenBank feature qualifier: ['linked_to']
 experimental assays: ['distribution deduced from reporter (Gal4 UAS)']
 expression slots: ['stage', 'anatomy', 'assay']
 feature_expression property type: ['curated_as', 'comment']
