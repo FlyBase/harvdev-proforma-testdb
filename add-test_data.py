@@ -367,20 +367,47 @@ cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id['Dmel'], 
 cursor.execute(syn_sql, ('CHEBI:16188', cvterm_id['symbol'], 'CHEBI:16188'))
 
 # Gene grp
+print("Adding gene grp data.")
 grp_sql = """ INSERT INTO grp (name, uniquename, type_id) VALUES(%s, %s, %s) """
 cursor.execute(grp_sql, ("TEST_GENE_GROUP", "FBgg:temp_0", cvterm_id['gene_group']))
 
 
 # strain
-# strain_id = {}
-# strain_sql  = """ INSERT INTO strain (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING strain_id """
-# cursor.execute(strain_sql, ("Strain 1", "FBsn0000001", organism_id))
-# strain_id["Strain 1"] = cursor.fetchone()[0]
+print("Adding strain data.")
+str_sql = """ INSERT INTO strain (uniquename, name, organism_id)
+              VALUES (%s, %s, %s) RETURNING strain_id """
+str_fs_sql = """ INSERT INTO strain_synonym (synonym_id, strain_id,  pub_id)
+                 VALUES (%s, %s, %s) """
+for i in range(1, 11):
+    name = "STRAIN-{}".format(i)
+    cursor.execute(str_sql, ("FBsn:temp_{}".format(i), name, organism_id['Dmel']))
+    str_id = cursor.fetchone()[0]
 
-# cursor.execute(strain_sql, ("Strain 2", "FBsn0000002", organism_id))
-# strain_id["Strain 2"] = cursor.fetchone()[0]
+    cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+    symbol_id = cursor.fetchone()[0]
+
+    # add strain_synonym
+    cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
+
+# library
+print("Adding library data.")
+str_sql = """ INSERT INTO library (uniquename, name, type_id, organism_id)
+              VALUES (%s, %s, %s, %s) RETURNING library_id """
+str_fs_sql = """ INSERT INTO library_synonym (synonym_id, library_id,  pub_id)
+                 VALUES (%s, %s, %s) """
+for i in range(1, 11):
+    name = "LIBRARY-{}".format(i)
+    cursor.execute(str_sql, ("FBlc:temp_{}".format(i), name, cv_cvterm_id['FlyBase miscellaneous CV']['reagent collection'], organism_id['Dmel']))
+    str_id = cursor.fetchone()[0]
+
+    cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+    symbol_id = cursor.fetchone()[0]
+
+    # add library_synonym
+    cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
 
 # add single balancers
+print("Adding single balancers data.")
 add_sb_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 
 conn.commit()
