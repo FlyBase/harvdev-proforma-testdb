@@ -350,6 +350,40 @@ for i in range(5):
     # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
+# transgenic_transposon
+for i in range(10):
+    # name = "FBtp{:07d}".format(i+1)
+    print("Adding transgenic_transposon {}".format(i+1))
+    tool_sym = "P{}TT{}{}".format('{', i+1, '}')
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBtp:temp_0', None, None, cvterm_id['transgenic_transposon']))
+    tool_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+# engineered_construct
+for i in range(10):
+    # name = "FBmc{:07d}".format(i+1)
+    print("Adding engineered_construct {}".format(i+1))
+    tool_sym = "pP{}EC{}{}".format('{', i+1, '}')
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBmc:temp_0', None, None, cvterm_id['engineered_construct']))
+    tool_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
 # create transposon
 print("Adding transposon data.")
 name = 'FBte0000001'
@@ -405,6 +439,7 @@ for i in range(1, 11):
 
     # add library_synonym
     cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
+
 
 # add single balancers
 print("Adding single balancers data.")

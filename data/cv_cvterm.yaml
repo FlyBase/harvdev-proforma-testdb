@@ -10,7 +10,7 @@ FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'sing
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non_protein_coding_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
      'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint']
+     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo']
 synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
              'perscommtext', 'journal', 'paper', 'database', 'book']
@@ -22,9 +22,9 @@ relationship type: ['alleleof', 'associated_with', 'attributed_as_expression_of'
                     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
                     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
                     'identified_with', 'maps_to_clone', 'molecular_info', 'nomaps_to_clone',
-                    'progenitor', 'representative_isoform', 'tagged_with']
+                    'primer_progenitor_of', 'progenitor', 'representative_isoform', 'tagged_with']
 pub relationship type: ['also_in', 'related_to', 'published_in']
-property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table',
+property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
                 'additional_disease-implication_change',
                 'allele_report_comment', 'balancer_status', 'breeding_comment', 'category', 'cellular_description',
                 'comment', 'cyto_loc_comment', 'data_link', 'data_link_bdsc', 'deliberate_omission',
