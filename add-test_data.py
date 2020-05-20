@@ -336,11 +336,28 @@ for i in range(5):
 # Tools
 for i in range(5):
     name = "FBto{:07d}".format(i+1)
-    print("Adding tool {}".format(i+1))
     tool_sym = "Tool-sym-{}".format(i)
+    print("Adding tool {}".format(tool_sym))
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
                               'FBto:temp_0', None, None, cvterm_id['DNA_segment']))
+    tool_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+# transposable_element_insertion_site
+for i in range(10):
+    # name = "FBti{:07d}".format(i+1)
+    tool_sym = "P{}TE{}{}".format('{', i+1, '}')
+    print("Adding transposable_element_insertion_site {}".format(tool_sym))
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBti:temp_0', None, None, cvterm_id['transposable_element_insertion_site']))
     tool_id = cursor.fetchone()[0]
 
     # add synonyms
@@ -370,8 +387,8 @@ for i in range(10):
 # engineered_construct
 for i in range(10):
     # name = "FBmc{:07d}".format(i+1)
-    print("Adding engineered_construct {}".format(i+1))
     tool_sym = "pP{}EC{}{}".format('{', i+1, '}')
+    print("Adding engineered_construct {}".format(tool_sym))
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
                               'FBmc:temp_0', None, None, cvterm_id['engineered_construct']))

@@ -10,6 +10,7 @@ FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'sing
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non_protein_coding_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
      'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
+     'transposable_element_insertion_site',
      'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo']
 synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
@@ -22,13 +23,13 @@ relationship type: ['alleleof', 'associated_with', 'attributed_as_expression_of'
                     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
                     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
                     'identified_with', 'maps_to_clone', 'molecular_info', 'nomaps_to_clone',
-                    'primer_progenitor_of', 'progenitor', 'representative_isoform', 'tagged_with']
+                    'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform', 'tagged_with']
 pub relationship type: ['also_in', 'related_to', 'published_in']
 property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
                 'additional_disease-implication_change',
                 'allele_report_comment', 'balancer_status', 'breeding_comment', 'category', 'cellular_description',
-                'comment', 'cyto_loc_comment', 'data_link', 'data_link_bdsc', 'deliberate_omission',
-                'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
+                'comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
+                'derived_cyto_location', description', 'diopt_ortholog', 'disease_associated', 'div_comment',
                 'dros_model_overview', 'etymology', 'extract_chr', 'gen_loc_comment', 'gen_loc_error',
                 'gen_pheno_comment', 'gene_class', 'gene_order', 'gene_phenotypes', 'gene_relationships',
                 'gene_summary_date', 'gene_summary_info', 'gene_summary_internal_notes',
@@ -79,3 +80,4 @@ strain_cvtermprop type: ['inbred', 'founded_as', 'qtl_assayed']
 library_strainprop type: ['member_of_reagent_collection', 'experimental_attribute']
 cell_line_libraryprop type: ['member_of_reagent_collection', 'experimental_attribute']
 library_featureprop type: ['entropy_score', 'RPKM', 'LFQ_geom_mean_intensity', 'edited_fraction', 'read_count', 'experimental_result', 'member_of_reagent_collection', 'RPMM']
+TI_subtype: ['natTE_sequenced_strain_1', 'natTE_isolate_named', 'natTE_partial_named', 'natTE_isolate', 'synTE_insertion', 'TI_insertion']
