@@ -401,6 +401,29 @@ for i in range(10):
     # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
+# aberation (chromosome_structure_variation)
+
+for i in range(1, 11):
+    # name = "FBmc{:07d}".format(i+1)
+    tool_sym = "aberation-{}".format(i)
+    print("Adding aberation {}".format(tool_sym))
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBab:temp_0', None, None, cvterm_id['chromosome_structure_variation']))
+    tool_id = cursor.fetchone()[0]
+    feature_id[tool_sym] = tool_id
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+    # feature_pub
+    feat_pub_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUEs (%s, %s)"""
+    cursor.execute(feat_pub_sql, (tool_id, pub_id))
+
 # create transposon
 print("Adding transposon data.")
 name = 'FBte0000001'
@@ -461,6 +484,17 @@ for i in range(1, 11):
 # add single balancers
 print("Adding single balancers data.")
 add_sb_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
+
+# create feature relationship between 'single balancers' and ' aberations
+fr_sql = """ INSERT INTO feature_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+frp_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES(%s, %s) """
+
+for i in range(1, 11):
+    sb_name = "SINGBAL{}".format(i)
+    ab_name = "aberation-{}".format(i)
+    cursor.execute(fr_sql, (feature_id[sb_name], feature_id[ab_name], cvterm_id['carried_on']))
+    fr_id = cursor.fetchone()[0]
+    cursor.execute(frp_sql, (fr_id, pub_id))
 
 conn.commit()
 conn.close()

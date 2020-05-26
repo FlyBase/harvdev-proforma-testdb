@@ -21,9 +21,10 @@ def add_sb_data(cursor, org_dict, cv_cvterm_id, feature_id, pub_id, db_dbxref_id
 
     for i in range(1, 11):
         # Add new div feature
-        name = "FM{}c".format(i)
+        name = "SINGBAL{}".format(i)
         cursor.execute(div_sql, ('FBba:temp_{}'.format(i), name, cv_cvterm_id['FlyBase miscellaneous CV']['single balancer'], org_dict['Dmel']))
         div_id = cursor.fetchone()[0]
+        feature_id[name] = div_id
 
         # synonym
         cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
