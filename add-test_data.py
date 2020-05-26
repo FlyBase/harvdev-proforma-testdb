@@ -7,6 +7,7 @@ from Load.pubs import add_pub_data
 from Load.db import add_db_data
 from Load.gene import add_gene_data
 from Load.organism import add_organism_data
+from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
 
 conn = psycopg2.connect(database="fb_test")
@@ -335,8 +336,8 @@ for i in range(5):
 # Tools
 for i in range(5):
     name = "FBto{:07d}".format(i+1)
-    print("Adding tool {}".format(i+1))
     tool_sym = "Tool-sym-{}".format(i)
+    print("Adding tool {}".format(tool_sym))
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
                               'FBto:temp_0', None, None, cvterm_id['engineered_region']))
@@ -348,6 +349,80 @@ for i in range(5):
 
     # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+# transposable_element_insertion_site
+for i in range(10):
+    # name = "FBti{:07d}".format(i+1)
+    tool_sym = "P{}TE{}{}".format('{', i+1, '}')
+    print("Adding transposable_element_insertion_site {}".format(tool_sym))
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBti:temp_0', None, None, cvterm_id['transposable_element_insertion_site']))
+    tool_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+# transgenic_transposon
+for i in range(10):
+    # name = "FBtp{:07d}".format(i+1)
+    print("Adding transgenic_transposon {}".format(i+1))
+    tool_sym = "P{}TT{}{}".format('{', i+1, '}')
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBtp:temp_0', None, None, cvterm_id['transgenic_transposon']))
+    tool_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+# engineered_construct
+for i in range(10):
+    # name = "FBmc{:07d}".format(i+1)
+    tool_sym = "pP{}EC{}{}".format('{', i+1, '}')
+    print("Adding engineered_construct {}".format(tool_sym))
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBmc:temp_0', None, None, cvterm_id['engineered_construct']))
+    tool_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+# aberation (chromosome_structure_variation)
+
+for i in range(1, 11):
+    # name = "FBmc{:07d}".format(i+1)
+    tool_sym = "aberation-{}".format(i)
+    print("Adding aberation {}".format(tool_sym))
+    # create the tool feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+                              'FBab:temp_0', None, None, cvterm_id['chromosome_structure_variation']))
+    tool_id = cursor.fetchone()[0]
+    feature_id[tool_sym] = tool_id
+
+    # add synonyms
+    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+
+    # feature_pub
+    feat_pub_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUEs (%s, %s)"""
+    cursor.execute(feat_pub_sql, (tool_id, pub_id))
 
 # create transposon
 print("Adding transposon data.")
@@ -366,18 +441,60 @@ cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id['Dmel'], 
 cursor.execute(syn_sql, ('CHEBI:16188', cvterm_id['symbol'], 'CHEBI:16188'))
 
 # Gene grp
+print("Adding gene grp data.")
 grp_sql = """ INSERT INTO grp (name, uniquename, type_id) VALUES(%s, %s, %s) """
 cursor.execute(grp_sql, ("TEST_GENE_GROUP", "FBgg:temp_0", cvterm_id['gene_group']))
 
 
 # strain
-# strain_id = {}
-# strain_sql  = """ INSERT INTO strain (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING strain_id """
-# cursor.execute(strain_sql, ("Strain 1", "FBsn0000001", organism_id))
-# strain_id["Strain 1"] = cursor.fetchone()[0]
+print("Adding strain data.")
+str_sql = """ INSERT INTO strain (uniquename, name, organism_id)
+              VALUES (%s, %s, %s) RETURNING strain_id """
+str_fs_sql = """ INSERT INTO strain_synonym (synonym_id, strain_id,  pub_id)
+                 VALUES (%s, %s, %s) """
+for i in range(1, 11):
+    name = "STRAIN-{}".format(i)
+    cursor.execute(str_sql, ("FBsn:temp_{}".format(i), name, organism_id['Dmel']))
+    str_id = cursor.fetchone()[0]
 
-# cursor.execute(strain_sql, ("Strain 2", "FBsn0000002", organism_id))
-# strain_id["Strain 2"] = cursor.fetchone()[0]
+    cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+    symbol_id = cursor.fetchone()[0]
+
+    # add strain_synonym
+    cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
+
+# library
+print("Adding library data.")
+str_sql = """ INSERT INTO library (uniquename, name, type_id, organism_id)
+              VALUES (%s, %s, %s, %s) RETURNING library_id """
+str_fs_sql = """ INSERT INTO library_synonym (synonym_id, library_id,  pub_id)
+                 VALUES (%s, %s, %s) """
+for i in range(1, 11):
+    name = "LIBRARY-{}".format(i)
+    cursor.execute(str_sql, ("FBlc:temp_{}".format(i), name, cv_cvterm_id['FlyBase miscellaneous CV']['reagent collection'], organism_id['Dmel']))
+    str_id = cursor.fetchone()[0]
+
+    cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+    symbol_id = cursor.fetchone()[0]
+
+    # add library_synonym
+    cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
+
+
+# add single balancers
+print("Adding single balancers data.")
+add_sb_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
+
+# create feature relationship between 'single balancers' and ' aberations
+fr_sql = """ INSERT INTO feature_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+frp_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES(%s, %s) """
+
+for i in range(1, 11):
+    sb_name = "SINGBAL{}".format(i)
+    ab_name = "aberation-{}".format(i)
+    cursor.execute(fr_sql, (feature_id[sb_name], feature_id[ab_name], cvterm_id['carried_on']))
+    fr_id = cursor.fetchone()[0]
+    cursor.execute(frp_sql, (fr_id, pub_id))
 
 conn.commit()
 conn.close()
