@@ -29,7 +29,7 @@ property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_phen
                 'additional_disease-implication_change',
                 'allele_report_comment', 'balancer_status', 'breeding_comment', 'category', 'cellular_description',
                 'comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
-                'derived_cyto_location', description', 'diopt_ortholog', 'disease_associated', 'div_comment',
+                'derived_cyto_location', 'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
                 'dros_model_overview', 'etymology', 'extract_chr', 'gen_loc_comment', 'gen_loc_error',
                 'gen_pheno_comment', 'gene_class', 'gene_order', 'gene_phenotypes', 'gene_relationships',
                 'gene_summary_date', 'gene_summary_info', 'gene_summary_internal_notes',
