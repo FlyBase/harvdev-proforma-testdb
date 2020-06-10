@@ -1,17 +1,27 @@
 # Each entries create a cv / cvterm entry, a db entry, and a dbxref.
+
+# order dependent cv/cvterms. i.e. accession are specific and numbered.
+#######################################################################
+# Order is important only add to end of SO list. Tests relie on this!!
+SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non_protein_coding_gene',
+     'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
+     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
+     'transposable_element_insertion_site', 'chromosome_band',
+     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo']
+molecular_function: ['mRNA binding']
+cellular_component: ['nucleolus', 'something']
+biological_process: ['rRNA processing']
+####### End of order matters cv/cvterms
+
+
 FlyBase: ['FlyBase analysis']
 FlyBase miscellaneous CV: ['unspecified', 'comment', 'natural population', 'single balancer',
                            'faint', 'qualifier', 'assay', 'chemical entity',
                            'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
                            'in vitro construct - amino acid replacement', 'CRISPR/Cas9',
                            'evidence_code', 'disease implicated variant', 'spontaneous',
-                           'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5', 'reagent collection']
-# Order is important only add to end of SO list. Tests relie on this!!
-SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region','non_protein_coding_gene',
-     'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
-     'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-     'transposable_element_insertion_site',
-     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo']
+                           'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5', 'reagent collection',
+                           'inferred from direct assay', 'inferred from mutant phenotype']
 synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 pub type: ['computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
              'perscommtext', 'journal', 'paper', 'database', 'book']
@@ -49,7 +59,7 @@ property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_phen
                 'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen', 'reported_genomic_loc',
                 'significant_subject_in_review', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
 FlyBase_internal: ['pubprop type:curated_by']
-feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv']
+feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv', 'date']
 feature_pubprop type: ['abstract_languages']
 feature_relationshipprop type: ['fly_disease-implication_change', 'comment']
 transgene_description: ['transposon']

@@ -53,8 +53,8 @@ def yaml_parse_and_dispatch():
     # update this dictionary and create an appropriate function.
 
     dispatch_dictionary = {
-        'cv_cvterm.yaml': load_cv_cvterm,
         'db_dbxref.yaml': load_db_dbxref,
+        'cv_cvterm.yaml': load_cv_cvterm,
         'pub_author_pubprop.yaml': load_pub_author_pubprop
     }
 
@@ -62,8 +62,8 @@ def yaml_parse_and_dispatch():
 
     # Need to load in a specific order due to CV term reliance.
     files_to_load = [
-        'cv_cvterm.yaml',
         'db_dbxref.yaml',
+        'cv_cvterm.yaml',
         'pub_author_pubprop.yaml'
     ]
 
@@ -104,7 +104,13 @@ def load_cv_cvterm(parsed_yaml):
     #################
 
     cv_cvterm = parsed_yaml
-
+    start_at = {'SO': 0, 
+                'molecular_function': 1000,
+                'cellular_component': 2000,
+                'biological_process': 3000}
+    diff_db = {'molecular_function': 'GO',
+               'cellular_component': 'GO',
+               'biological_process': 'GO'}
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
         db_id[cv_name] = cursor.fetchone()[0]
@@ -113,12 +119,18 @@ def load_cv_cvterm(parsed_yaml):
         cv_id[cv_name] = cursor.fetchone()[0]
 
         print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
-
-        count = 0
+        # for specific cvterm we want to unique numbers as dbxrefs.
+        if cv_name in start_at:
+            count = start_at[cv_name]
         for cvterm_name in cv_cvterm[cv_name]:
-            if cv_name == 'SO':  # special, SO has different dbxref accession to cvterm name
+            if cv_name in diff_db:
+                db_name = diff_db[cv_name]
+            else:
+                db_name = cv_name
+            if cv_name in start_at:
+                # special, have different dbxref accession to cvterm name
                 count += 1
-                cursor.execute(dbxref_sql, (db_id[cv_name],  '{:07d}'.format(count)))
+                cursor.execute(dbxref_sql, (db_id[db_name],  '{:07d}'.format(count)))
             else:
                 cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
             dbxref_id[cvterm_name] = cursor.fetchone()[0]
@@ -265,6 +277,17 @@ cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['golden_path_region']))
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], 'unspecified', 'unspecified', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
+
+# add bands
+for beg in [94, 95]:
+    for mid in 'ABCD':
+        band = "band-{}{}".format(beg, mid)
+        print("Adding band {}".format(band))
+        cursor.execute(feat_sql, (None, organism_id['Dmel'], band, band, None, 0, cvterm_id['chromosome_band']))
+        for end in range(1, 6):
+            band = "band-{}{}{}".format(beg, mid, end)
+            print("Adding band {}".format(band))
+            cursor.execute(feat_sql, (None, organism_id['Dmel'], band, band, None, 0, cvterm_id['chromosome_band']))
 
 # add pubs
 pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
