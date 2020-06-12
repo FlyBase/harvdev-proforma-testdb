@@ -104,7 +104,7 @@ def load_cv_cvterm(parsed_yaml):
     #################
 
     cv_cvterm = parsed_yaml
-    start_at = {'SO': 0, 
+    start_at = {'SO': 0,
                 'molecular_function': 1000,
                 'cellular_component': 2000,
                 'biological_process': 3000}
