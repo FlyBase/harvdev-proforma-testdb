@@ -15,7 +15,7 @@ biological_process: ['rRNA processing']
 
 
 FlyBase: ['FlyBase analysis']
-FlyBase miscellaneous CV: ['unspecified', 'comment', 'colocalizes_with', 'natural population', 'single balancer',
+FlyBase miscellaneous CV: ['unspecified', 'contributes_to', 'comment', 'colocalizes_with', 'natural population', 'single balancer',
                            'faint', 'qualifier', 'assay', 'chemical entity',
                            'in vitro construct - regulatory fusion', 'in vitro construct - coding region fusion',
                            'in vitro construct - amino acid replacement', 'CRISPR/Cas9',
