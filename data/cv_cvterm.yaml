@@ -33,7 +33,8 @@ relationship type: ['alleleof', 'associated_with', 'attributed_as_expression_of'
                     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
                     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
                     'identified_with', 'maps_to_clone', 'molecular_info', 'nomaps_to_clone',
-                    'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform', 'tagged_with']
+                    'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
+                    'recom_right_end', 'recom_left_end','tagged_with']
 pub relationship type: ['also_in', 'related_to', 'published_in']
 property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
                 'additional_disease-implication_change',
