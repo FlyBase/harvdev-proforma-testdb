@@ -7,7 +7,8 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path_region'
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
      'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
      'transposable_element_insertion_site', 'chromosome_band',
-     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo']
+     'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo',
+     'engineered_foreign_gene']
 molecular_function: ['mRNA binding']
 cellular_component: ['nucleolus', 'something']
 biological_process: ['rRNA processing']
@@ -41,7 +42,8 @@ property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_phen
                 'allele_report_comment', 'balancer_status', 'breeding_comment', 'category', 'cellular_description',
                 'comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
                 'derived_cyto_location', 'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
-                'dros_model_overview', 'etymology', 'extract_chr', 'gen_loc_comment', 'gen_loc_error',
+                'dros_model_overview', 'etymology', 'extract_chr', 'foreign_seq_data',
+                'gen_loc_comment', 'gen_loc_error',
                 'gen_pheno_comment', 'gene_class', 'gene_order', 'gene_phenotypes', 'gene_relationships',
                 'gene_summary_date', 'gene_summary_info', 'gene_summary_internal_notes',
                 'gene_summary_text', 'genetic_location', 'genetics_description',
