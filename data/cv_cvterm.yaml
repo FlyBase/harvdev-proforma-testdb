@@ -62,7 +62,8 @@ property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_phen
                 'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen', 'reported_genomic_loc',
                 'significant_subject_in_review', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
 FlyBase_internal: ['pubprop type:curated_by']
-feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property', 'webcv', 'date']
+feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property',
+                          'common_tool_uses', 'webcv', 'date']
 feature_pubprop type: ['abstract_languages']
 feature_relationshipprop type: ['fly_disease-implication_change', 'comment']
 transgene_description: ['transposon']
