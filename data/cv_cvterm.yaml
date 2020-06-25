@@ -59,7 +59,7 @@ property type: ['GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_phen
                 'molobject_type', 'official_db', 'origin_comment',
                 'other_disease-implication_change', 'phenotype_description',
                 'primary_disease-implication_change', 'process_description',
-                'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen', 'reported_genomic_loc',
+                'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen',
                 'significant_subject_in_review', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
 FlyBase_internal: ['pubprop type:curated_by']
 feature_cvtermprop type: ['wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property',
@@ -75,7 +75,7 @@ cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment']
 cell_line_relationship: ['targeted_mutant_from']
 grp property type: ['gg_description']
 grpmember type: ['grpmember_feature']
-GenBank feature qualifier: ['linked_to']
+GenBank feature qualifier: ['linked_to', 'reported_genomic_loc']
 experimental assays: ['distribution deduced from reporter (Gal4 UAS)']
 expression slots: ['stage', 'anatomy', 'assay']
 feature_expression property type: ['curated_as', 'comment']
