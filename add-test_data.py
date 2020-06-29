@@ -142,6 +142,34 @@ def load_cv_cvterm(parsed_yaml):
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
             cv_cvterm_id[cv_name][cvterm_name] = cvterm_id[cvterm_name]
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
+    add_cvterm_namespace(cv_cvterm_id)
+
+
+def add_cvterm_namespace(cv_cvterm_id):
+    """Add namespace cvterm props.
+
+    namespace name:  [[cvname ,cvtermname, typecvname, typecvtermname]...]
+    example :-
+    {experimental_tool_description: [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
+                                      'feature_cvtermprop type', 'webcv']]}
+    """
+    cvtermprop_sql = """  INSERT INTO cvtermprop (cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    namespaces = {'experimental_tool_descriptor': [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
+                                                    'feature_cvtermprop type', 'webcv'],
+                                                   ['FlyBase miscellaneous CV', 'protein detection tool',
+                                                    'feature_cvtermprop type', 'webcv'],
+                                                   ['FlyBase miscellaneous CV', 'RNA detection tool',
+                                                    'feature_cvtermprop type', 'webcv']]}
+
+    for value in namespaces.keys():
+        rank = 0
+        for item in namespaces[value]:
+            cvterm_id = cv_cvterm_id[item[0]][item[1]]
+            type_id = cv_cvterm_id[item[2]][item[3]]
+            # add cvtermprop
+            print("Adding cvterm prop '{}': '{}' - '{}'".format(value, item[1], item[3]))
+            cursor.execute(cvtermprop_sql, (cvterm_id, type_id, value, rank))
+            rank += 1
 
 
 def load_pub_author_pubprop(parsed_yaml):
