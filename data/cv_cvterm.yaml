@@ -125,4 +125,6 @@ TI_subtype: [
     'natTE_sequenced_strain_1', 'natTE_isolate_named', 'natTE_partial_named', 'natTE_isolate',
     'synTE_insertion', 'TI_insertion']
 transgene_description: ['transposon']
+
 transgene_uses: ['characterization']
+

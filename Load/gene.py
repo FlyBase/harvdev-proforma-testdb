@@ -118,6 +118,10 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
         fc_id = cursor.fetchone()[0]
         cursor.execute(fc_sql, (gene_id, cvterm_id['disease_associated'], pub_id))
 
+        # make gene part of gene_group for subset
+        if gene_count > 40 and gene_count < 50:
+            cursor.execute(fc_sql, (gene_id, cvterm_id['gene_group'], pub_id))
+
         # add feature_cvterm_dbxref
         cursor.execute(dbxref_sql, (db_id['testdb'], 'testdb-{}'.format(gene_count+1)))
         dbxref_id = cursor.fetchone()[0]
