@@ -104,7 +104,12 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
     start = int(gene_count/10)+1
     if start != 2:  # genes 10 -> 19 do  not have loc, as to be megred etc
         cursor.execute(loc_sql, (gene_id, feature_id['2L'], start*100, (start+1)*100, 1))
+        # add generic qualifier
+        if gene_count > 40:
+            cursor.execute(fc_sql, (gene_id, cvterm_id['gene_group'], pub_id))
+            print("Generic gene {}".format(sym_name))
     elif organism_name == 'Dmel':  # add extra info for merging genes to check.
+        print("Adding extra data for gene {}".format(sym_name))
         # add featureprop
         cursor.execute(fprop_sql, (gene_id, cvterm_id['symbol'], "featprop-{}".format(gene_count+1), 0))
 
