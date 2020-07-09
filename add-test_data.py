@@ -5,7 +5,7 @@ import yaml
 from Load.humanhealth import add_humanhealth_data
 from Load.pubs import add_pub_data
 from Load.db import add_db_data
-from Load.gene import add_gene_data
+from Load.gene import add_gene_data, add_gene_data_for_bang
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
@@ -316,7 +316,7 @@ for beg in [94, 95]:
             band = "band-{}{}{}".format(beg, mid, end)
             print("Adding band {}".format(band))
             cursor.execute(feat_sql, (None, organism_id['Dmel'], band, band, None, 0, cvterm_id['chromosome_band']))
-
+            feature_id[band] = cursor.fetchone()[0]
 # add pubs
 pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
 
@@ -409,7 +409,7 @@ for i in range(10):
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
                               'FBti:temp_0', None, None, cvterm_id['transposable_element_insertion_site']))
-    tool_id = cursor.fetchone()[0]
+    tool_id = feature_id[tool_sym] = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
@@ -546,6 +546,8 @@ for i in range(1, 11):
     cursor.execute(fr_sql, (feature_id[sb_name], feature_id[ab_name], cvterm_id['carried_on']))
     fr_id = cursor.fetchone()[0]
     cursor.execute(frp_sql, (fr_id, pub_id))
+
+add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 conn.commit()
 conn.close()
