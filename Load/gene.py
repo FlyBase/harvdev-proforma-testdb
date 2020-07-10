@@ -255,7 +255,7 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         fc_id = cursor.fetchone()[0]
         cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
 
-        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['reported_antibod_gen'], pub_id))
+        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['mRNA'], pub_id))
         fc_id = cursor.fetchone()[0]
         cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
 
