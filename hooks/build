@@ -1,2 +1,4 @@
 #!/bin/bash
-docker build --build-arg EXTRA_DB_COPIES=$EXTRA_DB_COPIES --build-arg SOURCE_BRANCH=$SOURCE_BRANCH  -f $DOCKERFILE_PATH -t $IMAGE_NAME:$DOCKER_TAG .
+docker build --build-arg EXTRA_DB_COPIES=$EXTRA_DB_COPIES \
+             --build-arg SOURCE_BRANCH=$SOURCE_BRANCH \
+             -f $DOCKERFILE_PATH -t $IMAGE_NAME:$DOCKER_TAG .
