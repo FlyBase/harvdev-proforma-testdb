@@ -11,8 +11,8 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 #RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
 # Set a default number of database copies to be created.
-ENV EXTRA_DB_COPIES 0
-ENV SOURCE_BRANCH master
+ARG EXTRA_DB_COPIES=0
+ARG SOURCE_BRANCH=master
 
 # Add PostgreSQL's repository. Idocker-boomt contains the most recent stable release
 #     of PostgreSQL, ``9.3``.
