@@ -70,7 +70,7 @@ synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
     'additional_disease-implication_change',
-    'allele_report_comment', 'balancer_status', 'breeding_comment', 'category', 'cellular_description',
+    'allele_report_comment', 'balancer_status', 'bodypart_expression_marker', 'breeding_comment', 'category', 'cellular_description',
     'comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'derived_cyto_location', 'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
     'dros_model_overview', 'etymology', 'extract_chr', 'foreign_seq_data',
