@@ -107,7 +107,7 @@ def load_cv_cvterm(parsed_yaml):
     START = 0
     NEW_DB = 1
     FORMAT = 2
-    specific_dbs = {'SO':                 (0, 'GO', '{:07d}'),
+    specific_dbs = {'SO':                 (0, 'SO', '{:07d}'),
                     'molecular_function': (1000, 'GO', '{:07d}'),
                     'cellular_component': (2000, 'GO', '{:07d}'),
                     'biological_process': (3000, 'GO', '{:07d}'),
