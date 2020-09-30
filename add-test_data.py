@@ -104,13 +104,15 @@ def load_cv_cvterm(parsed_yaml):
     #################
 
     cv_cvterm = parsed_yaml
-    start_at = {'SO': 0,
-                'molecular_function': 1000,
-                'cellular_component': 2000,
-                'biological_process': 3000}
-    diff_db = {'molecular_function': 'GO',
-               'cellular_component': 'GO',
-               'biological_process': 'GO'}
+    START = 0
+    NEW_DB = 1
+    FORMAT = 2
+    specific_dbs = {'SO':                 (0, 'SO', '{:07d}'),
+                    'molecular_function': (1000, 'GO', '{:07d}'),
+                    'cellular_component': (2000, 'GO', '{:07d}'),
+                    'biological_process': (3000, 'GO', '{:07d}'),
+                    'FlyBase anatomy CV': (1, 'FBbt', '{:08d}')}
+
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
         db_id[cv_name] = cursor.fetchone()[0]
@@ -120,17 +122,17 @@ def load_cv_cvterm(parsed_yaml):
 
         print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
         # for specific cvterm we want to unique numbers as dbxrefs.
-        if cv_name in start_at:
-            count = start_at[cv_name]
+        if cv_name in specific_dbs:
+            count = specific_dbs[cv_name][START]
         for cvterm_name in cv_cvterm[cv_name]:
-            if cv_name in diff_db:
-                db_name = diff_db[cv_name]
+            if cv_name in specific_dbs:
+                db_name = specific_dbs[cv_name][NEW_DB]
             else:
                 db_name = cv_name
-            if cv_name in start_at:
+            if cv_name in specific_dbs:
                 # special, have different dbxref accession to cvterm name
                 count += 1
-                cursor.execute(dbxref_sql, (db_id[db_name],  '{:07d}'.format(count)))
+                cursor.execute(dbxref_sql, (db_id[db_name], specific_dbs[cv_name][FORMAT].format(count)))
             else:
                 cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
             dbxref_id[cvterm_name] = cursor.fetchone()[0]
