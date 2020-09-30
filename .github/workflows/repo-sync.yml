@@ -12,7 +12,7 @@ jobs:
     - name: repo-sync
       uses: repo-sync/github-sync@v2
       with:
-        source_repo: "https://${ACCESS_TOKEN}@github.com/FlyBase/harvdev-proforma-testdb.git"
+        source_repo: "https://github.com/FlyBase/harvdev-proforma-testdb.git"
         source_branch: "master"
         destination_branch: "multiple"
         github_token: ${{ secrets.GITHUB_TOKEN }}

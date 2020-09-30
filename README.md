@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.com/FlyBase/harvdev-proforma-testdb.svg?token=7Nvc5gEdzuNraK13EL3s&branch=master)](https://travis-ci.com/FlyBase/harvdev-proforma-testdb)
 # harvdev-proforma-testdb
+
+**This respository is PUBLIC. Please do not commit sensitive information!**
+
 ```
 docker build . -t proformatestdb
 
