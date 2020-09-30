@@ -81,7 +81,7 @@ property type: [
     'has_GO_curation', 'hdm_internal_notes', 'hgnc_link',
     'hh2c_link', 'hh_internal_notes', 'hh_ortho_rel_comment', 'hh_ortholog_comment',
     'identified_by', 'identity_source', 'in_title_or_abstract', 'in_vitro_progenitor',
-    'inchikey', 'isogenized_chr', 'internal_notes', 'internalnotes', 'introgressed_chr',
+    'inchikey', 'inexact_match', 'isogenized_chr', 'internal_notes', 'internalnotes', 'introgressed_chr',
     'is_cis-reg_analysed', 'is_expression_analysed_in_mutant',
     'is_expression_analysed_in_wildtype', 'is_gene_model_decorated',
     'is_genome_annotation_analysed', 'is_physical_interaction_analysed',
