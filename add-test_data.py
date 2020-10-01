@@ -233,10 +233,14 @@ add_organism_data(cursor, organism_id, cvterm_id, db_id)
 sql = """ INSERT INTO environment (uniquename) VALUES (%s) """
 cursor.execute(sql, ('unspecified',))
 
-# DOID:14330 "Parkinson's disease"
-cursor.execute(dbxref_sql, (db_id['DOID'], '14330'))
-dbxref_id['14330'] = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id['14330'], cv_id['disease_ontology'], "Parkinson's disease"))
+doids = [('0110782', 'hereditary spastic paraplegia 31'),
+         ('14330', "Parkinson's disease"),
+         ('0110720', 'neuronal ceroid lipofuscinosis 4B')]
+
+for doid in doids:
+    cursor.execute(dbxref_sql, (db_id['DOID'], doid[0]))
+    dbxref_id[doid[0]] = cursor.fetchone()[0]
+    cursor.execute(cvterm_sql, (dbxref_id[doid[0]], cv_id['disease_ontology'], doid[1]))
 
 # provenance
 cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance'))
