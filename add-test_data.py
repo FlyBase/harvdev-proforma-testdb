@@ -244,10 +244,10 @@ cursor.execute(sql, ('unspecified',))
 
 for i in range(10):
     accession = "{:05d}".format(i+1)
-    desc = "doid desc {}".format(i)
+    desc = "doid desc {}".format(i+1)
     cursor.execute(dbxref_sql, (db_id['DOID'], accession))
-    dbxref_id = cursor.fetchone()[0]
-    cursor.execute(cvterm_sql, (dbxref_id, cv_id['disease_ontology'], desc))
+    dbxref = cursor.fetchone()[0]
+    cursor.execute(cvterm_sql, (dbxref, cv_id['disease_ontology'], desc))
 
 # provenance
 cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance'))
