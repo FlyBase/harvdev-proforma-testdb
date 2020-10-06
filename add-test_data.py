@@ -107,11 +107,13 @@ def load_cv_cvterm(parsed_yaml):
     START = 0
     NEW_DB = 1
     FORMAT = 2
-    specific_dbs = {'SO':                 (0, 'SO', '{:07d}'),
-                    'molecular_function': (1000, 'GO', '{:07d}'),
-                    'cellular_component': (2000, 'GO', '{:07d}'),
-                    'biological_process': (3000, 'GO', '{:07d}'),
-                    'FlyBase anatomy CV': (1, 'FBbt', '{:08d}')}
+    specific_dbs = {'SO':                       (0, 'SO', '{:07d}'),
+                    'molecular_function':       (1000, 'GO', '{:07d}'),
+                    'cellular_component':       (2000, 'GO', '{:07d}'),
+                    'biological_process':       (3000, 'GO', '{:07d}'),
+                    'FlyBase anatomy CV':       (1, 'FBbt', '{:08d}'),
+                    'FlyBase miscellaneous CV': (1, 'FBcv', '{:07}'),
+                    'FlyBase development CV':   (1, 'FBdv', '{:08d}')}
 
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
@@ -257,8 +259,8 @@ cursor.execute(cvterm_sql, (dbxref_id['FlyBase miscellaneous CV:provenance'], cv
 # projects need different db names and cv's
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
 
-cursor.execute(db_sql, ('FBcv',))
-db_id['FBcv'] = cursor.fetchone()[0]
+#cursor.execute(db_sql, ('FBcv',))
+#db_id['FBcv'] = cursor.fetchone()[0]
 
 # project
 cursor.execute(dbxref_sql, (db_id['FBcv'], '0003023'))
