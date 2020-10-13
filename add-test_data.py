@@ -6,6 +6,7 @@ from Load.humanhealth import add_humanhealth_data
 from Load.pubs import add_pub_data
 from Load.db import add_db_data
 from Load.gene import add_gene_data, add_gene_data_for_bang
+from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
@@ -163,7 +164,12 @@ def add_cvterm_namespace(cv_cvterm_id):
                                                    ['FlyBase miscellaneous CV', 'protein detection tool',
                                                     'feature_cvtermprop type', 'webcv'],
                                                    ['FlyBase miscellaneous CV', 'RNA detection tool',
-                                                    'feature_cvtermprop type', 'webcv']]}
+                                                    'feature_cvtermprop type', 'webcv']],
+                  'phenotypic_class': [['FlyBase miscellaneous CV', 'pheno1', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno2', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno3', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno4', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno5', 'feature_cvtermprop type', 'webcv']]}
 
     for value in namespaces.keys():
         rank = 0
@@ -338,6 +344,10 @@ pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
 # add genes
 add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
+
+# add drivers,
+add_driver_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+
 # add extra db's
 add_db_data(cursor, db_id)
 
@@ -379,6 +389,26 @@ add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub
 
 # Disease Implicated Variants (DIV)
 add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
+
+
+# create clones for some genes names to test duplicate names
+for i in range(40, 50):
+    # name = "FBcl{:07d}".format(i+1)
+    print("Adding cDNA_clone {}".format(i+1))
+    # create the clone feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], "symbol-{}".format(i+1),
+                              'FBcl:temp_{}'.format(i), None, None, cvterm_id['cDNA_clone']))
+    cdna_id = cursor.fetchone()[0]
+
+    # # add synonyms
+    # cursor.execute(syn_sql, ("clfullname-{}".format(i+1), cvterm_id['fullname'], "clfullname-{}".format(i+1)))
+    # name_id = cursor.fetchone()[0]
+    # cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}".format(i+1)))
+    # symbol_id = cursor.fetchone()[0]
+
+    # # add feature_synonym
+    # cursor.execute(fs_sql, (name_id, cdna_id, pub_id))
+    # cursor.execute(fs_sql, (symbol_id, cdna_id, pub_id))
 
 # mRNA
 for i in range(5):

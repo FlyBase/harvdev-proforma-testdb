@@ -18,6 +18,9 @@ def add_organism_data(cursor, organism_id, cvterm_id, db_id):
     # add aritificial
     cursor.execute(sql, ('Zzzz', 'artificial', 'artificial', 'artificial/synthetic'))
     organism_id['Zzzz'] = cursor.fetchone()[0]
+    # add Scer
+    cursor.execute(sql, ('Scer', 'Saccharomyces', 'cerevisiae', 'Not BOB'))
+    organism_id['Scer'] = cursor.fetchone()[0]
 
     ######################################################
     # add specific test organisms with dbxrefs and cvterms
