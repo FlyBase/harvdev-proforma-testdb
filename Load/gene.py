@@ -87,7 +87,10 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
 
     # add synonyms
     if organism_name == 'Dmel':
-        cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)))
+        if gene_count == 47:
+            cursor.execute(syn_sql, ("symbol-{}".format(gene_count+1), cvterm_id['fullname'], "symbol-{}".format(gene_count+1)))
+        else:
+            cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)))
         name_id = cursor.fetchone()[0]
     cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sgml_name))
     symbol_id = cursor.fetchone()[0]
