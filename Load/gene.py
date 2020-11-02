@@ -99,6 +99,7 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
     if organism_name == 'Dmel':
         cursor.execute(fs_sql, (name_id, gene_id, pub_id))
     cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed']))
 
     # add feature pub
     cursor.execute(fp_sql, (gene_id, pub_id))
@@ -186,8 +187,8 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
         symbol_id = cursor.fetchone()[0]
         # add feature_synonym for allele
         cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
+        cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
 
-        # add as feature relationship
         cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
         # add ClinVar dbxrefs to allele for testing changing description and removal
