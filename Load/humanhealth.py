@@ -310,6 +310,7 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
         # add feature_synonym
         cursor.execute(hh_fs_sql, (name_id, hh_id, pub_id, False))
         cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True))
+        cursor.execute(hh_fs_sql, (symbol_id, hh_id, feature_id['unattributed'], True))
 
     ######################
     # Adding Gene Features
