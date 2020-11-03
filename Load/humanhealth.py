@@ -301,15 +301,15 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
         # add humanheath_pub
         cursor.execute(hh_pub_sql, (hh_id, pub_id))
 
-        # add synonyms
-        cursor.execute(syn_sql, ("hh-fullname-{}".format(i+1), cvterm_id['symbol'], "hh-fullname-{}".format(i+1)))
-        name_id = cursor.fetchone()[0]
+        # add synonym. ONLY add to unattributed.
+        # cursor.execute(syn_sql, ("hh-fullname-{}".format(i+1), cvterm_id['symbol'], "hh-fullname-{}".format(i+1)))
+        # name_id = cursor.fetchone()[0]
         cursor.execute(syn_sql, ("hh-symbol-{}".format(i+1), cvterm_id['symbol'], "hh-symbol-{}".format(i+1)))
         symbol_id = cursor.fetchone()[0]
 
         # add feature_synonym
-        cursor.execute(hh_fs_sql, (name_id, hh_id, pub_id, False))
-        cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True))
+        # cursor.execute(hh_fs_sql, (name_id, hh_id, pub_id, False))
+        # cursor.execute(hh_fs_sql, (symbol_id, hh_id, pub_id, True))
         cursor.execute(hh_fs_sql, (symbol_id, hh_id, feature_id['unattributed'], True))
 
     ######################
