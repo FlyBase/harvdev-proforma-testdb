@@ -169,7 +169,9 @@ def add_cvterm_namespace(cv_cvterm_id):
                                        ['FlyBase miscellaneous CV', 'pheno2', 'feature_cvtermprop type', 'webcv'],
                                        ['FlyBase miscellaneous CV', 'pheno3', 'feature_cvtermprop type', 'webcv'],
                                        ['FlyBase miscellaneous CV', 'pheno4', 'feature_cvtermprop type', 'webcv'],
-                                       ['FlyBase miscellaneous CV', 'pheno5', 'feature_cvtermprop type', 'webcv']]}
+                                       ['FlyBase miscellaneous CV', 'pheno5', 'feature_cvtermprop type', 'webcv']],
+                  'environmental_qualifier': [['FlyBase miscellaneous CV', 'environ1', 'feature_cvtermprop type', 'webcv'],
+                                              ['FlyBase miscellaneous CV', 'environ2', 'feature_cvtermprop type', 'webcv']]}
 
     for value in namespaces.keys():
         rank = 0

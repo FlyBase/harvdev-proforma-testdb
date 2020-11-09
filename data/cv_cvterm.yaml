@@ -39,7 +39,8 @@ FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neu
 FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3']
 FlyBase miscellaneous CV: [
     'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'chemical entity', 'colocalizes_with', 'comment',
-    'contributes_to', 'disease implicated variant', 'evidence_code', 'faint',
+    'contributes_to', 'disease implicated variant', 'evidence_code', 
+    'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint',
     'in vitro construct - amino acid replacement', 'in vitro construct - coding region fusion', 
     'in vitro construct - regulatory fusion',
     'inferred from direct assay', 'inferred from mutant phenotype', 'natural population',
