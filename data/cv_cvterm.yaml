@@ -6,7 +6,7 @@
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path','ncRNA_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
      'natural population', 'DNA_segment', 'transgenic_transposon', 'transposable_element',
-     'transposable_element_insertion_site', 'chromosome_band',
+     'transposable_element_insertion_site', 'chromosome_band', 'allele',
      'natural_transposable_element', 'gene_group', 'protein', 'breakpoint', 'engineered_construct', 'oligo',
      'engineered_foreign_gene', 'point_mutation', 'cDNA_clone']
 molecular_function: ['mRNA binding']
