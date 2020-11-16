@@ -10,6 +10,10 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 #ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
 #RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
+# Set a default number of database copies to be created.
+ARG EXTRA_DB_COPIES=0
+ARG SOURCE_BRANCH=master
+
 # Add PostgreSQL's repository. Idocker-boomt contains the most recent stable release
 #     of PostgreSQL, ``9.3``.
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
@@ -40,6 +44,7 @@ RUN    /etc/init.d/postgresql start &&\
     psql -d fb_test < schema.sql > /dev/null &&\
     python3 add-test_data.py &&\
     psql -d fb_test < triggers/multiple_seqs.sql &&\
+    python3  multiple_databases.py ${EXTRA_DB_COPIES} ${SOURCE_BRANCH} &&\
     /etc/init.d/postgresql stop
 
 # Adjust PostgreSQL configuration so that remote connections to the

@@ -5,7 +5,8 @@ import yaml
 from Load.humanhealth import add_humanhealth_data
 from Load.pubs import add_pub_data
 from Load.db import add_db_data
-from Load.gene import add_gene_data
+from Load.gene import add_gene_data, add_gene_data_for_bang
+from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
@@ -53,8 +54,8 @@ def yaml_parse_and_dispatch():
     # update this dictionary and create an appropriate function.
 
     dispatch_dictionary = {
-        'cv_cvterm.yaml': load_cv_cvterm,
         'db_dbxref.yaml': load_db_dbxref,
+        'cv_cvterm.yaml': load_cv_cvterm,
         'pub_author_pubprop.yaml': load_pub_author_pubprop
     }
 
@@ -62,8 +63,8 @@ def yaml_parse_and_dispatch():
 
     # Need to load in a specific order due to CV term reliance.
     files_to_load = [
-        'cv_cvterm.yaml',
         'db_dbxref.yaml',
+        'cv_cvterm.yaml',
         'pub_author_pubprop.yaml'
     ]
 
@@ -104,6 +105,16 @@ def load_cv_cvterm(parsed_yaml):
     #################
 
     cv_cvterm = parsed_yaml
+    START = 0
+    NEW_DB = 1
+    FORMAT = 2
+    specific_dbs = {'SO':                       (0, 'SO', '{:07d}'),
+                    'molecular_function':       (1000, 'GO', '{:07d}'),
+                    'cellular_component':       (2000, 'GO', '{:07d}'),
+                    'biological_process':       (3000, 'GO', '{:07d}'),
+                    'FlyBase anatomy CV':       (1, 'FBbt', '{:08d}'),
+                    'FlyBase miscellaneous CV': (1, 'FBcv', '{:07d}'),
+                    'FlyBase development CV':   (1, 'FBdv', '{:08d}')}
 
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
@@ -113,12 +124,18 @@ def load_cv_cvterm(parsed_yaml):
         cv_id[cv_name] = cursor.fetchone()[0]
 
         print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
-
-        count = 0
+        # for specific cvterm we want to unique numbers as dbxrefs.
+        if cv_name in specific_dbs:
+            count = specific_dbs[cv_name][START]
         for cvterm_name in cv_cvterm[cv_name]:
-            if cv_name == 'SO':  # special, SO has different dbxref accession to cvterm name
+            if cv_name in specific_dbs:
+                db_name = specific_dbs[cv_name][NEW_DB]
+            else:
+                db_name = cv_name
+            if cv_name in specific_dbs:
+                # special, have different dbxref accession to cvterm name
                 count += 1
-                cursor.execute(dbxref_sql, (db_id[cv_name],  '{:07d}'.format(count)))
+                cursor.execute(dbxref_sql, (db_id[db_name], specific_dbs[cv_name][FORMAT].format(count)))
             else:
                 cursor.execute(dbxref_sql, (db_id[cv_name], cvterm_name))
             dbxref_id[cvterm_name] = cursor.fetchone()[0]
@@ -130,6 +147,41 @@ def load_cv_cvterm(parsed_yaml):
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
             cv_cvterm_id[cv_name][cvterm_name] = cvterm_id[cvterm_name]
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
+    add_cvterm_namespace(cv_cvterm_id)
+
+
+def add_cvterm_namespace(cv_cvterm_id):
+    """Add namespace cvterm props.
+
+    namespace name:  [[cvname ,cvtermname, typecvname, typecvtermname]...]
+    example :-
+    {experimental_tool_description: [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
+                                      'feature_cvtermprop type', 'webcv']]}
+    """
+    cvtermprop_sql = """  INSERT INTO cvtermprop (cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    namespaces = {'experimental_tool_descriptor': [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
+                                                    'feature_cvtermprop type', 'webcv'],
+                                                   ['FlyBase miscellaneous CV', 'protein detection tool',
+                                                    'feature_cvtermprop type', 'webcv'],
+                                                   ['FlyBase miscellaneous CV', 'RNA detection tool',
+                                                    'feature_cvtermprop type', 'webcv']],
+                  'phenotypic_class': [['FlyBase miscellaneous CV', 'pheno1', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno2', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno3', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno4', 'feature_cvtermprop type', 'webcv'],
+                                       ['FlyBase miscellaneous CV', 'pheno5', 'feature_cvtermprop type', 'webcv']],
+                  'environmental_qualifier': [['FlyBase miscellaneous CV', 'environ1', 'feature_cvtermprop type', 'webcv'],
+                                              ['FlyBase miscellaneous CV', 'environ2', 'feature_cvtermprop type', 'webcv']]}
+
+    for value in namespaces.keys():
+        rank = 0
+        for item in namespaces[value]:
+            cvterm_id = cv_cvterm_id[item[0]][item[1]]
+            type_id = cv_cvterm_id[item[2]][item[3]]
+            # add cvtermprop
+            print("Adding cvterm prop '{}': '{}' - '{}'".format(value, item[1], item[3]))
+            cursor.execute(cvtermprop_sql, (cvterm_id, type_id, value, rank))
+            rank += 1
 
 
 def load_pub_author_pubprop(parsed_yaml):
@@ -191,10 +243,21 @@ add_organism_data(cursor, organism_id, cvterm_id, db_id)
 sql = """ INSERT INTO environment (uniquename) VALUES (%s) """
 cursor.execute(sql, ('unspecified',))
 
-# DOID:14330 "Parkinson's disease"
-cursor.execute(dbxref_sql, (db_id['DOID'], '14330'))
-dbxref_id['14330'] = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id['14330'], cv_id['disease_ontology'], "Parkinson's disease"))
+# doids = [('0110782', 'hereditary spastic paraplegia 31'),
+#          ('14330', "Parkinson's disease"),
+#          ('0110720', 'neuronal ceroid lipofuscinosis 4B')]
+
+# for doid in doids:
+#     cursor.execute(dbxref_sql, (db_id['DOID'], doid[0]))
+#     dbxref_id[doid[0]] = cursor.fetchone()[0]
+#     cursor.execute(cvterm_sql, (dbxref_id[doid[0]], cv_id['disease_ontology'], doid[1]))
+
+for i in range(10):
+    accession = "{:05d}".format(i+1)
+    desc = "doid desc {}".format(i+1)
+    cursor.execute(dbxref_sql, (db_id['DOID'], accession))
+    dbxref = cursor.fetchone()[0]
+    cursor.execute(cvterm_sql, (dbxref, cv_id['disease_ontology'], desc))
 
 # provenance
 cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance'))
@@ -204,8 +267,8 @@ cursor.execute(cvterm_sql, (dbxref_id['FlyBase miscellaneous CV:provenance'], cv
 # projects need different db names and cv's
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
 
-cursor.execute(db_sql, ('FBcv',))
-db_id['FBcv'] = cursor.fetchone()[0]
+# cursor.execute(db_sql, ('FBcv',))
+# db_id['FBcv'] = cursor.fetchone()[0]
 
 # project
 cursor.execute(dbxref_sql, (db_id['FBcv'], '0003023'))
@@ -266,11 +329,26 @@ cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], 'unspecified', 'unspecified', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
 
+# add bands
+for beg in [94, 95]:
+    for mid in 'ABCD':
+        band = "band-{}{}".format(beg, mid)
+        print("Adding band {}".format(band))
+        cursor.execute(feat_sql, (None, organism_id['Dmel'], band, band, None, 0, cvterm_id['chromosome_band']))
+        for end in range(1, 6):
+            band = "band-{}{}{}".format(beg, mid, end)
+            print("Adding band {}".format(band))
+            cursor.execute(feat_sql, (None, organism_id['Dmel'], band, band, None, 0, cvterm_id['chromosome_band']))
+            feature_id[band] = cursor.fetchone()[0]
 # add pubs
 pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
 
 # add genes
 add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+
+
+# add drivers,
+add_driver_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 # add extra db's
 add_db_data(cursor, db_id)
@@ -313,6 +391,26 @@ add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub
 
 # Disease Implicated Variants (DIV)
 add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
+
+
+# create clones for some genes names to test duplicate names
+for i in range(40, 50):
+    # name = "FBcl{:07d}".format(i+1)
+    print("Adding cDNA_clone {}".format(i+1))
+    # create the clone feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], "symbol-{}".format(i+1),
+                              'FBcl:temp_{}'.format(i), None, None, cvterm_id['cDNA_clone']))
+    cdna_id = cursor.fetchone()[0]
+
+    # # add synonyms
+    # cursor.execute(syn_sql, ("clfullname-{}".format(i+1), cvterm_id['fullname'], "clfullname-{}".format(i+1)))
+    # name_id = cursor.fetchone()[0]
+    # cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}".format(i+1)))
+    # symbol_id = cursor.fetchone()[0]
+
+    # # add feature_synonym
+    # cursor.execute(fs_sql, (name_id, cdna_id, pub_id))
+    # cursor.execute(fs_sql, (symbol_id, cdna_id, pub_id))
 
 # mRNA
 for i in range(5):
@@ -358,7 +456,7 @@ for i in range(10):
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
                               'FBti:temp_0', None, None, cvterm_id['transposable_element_insertion_site']))
-    tool_id = cursor.fetchone()[0]
+    tool_id = feature_id[tool_sym] = cursor.fetchone()[0]
 
     # add synonyms
     cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
@@ -495,6 +593,8 @@ for i in range(1, 11):
     cursor.execute(fr_sql, (feature_id[sb_name], feature_id[ab_name], cvterm_id['carried_on']))
     fr_id = cursor.fetchone()[0]
     cursor.execute(frp_sql, (fr_id, pub_id))
+
+add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 conn.commit()
 conn.close()

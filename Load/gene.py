@@ -52,6 +52,7 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
     fp_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s) """
     fprop_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
     fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
     fc_dx_sql = """ INSERT INTO feature_cvterm_dbxref (feature_cvterm_id, dbxref_id) VALUES (%s, %s) """
     f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
     fb_code = 'gn'
@@ -86,7 +87,10 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
 
     # add synonyms
     if organism_name == 'Dmel':
-        cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)))
+        if gene_count == 47:
+            cursor.execute(syn_sql, ("symbol-{}".format(gene_count+1), cvterm_id['fullname'], "symbol-{}".format(gene_count+1)))
+        else:
+            cursor.execute(syn_sql, ("fullname-{}".format(gene_count+1), cvterm_id['fullname'], "fullname-{}".format(gene_count+1)))
         name_id = cursor.fetchone()[0]
     cursor.execute(syn_sql, (sym_name, cvterm_id['symbol'], sgml_name))
     symbol_id = cursor.fetchone()[0]
@@ -95,6 +99,7 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
     if organism_name == 'Dmel':
         cursor.execute(fs_sql, (name_id, gene_id, pub_id))
     cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed']))
 
     # add feature pub
     cursor.execute(fp_sql, (gene_id, pub_id))
@@ -104,14 +109,24 @@ def create_gene(cursor, organism_name, org_dict, gene_count, cvterm_id, feature_
     start = int(gene_count/10)+1
     if start != 2:  # genes 10 -> 19 do  not have loc, as to be megred etc
         cursor.execute(loc_sql, (gene_id, feature_id['2L'], start*100, (start+1)*100, 1))
+        # add generic qualifier
+        if gene_count > 40:
+            cursor.execute(fc_sql, (gene_id, cvterm_id['gene_group'], pub_id))
+            print("Generic gene {}".format(sym_name))
     elif organism_name == 'Dmel':  # add extra info for merging genes to check.
+        print("Adding extra data for gene {}".format(sym_name))
         # add featureprop
         cursor.execute(fprop_sql, (gene_id, cvterm_id['symbol'], "featprop-{}".format(gene_count+1), 0))
 
         # add feature_cvterm
         cursor.execute(fc_sql, (gene_id, cvterm_id['protein_coding_gene'], pub_id))
         fc_id = cursor.fetchone()[0]
+        cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, 0))  # add prop for gene class
         cursor.execute(fc_sql, (gene_id, cvterm_id['disease_associated'], pub_id))
+
+        # make gene part of gene_group for subset
+        if gene_count > 40 and gene_count < 50:
+            cursor.execute(fc_sql, (gene_id, cvterm_id['gene_group'], pub_id))
 
         # add feature_cvterm_dbxref
         cursor.execute(dbxref_sql, (db_id['testdb'], 'testdb-{}'.format(gene_count+1)))
@@ -172,8 +187,8 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
         symbol_id = cursor.fetchone()[0]
         # add feature_synonym for allele
         cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
+        cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
 
-        # add as feature relationship
         cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
 
         # add ClinVar dbxrefs to allele for testing changing description and removal
@@ -183,3 +198,105 @@ def add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id,
     # add gene with &agr; to check special lookups. 0007_Gene_lookup_check.txt
     feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id, i+1, cvterm_id, feature_id, pub_id, db_id, add_alpha=True)
     return
+
+
+def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
+    """Add all the genes needed for testing.
+
+    Separate as has to be done last when everyrthing exists.
+    """
+    fr_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+    frp_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    frpub_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
+    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    fp_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) RETURNING featureprop_id """
+    fpp_sql = """ INSERT INTO featureprop_pub (featureprop_id, pub_id) VALUES (%s, %s) """
+
+    # single values/One empty
+    for i in range(40, 45):
+        count = 0
+
+        # G30
+        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['non_protein_coding_gene'], pub_id))
+        fc_id = cursor.fetchone()[0]
+        cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
+
+        # G10 bands feature relationship(prop)
+        for cvterm_name in ['cyto_left_end', 'cyto_right_end']:
+            # G10a Bands (frp)
+            cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
+                                    feature_id['band-{}A1'.format(94+count)],
+                                    cvterm_id[cvterm_name]))
+            fr_id = cursor.fetchone()[0]
+            cursor.execute(frp_sql, (fr_id, cvterm_id[cvterm_name], '(determined by in situ hybridisation)', 0))
+            cursor.execute(frpub_sql, (fr_id, pub_id))
+
+            # G10b Band (fr) no prop
+            cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
+                                    feature_id['band-{}B1'.format(95+count)],
+                                    cvterm_id[cvterm_name]))
+            fr_id = cursor.fetchone()[0]
+            cursor.execute(frpub_sql, (fr_id, pub_id))
+
+        # G7b feature relationship
+        tool_sym = "P{}TE{}{}".format('{', count+1, '}')
+        cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(frpub_sql, (fr_id, pub_id))
+
+        # G11 Feature prop
+        cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fpp_sql, (fp_id, pub_id))
+
+    # multiple values
+    for i in range(45, 51):
+        count = 0
+
+        # G30 Add 2.
+        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['non_protein_coding_gene'], pub_id))
+        fc_id = cursor.fetchone()[0]
+        cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
+
+        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['mRNA'], pub_id))
+        fc_id = cursor.fetchone()[0]
+        cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
+
+        # G10 bands feature relationship(prop)
+        for bit in 'ABCD':
+            for cvterm_name in ['cyto_left_end', 'cyto_right_end']:
+                # G10a Bands (frp)
+                cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
+                                        feature_id['band-{}{}1'.format(94+count, bit)],
+                                        cvterm_id[cvterm_name]))
+                fr_id = cursor.fetchone()[0]
+                cursor.execute(frp_sql, (fr_id, cvterm_id[cvterm_name], '(determined by in situ hybridisation)', 0))
+                cursor.execute(frpub_sql, (fr_id, pub_id))
+
+                # G10b Band (fr) no prop
+                cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
+                                        feature_id['band-{}{}2'.format(95+count, bit)],
+                                        cvterm_id[cvterm_name]))
+                fr_id = cursor.fetchone()[0]
+                cursor.execute(frpub_sql, (fr_id, pub_id))
+
+        # G7b feature relationship
+        tool_sym = "P{}TE{}{}".format('{', count+1, '}')
+        cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(frpub_sql, (fr_id, pub_id))
+
+        tool_sym = "P{}TE{}{}".format('{', count+2, '}')
+        cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(frpub_sql, (fr_id, pub_id))
+
+        # G11 Feature prop
+        cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fpp_sql, (fp_id, pub_id))
+
+        cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'anothervalue', 1))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fpp_sql, (fp_id, pub_id))

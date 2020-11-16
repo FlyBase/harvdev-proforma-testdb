@@ -1,0 +1,5 @@
+#!/bin/bash
+# This script allows for --build-arg values to be passed to the automated Docker Hub build command.
+docker build --build-arg EXTRA_DB_COPIES=$EXTRA_DB_COPIES \
+             --build-arg SOURCE_BRANCH=$SOURCE_BRANCH \
+             -f $DOCKERFILE_PATH -t $IMAGE_NAME .
