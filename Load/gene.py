@@ -218,7 +218,7 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         count = 0
 
         # G30
-        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['non_protein_coding_gene'], pub_id))
+        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['ncRNA_gene'], pub_id))
         fc_id = cursor.fetchone()[0]
         cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
 
@@ -255,7 +255,7 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         count = 0
 
         # G30 Add 2.
-        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['non_protein_coding_gene'], pub_id))
+        cursor.execute(fc_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['ncRNA_gene'], pub_id))
         fc_id = cursor.fetchone()[0]
         cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, count))
 
