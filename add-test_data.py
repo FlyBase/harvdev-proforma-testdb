@@ -325,7 +325,7 @@ cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 
 feature_id['2L'] = cursor.fetchone()[0]
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
-cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['golden_path_region']))
+cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['golden_path']))
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], 'unspecified', 'unspecified', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
 
@@ -366,7 +366,7 @@ for i in range(5):
     print("Adding protein {}".format(i+1))
     # create the protein feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], "pp-symbol-{}".format(i+1),
-                              'FBpp:temp_0', None, None, cvterm_id['protein']))
+                              'FBpp:temp_0', None, None, cvterm_id['polypeptide']))
     protein_id = cursor.fetchone()[0]
 
     # add synonyms
@@ -438,7 +438,7 @@ for i in range(5):
     print("Adding tool {}".format(tool_sym))
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
-                              'FBto:temp_0', None, None, cvterm_id['DNA_segment']))
+                              'FBto:temp_0', None, None, cvterm_id['engineered_region']))
     tool_id = cursor.fetchone()[0]
 
     # add synonyms
@@ -465,14 +465,14 @@ for i in range(10):
     # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
-# transgenic_transposon
+# transgenic_transposable_element
 for i in range(10):
     # name = "FBtp{:07d}".format(i+1)
-    print("Adding transgenic_transposon {}".format(i+1))
+    print("Adding transgenic_transposable_element {}".format(i+1))
     tool_sym = "P{}TT{}{}".format('{', i+1, '}')
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
-                              'FBtp:temp_0', None, None, cvterm_id['transgenic_transposon']))
+                              'FBtp:temp_0', None, None, cvterm_id['transgenic_transposable_element']))
     tool_id = cursor.fetchone()[0]
 
     # add synonyms
@@ -482,14 +482,14 @@ for i in range(10):
     # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
-# engineered_construct
+# engineered_plasmid
 for i in range(10):
     # name = "FBmc{:07d}".format(i+1)
     tool_sym = "pP{}EC{}{}".format('{', i+1, '}')
-    print("Adding engineered_construct {}".format(tool_sym))
+    print("Adding engineered_plasmid {}".format(tool_sym))
     # create the tool feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
-                              'FBmc:temp_0', None, None, cvterm_id['engineered_construct']))
+                              'FBmc:temp_0', None, None, cvterm_id['engineered_plasmid']))
     tool_id = cursor.fetchone()[0]
 
     # add synonyms
@@ -579,8 +579,8 @@ for i in range(1, 11):
     cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
 
 
-# add single balancers
-print("Adding single balancers data.")
+# add chromosome_structure_variation
+print("Adding chromosome_structure_variation data.")
 add_sb_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 
 # create feature relationship between 'single balancers' and ' aberations
