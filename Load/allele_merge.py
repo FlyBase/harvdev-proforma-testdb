@@ -55,20 +55,29 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
         cursor.execute(feat_sql, (dbxref_id, org_id, gene_name, gene_unique_name, "ACTG"*5, 20, cvterm_id['gene']))
         gene_id = cursor.fetchone()[0]
 
+        # create pub
+        cursor.execute(pub_sql, (cvterm_id['journal'], 'merge_title_{}'.format(i+1), 'FB{}{:07d}'.format('rf', gene_count),
+                                 '2020', 'mini_{}'.format(gene_count)))
+        pub_id = cursor.fetchone()[0]
+
+        # add synonym for gene
+        cursor.execute(syn_sql, (gene_name, cvterm_id['symbol'], gene_name))
+        symbol_id = cursor.fetchone()[0]
+
+        # add feature_synonym for gene
+        cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
+        cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed']))
+
         # now add 3 alleles for each
         for j in range(3):
             allele_count += 1
             tool_name = "Clk{}".format(j)
             allele_name = "{}[{}]".format(gene_name, tool_name)
             allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
-            cursor.execute(pub_sql, (cvterm_id['journal'], 'merge_title_{}'.format(allele_count), allele_unique_name,
-                                     '2020', 'mini_{}'.format(allele_count)))
-            pub_id = cursor.fetchone()[0]
 
             if not j:
                 # add feature pub for gene
                 cursor.execute(fp_sql, (gene_id, pub_id))
-
 
             ###########################
             # create the allele feature
@@ -165,3 +174,4 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
 
             # feat rel pub
             cursor.execute(frpub_sql, (feat_rel, pub_id))
+
