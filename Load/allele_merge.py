@@ -58,7 +58,10 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
         # now add 3 alleles for each
         for j in range(3):
             allele_count += 1
-            cursor.execute(pub_sql, (cvterm_id['journal'], 'merge_title_'.format(allele_count), 'FBrf00{}'.format(allele_count),
+            tool_name = "Clk{}".format(j)
+            allele_name = "{}[{}]".format(gene_name, tool_name)
+            allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
+            cursor.execute(pub_sql, (cvterm_id['journal'], 'merge_title_{}'.format(allele_count), allele_unique_name,
                                      '2020', 'mini_{}'.format(allele_count)))
             pub_id = cursor.fetchone()[0]
 
@@ -66,9 +69,6 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
                 # add feature pub for gene
                 cursor.execute(fp_sql, (gene_id, pub_id))
 
-            tool_name = "Clk{}".format(j)
-            allele_name = "{}[{}]".format(gene_name, tool_name)
-            allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
 
             ###########################
             # create the allele feature
@@ -134,14 +134,14 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
             trans_id = cursor.fetchone()[0]
 
             # add feature pub for transcript
-            cursor.execute(fp_sql, (trans_id, unattrib_pub))
+            cursor.execute(fp_sql, (trans_id, pub_id))
 
             # feature relationship transcript and allele
             cursor.execute(feat_rel_sql, (trans_id, allele_id, cvterm_id['associated_with']))
             feat_rel = cursor.fetchone()[0]
 
             # feat rel pub
-            cursor.execute(frpub_sql, (feat_rel, pub_id))
+            cursor.execute(frpub_sql, (feat_rel, unattrib_pub))
 
             ############################################
             # add FBtp 'transgenic_transposable_element'
