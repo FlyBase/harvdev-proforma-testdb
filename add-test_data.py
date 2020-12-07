@@ -10,6 +10,7 @@ from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
+from Load.allele_merge import create_merge_allele
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -595,6 +596,8 @@ for i in range(1, 11):
     cursor.execute(frp_sql, (fr_id, pub_id))
 
 add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+
+create_merge_allele(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 
 conn.commit()
 conn.close()
