@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 10.3
--- Dumped by pg_dump version 10.3
+-- Dumped by pg_dump version 11.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,23 +12,10 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 SET row_security = off;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
 
 --
 -- Name: datetime; Type: DOMAIN; Schema: public; Owner: postgres
@@ -439,7 +426,7 @@ ALTER FUNCTION public.boxquery(integer, integer, integer) OWNER TO postgres;
 
 CREATE FUNCTION public.boxrange(integer, integer) RETURNS box
     LANGUAGE sql IMMUTABLE
-    SET search_path TO public
+    SET search_path TO 'public'
     AS $_$SELECT box (create_point(CAST(0 AS integer), $1), create_point($2,500000000))$_$;
 
 
@@ -451,7 +438,7 @@ ALTER FUNCTION public.boxrange(integer, integer) OWNER TO postgres;
 
 CREATE FUNCTION public.boxrange(integer, integer, integer) RETURNS box
     LANGUAGE sql IMMUTABLE
-    SET search_path TO public
+    SET search_path TO 'public'
     AS $_$SELECT box (create_point($1, $2), create_point($1,$3))$_$;
 
 
@@ -3766,7 +3753,7 @@ p_id                 pub.pub_id%TYPE;
   f_type_miRNA CONSTANT varchar :='miRNA';
   f_type_miscRNA CONSTANT varchar :='misc. non-coding RNA';
   f_type_pseudo CONSTANT varchar :='pseudogene';
-  f_type_protein CONSTANT varchar :='protein';
+  f_type_protein CONSTANT varchar :='polypeptide';
   f_type_allele CONSTANT varchar :='allele';
   f_dbname_gadfly CONSTANT varchar :='FlyBase Annotation IDs';
   f_dbname_FB CONSTANT varchar :='FlyBase';
@@ -4154,7 +4141,7 @@ DECLARE
   f_type_miRNA CONSTANT varchar :='miRNA';
   f_type_miscRNA CONSTANT varchar :='misc. non-coding RNA';
   f_type_pseudo CONSTANT varchar :='pseudogene';
-  f_type_protein CONSTANT varchar :='protein';
+  f_type_protein CONSTANT varchar :='polypeptide';
   f_type_allele CONSTANT varchar :='alleleof';
  f_dbname_gadfly CONSTANT varchar :='Gadfly';
  f_dbname_FB CONSTANT varchar :='FlyBase';
@@ -4273,7 +4260,7 @@ DECLARE
   f_type_miscRNA CONSTANT varchar :='misc. non-coding RNA';
   f_type_rRNA CONSTANT varchar :='rRNA';
   f_type_pseudo CONSTANT varchar :='pseudogene';
-  f_type_protein CONSTANT varchar :='protein';
+  f_type_protein CONSTANT varchar :='polypeptide';
   f_type_allele CONSTANT varchar :='alleleof';
  f_dbname_gadfly CONSTANT varchar :='FlyBase Annotation IDs';
  f_dbname_FB CONSTANT varchar :='FlyBase';
@@ -4911,6 +4898,200 @@ COMMENT ON FUNCTION public.featureloc_audit() IS 'This is an automatically gener
 
 
 --
+-- Name: featureloc_fn_i(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.featureloc_fn_i() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+maxid int;
+id    varchar(255);
+maxid_fb int;
+len     int;
+pos     int;
+no      int;
+id_fb    varchar(255);
+message   varchar(255);
+exon_id int;
+f_row   feature%ROWTYPE;
+f_row_g feature%ROWTYPE;
+f_row_e feature%ROWTYPE;
+f_row_t feature%ROWTYPE;
+f_row_p feature%ROWTYPE;
+fr_row  feature_relationship%ROWTYPE;
+f_type  cvterm.name%TYPE;
+f_type_temp  cvterm.name%TYPE;
+letter_t varchar;
+letter_p varchar;
+letter_e varchar;
+f_accession_temp varchar(255);
+f_accession varchar(255);
+uniquename_exon_like varchar;
+f_dbxref_id feature.dbxref_id%TYPE;
+fb_accession dbxref.accession%TYPE;
+d_accession dbxref.accession%TYPE;
+f_name_temp feature.uniquename%TYPE;
+f_name_gene feature.uniquename%TYPE;
+f_name_tr feature.uniquename%TYPE;
+f_name_exon feature.uniquename%TYPE;
+f_name_protein feature.uniquename%TYPE;
+f_uniquename feature.uniquename%TYPE;
+f_uniquename_gene feature.uniquename%TYPE;
+f_uniquename_tr feature.uniquename%TYPE;
+f_uniquename_exon feature.uniquename%TYPE;
+f_uniquename_protein feature.uniquename%TYPE;
+f_CG_gene dbxref.accession%TYPE;
+f_CG_protein dbxref.accession%TYPE;
+f_feature_id_exon feature.feature_id%TYPE;
+f_feature_id_protein feature.feature_id%TYPE;
+d_id                 db.db_id%TYPE;
+dx_id                dbxref.dbxref_id%TYPE;
+dx_id_temp           dbxref.dbxref_id%TYPE;
+d_id_temp            dbxref.dbxref_id%TYPE; 
+s_type_id            synonym.type_id%TYPE;
+s_id                 synonym.synonym_id%TYPE;
+p_id                 pub.pub_id%TYPE;
+  p_type_id            cvterm.cvterm_id%TYPE;
+  c_cv_id              cv.cv_id%TYPE;
+  f_type_gene CONSTANT varchar :='gene';
+  f_type_exon CONSTANT varchar :='exon';
+  f_type_transcript CONSTANT varchar :='mRNA';
+  f_type_snoRNA CONSTANT varchar :='snoRNA';
+  f_type_ncRNA CONSTANT varchar :='ncRNA';
+  f_type_snRNA CONSTANT varchar :='snRNA';
+  f_type_tRNA CONSTANT varchar :='tRNA';
+  f_type_rRNA CONSTANT varchar :='rRNA';
+  f_type_miRNA CONSTANT varchar :='miRNA';
+  f_type_miscRNA CONSTANT varchar :='misc. non-coding RNA';
+  f_type_pseudo CONSTANT varchar :='pseudogene';
+  f_type_protein CONSTANT varchar :='polypeptide';
+  f_type_allele CONSTANT varchar :='allele';
+  f_dbname_gadfly CONSTANT varchar :='FlyBase Annotation IDs';
+  f_dbname_FB CONSTANT varchar :='FlyBase';
+  o_genus  CONSTANT varchar :='Drosophila';
+  o_species  CONSTANT varchar:='melanogaster';
+  c_name_synonym CONSTANT varchar:='synonym';
+  cv_cvname_synonym CONSTANT varchar:='synonym type';
+  p_miniref         CONSTANT varchar:='gadfly3';
+  p_cvterm_name     CONSTANT varchar:='computer file';
+  p_cv_name         CONSTANT varchar:='pub type';
+  f_time            timestamp;
+BEGIN
+  RAISE NOTICE 'enter fl_i';
+  -- here change the timelastmodified whenever something change to feature table, how about featureprop, featureloc ...
+  -- also postgre has very weird behavior whenever set spmething to null or change null to something, so ignore here...
+  IF NEW.feature_id is NOT NULL THEN
+    SELECT INTO f_time current_timestamp;
+    RAISE NOTICE 'set timelastmodified to:% for feature:% due to new featureloc', f_time, NEW.feature_id;
+    update feature set timelastmodified=current_timestamp where feature_id=NEW.feature_id;
+  END IF;
+ RAISE NOTICE 'leave fr_i .......';
+  return NEW;    
+END;
+$$;
+
+
+ALTER FUNCTION public.featureloc_fn_i() OWNER TO postgres;
+
+--
+-- Name: featureloc_fn_u(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.featureloc_fn_u() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+maxid int;
+id    varchar(255);
+maxid_fb int;
+len     int;
+pos     int;
+no      int;
+id_fb    varchar(255);
+message   varchar(255);
+exon_id int;
+f_row   feature%ROWTYPE;
+f_row_g feature%ROWTYPE;
+f_row_e feature%ROWTYPE;
+f_row_t feature%ROWTYPE;
+f_row_p feature%ROWTYPE;
+fr_row  feature_relationship%ROWTYPE;
+f_type  cvterm.name%TYPE;
+f_type_temp  cvterm.name%TYPE;
+letter_t varchar;
+letter_p varchar;
+letter_e varchar;
+f_accession_temp varchar(255);
+f_accession varchar(255);
+uniquename_exon_like varchar;
+f_dbxref_id feature.dbxref_id%TYPE;
+fb_accession dbxref.accession%TYPE;
+d_accession dbxref.accession%TYPE;
+f_name_temp feature.uniquename%TYPE;
+f_name_gene feature.uniquename%TYPE;
+f_name_tr feature.uniquename%TYPE;
+f_name_exon feature.uniquename%TYPE;
+f_name_protein feature.uniquename%TYPE;
+f_uniquename feature.uniquename%TYPE;
+f_uniquename_gene feature.uniquename%TYPE;
+f_uniquename_tr feature.uniquename%TYPE;
+f_uniquename_exon feature.uniquename%TYPE;
+f_uniquename_protein feature.uniquename%TYPE;
+f_CG_gene dbxref.accession%TYPE;
+f_CG_protein dbxref.accession%TYPE;
+f_feature_id_exon feature.feature_id%TYPE;
+f_feature_id_protein feature.feature_id%TYPE;
+d_id                 db.db_id%TYPE;
+dx_id                dbxref.dbxref_id%TYPE;
+dx_id_temp           dbxref.dbxref_id%TYPE;
+d_id_temp            dbxref.dbxref_id%TYPE; 
+s_type_id            synonym.type_id%TYPE;
+s_id                 synonym.synonym_id%TYPE;
+p_id                 pub.pub_id%TYPE;
+  p_type_id            cvterm.cvterm_id%TYPE;
+  c_cv_id              cv.cv_id%TYPE;
+  f_type_gene CONSTANT varchar :='gene';
+  f_type_exon CONSTANT varchar :='exon';
+  f_type_transcript CONSTANT varchar :='mRNA';
+  f_type_snoRNA CONSTANT varchar :='snoRNA';
+  f_type_ncRNA CONSTANT varchar :='ncRNA';
+  f_type_snRNA CONSTANT varchar :='snRNA';
+  f_type_tRNA CONSTANT varchar :='tRNA';
+  f_type_rRNA CONSTANT varchar :='rRNA';
+  f_type_miRNA CONSTANT varchar :='miRNA';
+  f_type_miscRNA CONSTANT varchar :='misc. non-coding RNA';
+  f_type_pseudo CONSTANT varchar :='pseudogene';
+  f_type_protein CONSTANT varchar :='polypeptide';
+  f_type_allele CONSTANT varchar :='allele';
+  f_dbname_gadfly CONSTANT varchar :='FlyBase Annotation IDs';
+  f_dbname_FB CONSTANT varchar :='FlyBase';
+  o_genus  CONSTANT varchar :='Drosophila';
+  o_species  CONSTANT varchar:='melanogaster';
+  c_name_synonym CONSTANT varchar:='synonym';
+  cv_cvname_synonym CONSTANT varchar:='synonym type';
+  p_miniref         CONSTANT varchar:='gadfly3';
+  p_cvterm_name     CONSTANT varchar:='computer file';
+  p_cv_name         CONSTANT varchar:='pub type';
+  f_time            timestamp;
+BEGIN
+  RAISE NOTICE 'enter fl_u';
+  -- here change the timelastmodified whenever something change to featureloc table
+  -- also postgre has very weird behavior whenever set spmething to null or change null to something, so ignore here...
+  IF NEW.srcfeature_id<>OLD.srcfeature_id OR NEW.fmin<>OLD.fmin OR NEW.is_fmin_partial<>OLD.is_fmin_partial OR NEW.fmax<>OLD.fmax  OR NEW.is_fmax_partial<>OLD.is_fmax_partial OR NEW.strand<>OLD.strand OR NEW.locgroup<>OLD.locgroup OR NEW.rank<>OLD.rank   THEN
+    SELECT INTO f_time current_timestamp;
+    RAISE NOTICE 'set timelastmodified to:% for feature:%', f_time, OLD.feature_id;
+    update feature set timelastmodified=current_timestamp where feature_id=OLD.feature_id;
+  END IF;
+  RAISE NOTICE 'leave fl_u ....';
+  RETURN OLD;
+END;
+$$;
+
+
+ALTER FUNCTION public.featureloc_fn_u() OWNER TO postgres;
+
+--
 -- Name: featureloc_pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -5462,7 +5643,7 @@ DECLARE
   f_type_miRNA CONSTANT varchar :='miRNA';
   f_type_miscRNA CONSTANT varchar :='misc. non-coding RNA';
   f_type_pseudo CONSTANT varchar :='pseudogene';
-  f_type_protein CONSTANT varchar :='protein';
+  f_type_protein CONSTANT varchar :='polypeptide';
   f_type_allele CONSTANT varchar :='alleleof';
   f_return feature.feature_id%TYPE;
   f_row feature%ROWTYPE;
@@ -5542,13 +5723,12 @@ DECLARE
   f_feature feature.feature_id%TYPE;
   f_type_est CONSTANT varchar :='EST';
   f_type_cdna CONSTANT varchar :='cDNA';
-  f_type_protein CONSTANT varchar :='protein';
+  f_type_protein CONSTANT varchar :='polypeptide';
   feature_HSP_csr cursor for SELECT feature_id from featureloc where srcfeature_id=OLD.feature_id;
-  feature_clone_csr cursor for  select DISTINCT object_id from feature_relationship
-			     where subject_id in (select feature_id from
-			     featureloc where srcfeature_id=OLD.feature_id);
+  feature_clone_csr cursor for  select DISTINCT object_id from feature_relationship where subject_id in (select feature_id from featureloc where srcfeature_id=OLD.feature_id);
   message varchar(255);
 BEGIN
+      IF OLD.is_analysis='t' THEN
      	 RAISE NOTICE 'enter feature_evi_del, feature uniquename:%, type_id:%',OLD.uniquename, OLD.type_id;
          SELECT INTO f_type name from cvterm  where cvterm_id=OLD.type_id;
 	 
@@ -5579,8 +5759,8 @@ BEGIN
 		      close feature_clone_csr;
 		      END IF;
 		   END IF;
-			
-                RETURN NEW;
+    END IF;			
+      RETURN NEW;
         END;
 $$;
 
@@ -12311,6 +12491,13 @@ CREATE TABLE public.audit_chado (
 
 
 ALTER TABLE public.audit_chado OWNER TO postgres;
+
+--
+-- Name: TABLE audit_chado; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.audit_chado IS 'Records auditing information for tables in chado.  The tables to be audited will have trigger functions to populate this table.';
+
 
 --
 -- Name: cell_line; Type: TABLE; Schema: public; Owner: postgres
@@ -20814,7 +21001,7 @@ ALTER TABLE ONLY public.feature_cvterm_dbxref
 --
 
 ALTER TABLE ONLY public.feature_cvterm
-    ADD CONSTRAINT feature_cvterm_feature_id_key UNIQUE (feature_id, cvterm_id, pub_id);
+    ADD CONSTRAINT feature_cvterm_feature_id_key UNIQUE (feature_id, cvterm_id, pub_id, is_not);
 
 
 --
@@ -22982,6 +23169,13 @@ CREATE INDEX analysisprop_idx1 ON public.analysisprop USING btree (analysis_id);
 --
 
 CREATE INDEX analysisprop_idx2 ON public.analysisprop USING btree (type_id);
+
+
+--
+-- Name: audit_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX audit_idx1 ON public.audit_chado USING btree (audited_table, record_pkey);
 
 
 --
@@ -25754,6 +25948,20 @@ CREATE TRIGGER featureloc_audit AFTER INSERT OR DELETE OR UPDATE ON public.featu
 --
 
 CREATE TRIGGER featureloc_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureloc_pub FOR EACH ROW EXECUTE PROCEDURE public.featureloc_pub_audit();
+
+
+--
+-- Name: featureloc featureloc_tr_u; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER featureloc_tr_u AFTER UPDATE ON public.featureloc FOR EACH ROW EXECUTE PROCEDURE public.featureloc_fn_u();
+
+
+--
+-- Name: featureloc featureloctr_i; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER featureloctr_i AFTER INSERT ON public.featureloc FOR EACH ROW EXECUTE PROCEDURE public.featureloc_fn_i();
 
 
 --
@@ -30069,13 +30277,6 @@ GRANT ALL ON FUNCTION public.featurerange_audit() TO postgres;
 
 
 --
--- Name: FUNCTION fn_feature_evi_del(); Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON FUNCTION public.fn_feature_evi_del() TO postgres;
-
-
---
 -- Name: FUNCTION genotype_audit(); Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -30917,6 +31118,15 @@ GRANT ALL ON TABLE public.analysisprop TO PUBLIC;
 GRANT ALL ON SEQUENCE public.analysisprop_analysisprop_id_seq TO postgres;
 GRANT ALL ON SEQUENCE public.analysisprop_analysisprop_id_seq TO postgres;
 GRANT ALL ON SEQUENCE public.analysisprop_analysisprop_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE audit_chado; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.audit_chado TO postgres;
+GRANT ALL ON TABLE public.audit_chado TO postgres;
+GRANT ALL ON TABLE public.audit_chado TO PUBLIC;
 
 
 --
