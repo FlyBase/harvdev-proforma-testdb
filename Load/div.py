@@ -57,3 +57,35 @@ def add_div_data(cursor, org_dict, cv_cvterm_id, feature_id, pub_id, db_dbxref_i
 
         # add feature_synonym
         cursor.execute(fs_sql, (symbol_id, div_id, pub_id))
+
+    # And some funky examples
+    for i in range(13, 15):
+        # Add new div feature
+        name = "C9orf72:n.intron{}[30GGGGCC]".format(i)
+        cursor.execute(div_sql, (name, name, cv_cvterm_id['FlyBase miscellaneous CV']['disease implicated variant'], org_dict['Dmel']))
+        div_id = cursor.fetchone()[0]
+
+        # add 2 humanhealth features for this
+        cursor.execute(f_hh, (feature_id['hh-symbol-{}'.format(i)], div_id, pub_id))
+        cursor.execute(f_hh, (feature_id['hh-symbol-{}'.format(i+1)], div_id, pub_id))
+
+        # add 2 feature dbxref's
+        cursor.execute(f_dbx, (div_id, db_dbxref_id['HGNC']['{}'.format(i)]))
+        cursor.execute(f_dbx, (div_id, db_dbxref_id['HGNC']['{}'.format(i+1)]))
+
+        # add 2 featureprop comments
+        cursor.execute(fp_sql, (div_id,
+                                cv_cvterm_id['FlyBase miscellaneous CV']['comment'],
+                                0,
+                                'set comment {}'.format(i)))
+        cursor.execute(fp_sql, (div_id,
+                                cv_cvterm_id['FlyBase miscellaneous CV']['comment'],
+                                1,
+                                'set comment {}'.format(i+1)))
+
+        # synonym
+        cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+        symbol_id = cursor.fetchone()[0]
+
+        # add feature_synonym
+        cursor.execute(fs_sql, (symbol_id, div_id, pub_id))
