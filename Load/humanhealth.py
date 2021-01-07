@@ -260,7 +260,7 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
     # 1 -> 10 are NOT obsolete so can be used generally.
     # and hh11 which is obsolete and is used for specific test.
     ###################################################
-    for i in range(12):
+    for i in range(20):
         # create human health feature, No need to attach to gene for now.
         if i == 10:
             is_obsolete = True
