@@ -16,7 +16,6 @@ example
        FBto0000027 EGFP
 
 """
-from harvdev_utils.char_conversions import sgml_to_unicode
 
 
 def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib_pub):
@@ -74,6 +73,7 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
             allele_count += 1
             tool_name = "Clk{}".format(j)
             allele_name = "{}[{}]".format(gene_name, tool_name)
+            sgml_name = "{}<up>{}</up>".format(gene_name, tool_name)
             allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
 
             print(" gene {} {}: alllele {} {}".format(gene_name, gene_unique_name, allele_name, allele_unique_name))
@@ -93,8 +93,7 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
             allele_id = cursor.fetchone()[0]
 
             # add synonym for allele
-            allele_sgml = sgml_to_unicode(allele_name)
-            cursor.execute(syn_sql, (allele_name, cvterm_id['symbol'], allele_sgml))
+            cursor.execute(syn_sql, (allele_name, cvterm_id['symbol'], sgml_name))
             symbol_id = cursor.fetchone()[0]
 
             # a dd feature_synonym for allele
