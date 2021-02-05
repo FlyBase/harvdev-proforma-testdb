@@ -44,6 +44,7 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib_
         gene_id = cursor.fetchone()[0]
 
         # create pub
+        print("Adding Gene, Allele and point mutation data against pub GA90_title_{} FBrf{:07d}".format(i+1, gene_count))
         cursor.execute(pub_sql, (cvterm_id['journal'], 'GA90_title_{}'.format(i+1), 'FB{}{:07d}'.format('rf', gene_count),
                                  '2021', 'mini_{}'.format(gene_count)))
         pub_id = cursor.fetchone()[0]
@@ -118,7 +119,7 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib_
             feat_rel = cursor.fetchone()[0]
 
             # featureloc for point mutation
-            print("\t FeatureLoc to point nutation added to 2L:10..11")
+            print("\t FeatureLoc to point mutation added to 2L:10..11")
             cursor.execute(loc_sql, (pm_id, feature_id['2L'], 10, 11, 1))
 
             if (i > 7):
