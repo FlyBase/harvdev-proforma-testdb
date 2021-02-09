@@ -30,7 +30,7 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib_
     allele_count = 60000
     org_id = org_dict['Dmel']
 
-    for i in range(15):
+    for i in range(3):
         gene_count += 1
         gene_name = "GA90_{}".format(i+1)
         gene_unique_name = 'FB{}{:07d}'.format('gn', ((gene_count+1)*100))
