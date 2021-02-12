@@ -30,7 +30,7 @@ feature_cvtermprop type: [
     'common_tool_uses', 'webcv', 'date']
 feature_expression property type: ['curated_as', 'comment']
 feature_pubprop type: ['abstract_languages']
-feature_relationshipprop type: ['fly_disease-implication_change', 'comment']
+feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position']
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
@@ -74,7 +74,7 @@ property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
     'additional_disease-implication_change',
     'allele_report_comment', 'balancer_status', 'bodypart_expression_marker', 'breeding_comment', 'category', 'cellular_description',
-    'comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
+    'comment', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'derived_cyto_location', 'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
     'dros_model_overview', 'etymology', 'extract_chr', 'foreign_seq_data',
     'gen_loc_comment', 'gen_loc_error',
@@ -110,7 +110,8 @@ pub relationship type: ['also_in', 'related_to', 'published_in']
 
 relationship type: [
     'alleleof', 'associated_with', 'attributed_as_expression_of',
-    'belongs_to', 'break_of', 'carried_on', 'cyto_left_end', 'cyto_right_end', 'derived_from',
+    'belongs_to', 'break_of', 'carried_on', 'carries_tool', 'cyto_left_end', 'cyto_right_end', 'derived_from',
+    'encodes_tool',
     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
     'identified_with', 'maps_to_clone', 'member_gene_of', 'molecular_info', 'nomaps_to_clone', 'partof',
