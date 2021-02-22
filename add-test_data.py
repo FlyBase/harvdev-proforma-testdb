@@ -10,8 +10,11 @@ from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
-from Load.allele_merge import create_merge_allele
-from Load.allele_GA90_data import create_allele_GA90
+from Load.allele_specials import (
+    create_merge_allele,
+    create_allele_GA90,
+    create_gene_allele_for_GA10
+)
 from Load.tp_ti import create_tpti
 
 conn = psycopg2.connect(database="fb_test")
@@ -602,6 +605,7 @@ add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pu
 create_merge_allele(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 create_allele_GA90(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id)
+create_gene_allele_for_GA10(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 
 conn.commit()
 conn.close()
