@@ -161,13 +161,21 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
             ############################################
             tte_unique_name = 'FB{}{:07d}'.format('tp', (allele_count))
             tte_name = 'P{}{}-{}.H{}'.format('{', tool_name, gene_name, '}')
-
+            print("transgenic_transposable_element {} {}".format(tte_unique_name, tte_name))
             # create dbxref,  accession -> uniquename
             cursor.execute(dbxref_sql, (db_id['FlyBase'], tte_unique_name))
             dbxref_id = cursor.fetchone()[0]
 
             cursor.execute(feat_sql, (dbxref_id, org_id, tte_name, tte_unique_name, "", 0, cvterm_id['transgenic_transposable_element']))
             tte_id = cursor.fetchone()[0]
+
+            # add synonym for tp
+            cursor.execute(syn_sql, (tte_name, cvterm_id['symbol'], tte_name))
+            symbol_id = cursor.fetchone()[0]
+
+            # add feature_synonym for tp
+            cursor.execute(fs_sql, (symbol_id, tte_id, pub_id))
+            # cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
 
             # add feature pub for tool
             cursor.execute(fp_sql, (tte_id, pub_id))
