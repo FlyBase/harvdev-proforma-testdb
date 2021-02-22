@@ -76,7 +76,7 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
             sgml_name = "{}<up>{}</up>".format(gene_name, tool_name)
             allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
 
-            print(" gene {} {}: alllele {} {}".format(gene_name, gene_unique_name, allele_name, allele_unique_name))
+            print(" gene {} {}: allele {} {}".format(gene_name, gene_unique_name, allele_name, allele_unique_name))
 
             if not j:
                 # add feature pub for gene
