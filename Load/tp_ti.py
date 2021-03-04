@@ -9,6 +9,9 @@ def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_i
     transposable_element_insertion_site  ti
     transgenic_transposable_element      tp
     """
+    # P-element ALready added
+    # cursor.execute(feat_sql, (None, organism_id['Dmel'], 'P-element', 'FBte:temp_1', None, None, cvterm_id['natural_transposable_element']))
+
     for i in range(5):
         tp_name = 'TP{}{}{}'.format('{', i+1, '}')
         ti_name = '{}BGG{}'.format(tp_name, i+1)

@@ -532,6 +532,12 @@ for i in range(1, 11):
 print("Adding transposon data.")
 name = 'FBte0000001'
 cursor.execute(feat_sql, (None, organism_id['Dmel'], 'P-element', 'FBte:temp_0', None, None, cvterm_id['natural_transposable_element']))
+te_id = cursor.fetchone()[0]
+# add synonyms
+cursor.execute(syn_sql, ('P-element', cvterm_id['symbol'], 'P-element'))
+symbol_id = cursor.fetchone()[0]
+# add feature_synonym
+cursor.execute(fs_sql, (symbol_id, te_id, pub_id))
 
 # Cell line
 print("Adding cell line data.")
