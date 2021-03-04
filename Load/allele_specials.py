@@ -367,8 +367,6 @@ def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, 
             sgml_name = "{}<up>{}</up>".format(gene_name, tool_name)
             allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
 
-            print(" gene {} {}: allele {} {}".format(gene_name, gene_unique_name, allele_name, allele_unique_name))
-
             if not j:
                 # add feature pub for gene
                 cursor.execute(fp_sql, (gene_id, pub_id))
@@ -387,7 +385,7 @@ def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, 
             cursor.execute(syn_sql, (allele_name, cvterm_id['symbol'], sgml_name))
             symbol_id = cursor.fetchone()[0]
 
-            # a dd feature_synonym for allele
+            # add feature_synonym for allele
             cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
             cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
 
@@ -396,6 +394,37 @@ def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, 
 
             # feature relationship gene and allele
             cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
+            feat_rel = cursor.fetchone()[0]
+
+            # feat rel pub
+            cursor.execute(frpub_sql, (feat_rel, pub_id))
+
+            ############################################
+            # add FBtp 'transgenic_transposable_element'
+            ############################################
+            tte_unique_name = 'FBtp:temp_1'
+            tte_name = 'P{}{}-{}.H{}'.format('{', tool_name, gene_name, '}')
+            print(" gene {} {}: allele {} {} tp:{}".format(gene_name, gene_unique_name, allele_name, allele_unique_name, tte_name))
+            # create dbxref,  accession -> uniquename
+            # cursor.execute(dbxref_sql, (db_id['FlyBase'], tte_unique_name))
+            # dbxref_id = cursor.fetchone()[0]
+
+            cursor.execute(feat_sql, (None, org_id, tte_name, tte_unique_name, "", 0, cvterm_id['transgenic_transposable_element']))
+            tte_id = cursor.fetchone()[0]
+
+            # add synonym for tp
+            cursor.execute(syn_sql, (tte_name, cvterm_id['symbol'], tte_name))
+            symbol_id = cursor.fetchone()[0]
+
+            # add feature_synonym for tp
+            cursor.execute(fs_sql, (symbol_id, tte_id, pub_id))
+            # cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
+
+            # add feature pub for tool
+            cursor.execute(fp_sql, (tte_id, pub_id))
+
+            # feature relationship tool and allele
+            cursor.execute(feat_rel_sql, (allele_id, tte_id, cvterm_id['associated_with']))
             feat_rel = cursor.fetchone()[0]
 
             # feat rel pub
