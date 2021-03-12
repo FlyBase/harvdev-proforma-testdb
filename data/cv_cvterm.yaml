@@ -10,7 +10,7 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
      'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region']
 molecular_function: ['mRNA binding']
-cellular_component: ['nucleolus', 'something']
+cellular_component: ['nucleolus', 'something' ,'extracellular space']
 biological_process: ['rRNA processing']
 ####### End of order matters cv/cvterms
 
@@ -107,6 +107,8 @@ pubprop type: [
 
 
 pub relationship type: ['also_in', 'related_to', 'published_in']
+
+relationship: ['located_in', 'part_of']
 
 relationship type: [
     'alleleof', 'associated_with', 'attributed_as_expression_of',
