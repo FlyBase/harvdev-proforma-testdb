@@ -8,7 +8,7 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'natural population', 'cloned_region', 'engineered_region', 'transgenic_transposable_element',
      'transposable_element_insertion_site', 'chromosome_band', 'allele', 'transposable_element',
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
-     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region']
+     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'DNA_segment']
 molecular_function: ['mRNA binding']
 cellular_component: ['nucleolus', 'something' ,'extracellular space']
 biological_process: ['rRNA processing']
