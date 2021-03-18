@@ -19,7 +19,7 @@ def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_i
             species = 'Dmel'
             if item_prefix == 'TI':
                 ti_feature_type_name = 'insertion_site'
-                tp_feature_type_name = 'DNA_segment'
+                tp_feature_type_name = 'engineered_region'
                 species = 'Ssss'
             tp_name = '{}{}{}{}'.format(item_prefix, '{', i+1, '}')
             ti_name = '{}BGG{}'.format(tp_name, i+1)
