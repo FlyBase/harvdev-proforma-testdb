@@ -300,3 +300,30 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'anothervalue', 1))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fpp_sql, (fp_id, pub_id))
+
+
+def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
+    """Add gene data for testing !c !d for G24."""
+    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    #     ! G24a. GO - Cellular Component (term ; ID | evidence) [CV] *f :located_in extracellular space ; GO:0002003 | IDA
+
+    # So one feature cvterm but 3 props (or 4 if we do nbot care about id-76 being diff?)
+    # cvname, cvtermname, value
+    data = [{'cvterm': 'date', 'cvname': 'feature_cvtermprop type', 'value': '19671008'},
+            {'cvterm': 'provenance', 'cvname': 'FlyBase miscellaneous CV', 'value': 'FlyBase'},
+            {'cvterm': 'evidence_code', 'cvname': 'FlyBase miscellaneous CV', 'value': 'inferred from direct assay'},
+            {'cvterm': 'located_in', 'cvname': 'relationship', 'value': None}]
+
+    # cvterm is cvterm_id['extracellular space']
+    # Lets create new gene features
+    for i in range(100, 110):
+        # create gene feature
+        feature_id['gene'] = gene_id = create_gene(cursor, 'Dmel', organism_id, i, cvterm_id, feature_id, pub_id, db_id)
+        # create feature cvterm
+        cursor.execute(fc_sql, (gene_id, cvterm_id['extracellular space'], pub_id))
+        fc_id = cursor.fetchone()[0]
+
+        # create feature cvterm props
+        for item in data:
+            cursor.execute(fcp_sql, (fc_id, cvterm_id[item['cvterm']], item['value'], 0))
