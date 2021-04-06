@@ -5,7 +5,7 @@ import yaml
 from Load.humanhealth import add_humanhealth_data
 from Load.pubs import add_pub_data
 from Load.db import add_db_data
-from Load.gene import add_gene_data, add_gene_data_for_bang
+from Load.gene import add_gene_data, add_gene_data_for_bang, add_gene_G24
 from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
@@ -269,7 +269,7 @@ for i in range(10):
 cursor.execute(dbxref_sql, (db_id['FlyBase_internal'], 'FlyBase miscellaneous CV:provenance'))
 dbxref_id['FlyBase miscellaneous CV:provenance'] = cursor.fetchone()[0]
 cursor.execute(cvterm_sql, (dbxref_id['FlyBase miscellaneous CV:provenance'], cv_id['FlyBase miscellaneous CV'], "provenance"))
-
+cvterm_id['provenance'] = cursor.fetchone()[0]
 # projects need different db names and cv's
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
 
@@ -612,6 +612,7 @@ create_merge_allele(cursor, organism_id, feature_id, cvterm_id, db_id, feature_i
 create_allele_GA90(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id)
 create_gene_allele_for_GA10(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
+add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 conn.commit()
 conn.close()
