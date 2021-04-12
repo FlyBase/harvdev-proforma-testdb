@@ -8,6 +8,9 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
 
     for i in range(2, 9):
         cursor.execute(pub_sql, ('Nature_{}'.format(i), cvterm_id['computer file'], 'FBrf000000{}'.format(i), '1967', 'miniref_{}'.format(i)))
+        pub_id = cursor.fetchone()[0]
+        feature_id['Nature_{}'.format(i)] = pub_id
+        print("Pub'{}' id = {}".format('Nature_{}'.format(i), pub_id))
     cursor.execute(pub_sql, ('unattributed', cvterm_id['unattributed'], 'unattributed', '1973', 'miniref_10'))
     pub_id = cursor.fetchone()[0]
     feature_id['unattributed'] = pub_id
@@ -66,7 +69,7 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
                 cursor.execute(pub_dbxref_sql, (pub_id, new_dbxref_id))
 
     # parent with miniref with space inside
-    cursor.execute(pub_sql, ('Paper_Space'.format(i), cvterm_id['paper'], 'FBrf0000020', '1967', 'miniref_{}'.format(20)))
+    cursor.execute(pub_sql, ('Paper_Space', cvterm_id['paper'], 'FBrf0000020', '1967', 'miniref_{}'.format(20)))
     pub_id = cursor.fetchone()[0]
     cursor.execute(pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_space_pub_id))
     return pub_id

@@ -3,7 +3,7 @@ Create data required to test FBtp and FBti.
 """
 
 
-def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id):
+def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id, feature_id):
     """Create FBtp and FBti data.
 
     transposable_element_insertion_site  ti
@@ -38,6 +38,7 @@ def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_i
             # tp second
             cursor.execute(feat_sql, (None, organism_id[species], tp_name, 'FBtp:temp_{}'.format(i), None, None, cvterm_id[tp_feature_type_name]))
             tp_id = cursor.fetchone()[0]
+            feature_id[tp_name] = tp_id
 
             # add synonyms
             cursor.execute(syn_sql, (tp_name, cvterm_id['symbol'], tp_name))

@@ -13,7 +13,8 @@ from Load.div import add_div_data
 from Load.allele_specials import (
     create_merge_allele,
     create_allele_GA90,
-    create_gene_allele_for_GA10
+    create_gene_allele_for_GA10,
+    create_allele_props
 )
 from Load.tp_ti import create_tpti
 
@@ -610,9 +611,10 @@ add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pu
 
 create_merge_allele(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 create_allele_GA90(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id)
+create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id, feature_id)
 create_gene_allele_for_GA10(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+create_allele_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
 
 conn.commit()
 conn.close()
