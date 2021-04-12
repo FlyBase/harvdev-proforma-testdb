@@ -72,8 +72,8 @@ synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 
 property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
-    'additional_disease-implication_change',
-    'allele_report_comment', 'balancer_status', 'bodypart_expression_marker', 'breeding_comment', 'category', 'cellular_description',
+    'additional_disease-implication_change', 'allele_report_comment',
+    'aminoacid_rep', 'balancer_status', 'bodypart_expression_marker', 'breeding_comment', 'category', 'cellular_description',
     'comment', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'derived_cyto_location', 'description', 'diopt_ortholog', 'disease_associated', 'div_comment',
     'dros_model_overview', 'etymology', 'extract_chr', 'foreign_seq_data',
@@ -90,7 +90,7 @@ property type: [
     'is_genome_annotation_analysed', 'is_physical_interaction_analysed',
     'is_polymorphism_reported', 'is_variant', 'linked_to', 'members_in_db',
     'merge_source', 'misc', 'molecular_description', 'molecular_info',
-    'molobject_type', 'official_db', 'origin_comment',
+    'molobject_type', 'nucleotide_sub', 'official_db', 'origin_comment',
     'other_disease-implication_change', 'phenotype_description',
     'primary_disease-implication_change', 'process_description',
     'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen',
