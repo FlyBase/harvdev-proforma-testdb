@@ -16,8 +16,27 @@ example
        FBto0000027 EGFP
 
 """
+from Load.gene_alleles import create_gene_alleles
+
 gene_count = 50000
 allele_count = 50000
+
+
+def create_merge_allele2(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    """New one with usign generalised functions."""
+    gene_alleles = create_gene_alleles(
+                        cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=5,
+                        num_alleles=3,
+                        gene_prefix='anoth_merge_gene',
+                        allele_prefix=None,
+                        tool_prefix='Clk',
+                        tp_format='P{tool_name-gene_name}.H',
+                        tr_format='allele_name[ZR]',
+                        pub_format="merge_report"
+                        )
+    for g_a in gene_alleles:
+        print("gene {}".format(g_a[0]))
 
 
 def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib_pub):
