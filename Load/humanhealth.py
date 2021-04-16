@@ -377,9 +377,9 @@ def add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref,
                           cvterm_id['hgnc_link'],
                           cvterm_id['hh_ortho_rel_comment']]
         hh_dbxref_id = create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+1)], cvterms_to_add, cursor, pub_id)
-        cursor.execute(f_hh_dbxref_sql, (feature_id['gene'], hh_dbxref_id, pub_id))
+        cursor.execute(f_hh_dbxref_sql, (feature_id['symbol-{}'.format(i+1)], hh_dbxref_id, pub_id))
         hh_dbxref_id = create_hh_dbxref(hh_id, db_dbxref['HGNC']["{}".format(i+6)], cvterms_to_add, cursor, pub_id)
-        cursor.execute(f_hh_dbxref_sql, (feature_id['gene'], hh_dbxref_id, pub_id))
+        cursor.execute(f_hh_dbxref_sql, (feature_id['symbol-{}'.format(i+1)], hh_dbxref_id, pub_id))
 
         # Add 2 BDSC_HD
         cvterms_to_add = [cvterm_id['data_link_bdsc']]

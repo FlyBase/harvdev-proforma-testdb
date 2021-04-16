@@ -16,24 +16,143 @@ example
        FBto0000027 EGFP
 
 """
-from Load.gene_alleles import create_gene_alleles
+from Load.gene_alleles import create_gene_alleles, add_special_merge_data
 
 gene_count = 50000
 allele_count = 50000
 
 
+def create_alpha_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    """Create genes and alleles with 'alpha' in them.
+
+    NOTE: alpha is substituted to 'α' in synonym_sgml in the create_gene_alleles function.
+    """
+    create_gene_alleles(
+        cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+        num_genes=1,
+        num_alleles=1,
+        tool_prefix='Clk',
+        gene_prefix='gene_with_alpha',
+        )
+
+
+def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
+    """Add data to test G24 banc and bangd operations."""
+    create_gene_alleles(
+        cursor, organism_id, feature_id, cvterm_id, db_id, pub_id,
+        num_genes=10,
+        num_alleles=1,
+        gene_prefix='G24gene',
+        allele_prefix=None,
+        tool_prefix='Clk',
+        pub_format="G24_title_"
+        )
+    # G24 data. feature cvterm props
+    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    data = [
+        {'cvterm': 'date', 'cvname': 'feature_cvtermprop type', 'value': '19671008'},
+        {'cvterm': 'provenance', 'cvname': 'FlyBase miscellaneous CV', 'value': 'FlyBase'},
+        {'cvterm': 'evidence_code', 'cvname': 'FlyBase miscellaneous CV', 'value': 'inferred from direct assay'},
+        {'cvterm': 'located_in', 'cvname': 'relationship', 'value': None}]
+
+    for i in range(10):
+        # create feature cvterm
+        cursor.execute(fc_sql, (feature_id['G24gene{}'.format(i+1)], cvterm_id['extracellular space'], pub_id))
+        fc_id = cursor.fetchone()[0]
+
+        # create feature cvterm props
+        for item in data:
+            cursor.execute(fcp_sql, (fc_id, cvterm_id[item['cvterm']], item['value'], 0))
+
+
+def create_symbols_again(cursor, org_dict, feature_id, cvterm_id, dbxref_id, db_id, pub_id):
+    """Create the basic symbols.
+
+    NOTE: Probably should have chnaged these to reflect proper genes and alleles but far too late now.
+    """
+    create_gene_alleles(
+        cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+        num_genes=50,
+        num_alleles=1,
+        gene_prefix='symbol-',
+        allele_prefix='al-symbol-',
+        )
+
+    add_special_merge_data(cursor, feature_id, cvterm_id, pub_id, dbxref_id, db_id, org_dict)  # For symbols 11 -> 19
+
+    for abbr in ('Hsap', 'Zzzz', 'Mmus'):
+        create_gene_alleles(
+            cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+            num_genes=10,
+            num_alleles=1,
+            org_abbr=abbr,
+            gene_prefix='{}\\symbol-'.format(abbr),
+            allele_prefix='{}\\al-symbol-'.format(abbr),
+            )
+
+
 def create_merge_allele2(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
     """New one with usign generalised functions."""
+    allele_relationships = [{'name': 'P{<tool_name>-<gene_name>.H}',
+                             'uniquename': 'FBtp<number>',
+                             'type': 'transgenic_transposable_element',
+                             'relationship': 'associated_with'},
+                            {'name': '<allele_name>[ZR]',
+                             'uniquename': 'FBtr<number>',
+                             'type': 'mRNA',
+                             'relationship': 'associated_with',
+                             'subject': True,
+                             'relationship_pub': 'unattributed'}
+                            ]
     gene_alleles = create_gene_alleles(
                         cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=5,
                         num_alleles=3,
-                        gene_prefix='anoth_merge_gene',
+                        gene_prefix='merge_gene',
                         allele_prefix=None,
                         tool_prefix='Clk',
-                        tp_format='P{tool_name-gene_name}.H',
-                        tr_format='allele_name[ZR]',
-                        pub_format="merge_report"
+                        allele_relationships=allele_relationships,
+                        pub_format="merge_title_"
+                        )
+    for g_a in gene_alleles:
+        print("gene {}".format(g_a[0]))
+
+
+def create_gene_allele_for_GA10_2(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    """Test data for GA10."""
+    allele_relationships = [{'name': 'P{<tool_name>-<gene_name>.H}',
+                             'uniquename': 'FBtp<number>',
+                             'type': 'transgenic_transposable_element',
+                             'relationship': 'associated_with'}]
+    create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=5,
+                        num_alleles=3,
+                        gene_prefix='GA10gene',
+                        allele_prefix=None,
+                        tool_prefix='GA10Tool',
+                        allele_relationships=allele_relationships,
+                        pub_format="GA10_title_"
+                        )
+
+
+def create_gene_alleles_with_props(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    """New one with using generalised functions."""
+    props = {'GA12a': ['aminoacid_rep', r'Amino acid replacement: Q100{}term prop 12a'],
+             'GA12a-2': ['nucleotide_sub', r'Nucleotide substitution: {}'],
+             'GA12b': ['molecular_info', r'@Tool-sym-{}@ some test prop wrt 12b'],
+             'GA30f': ['propagate_transgenic_uses', None],
+             'GA85': ['deliberate_omission', 'default comment'],
+             'GA36': ['disease_associated', None]}
+
+    gene_alleles = create_gene_alleles(
+                        cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=5,
+                        num_alleles=1,
+                        gene_prefix='geneprop',
+                        allele_prefix=None,
+                        tool_prefix='Clk',
+                        allele_props=props
                         )
     for g_a in gene_alleles:
         print("gene {}".format(g_a[0]))
@@ -207,6 +326,22 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib
 
             # feat rel pub
             cursor.execute(frpub_sql, (feat_rel, pub_id))
+
+
+def create_allele_GA90_2(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    allele_relationships = [{'name': '',
+                             'uniquename': 'FBtp<number>',
+                             'type': 'transgenic_transposable_element',
+                             'relationship': 'associated_with'}]
+    create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=5,
+                        num_alleles=3,
+                        gene_prefix='GA90_',
+                        allele_prefix=None,
+                        tool_prefix='',
+                        allele_relationships=allele_relationships,
+                        pub_format="GA90_title_{"
+                        )
 
 
 def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, unattrib_pub):
@@ -555,14 +690,3 @@ def create_allele_props(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
                 print("pub='{}', Gene:'{}', Allele:'{}':- prop='{}', value='{}'".format(pub_id, gene_name, allele_name, item[0], value))
                 fp_id = cursor.fetchone()[0]
                 cursor.execute(fpp_sql, (fp_id, pub_id))
-
-            # add relationships
-            rela = {'GA11': ['progenitor', [r'TP{1}', r'TP{2}']]}
-            for item in rela.values():
-                for feat_name in item[1]:
-                    # create relationship between allele and feature (from name)
-                    cursor.execute(feat_rel_sql, (feature_id[feat_name], allele_id, cvterm_id[item[0]]))
-                    feat_rel = cursor.fetchone()[0]
-
-                    # feat rel pub
-                    cursor.execute(frpub_sql, (feat_rel, pub_id))
