@@ -302,7 +302,7 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
-def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
+def add_gene_G24_OLD(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
     """Add gene data for testing !c !d for G24."""
     fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
     fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """

@@ -5,18 +5,22 @@ import yaml
 from Load.humanhealth import add_humanhealth_data
 from Load.pubs import add_pub_data
 from Load.db import add_db_data
-from Load.gene import add_gene_data, add_gene_data_for_bang, add_gene_G24
-from Load.drivers import add_driver_data
+from Load.gene import add_gene_data_for_bang
+# from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
 from Load.allele_specials import (
     create_merge_allele,
-    create_allele_GA90,
+    # create_allele_GA90,
+    create_allele_GA90_2,
     create_gene_allele_for_GA10,
-    create_allele_props
+    create_gene_alleles_with_props,
+    create_symbols_again,
+    create_alpha_alleles,
+    add_gene_G24
 )
-from Load.tp_ti import create_tpti
+from Load.tp_ti import create_tpti, create_tip
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -350,12 +354,8 @@ for beg in [94, 95]:
 # add pubs
 pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
 
-# add genes
-add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
-
-
-# add drivers,
-add_driver_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+# add drivers, Do we need these yet? Just alleles surely?
+# add_driver_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 # add extra db's
 add_db_data(cursor, db_id)
@@ -367,38 +367,8 @@ feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  typ
 feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value) VALUES (%s, %s, %s) """
 feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
 
-# Add Proteins
-for i in range(5):
-    name = "FBpp{:07d}".format(i+1)
-    print("Adding protein {}".format(i+1))
-    # create the protein feature
-    cursor.execute(feat_sql, (None, organism_id['Dmel'], "pp-symbol-{}".format(i+1),
-                              'FBpp:temp_0', None, None, cvterm_id['polypeptide']))
-    protein_id = cursor.fetchone()[0]
 
-    # add synonyms
-    cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)))
-    name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, ("pp-symbol-{}".format(i+1), cvterm_id['symbol'], "pp-symbol-{}".format(i+1)))
-    symbol_id = cursor.fetchone()[0]
-
-    # add feature_synonym
-    cursor.execute(fs_sql, (name_id, protein_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, protein_id, pub_id))
-
-    # add feature_relationship to allele and prop for it
-    cursor.execute(feat_rel_sql, (feature_id["al-symbol-{}".format(i+1)], protein_id, cvterm_id['representative_isoform']))
-    fr_id = cursor.fetchone()[0]
-    print("fr_id = {}, type = {}".format(fr_id, cvterm_id['fly_disease-implication_change']))
-    cursor.execute(feat_relprop_sql, (fr_id, cvterm_id['fly_disease-implication_change'], 'frp-{}'.format(i+1)))
-    cursor.execute(feat_rel_pub, (fr_id, pub_id))
-
-# Humanhealth
-add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, organism_id['Hsap'])
-
-# Disease Implicated Variants (DIV)
-add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
-
+#
 
 # create clones for some genes names to test duplicate names
 for i in range(40, 50):
@@ -460,17 +430,9 @@ for i in range(10):
     # name = "FBti{:07d}".format(i+1)
     tool_sym = "P{}TE{}{}".format('{', i+1, '}')
     print("Adding transposable_element_insertion_site {}".format(tool_sym))
-    # create the tool feature
-    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
-                              'FBti:temp_0', None, None, cvterm_id['transposable_element_insertion_site']))
-    tool_id = feature_id[tool_sym] = cursor.fetchone()[0]
+    # create the ti feature
+    create_tip(cursor, 'ti', tool_sym, organism_id['Dmel'], db_id, cvterm_id, feature_id, 'transposable_element_insertion_site', pub_id)
 
-    # add synonyms
-    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
-    symbol_id = cursor.fetchone()[0]
-
-    # add feature_synonym
-    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
 # transgenic_transposable_element
 for i in range(10):
@@ -478,16 +440,7 @@ for i in range(10):
     print("Adding transgenic_transposable_element {}".format(i+1))
     tool_sym = "P{}TT{}{}".format('{', i+1, '}')
     # create the tool feature
-    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
-                              'FBtp:temp_0', None, None, cvterm_id['transgenic_transposable_element']))
-    tool_id = cursor.fetchone()[0]
-
-    # add synonyms
-    cursor.execute(syn_sql, (tool_sym, cvterm_id['symbol'], tool_sym))
-    symbol_id = cursor.fetchone()[0]
-
-    # add feature_synonym
-    cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
+    create_tip(cursor, 'tp', tool_sym, organism_id['Dmel'], db_id, cvterm_id, feature_id, 'transgenic_transposable_element', pub_id)
 
 # engineered_plasmid
 for i in range(10):
@@ -607,14 +560,57 @@ for i in range(1, 11):
     fr_id = cursor.fetchone()[0]
     cursor.execute(frp_sql, (fr_id, pub_id))
 
+# add genes
+# add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+create_symbols_again(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
+
 add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 create_merge_allele(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-create_allele_GA90(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, cvterm_id, pub_id, feature_id)
+
+# create_allele_GA90(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
+create_allele_GA90_2(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
+
+create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id, pub_id, feature_id)
+
 create_gene_allele_for_GA10(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
+
+# now done in add_gene_data_for_bang
 add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
-create_allele_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
+
+create_gene_alleles_with_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
+create_alpha_alleles(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'])
+# Add Proteins
+for i in range(5):
+    name = "FBpp{:07d}".format(i+1)
+    print("Adding protein {}".format(i+1))
+    # create the protein feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], "pp-symbol-{}".format(i+1),
+                              'FBpp:temp_0', None, None, cvterm_id['polypeptide']))
+    protein_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)))
+    name_id = cursor.fetchone()[0]
+    cursor.execute(syn_sql, ("pp-symbol-{}".format(i+1), cvterm_id['symbol'], "pp-symbol-{}".format(i+1)))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
+    cursor.execute(fs_sql, (name_id, protein_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, protein_id, pub_id))
+
+    # add feature_relationship to allele and prop for it
+    cursor.execute(feat_rel_sql, (feature_id["al-symbol-{}".format(i+1)], protein_id, cvterm_id['representative_isoform']))
+    fr_id = cursor.fetchone()[0]
+    print("fr_id = {}, type = {}".format(fr_id, cvterm_id['fly_disease-implication_change']))
+    cursor.execute(feat_relprop_sql, (fr_id, cvterm_id['fly_disease-implication_change'], 'frp-{}'.format(i+1)))
+    cursor.execute(feat_rel_pub, (fr_id, pub_id))
+
+# Humanhealth
+add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, organism_id['Hsap'])
+
+# Disease Implicated Variants (DIV)
+add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 
 conn.commit()
 conn.close()
