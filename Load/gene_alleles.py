@@ -293,9 +293,10 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
     gene_allele_list = []
     for i in range(num_genes):
         if pub_format:
-            cursor.execute(pub_sql, (cvterm_id['journal'], '{}{}'.format(pub_format, i+1), 'FB{}{:07d}'.format('rf', gene_count),
+            pub_name = '{}{}'.format(pub_format, i+1)
+            cursor.execute(pub_sql, (cvterm_id['journal'], pub_name, 'FB{}{:07d}'.format('rf', gene_count),
                            '2021', 'mini_{}'.format(i+1)))
-            pub_id = cursor.fetchone()[0]
+            pub_id = feature_id[pub_name] = cursor.fetchone()[0]
 
         (gene_name, gene_id) = create_gene(cursor, i, gene_prefix, cvterm_id, org_id, db_id, pub_id, feature_id)
         create_log = " gene: {}".format(gene_name)
