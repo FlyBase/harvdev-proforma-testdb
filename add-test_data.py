@@ -1,25 +1,20 @@
 #!/usr/bin/python
+"""
+:synopsis: Create datas used in testing.
+
+:moduleauthor: Ian Longden <ilongden@morgan.harvard.edu>
+
+"""
 import psycopg2
 import os
 import yaml
 from Load.humanhealth import add_humanhealth_data
 from Load.pubs import add_pub_data
 from Load.db import add_db_data
-from Load.gene import add_gene_data_for_bang
-# from Load.drivers import add_driver_data
 from Load.organism import add_organism_data
 from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
-from Load.allele_specials import (
-    create_merge_allele,
-    # create_allele_GA90,
-    create_allele_GA90_2,
-    create_gene_allele_for_GA10,
-    create_gene_alleles_with_props,
-    create_symbols_again,
-    create_alpha_alleles,
-    add_gene_G24
-)
+from Load.gene_alleles import add_genes_and_alleles
 from Load.tp_ti import create_tpti, create_tip
 
 conn = psycopg2.connect(database="fb_test")
@@ -60,10 +55,12 @@ editor_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames, edito
 
 
 def yaml_parse_and_dispatch():
-    # A dictionary to choose the correct function to load data based on
-    # the filename from the yaml file. When adding new yamls, be sure to
-    # update this dictionary and create an appropriate function.
+    """Parse all yml files.
 
+    A dictionary to choose the correct function to load data based on
+    the filename from the yaml file. When adding new yamls, be sure to
+    update this dictionary and create an appropriate function.
+    """
     dispatch_dictionary = {
         'db_dbxref.yaml': load_db_dbxref,
         'cv_cvterm.yaml': load_cv_cvterm,
@@ -89,11 +86,7 @@ def yaml_parse_and_dispatch():
 
 
 def load_db_dbxref(parsed_yaml):
-
-    #####################
-    # add db and dbxrefs.
-    #####################
-
+    """Load db and dbxrefs."""
     db_acc = parsed_yaml
 
     for db in (db_acc.keys()):
@@ -110,11 +103,7 @@ def load_db_dbxref(parsed_yaml):
 
 
 def load_cv_cvterm(parsed_yaml):
-
-    #################
-    # add a CV (controlled Vocabulary)
-    #################
-
+    """Load a CV (controlled Vocabulary)."""
     cv_cvterm = parsed_yaml
     START = 0
     NEW_DB = 1
@@ -196,7 +185,7 @@ def add_cvterm_namespace(cv_cvterm_id):
 
 
 def load_pub_author_pubprop(parsed_yaml):
-
+    """Load pub author data."""
     #################################
     # add pubs, pubprops, and authors
     #################################
@@ -254,15 +243,6 @@ add_organism_data(cursor, organism_id, cvterm_id, db_id)
 sql = """ INSERT INTO environment (uniquename) VALUES (%s) """
 cursor.execute(sql, ('unspecified',))
 
-# doids = [('0110782', 'hereditary spastic paraplegia 31'),
-#          ('14330', "Parkinson's disease"),
-#          ('0110720', 'neuronal ceroid lipofuscinosis 4B')]
-
-# for doid in doids:
-#     cursor.execute(dbxref_sql, (db_id['DOID'], doid[0]))
-#     dbxref_id[doid[0]] = cursor.fetchone()[0]
-#     cursor.execute(cvterm_sql, (dbxref_id[doid[0]], cv_id['disease_ontology'], doid[1]))
-
 for i in range(10):
     accession = "{:05d}".format(i+1)
     desc = "doid desc {}".format(i+1)
@@ -303,30 +283,8 @@ cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], '
 conn.commit()
 count = cursor.rowcount
 
-###########
-# features
-###########
-"""
-                                            Table "public.feature"
-      Column      |            Type             |                          Modifiers
-------------------+-----------------------------+--------------------------------------------------------------
- feature_id       | integer                     | not null default nextval('feature_feature_id_seq'::regclass)
- dbxref_id        | integer                     |
- organism_id      | integer                     | not null
- name             | character varying(255)      |
- uniquename       | text                        | not null
- residues         | text                        |
- seqlen           | integer                     |
- md5checksum      | character(32)               |
- type_id          | integer                     | not null
- is_analysis      | boolean                     | not null default false
- timeaccessioned  | timestamp without time zone | not null default ('now'::text)::timestamp(6) with time zone
- timelastmodified | timestamp without time zone | not null default ('now'::text)::timestamp(6) with time zone
- is_obsolete      | boolean                     | not null default false
-"""
 ###################
 # create chromosome
-# Hope i do not need the actual sequence
 ###################
 
 feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
@@ -351,11 +309,9 @@ for beg in [94, 95]:
             print("Adding band {}".format(band))
             cursor.execute(feat_sql, (None, organism_id['Dmel'], band, band, None, 0, cvterm_id['chromosome_band']))
             feature_id[band] = cursor.fetchone()[0]
+
 # add pubs
 pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
-
-# add drivers, Do we need these yet? Just alleles surely?
-# add_driver_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 # add extra db's
 add_db_data(cursor, db_id)
@@ -367,9 +323,6 @@ feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  typ
 feat_relprop_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value) VALUES (%s, %s, %s) """
 feat_rel_pub = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
 
-
-#
-
 # create clones for some genes names to test duplicate names
 for i in range(40, 50):
     # name = "FBcl{:07d}".format(i+1)
@@ -378,16 +331,6 @@ for i in range(40, 50):
     cursor.execute(feat_sql, (None, organism_id['Dmel'], "symbol-{}".format(i+1),
                               'FBcl:temp_{}'.format(i), None, None, cvterm_id['cDNA_clone']))
     cdna_id = cursor.fetchone()[0]
-
-    # # add synonyms
-    # cursor.execute(syn_sql, ("clfullname-{}".format(i+1), cvterm_id['fullname'], "clfullname-{}".format(i+1)))
-    # name_id = cursor.fetchone()[0]
-    # cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}".format(i+1)))
-    # symbol_id = cursor.fetchone()[0]
-
-    # # add feature_synonym
-    # cursor.execute(fs_sql, (name_id, cdna_id, pub_id))
-    # cursor.execute(fs_sql, (symbol_id, cdna_id, pub_id))
 
 # mRNA
 for i in range(5):
@@ -425,6 +368,8 @@ for i in range(5):
     # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
+create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id, pub_id, feature_id)
+
 # transposable_element_insertion_site
 for i in range(10):
     # name = "FBti{:07d}".format(i+1)
@@ -460,7 +405,6 @@ for i in range(10):
     cursor.execute(fs_sql, (symbol_id, tool_id, pub_id))
 
 # aberation (chromosome_structure_variation)
-
 for i in range(1, 11):
     # name = "FBmc{:07d}".format(i+1)
     tool_sym = "aberation-{}".format(i)
@@ -561,25 +505,8 @@ for i in range(1, 11):
     cursor.execute(frp_sql, (fr_id, pub_id))
 
 # add genes
-# add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
-create_symbols_again(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
+add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
-add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
-
-create_merge_allele(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-
-# create_allele_GA90(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-create_allele_GA90_2(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-
-create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id, pub_id, feature_id)
-
-create_gene_allele_for_GA10(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
-
-# now done in add_gene_data_for_bang
-add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
-
-create_gene_alleles_with_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
-create_alpha_alleles(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'])
 # Add Proteins
 for i in range(5):
     name = "FBpp{:07d}".format(i+1)
