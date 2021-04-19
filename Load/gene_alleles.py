@@ -138,7 +138,6 @@ def feature_add_to_allele(cursor, count, feat_details, tool_name, gene_name, all
     uniquename = feat_details['uniquename'].replace('<number>', "{:07d}".format(allele_count))
     if name not in feature_id:
         # create dbxref,  accession -> uniquename
-        print("BOB: {} {}".format(name, uniquename))
         cursor.execute(dbxref_sql, (db_id['FlyBase'], uniquename))
         dbxref_id = cursor.fetchone()[0]
         cursor.execute(feat_sql, (dbxref_id, org_id, name, uniquename,
