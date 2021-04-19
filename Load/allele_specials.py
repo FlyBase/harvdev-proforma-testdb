@@ -18,8 +18,8 @@ example
 """
 from Load.gene_alleles import create_gene_alleles, add_special_merge_data
 
-gene_count = 50000
-allele_count = 50000
+gene_count = 0
+allele_count = 0
 
 
 def create_alpha_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):

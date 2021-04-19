@@ -2,8 +2,8 @@
 """Functions to generate genes and alleles."""
 from .humanhealth import create_hh, create_hh_dbxref
 
-gene_count = 150000
-allele_count = 150000
+gene_count = 0
+allele_count = 0
 hh_count = 1000
 
 dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
@@ -48,10 +48,6 @@ def add_special_merge_data(cursor, feature_id, cvterm_id, pub_id, dbxref_id, db_
         cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, 0))  # add prop for gene class
         cursor.execute(fc_sql, (gene_id, cvterm_id['disease_associated'], pub_id))
 
-        # make gene part of gene_group for subset
-        if gene_count > 40 and gene_count < 50:
-            cursor.execute(fc_sql, (gene_id, cvterm_id['gene_group'], pub_id))
-
         # add feature_cvterm_dbxref
         cursor.execute(dbxref_sql, (db_id['testdb'], 'testdb-{}'.format(i)))
         dbxref_id['testdb-{}'.format(i)] = cursor.fetchone()[0]
@@ -88,13 +84,17 @@ def add_special_merge_data(cursor, feature_id, cvterm_id, pub_id, dbxref_id, db_
     for i in range(5):  # five VarClin1->ClinVar5
         cursor.execute(fd_sql, (feature_id["al-symbol-3"], dbxref_id['ClinVar{}'.format(i+1)]))
 
+    # make gene part of gene_group for subset
+    for i in range(40, 50):
+        cursor.execute(fc_sql, (feature_id["symbol-{}".format(i)], cvterm_id['gene_group'], pub_id))
+
 
 def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, feature_id):
     """Get gene name."""
     global gene_count
     gene_count += 1
     gene_name = "{}{}".format(gene_prefix, count+1)
-    gene_unique_name = 'FB{}{:07d}'.format('gn', (gene_count+1))
+    gene_unique_name = 'FB{}{:07d}'.format('gn', (gene_count))
     gene_sgml_name = gene_name.replace('alpha', 'α')
 
     # create dbxref,  accession -> uniquename
