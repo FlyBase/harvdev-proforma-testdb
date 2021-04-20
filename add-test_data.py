@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-:synopsis: Create datas used in testing.
+:synopsis: Create data used in testing.
 
 :moduleauthor: Ian Longden <ilongden@morgan.harvard.edu>
 

@@ -1,5 +1,9 @@
-"""
-Create data required to test FBtp and FBti.
+"""Create data required to test FBtp and FBti.
+
+:synopsis: Create data used in testing for FBtp and FBti.
+
+:moduleauthor: Ian Longden <ilongden@morgan.harvard.edu>
+
 """
 tp_count = 0
 ti_count = 0

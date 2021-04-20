@@ -56,12 +56,14 @@ hh_count = 1000
 dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
 feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
-# fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) """
 fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
-feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id)
-                   VALUES (%s, %s, %s) RETURNING feature_relationship_id """
 syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
+
+feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id)
+             VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+frp_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
 frpub_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
+
 pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
 fp_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s) """
 fprop_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) RETURNING featureprop_id """
@@ -81,7 +83,17 @@ loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, str
 
 
 def add_special_merge_data(cursor, feature_id, cvterm_id, pub_id, dbxref_id, db_id, org_dict):
-    """Add data needed to test merging of genes."""
+    """Add data needed to test merging of genes.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        pub_id: <int> id of pub
+        dbxref_id: <dict> dbxref accession to id
+        db_id: <dict> db name to db id
+        org_dict: <dict> organsim abbreviation to id
+    """
     global hh_count
     for i in range(11, 20):
         gene_id = feature_id['symbol-{}'.format(i)]
@@ -137,7 +149,20 @@ def add_special_merge_data(cursor, feature_id, cvterm_id, pub_id, dbxref_id, db_
 
 
 def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, feature_id):
-    """Get gene name."""
+    """Get gene name.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        count: <int> to be added to the end of the gene prefix
+        gene_prefix: <str> gene name prefix
+        cvterm_id: <dict> cvterm name to id
+        org_id: <int> organism id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+        feature_id: <dict> feature name to id
+    Returns:
+      name and feature_id of newly created gene.
+    """
     global gene_count
     gene_count += 1
     gene_name = "{}{}".format(gene_prefix, count+1)
@@ -167,14 +192,27 @@ def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, fe
     return gene_name, gene_id
 
 
-def feature_add_to_allele(cursor, count, feat_details, tool_name, gene_name, allele_name,
-                          allele_id, cvterm_id, org_id, db_id, pub_id, feature_id):
-    """Get or create tool.
+def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, allele_name,
+                             feat1_id, cvterm_id, org_id, db_id, pub_id, feature_id):
+    """Get/create feature and add relationship to another feature.
 
-    If tool_name in feature_id dictionary lookup if it does not exist create it.
-
-    Returns:
-        <int> feature_id of the feature.
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        count: <int> '<count>' replaced by this in feat_detailes['name'].
+        feat_details: <dict> details of how to create feature.
+             i.e. {'name': "Clk<count>",
+                    'uniquename': 'FBto<number>',
+                    'type': 'engineered_region',
+                    'relationship': 'associated_with'}
+        tool_name: <str> '<tool_name>' replaced this in feat_detailes['name'].
+        gene_name: <str> '<gene_name>' replaced by this in feat_detailes['name'].
+        allele_name: <str> '<allele_name>' replaced by this in feat_detailes['name'].
+        feat1_id: <int> feature id to make relationship too.
+        cvterm_id: <dict> cvterm name to id
+        org_id: <int> organism id
+        db_id: <dict} db name to db id
+        pub_id: <int> id of pub
+        feature_id: <dict> feature name to id
     """
     global allele_count
     new_feat = True
@@ -189,31 +227,31 @@ def feature_add_to_allele(cursor, count, feat_details, tool_name, gene_name, all
         dbxref_id = cursor.fetchone()[0]
         cursor.execute(feat_sql, (dbxref_id, org_id, name, uniquename,
                        "", 0, cvterm_id[feat_details['type']]))
-        feat_id = feature_id[name] = cursor.fetchone()[0]
+        feat2_id = feature_id[name] = cursor.fetchone()[0]
 
         # add synonyms
         cursor.execute(syn_sql, (name, cvterm_id['symbol'], name))
         symbol_id = cursor.fetchone()[0]
 
         # add feature_synonym
-        cursor.execute(fs_sql, (symbol_id, feat_id, pub_id))
+        cursor.execute(fs_sql, (symbol_id, feat2_id, pub_id))
 
     else:
-        feat_id = feature_id[name]
+        feat2_id = feature_id[name]
         new_feat = False
 
     # add feature pub
     if new_feat:
         try:
-            cursor.execute(fp_sql, (feat_id, pub_id))
+            cursor.execute(fp_sql, (feat2_id, pub_id))
         except Exception as e:  # it may already exist
             print("Problem {}, just checking".format(e))
 
-    subject_id = allele_id
-    object_id = feat_id
+    subject_id = feat1_id
+    object_id = feat2_id
     if 'subject' in feat_details and feat_details['subject']:
-        object_id = allele_id
-        subject_id = feat_id
+        object_id = feat1_id
+        subject_id = feat2_id
     # feature relationship tool and allele
     try:
         cursor.execute(feat_rel_sql, (subject_id, object_id, cvterm_id[feat_details['relationship']]))
@@ -226,7 +264,21 @@ def feature_add_to_allele(cursor, count, feat_details, tool_name, gene_name, all
 
 
 def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id, org_id, db_id, pub_id, feature_id):
-    """Create the allele feature."""
+    """Create the allele feature.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        allele_name: <str> name
+        sgml_name: <str> sgml version of name
+        allele_unique_name: <str> uniquename
+        cvterm_id: <dict> cvterm name to id
+        org_id: <int> organism id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+        feature_id: <dict> feature name to id
+    Returns:
+      name and feature_id of newly created allele.
+    """
     # create dbxref,  accession -> uniquename
     cursor.execute(dbxref_sql, (db_id['FlyBase'], allele_unique_name))
     dbxref_id = cursor.fetchone()[0]
@@ -249,7 +301,20 @@ def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id
 
 
 def create_allele(cursor, gene_num, allele_num, gene_id, gene_name, allele_prefix, tool_prefix, cvterm_id, org_id, db_id, pub_id, feature_id):
-    """Create allele and link to gene via the ID."""
+    """Create allele and link to gene via the ID.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        count: <int> to be added to the end of the gene prefix
+        gene_prefix: <str> gene name prefix
+        cvterm_id: <dict> cvterm name to id
+        org_id: <int> organism id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+        feature_id: <dict> feature name to id
+    Returns:
+      name and feature_id of newly created allele.
+    """
     global allele_count
     allele_count += 1
     if allele_prefix:
@@ -275,10 +340,14 @@ def create_allele(cursor, gene_num, allele_num, gene_id, gene_name, allele_prefi
 def add_props(cursor, feat_id, feat_props, cvterm_id, pub_id):
     """Add props to feature.
 
-    feat_id: <int> feature_id to have props added to it.
-    feat_prop: <dict> prop cvterm and value
-        i.e. props = {'GA12a': ['aminoacid_rep', r'Amino acid replacement: Q100{}term prop 12a'],
-                     'GA12a-2': ['nucleotide_sub', r'Nucleotide substitution: {}']}
+    Args:
+        cursor: >sql connection cursor> connection to testdb
+        feat_id: <int> feature_id to have props added to it.
+        feat_prop: <dict> prop cvterm and value
+            i.e. props = {'GA12a': ['aminoacid_rep', r'Amino acid replacement: Q100{}term prop 12a'],
+                          'GA12a-2': ['nucleotide_sub', r'Nucleotide substitution: {}']}
+        cvterm_id: <dict> cvterm name to id
+        pub_id: <int> id of pub
     """
     for item in feat_props.values():
         if item[1]:
@@ -290,6 +359,38 @@ def add_props(cursor, feat_id, feat_props, cvterm_id, pub_id):
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
+def add_relationships(rela_list, cursor, count, tool_name, gene_name, allele_name, feat1_id,
+                      cvterm_id, org_id, db_id, pub_id, feature_id):
+    """Add relationships to feature list.
+
+    Args:
+        rela_list: <list of dicts> relationships to add.
+        cursor: <sql connection cursor> connection to testdb
+        count: <int> '<count>' replaced by this in feat_details['name'].
+        tool_name: <str> '<tool_name>' replaced this in feat_detailes['name'].
+        gene_name: <str> '<gene_name>' replaced by this in feat_detailes['name'].
+        allele_name: <str> '<allele_name>' replaced by this in feat_detailes['name'].
+        feat1_id: <int> feature id to make relationship too.
+        cvterm_id: <dict> cvterm name to id
+        org_id: <int> organism id
+        db_id: <dict} db name to db id
+        pub_id: <int> id of pub
+        feature_id: <dict> feature name to id
+    """
+    log = ""
+    if not rela_list:
+        return log
+    for item in rela_list:
+        rela_pub = pub_id
+        if 'relationship_pub' in item:
+            print("NOTICE: using pub {} for {}.".format(item['relationship_pub'], item['name']))
+            rela_pub = feature_id[item['relationship_pub']]
+        mess = feature_relationship_add(cursor, count, item, tool_name, gene_name, allele_name, feat1_id,
+                                        cvterm_id, org_id, db_id, rela_pub, feature_id)
+        log += " {}".format(mess)
+    return log
+
+
 def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=5, num_alleles=3, gene_prefix=None, allele_prefix=None,
                         tool_prefix=None, gene_relationships=None, allele_relationships=None, pub_format=None,
@@ -298,6 +399,12 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
     """Create the genes and alleles.
 
     Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
         num_genes: <int> Number of genes to create add number to end of gene_prefix for names
         num_alleles: <int> Number of alleles to create add number to end of
                    allele_prefix if exists for names OR
@@ -346,10 +453,8 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
 
         (gene_name, gene_id) = create_gene(cursor, i, gene_prefix, cvterm_id, org_id, db_id, pub_id, feature_id)
         create_log = " gene: {}".format(gene_name)
-        if gene_relationships:
-            for item in gene_relationships:
-                mess = feature_add_to_allele(cursor, i, item, tool_prefix, gene_name, "", gene_id, cvterm_id, org_id, db_id, pub_id, feature_id)
-                create_log = " {}".format(mess)
+        create_log += add_relationships(gene_relationships, cursor, i, "", gene_name, 'allele_name_filler', gene_id,
+                                        cvterm_id, org_id, db_id, pub_id, feature_id)
         print(gene_name)
         allele_ids = []
         # now add 'num_alleles' alleles for each
@@ -357,15 +462,8 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
             (allele_name, allele_id) = create_allele(cursor, i, j, gene_id, gene_name, allele_prefix, tool_prefix, cvterm_id, org_id, db_id, pub_id, feature_id)
             create_log += " allele: {}".format(allele_name)
             allele_ids.append(allele_id)
-            if allele_relationships:
-                for item in allele_relationships:
-                    rela_pub = pub_id
-                    if 'relationship_pub' in item:
-                        print("NOTICE: using pub {} for {}.".format(item['relationship_pub'], item['name']))
-                        rela_pub = feature_id[item['relationship_pub']]
-                    mess = feature_add_to_allele(cursor, j, item, tool_prefix, gene_name, allele_name, allele_id,
-                                                 cvterm_id, org_id, db_id, rela_pub, feature_id)
-                    create_log += " {}".format(mess)
+            create_log += add_relationships(allele_relationships, cursor, i, tool_prefix, gene_name, allele_name, allele_id,
+                                            cvterm_id, org_id, db_id, pub_id, feature_id)
             print(create_log)
             # add props if defined to allele
             if allele_props:
@@ -379,6 +477,14 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
 def create_alpha_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
     """Create genes and alleles with 'alpha' in them.
 
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dicgt> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+
     NOTE: alpha is substituted to 'α' in synonym_sgml in the create_gene_alleles function.
     """
     create_gene_alleles(
@@ -391,7 +497,18 @@ def create_alpha_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id)
 
 
 def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
-    """Add data to test G24 banc and bangd operations."""
+    """Add data to test G24 banc and bangd operations.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        organism_id: <int> organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        dbxref_id: <dict> dbxref name to dbxref id
+        pub_id: <int> id of pub
+        db_id: <dict> db name to db id
+
+    """
     create_gene_alleles(
         cursor, organism_id, feature_id, cvterm_id, db_id, pub_id,
         num_genes=10,
@@ -402,8 +519,8 @@ def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, 
         pub_format="G24_title_"
         )
     # G24 data. feature cvterm props
-    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
-    fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    # fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    # fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
     data = [
         {'cvterm': 'date', 'cvname': 'feature_cvtermprop type', 'value': '19671008'},
         {'cvterm': 'provenance', 'cvname': 'FlyBase miscellaneous CV', 'value': 'FlyBase'},
@@ -422,6 +539,15 @@ def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, 
 
 def create_symbols(cursor, org_dict, feature_id, cvterm_id, dbxref_id, db_id, pub_id):
     """Create the basic symbols.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        dbxref_id: <dict> dbxref name to dbxref id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
 
     NOTE: Probably should have chnaged these to reflect proper genes and alleles but far too late now.
     """
@@ -447,7 +573,16 @@ def create_symbols(cursor, org_dict, feature_id, cvterm_id, dbxref_id, db_id, pu
 
 
 def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
-    """Create gene and alles for merging."""
+    """Create gene and alles for merging.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+    """
     allele_relationships = [{'name': 'P{<tool_name>-<gene_name>.H}',
                              'uniquename': 'FBtp<number>',
                              'type': 'transgenic_transposable_element',
@@ -474,7 +609,17 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
 
 
 def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
-    """Test data for GA10."""
+    """Test data for GA10.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+
+    """
     allele_relationships = [{'name': 'P{<tool_name>-<gene_name>.H}',
                              'uniquename': 'FBtp<number>',
                              'type': 'transgenic_transposable_element',
@@ -491,7 +636,16 @@ def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, 
 
 
 def create_gene_alleles_with_props(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
-    """New one with using generalised functions."""
+    """Create Genes and Alleles with props.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+    """
     props = {'GA12a': ['aminoacid_rep', r'Amino acid replacement: Q100{}term prop 12a'],
              'GA12a-2': ['nucleotide_sub', r'Nucleotide substitution: {}'],
              'GA12b': ['molecular_info', r'@Tool-sym-{}@ some test prop wrt 12b'],
@@ -513,17 +667,16 @@ def create_gene_alleles_with_props(cursor, org_dict, feature_id, cvterm_id, db_i
 
 
 def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
-    feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
-    # fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) """
-    fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
-    feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id)
-                       VALUES (%s, %s, %s) RETURNING feature_relationship_id """
-    frpub_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
-    fp_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s) """
-    fprop_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) RETURNING featureprop_id """
-    fpp_sql = """ INSERT INTO featureprop_pub (featureprop_id, pub_id) VALUES (%s, %s) """
-    loc_sql = """ INSERT INTO featureloc (feature_id, srcfeature_id, fmin, fmax, strand) VALUES (%s, %s, %s, %s, %s) """
+    """Create  Allele data for GA90 bang tests.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+    """
     allele_relationships = [{'name': '',
                              'uniquename': 'FBtp<number>',
                              'type': 'transgenic_transposable_element',
@@ -570,9 +723,6 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
         print("\t FeatureLoc to point mutation added to 2L:10..11")
         cursor.execute(loc_sql, (pm_id, feature_id['2L'], 10, 11, 1))
 
-        if (i > 7):
-            continue
-
         # gen bank feature props
         value = "2L_r6:10..11"
         cursor.execute(fprop_sql, (pm_id, cvterm_id['reported_genomic_loc'], value, 0))
@@ -587,124 +737,20 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
             cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
-def create_allele_props(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
-    """Create allele props.
-
-    For testing bangc/d operations.
-    """
-    global gene_count, allele_count
-    dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
-    feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
-    # fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) """
-    fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
-    feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id)
-                       VALUES (%s, %s, %s) RETURNING feature_relationship_id """
-    syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
-    frpub_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
-    # pub_sql = """ INSERT INTO pub (type_id, title, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
-    fp_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s) """
-    fprop_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) RETURNING featureprop_id """
-    fpp_sql = """ INSERT INTO featureprop_pub (featureprop_id, pub_id) VALUES (%s, %s) """
-
-    org_id = org_dict['Dmel']
-    for i in range(5):  # 5 genes should be enough for now.
-        gene_count += 1
-        gene_name = "geneprop{}".format(i+1)
-        gene_unique_name = 'FB{}{:07d}'.format('gn', ((gene_count+1)*100))
-        print(gene_unique_name)
-        # create dbxref,  accession -> uniquename
-        cursor.execute(dbxref_sql, (db_id['FlyBase'], gene_unique_name))
-        dbxref_id = cursor.fetchone()[0]
-
-        # create the gene feature
-        cursor.execute(feat_sql, (dbxref_id, org_id, gene_name, gene_unique_name, "ACTG"*5, 20, cvterm_id['gene']))
-        gene_id = cursor.fetchone()[0]
-
-        # # create pub
-        # cursor.execute(pub_sql, (cvterm_id['journal'], 'GA10_title_{}'.format(i+1), 'FB{}{:07d}'.format('rf', gene_count),
-        #                          '2020', 'mini_{}'.format(gene_count)))
-        # pub_id = cursor.fetchone()[0]
-
-        # add synonym for gene
-        cursor.execute(syn_sql, (gene_name, cvterm_id['symbol'], gene_name))
-        symbol_id = cursor.fetchone()[0]
-
-        # add feature_synonym for gene
-        cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
-        cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed']))
-
-        # now add 1 alleles for each
-        for j in range(1):
-            allele_count += 1
-            tool_name = "{}".format(j)
-            allele_name = "{}[{}]".format(gene_name, tool_name)
-            sgml_name = "{}<up>{}</up>".format(gene_name, tool_name)
-            allele_unique_name = 'FB{}{:07d}'.format('al', (allele_count))
-
-            if not j:
-                # add feature pub for gene
-                cursor.execute(fp_sql, (gene_id, pub_id))
-
-            ###########################
-            # create the allele feature
-            ###########################
-            # create dbxref,  accession -> uniquename
-            cursor.execute(dbxref_sql, (db_id['FlyBase'], allele_unique_name))
-            dbxref_id = cursor.fetchone()[0]
-
-            cursor.execute(feat_sql, (dbxref_id, org_id, allele_name, allele_unique_name, "", 0, cvterm_id['allele']))
-            allele_id = cursor.fetchone()[0]
-
-            # add synonym for allele
-            cursor.execute(syn_sql, (allele_name, cvterm_id['symbol'], sgml_name))
-            symbol_id = cursor.fetchone()[0]
-
-            # add feature_synonym for allele
-            cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
-            cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
-
-            # add feature pub for allele
-            cursor.execute(fp_sql, (allele_id, pub_id))
-
-            # feature relationship gene and allele
-            cursor.execute(feat_rel_sql, (allele_id, gene_id, cvterm_id['alleleof']))
-            feat_rel = cursor.fetchone()[0]
-
-            # feat rel pub
-            cursor.execute(frpub_sql, (feat_rel, pub_id))
-
-            # {field}: [cvtermprop, value] # value will have 1 {} for substitution or it will be None
-            props = {'GA12a': ['aminoacid_rep', r'Amino acid replacement: Q100{}term prop 12a'],
-                     'GA12a-2': ['nucleotide_sub', r'Nucleotide substitution: {}'],
-                     'GA12b': ['molecular_info', r'@Tool-sym-{}@ some test prop wrt 12b'],
-                     'GA30f': ['propagate_transgenic_uses', None],
-                     'GA85': ['deliberate_omission', 'default comment'],
-                     'GA36': ['disease_associated', None]}
-            for item in props.values():
-                if item[1]:
-                    value = item[1].format(allele_count)
-                else:
-                    value = item[1]
-                cursor.execute(fprop_sql, (allele_id, cvterm_id[item[0]], value, 0))
-                print("pub='{}', Gene:'{}', Allele:'{}':- prop='{}', value='{}'".format(pub_id, gene_name, allele_name, item[0], value))
-                fp_id = cursor.fetchone()[0]
-                cursor.execute(fpp_sql, (fp_id, pub_id))
-
-
 def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
     """Add all the genes needed for testing.
 
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        organism_id: <int> organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        dbxref_id: <dict> dbxref name to dbxref id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+
     Separate as has to be done last when everyrthing exists.
     """
-    fr_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
-    frp_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
-    frpub_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s) """
-    fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
-    fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
-    fp_sql = """ INSERT INTO featureprop (feature_id, type_id, value, rank) VALUES (%s, %s, %s, %s) RETURNING featureprop_id """
-    fpp_sql = """ INSERT INTO featureprop_pub (featureprop_id, pub_id) VALUES (%s, %s) """
-
     # single values/One empty
     for i in range(40, 45):
         count = 0
@@ -717,28 +763,28 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         # G10 bands feature relationship(prop)
         for cvterm_name in ['cyto_left_end', 'cyto_right_end']:
             # G10a Bands (frp)
-            cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
-                                    feature_id['band-{}A1'.format(94+count)],
-                                    cvterm_id[cvterm_name]))
+            cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)],
+                                          feature_id['band-{}A1'.format(94+count)],
+                                          cvterm_id[cvterm_name]))
             fr_id = cursor.fetchone()[0]
             cursor.execute(frp_sql, (fr_id, cvterm_id[cvterm_name], '(determined by in situ hybridisation)', 0))
             cursor.execute(frpub_sql, (fr_id, pub_id))
 
             # G10b Band (fr) no prop
-            cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
-                                    feature_id['band-{}B1'.format(95+count)],
-                                    cvterm_id[cvterm_name]))
+            cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)],
+                                          feature_id['band-{}B1'.format(95+count)],
+                                          cvterm_id[cvterm_name]))
             fr_id = cursor.fetchone()[0]
             cursor.execute(frpub_sql, (fr_id, pub_id))
 
         # G7b feature relationship
         tool_sym = "P{}TE{}{}".format('{', count+1, '}')
-        cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
+        cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frpub_sql, (fr_id, pub_id))
 
         # G11 Feature prop
-        cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
+        cursor.execute(fprop_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
@@ -759,44 +805,54 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         for bit in 'ABCD':
             for cvterm_name in ['cyto_left_end', 'cyto_right_end']:
                 # G10a Bands (frp)
-                cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
-                                        feature_id['band-{}{}1'.format(94+count, bit)],
-                                        cvterm_id[cvterm_name]))
+                cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)],
+                                              feature_id['band-{}{}1'.format(94+count, bit)],
+                                              cvterm_id[cvterm_name]))
                 fr_id = cursor.fetchone()[0]
                 cursor.execute(frp_sql, (fr_id, cvterm_id[cvterm_name], '(determined by in situ hybridisation)', 0))
                 cursor.execute(frpub_sql, (fr_id, pub_id))
 
                 # G10b Band (fr) no prop
-                cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)],
-                                        feature_id['band-{}{}2'.format(95+count, bit)],
-                                        cvterm_id[cvterm_name]))
+                cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)],
+                                              feature_id['band-{}{}2'.format(95+count, bit)],
+                                              cvterm_id[cvterm_name]))
                 fr_id = cursor.fetchone()[0]
                 cursor.execute(frpub_sql, (fr_id, pub_id))
 
         # G7b feature relationship
         tool_sym = "P{}TE{}{}".format('{', count+1, '}')
-        cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
+        cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frpub_sql, (fr_id, pub_id))
 
         tool_sym = "P{}TE{}{}".format('{', count+2, '}')
-        cursor.execute(fr_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
+        cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frpub_sql, (fr_id, pub_id))
 
         # G11 Feature prop
-        cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
+        cursor.execute(fprop_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
-        cursor.execute(fp_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'anothervalue', 1))
+        cursor.execute(fprop_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'anothervalue', 1))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
 def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id):
-    """Create genes and alleles needed for testing."""
-    # add_gene_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
+    """Create genes and alleles needed for testing.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        organism_id: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        dbxref_id: <dict> dbxref name to dbxref id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+
+    """
     create_symbols(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
     add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
@@ -807,7 +863,6 @@ def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id,
 
     create_gene_allele_for_GA10(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['unattributed'])
 
-    # now done in add_gene_data_for_bang
     add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
     create_gene_alleles_with_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
