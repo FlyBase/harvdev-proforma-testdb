@@ -94,48 +94,6 @@ def add_special_merge_data(cursor, feature_id, cvterm_id, pub_id, dbxref_id, db_
         db_id: <dict> db name to db id
         org_dict: <dict> organsim abbreviation to id
     """
-    global hh_count
-    for i in range(11, 20):
-        gene_id = feature_id['symbol-{}'.format(i)]
-        print("merge data for symbols {}".format(i))
-        # add featureprop
-        cursor.execute(fprop_sql, (gene_id, cvterm_id['symbol'], "featprop-{}".format(i), 0))
-
-        # add feature_cvterm
-        cursor.execute(fc_sql, (gene_id, cvterm_id['protein_coding_gene'], pub_id))
-        fc_id = cursor.fetchone()[0]
-        cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, 0))  # add prop for gene class
-        cursor.execute(fc_sql, (gene_id, cvterm_id['disease_associated'], pub_id))
-
-        # add feature_cvterm_dbxref
-        cursor.execute(dbxref_sql, (db_id['testdb'], 'testdb-{}'.format(i)))
-        dbxref_id['testdb-{}'.format(i)] = cursor.fetchone()[0]
-        cursor.execute(fc_dx_sql, (fc_id, dbxref_id['testdb-{}'.format(i)]))
-
-        # feature_grpmember
-        cursor.execute(grp_sql, ('grp-{}'.format(i), 'FBgg:temp_{}'.format(i), cvterm_id['gene_group']))
-        grp_id = cursor.fetchone()[0]
-        cursor.execute(gm_sql, (cvterm_id['grpmember_feature'], grp_id))
-        gm_id = cursor.fetchone()[0]
-        print("grp {}, grpmem {}".format(grp_id, gm_id))
-        cursor.execute(f_gm_sql, (gene_id, gm_id))
-
-        # add feature_humanheath_dbxref
-        # get hh, dbxref
-        hh_id = create_hh(cursor, feature_id, db_id, org_dict['Hsap'], hh_count, is_obsolete=False)
-        cursor.execute(dbxref_sql, (db_id['HGNC'], "HGNC-{}".format(hh_count)))
-
-        dbxref_id["HGNC-{}".format(hh_count)] = cursor.fetchone()[0]
-        print("HHID is {}".format(hh_id))
-        hh_dbxref_id = create_hh_dbxref(hh_id, dbxref_id["HGNC-{}".format(hh_count)], [cvterm_id['hgnc_link']], cursor, pub_id)
-        cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
-        hh_count += 1
-
-        # add a dbxref to test merges/renames etc
-        cursor.execute(dbxref_sql, (db_id['testdb2'], 'testdb2-{}'.format(i)))
-        dbxref_id['testdb2-{}'.format(i)] = cursor.fetchone()[0]
-        cursor.execute(fd_sql, (gene_id, dbxref_id['testdb2-{}'.format(i)]))
-
     for i in range(22, 24):  # and feature location to symbol-22 and symbol-23, to tes they cannot merge with location
         cursor.execute(loc_sql, (feature_id["symbol-{}".format(i)], feature_id['2L'], i*100, (i+1)*100, 1))
 
@@ -737,6 +695,66 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
             cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
+def create_G1f_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id, dbxref_id):
+    """Create gene data for G1f to test merging.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+    """
+    global hh_count
+    create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=6,
+                        num_alleles=1,
+                        gene_prefix='G1f',
+                        tool_prefix='',
+                        )
+    for i in range(1, 7):
+        gene_id = feature_id['G1f{}'.format(i)]
+        print("merge data for G1f{}".format(i))
+        # add featureprop
+        cursor.execute(fprop_sql, (gene_id, cvterm_id['symbol'], "featprop-{}".format(i), 0))
+
+        # add feature_cvterm
+        cursor.execute(fc_sql, (gene_id, cvterm_id['protein_coding_gene'], pub_id))
+        fc_id = cursor.fetchone()[0]
+        cursor.execute(fcp_sql, (fc_id, cvterm_id['gene_class'], None, 0))  # add prop for gene class
+        cursor.execute(fc_sql, (gene_id, cvterm_id['disease_associated'], pub_id))
+
+        # add feature_cvterm_dbxref
+        cursor.execute(dbxref_sql, (db_id['testdb'], 'testdb-{}'.format(i)))
+        dbxref_id['testdb-{}'.format(i)] = cursor.fetchone()[0]
+        cursor.execute(fc_dx_sql, (fc_id, dbxref_id['testdb-{}'.format(i)]))
+
+        # feature_grpmember
+        cursor.execute(grp_sql, ('grp-{}'.format(i), 'FBgg:temp_{}'.format(i), cvterm_id['gene_group']))
+        grp_id = cursor.fetchone()[0]
+        cursor.execute(gm_sql, (cvterm_id['grpmember_feature'], grp_id))
+        gm_id = cursor.fetchone()[0]
+        print("grp {}, grpmem {}".format(grp_id, gm_id))
+        cursor.execute(f_gm_sql, (gene_id, gm_id))
+
+        # add feature_humanheath_dbxref
+        # get hh, dbxref
+        hh_id = create_hh(cursor, feature_id, db_id, org_dict['Hsap'], hh_count, is_obsolete=False)
+        cursor.execute(dbxref_sql, (db_id['HGNC'], "HGNC-{}".format(hh_count)))
+
+        dbxref_id["HGNC-{}".format(hh_count)] = cursor.fetchone()[0]
+        print("HHID is {}".format(hh_id))
+        hh_dbxref_id = create_hh_dbxref(hh_id, dbxref_id["HGNC-{}".format(hh_count)], [cvterm_id['hgnc_link']], cursor, pub_id)
+        cursor.execute(f_hh_dbxref_sql, (gene_id, hh_dbxref_id, pub_id))
+        hh_count += 1
+
+        # add a dbxref to test merges/renames etc
+        cursor.execute(dbxref_sql, (db_id['testdb2'], 'testdb2-{}'.format(i)))
+        dbxref_id['testdb2-{}'.format(i)] = cursor.fetchone()[0]
+        cursor.execute(fd_sql, (gene_id, dbxref_id['testdb2-{}'.format(i)]))
+
+
 def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
     """Add all the genes needed for testing.
 
@@ -867,3 +885,4 @@ def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id,
 
     create_gene_alleles_with_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
     create_alpha_alleles(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'])
+    create_G1f_gene(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'], dbxref_id)
