@@ -156,7 +156,7 @@ def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, 
 
     Args:
         cursor: <sql connection cursor> connection to testdb
-        count: <int> '<count>' replaced by this in feat_detailes['name'].
+        count: <int> '<count>' replaced by this in feat_details['name'].
         feat_details: <dict> details of how to create feature.
              i.e. {'name': "Clk<count>",
                     'uniquename': 'FBto<number>',
@@ -420,7 +420,7 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
             (allele_name, allele_id) = create_allele(cursor, i, j, gene_id, gene_name, allele_prefix, tool_prefix, cvterm_id, org_id, db_id, pub_id, feature_id)
             create_log += " allele: {}".format(allele_name)
             allele_ids.append(allele_id)
-            create_log += add_relationships(allele_relationships, cursor, i, tool_prefix, gene_name, allele_name, allele_id,
+            create_log += add_relationships(allele_relationships, cursor, j, tool_prefix, gene_name, allele_name, allele_id,
                                             cvterm_id, org_id, db_id, pub_id, feature_id)
             print(create_log)
             # add props if defined to allele
