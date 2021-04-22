@@ -662,11 +662,14 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
         # # add synonym for point_mutation: ALREADY EXISTS
         # cursor.execute(syn_sql, (allele_name, cvterm_id['symbol'], sgml_name))
         # pm_symbol_id = cursor.fetchone()[0]
+        cursor.execute("SELECT synonym_id FROM synonym WHERE name = '{}' AND type_id = {}".format(allele_name, cvterm_id['symbol']))
+        pm_symbol_id = cursor.fetchone()[0]
+
 
         # add feature_synonym for point_mutation
         if pub_id != feature_id['unattributed']:
-            cursor.execute(fs_sql, (symbol_id, pm_id, pub_id))
-        cursor.execute(fs_sql, (symbol_id, pm_id, feature_id['unattributed']))
+            cursor.execute(fs_sql, (pm_symbol_id, pm_id, pub_id))
+        cursor.execute(fs_sql, (pm_symbol_id, pm_id, feature_id['unattributed']))
 
         # add feature pub for point_mutation
         cursor.execute(fp_sql, (pm_id, pub_id))
