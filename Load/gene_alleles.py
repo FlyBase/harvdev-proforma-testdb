@@ -651,7 +651,6 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
     for i in range(3):
         allele_name = "GA90_{}[1]".format(i+1)
         org_id = org_dict['Dmel']
-        symbol_id = feature_id[allele_name]
         pub_id = feature_id['GA90_title_{}'.format(i+1)]
         ##################################
         # create point mutation for allele NOTE: pm has same name as allele
@@ -664,7 +663,6 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
         # pm_symbol_id = cursor.fetchone()[0]
         cursor.execute("SELECT synonym_id FROM synonym WHERE name = '{}' AND type_id = {}".format(allele_name, cvterm_id['symbol']))
         pm_symbol_id = cursor.fetchone()[0]
-
 
         # add feature_synonym for point_mutation
         if pub_id != feature_id['unattributed']:
