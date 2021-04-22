@@ -4,7 +4,7 @@ python:
 
 before_install:
   # Pull down our images from Dockerhub.
-  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+  # - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
   - docker pull ubuntu:18.04
 
 script:
