@@ -5,7 +5,7 @@ python:
 before_install:
   # Pull down our images from Dockerhub.
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-  - docker ubuntu:18.04
+  - docker pull ubuntu:18.04
 
 script:
     - docker build . -t flybase/proformatestdb:latest
