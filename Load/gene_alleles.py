@@ -135,6 +135,9 @@ def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, fe
     cursor.execute(feat_sql, (dbxref_id, org_id, gene_name, gene_unique_name, "ACTG"*5, 20, cvterm_id['gene']))
     gene_id = feature_id[gene_name] = cursor.fetchone()[0]
 
+    # create the feature dbxref
+    cursor.execute(fd_sql, (gene_id, dbxref_id))
+
     for syn_type in ('symbol', 'fullname'):
         # add synonym for gene
         cursor.execute(syn_sql, (gene_name, cvterm_id[syn_type], gene_sgml_name))
