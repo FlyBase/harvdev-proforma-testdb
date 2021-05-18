@@ -116,7 +116,7 @@ relationship type: [
     'encodes_tool',
     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
-    'identified_with', 'maps_to_clone', 'member_gene_of', 'molecular_info', 'nomaps_to_clone', 'partof',
+    'identified_with', 'maps_to_clone', 'member_gene_of', 'nomaps_to_clone', 'partof',
     'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
     'recom_right_end', 'recom_left_end','tagged_with']
 
