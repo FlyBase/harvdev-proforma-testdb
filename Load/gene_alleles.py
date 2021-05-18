@@ -315,7 +315,7 @@ def add_props(cursor, feat_id, feat_props, cvterm_id, pub_id):
             value = item[1].format(allele_count)
         else:
             value = item[1]
-        cursor.execute(fprop_sql, (feat_id, cvterm_id[item[0]], value, 0))
+        cursor.execute(fprop_sql, (feat_id, cvterm_id[item[0]], value, 1))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
@@ -862,6 +862,41 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
+
+def create_allele_PDEV_184(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    """Create  Allele data for PDEV-184 bang tests.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        org_dict: <dict> organism abbreviation to organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        db_id: <dict> db name to db id
+        pub_id: <int> id of pub
+    """
+    allele_relationships = [{'name': 'PDEV-184_TEIS',
+                             'uniquename': 'FBti<number>',
+                             'type': 'transposable_element_insertion_site',
+                             'relationship': 'associated_with'}]
+    props = {
+             'GA12b': ['molecular_info', r'@Tool-sym-{}@ some test prop wrt 12b'],
+            }
+
+    create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=2,
+                        num_alleles=4,
+                        gene_prefix='PDEV-184_',
+                        allele_prefix=None,
+                        tool_prefix='',
+                        allele_relationships=allele_relationships,
+                        pub_format="PDEV-184_title_",
+                        allele_props=props
+                        )
+
+
+
+
+
 def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id):
     """Create genes and alleles needed for testing.
 
@@ -890,3 +925,5 @@ def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id,
     create_gene_alleles_with_props(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_2'])
     create_alpha_alleles(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'])
     create_G1f_gene(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'], dbxref_id)
+
+    create_allele_PDEV_184(cursor, organism_id, feature_id, cvterm_id, db_id, pub_id)
