@@ -884,7 +884,7 @@ def create_allele_PDEV_184(cursor, org_dict, feature_id, cvterm_id, db_id, pub_i
 
     create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=2,
-                        num_alleles=4,
+                        num_alleles=6,
                         gene_prefix='PDEV-184_',
                         allele_prefix=None,
                         tool_prefix='',
