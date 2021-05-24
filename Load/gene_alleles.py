@@ -310,14 +310,17 @@ def add_props(cursor, feat_id, feat_props, cvterm_id, pub_id):
         cvterm_id: <dict> cvterm name to id
         pub_id: <int> id of pub
     """
+    count = 0
     for item in feat_props.values():
         if item[1]:
             value = item[1].format(allele_count)
         else:
             value = item[1]
-        cursor.execute(fprop_sql, (feat_id, cvterm_id[item[0]], value, 1))
+        rank = count
+        cursor.execute(fprop_sql, (feat_id, cvterm_id[item[0]], value, rank))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fpp_sql, (fp_id, pub_id))
+        count += 1
 
 
 def add_relationships(rela_list, cursor, count, tool_name, gene_name, allele_name, feat1_id,
@@ -862,7 +865,6 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
-
 def create_allele_PDEV_184(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
     """Create  Allele data for PDEV-184 bang tests.
 
@@ -874,27 +876,44 @@ def create_allele_PDEV_184(cursor, org_dict, feature_id, cvterm_id, db_id, pub_i
         db_id: <dict> db name to db id
         pub_id: <int> id of pub
     """
-    allele_relationships = [{'name': 'PDEV-184_TEIS',
-                             'uniquename': 'FBti<number>',
-                             'type': 'transposable_element_insertion_site',
-                             'relationship': 'associated_with'}]
+    allele_relationships = None
+
     props = {
+             'Noidea': ['internal_notes', 'notes {} man'],
              'GA12b': ['molecular_info', r'@Tool-sym-{}@ some test prop wrt 12b'],
             }
 
     create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
-                        num_genes=2,
+                        num_genes=3,
                         num_alleles=6,
                         gene_prefix='PDEV-184_',
                         allele_prefix=None,
                         tool_prefix='',
                         allele_relationships=allele_relationships,
                         pub_format="PDEV-184_title_",
-                        allele_props=props
-                        )
+                        allele_props=props)
 
+    allele_relationships = [{'name': 'PDEV-184_TEIS',
+                             'uniquename': 'FBti<number>',
+                             'type': 'transposable_element_insertion_site',
+                             'relationship': 'associated_with'},
+                            {'name': 'PDEV-184_tte',
+                             'uniquename': 'FBtp<number>',
+                             'type': 'transgenic_transposable_element',
+                             'relationship': 'associated_with'},
+                            {'name': 'PDEV-184_er',
+                             'uniquename': 'FBto<number>',
+                             'type': 'engineered_region',
+                             'relationship': 'has_reg_region'}]    
 
-
+    create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=3,
+                        num_alleles=1,
+                        gene_prefix='PDEV-184_fr_',
+                        allele_prefix=None,
+                        tool_prefix='',
+                        allele_relationships=allele_relationships,
+                        pub_format="PDEV-184_feat_rela_")
 
 
 def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id):
