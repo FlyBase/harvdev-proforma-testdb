@@ -17,7 +17,7 @@ biological_process: ['rRNA processing']
 cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment']
 cell_line_libraryprop type: ['member_of_reagent_collection', 'experimental_attribute']
 cell_line_relationship: ['targeted_mutant_from']
-CHEBI: ['16188']
+CHEBI: ['1', '2', '3', '4','5']
 
 DOID: []
 disease_ontology: ['hh-1']
