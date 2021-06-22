@@ -714,11 +714,17 @@ def create_G1f_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id, dbxr
         pub_id: <int> id of pub
     """
     global hh_count
+    props = {
+        'Noidea': ['comment', 'comments {}.'],
+        'G28b': ['merge_source', r'merge source something {}'],
+    }
+
     create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=6,
                         num_alleles=1,
                         gene_prefix='G1f',
                         tool_prefix='',
+                        gene_props=props,
                         )
     for i in range(1, 7):
         gene_id = feature_id['G1f{}'.format(i)]

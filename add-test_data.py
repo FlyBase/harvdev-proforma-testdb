@@ -16,6 +16,7 @@ from Load.singlebalancer import add_sb_data
 from Load.div import add_div_data
 from Load.gene_alleles import add_genes_and_alleles
 from Load.tp_ti import create_tpti, create_tip
+from Load.chemical import add_chemical_data
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -443,10 +444,11 @@ cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES 
 cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id['Dmel']))
 
 # Chemical data
-print("Adding chemical data.")
-chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id, dbxref_id) VALUES (%s, %s, %s, %s, %s) """
-cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['16188']))
-cursor.execute(syn_sql, ('CHEBI:16188', cvterm_id['symbol'], 'CHEBI:16188'))
+add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id)
+# print("Adding chemical data.")
+# chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id, dbxref_id) VALUES (%s, %s, %s, %s, %s) """
+# cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['16188']))
+# cursor.execute(syn_sql, ('CHEBI:16188', cvterm_id['symbol'], 'CHEBI:16188'))
 
 # Gene grp
 print("Adding gene grp data.")
