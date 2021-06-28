@@ -15,7 +15,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id):
     # cursor.execute(pub_sql, (pubchem_publication_title)
     # pubchem_pub_id = cursor.fetchone()[0]
 
-    for i in range(5):
+    for i in range(10):
         cursor.execute(chemical_sql, ('octan-{}-ol'.format(i+1), 'FBch:temp_{}'.format(i+1),
                        organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['{}'.format(i+1)]))
         chem_id = cursor.fetchone()[0]
@@ -23,4 +23,3 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id):
         cursor.execute(feat_pub_sql, (chem_id,  chem_pub_id))
         if i:  # first one only linked to chebi paper
             cursor.execute(feat_pub_sql, (chem_id,  pub_id))
-
