@@ -76,6 +76,7 @@ fc_dx_sql = """ INSERT INTO feature_cvterm_dbxref (feature_cvterm_id, dbxref_id)
 f_hh_dbxref_sql = """ INSERT INTO feature_humanhealth_dbxref (feature_id, humanhealth_dbxref_id, pub_id) VALUES (%s, %s, %s) """
 fb_code = 'gn'
 grp_sql = """ INSERT INTO grp (name, uniquename, type_id) VALUES (%s, %s, %s) RETURNING grp_id """
+grp_syn_sql = """ INSERT INTO grp_synonym (grp_id, synonym_id, pub_id, is_current) VALUES (%s, %s, %s, %s) """
 gm_sql = """ INSERT INTO grpmember (type_id, grp_id) VALUES (%s, %s) RETURNING grpmember_id """
 f_gm_sql = """ INSERT INTO feature_grpmember (feature_id, grpmember_id) VALUES (%s, %s) """
 fd_sql = """ INSERT INTO feature_dbxref (feature_id, dbxref_id) VALUES (%s, %s) """
@@ -139,8 +140,14 @@ def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, fe
     cursor.execute(fd_sql, (gene_id, dbxref_id))
 
     for syn_type in ('symbol', 'fullname'):
+        if syn_type == 'fullname':
+            name = "{}-fullname".format(gene_name)
+            sgml_name = "{}-fullname".format(gene_sgml_name)
+        else:
+            name = gene_name
+            sgml_name = gene_sgml_name
         # add synonym for gene
-        cursor.execute(syn_sql, (gene_name, cvterm_id[syn_type], gene_sgml_name))
+        cursor.execute(syn_sql, (name, cvterm_id[syn_type], sgml_name))
         symbol_id = cursor.fetchone()[0]
 
         # add feature_synonym for gene
@@ -249,6 +256,15 @@ def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id
 
     # add synonym for allele
     cursor.execute(syn_sql, (allele_name, cvterm_id['symbol'], sgml_name))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym for allele
+    if pub_id != feature_id['unattributed']:
+        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
+
+    # add fullname synonym for allele
+    cursor.execute(syn_sql, ("{}-fullname".format(allele_name), cvterm_id['fullname'], sgml_name))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym for allele
@@ -750,6 +766,10 @@ def create_G1f_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id, dbxr
         gm_id = cursor.fetchone()[0]
         print("grp {}, grpmem {}".format(grp_id, gm_id))
         cursor.execute(f_gm_sql, (gene_id, gm_id))
+        # grp syn
+        cursor.execute(syn_sql, ('grp-{}'.format(i), cvterm_id['symbol'], 'grp-{}'.format(i)))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(grp_syn_sql, (grp_id, syn_id, feature_id['unattributed'], True))
 
         # add feature_humanheath_dbxref
         # get hh, dbxref
@@ -910,7 +930,7 @@ def create_allele_PDEV_184(cursor, org_dict, feature_id, cvterm_id, db_id, pub_i
                             {'name': 'PDEV-184_er',
                              'uniquename': 'FBto<number>',
                              'type': 'engineered_region',
-                             'relationship': 'has_reg_region'}]    
+                             'relationship': 'has_reg_region'}]
 
     create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=3,

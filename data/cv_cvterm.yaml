@@ -53,7 +53,7 @@ FlyBase miscellaneous CV: [
 GenBank feature qualifier: [
     'comment', 'linked_to', 'na_change', 'pr_change',
     'reported_genomic_loc','reported_na_change', 'reported_pr_change']
-grp property type: ['gg_description']
+grp property type: ['gg_description', 'gg_pathway_abstract']
 grpmember type: ['grpmember_feature']
   
 humanhealth_cvtermprop type: ['doid_term']
