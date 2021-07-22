@@ -264,7 +264,8 @@ def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id
     cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
 
     # add fullname synonym for allele
-    cursor.execute(syn_sql, ("{}-fullname".format(allele_name), cvterm_id['fullname'], sgml_name))
+    cursor.execute(syn_sql, ("{}-fullname".format(allele_name),
+                   cvterm_id['fullname'], "{}-fullname".format(sgml_name)))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym for allele
