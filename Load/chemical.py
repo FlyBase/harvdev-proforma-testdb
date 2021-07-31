@@ -23,7 +23,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         chem_id = cursor.fetchone()[0]
         cursor.execute(syn_sql, ('CHEBI:{}'.format(i+1), cvterm_id['symbol'], 'CHEBI:{}'.format(i+1)))
         cursor.execute(feat_pub_sql, (chem_id,  chem_pub_id))
-        if i:  # first one only linked to chebi paper
+        if i != 4:  # first one only linked to chebi paper
             cursor.execute(feat_pub_sql, (chem_id,  pub_id))
 
     # cretae obsolete values for testing
