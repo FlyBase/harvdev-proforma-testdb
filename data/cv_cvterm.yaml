@@ -11,8 +11,9 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site']
 molecular_function: ['mRNA binding']
 cellular_component: ['nucleolus', 'something' ,'extracellular space']
-biological_process: ['rRNA processing']
+biological_process: ['activation of immune response', 'defense response to other organism', 'rRNA processing']
 ####### End of order matters cv/cvterms
+
 
 cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment']
 cell_line_libraryprop type: ['member_of_reagent_collection', 'experimental_attribute']
@@ -35,25 +36,28 @@ feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 're
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
 FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5',
+                     'embryonic/larval hemolymph',
                      'anatomy 1', 'anatomy 2', 'anatomy 3']
-FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3']
+FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3',
+                         'wandering third instar larval stage']
 FlyBase miscellaneous CV: [
-    'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'chemical entity', 'colocalizes_with', 'comment',
+    'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'biosample', 'biotic stimulus study', 'cell isolation', 'chemical entity', 'colocalizes_with', 'comment',
     'contributes_to', 'disease implicated variant', 'evidence_code', 
-    'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint',
+    'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint', 'functional group',
     'in vitro construct - amino acid replacement', 'in vitro construct - coding region fusion', 
     'in vitro construct - regulatory fusion',
-    'inferred from direct assay', 'inferred from mutant phenotype', 'natural population',
-    'misc 1', 'misc 2', 'misc 3',
+    'inferred from direct assay', 'inferred from mutant phenotype', 'isolated cells', 'natural population',
+    'misc 1', 'misc 2', 'misc 3', 'multi-individual sample',
     'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5',
-    'photoactivatable fluorescent protein', 'protein detection tool',
+    'photoactivatable fluorescent protein', 'protein detection tool', 'project',
     'qualifier', 'reagent collection', 'RNA detection tool', 'single balancer', 'spontaneous',
-    'unspecified']
+    'transcriptome', 'umbrella project', 'unspecified']
 
 GenBank feature qualifier: [
     'comment', 'linked_to', 'na_change', 'pr_change',
     'reported_genomic_loc','reported_na_change', 'reported_pr_change']
-grp property type: ['gg_description', 'gg_pathway_abstract']
+grp property type: ['gg_description', 'gg_pathway_abstract', 'gg_owner', 'gg_comment',
+                    'gg_review_date', 'gg_internal_notes']
 grpmember type: ['grpmember_feature']
   
 humanhealth_cvtermprop type: ['doid_term']
@@ -62,7 +66,7 @@ humanhealth_featureprop type: [
     'human_gene_implicated', 'dmel_gene', 'syn_gene_implicated']
 humanhealth_pubprop type: []
 
-library_cvtermprop type: ['lc2btype']
+library_cvtermprop type: ['lc2btype', 'lc11mtype', 'webcv']
 library_featureprop type: [
     'entropy_score', 'RPKM', 'LFQ_geom_mean_intensity', 'edited_fraction', 'read_count', 'experimental_result',
     'member_of_reagent_collection', 'RPMM']
@@ -74,7 +78,7 @@ property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
     'additional_disease-implication_change', 'allele_report_comment',
     'aminoacid_rep', 'availability','balancer_status', 'bodypart_expression_marker', 'breeding_comment', 'category', 'cellular_description',
-    'comment', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_link', 'data_link_bdsc', 'deliberate_omission',
+    'comment', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_analysis', 'data_type', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'derived_cyto_location', 'description', 'diopt_ortholog', 'discoverer', 'disease_associated', 'div_comment',
     'dros_model_overview', 'etymology', 'extract_chr', 'foreign_seq_data',
     'gen_loc_comment', 'gen_loc_error',
@@ -89,12 +93,12 @@ property type: [
     'is_expression_analysed_in_wildtype', 'is_gene_model_decorated',
     'is_genome_annotation_analysed', 'is_physical_interaction_analysed',
     'is_polymorphism_reported', 'is_variant', 'linked_to', 'members_in_db',
-    'merge_source', 'misc', 'molecular_description', 'molecular_info',
-    'molobject_type', 'nucleotide_sub', 'official_db', 'origin_comment', 'origin_type',
-    'other_disease-implication_change', 'phenotype_description',
+    'merge_source', 'misc', 'mode_of_assay', 'molecular_description', 'molecular_info',
+    'molobject_type', 'nucleotide_sub', 'number_in_collection', 'number_collection_comment', 'official_db', 'origin_comment', 'origin_type',
+    'other_disease-implication_change', 'owner', 'phenotype_description',
     'primary_disease-implication_change', 'process_description',
-    'propagate_transgenic_uses', 'protein_coding_gene', 'reported_antibod_gen',
-    'significant_subject_in_review', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
+    'propagate_transgenic_uses', 'protein_coding_gene', 'protocol', 'reported_antibod_gen',
+    'significant_subject_in_review', 'source_prep', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
 
 pub type: [
     'computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
@@ -116,9 +120,9 @@ relationship type: [
     'encodes_tool',
     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
-    'identified_with', 'maps_to_clone', 'member_gene_of', 'nomaps_to_clone', 'partof',
+    'identified_with', 'maps_to_clone', 'member_gene_of', 'nomaps_to_clone', 'parent_grp', 'partof',
     'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
-    'recom_right_end', 'recom_left_end','tagged_with']
+    'recom_right_end', 'recom_left_end','tagged_with', 'undefined_grp']
 
 selected_anatomy: [
     'unassigned_class', 'selected_anatomy', 'unassigned_anatomy', 'selected_class',
