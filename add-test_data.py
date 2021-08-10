@@ -117,6 +117,16 @@ def load_cv_cvterm(parsed_yaml):
                     'FlyBase miscellaneous CV': (1, 'FBcv', '{:07d}'),
                     'FlyBase development CV':   (1, 'FBdv', '{:08d}')}
 
+    override_count = {'activation of immune response': 2253,
+                      'biosample': 3024,
+                      'biotic stimulus study': 3134,
+                      'cell isolation': 3170,
+                      'defense response to other organism': 98542,
+                      'isolated cells': 3047,
+                      'multi-individual sample': 3141,
+                      'project': 3023,
+                      'transcriptome': 3034,
+                      'umbrella project': 3030}
     for cv_name in (cv_cvterm.keys()):
         cursor.execute(db_sql, (cv_name,))
         db_id[cv_name] = cursor.fetchone()[0]
@@ -133,7 +143,9 @@ def load_cv_cvterm(parsed_yaml):
                 db_name = specific_dbs[cv_name][NEW_DB]
             else:
                 db_name = cv_name
-            if cv_name in specific_dbs:
+            if cvterm_name in override_count:
+                cursor.execute(dbxref_sql, (db_id[db_name], specific_dbs[cv_name][FORMAT].format(override_count[cvterm_name])))
+            elif cv_name in specific_dbs:
                 # special, have different dbxref accession to cvterm name
                 count += 1
                 cursor.execute(dbxref_sql, (db_id[db_name], specific_dbs[cv_name][FORMAT].format(count)))
@@ -158,9 +170,22 @@ def add_cvterm_namespace(cv_cvterm_id):
     example :-
     {experimental_tool_description: [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
                                       'feature_cvtermprop type', 'webcv']]}
+
+    Get data form chado using:-
+    select * from cvterm cvt2, cvterm cvt, cv, dbxref dx, db, cvtermprop cp
+       where cp.type_id = cvt2.cvterm_id and cvt.cvterm_id=cp.cvterm_id and cvt.cv_id = cv.cv_id and
+             db.db_id = dx.db_id and cvt.dbxref_id = dx.dbxref_id and cvt.name in ('multi-individual sample');
+        60467 |    23 |            |   1663354 |           0 |                   0 | webcv |    132580 |
+           20 | A biosample that is derived from multiple individuals. |  14474219 |           0 |                   0 | multi-individual sample |
+               20 | FlyBase miscellaneous CV |            |  14474219 |    80 | 0003141   |         |             |     |
+                   80 | FBcv |            |             |           |     |        263197 |    132580 |   60467 | biosample_attribute |    0
+  (1 row)
     """
     cvtermprop_sql = """  INSERT INTO cvtermprop (cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
-    namespaces = {'experimental_tool_descriptor': [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
+    namespaces = {'biosample_type': [['FlyBase miscellaneous CV', 'isolated cells', 'feature_cvtermprop type', 'webcv']],
+                  'biosample_attribute': [['FlyBase miscellaneous CV', 'multi-individual sample', 'feature_cvtermprop type', 'webcv'],
+                                          ['FlyBase miscellaneous CV', 'cell isolation', 'feature_cvtermprop type', 'webcv']],
+                  'experimental_tool_descriptor': [['FlyBase miscellaneous CV', 'photoactivatable fluorescent protein',
                                                     'feature_cvtermprop type', 'webcv'],
                                                    ['FlyBase miscellaneous CV', 'protein detection tool',
                                                     'feature_cvtermprop type', 'webcv'],
@@ -172,7 +197,13 @@ def add_cvterm_namespace(cv_cvterm_id):
                                        ['FlyBase miscellaneous CV', 'pheno4', 'feature_cvtermprop type', 'webcv'],
                                        ['FlyBase miscellaneous CV', 'pheno5', 'feature_cvtermprop type', 'webcv']],
                   'environmental_qualifier': [['FlyBase miscellaneous CV', 'environ1', 'feature_cvtermprop type', 'webcv'],
-                                              ['FlyBase miscellaneous CV', 'environ2', 'feature_cvtermprop type', 'webcv']]}
+                                              ['FlyBase miscellaneous CV', 'environ2', 'feature_cvtermprop type', 'webcv']],
+                  'dataset_entity_type': [['FlyBase miscellaneous CV', 'project', 'feature_cvtermprop type', 'webcv'],
+                                          ['FlyBase miscellaneous CV', 'biosample', 'feature_cvtermprop type', 'webcv'],
+                                          ['FlyBase miscellaneous CV', 'biotic stimulus study', 'feature_cvtermprop type', 'webcv']],
+                  'project_type': [['FlyBase miscellaneous CV', 'umbrella project', 'feature_cvtermprop type', 'webcv'],
+                                   ['FlyBase miscellaneous CV', 'transcriptome', 'feature_cvtermprop type', 'webcv']],
+                  'reagent_collection_type': [['FlyBase miscellaneous CV', 'transcriptome', 'feature_cvtermprop type', 'webcv']]}
 
     for value in namespaces.keys():
         rank = 0
@@ -258,28 +289,6 @@ cursor.execute(cvterm_sql, (dbxref_id['FlyBase miscellaneous CV:provenance'], cv
 cvterm_id['provenance'] = cursor.fetchone()[0]
 # projects need different db names and cv's
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
-
-# cursor.execute(db_sql, ('FBcv',))
-# db_id['FBcv'] = cursor.fetchone()[0]
-
-# project
-cursor.execute(dbxref_sql, (db_id['FBcv'], '0003023'))
-dbxref_id['0003023'] = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id['0003023'], cv_id['FlyBase miscellaneous CV'], 'project'))
-cvterm_id['project'] = cursor.fetchone()[0]
-cursor.execute(cvprop_sql, (cvterm_id['project'], cvterm_id['webcv'], 'dataset_entity_type'))
-
-# umbrella project
-cursor.execute(dbxref_sql, (db_id['FBcv'], '0003030'))
-dbxref_id['0003030'] = cursor.fetchone()[0]
-cursor.execute(cvterm_sql, (dbxref_id['0003030'], cv_id['FlyBase miscellaneous CV'], 'umbrella project'))
-cvterm_id['umbrella project'] = cursor.fetchone()[0]
-cursor.execute(cvprop_sql, (cvterm_id['umbrella project'], cvterm_id['webcv'], 'project_type'))
-
-#################
-# feature has a dbxref_id but also we ALSO have another table feature_dbxref?
-# feature_dbxref holds current and past values as it has is_current in it.
-#################
 
 conn.commit()
 count = cursor.rowcount
