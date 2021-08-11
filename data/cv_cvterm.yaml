@@ -67,6 +67,8 @@ humanhealth_featureprop type: [
 humanhealth_pubprop type: []
 
 library_cvtermprop type: ['lc2btype', 'lc11mtype', 'webcv']
+library_expression property type: ['curated_as']
+
 library_featureprop type: [
     'entropy_score', 'RPKM', 'LFQ_geom_mean_intensity', 'edited_fraction', 'read_count', 'experimental_result',
     'member_of_reagent_collection', 'RPMM']
