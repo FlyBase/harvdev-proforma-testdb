@@ -17,6 +17,7 @@ from Load.div import add_div_data
 from Load.gene_alleles import add_genes_and_alleles
 from Load.tp_ti import create_tpti, create_tip
 from Load.chemical import add_chemical_data
+from Load.grp import add_grp_data
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -326,6 +327,8 @@ pub_id = add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref)
 # add extra db's
 add_db_data(cursor, db_id)
 
+# add genegrp datas
+add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id)
 
 syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
 fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
