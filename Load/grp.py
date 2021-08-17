@@ -7,7 +7,7 @@ grp_prop_sql = """ INSERT INTO grpprop (grp_id, type_id) VALUES (%s, %s) RETURNI
 grp_proppub_sql = """ INSERT INTO grpprop_pub (grpprop_id, pub_id) VALUES (%s, %s) """
 
 
-def load_gene_grp(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
+def add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
     """Load gene grp info"""
     for i in range(1, 12):
         # grp
