@@ -761,16 +761,20 @@ def create_G1f_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id, dbxr
         cursor.execute(fc_dx_sql, (fc_id, dbxref_id['testdb-{}'.format(i)]))
 
         # feature_grpmember
-        cursor.execute(grp_sql, ('grp-{}'.format(i), 'FBgg:temp_{}'.format(i), cvterm_id['gene_group']))
-        grp_id = cursor.fetchone()[0]
-        cursor.execute(gm_sql, (cvterm_id['grpmember_feature'], grp_id))
+        # cursor.execute(grp_sql, ('grp-{}'.format(i), 'FBgg:temp_{}'.format(i), cvterm_id['gene_group']))
+        # grp_id = cursor.fetchone()[0]
+        cursor.execute(gm_sql, (cvterm_id['grpmember_feature'], feature_id['grp-{}'.format(i)]))
         gm_id = cursor.fetchone()[0]
-        print("grp {}, grpmem {}".format(grp_id, gm_id))
+        # print("grp {}, grpmem {}".format(grp_id, gm_id))
         cursor.execute(f_gm_sql, (gene_id, gm_id))
-        # grp syn
-        cursor.execute(syn_sql, ('grp-{}'.format(i), cvterm_id['symbol'], 'grp-{}'.format(i)))
-        syn_id = cursor.fetchone()[0]
-        cursor.execute(grp_syn_sql, (grp_id, syn_id, feature_id['unattributed'], True))
+        # grp syn DONE in grp.py now
+        # cursor.execute(syn_sql, ('grp-fullname-{}'.format(i), cvterm_id['fullname'], 'grp-{}'.format(i)))
+        # syn_id = cursor.fetchone()[0]
+        # cursor.execute(grp_syn_sql, (grp_id, syn_id, pub_id, True))
+
+        # cursor.execute(syn_sql, ('grp-{}'.format(i), cvterm_id['symbol'], 'grp-{}'.format(i)))
+        # syn_id = cursor.fetchone()[0]
+        # cursor.execute(grp_syn_sql, (grp_id, syn_id, feature_id['unattributed'], True))
 
         # add feature_humanheath_dbxref
         # get hh, dbxref
