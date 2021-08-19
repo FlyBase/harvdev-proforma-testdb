@@ -56,7 +56,7 @@ hh_count = 1000
 dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
 feat_sql = """ INSERT INTO feature (dbxref_id, organism_id, name, uniquename, residues, seqlen, type_id)
                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING feature_id"""
-fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
+fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
 syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
 
 feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id)
@@ -152,8 +152,8 @@ def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, fe
 
         # add feature_synonym for gene
         if pub_id != feature_id['unattributed']:
-            cursor.execute(fs_sql, (symbol_id, gene_id, pub_id))
-        cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed']))
+            cursor.execute(fs_sql, (symbol_id, gene_id, pub_id, True))
+        cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed'], True))
 
     # add feature pub for gene
     cursor.execute(fp_sql, (gene_id, pub_id))
@@ -202,7 +202,7 @@ def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, 
         symbol_id = cursor.fetchone()[0]
 
         # add feature_synonym
-        cursor.execute(fs_sql, (symbol_id, feat2_id, pub_id))
+        cursor.execute(fs_sql, (symbol_id, feat2_id, pub_id, True))
 
     else:
         feat2_id = feature_id[name]
@@ -260,8 +260,8 @@ def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id
 
     # add feature_synonym for allele
     if pub_id != feature_id['unattributed']:
-        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
+        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id, True))
+    cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed'], True))
 
     # add fullname synonym for allele
     cursor.execute(syn_sql, ("{}-fullname".format(allele_name),
@@ -270,8 +270,15 @@ def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id
 
     # add feature_synonym for allele
     if pub_id != feature_id['unattributed']:
-        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id))
-    cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed']))
+        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id, True))
+    cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed'], True))
+
+    # add alternative not current feature_synonym for allele
+    cursor.execute(syn_sql, ("alt-{}".format(allele_name),
+                   cvterm_id['symbol'], "alt-{}".format(sgml_name)))
+    symbol_id = cursor.fetchone()[0]
+    if pub_id != feature_id['unattributed']:
+        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id, False))
 
     # add feature pub for allele
     cursor.execute(fp_sql, (allele_id, pub_id))
@@ -689,8 +696,8 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
 
         # add feature_synonym for point_mutation
         if pub_id != feature_id['unattributed']:
-            cursor.execute(fs_sql, (pm_symbol_id, pm_id, pub_id))
-        cursor.execute(fs_sql, (pm_symbol_id, pm_id, feature_id['unattributed']))
+            cursor.execute(fs_sql, (pm_symbol_id, pm_id, pub_id, True))
+        cursor.execute(fs_sql, (pm_symbol_id, pm_id, feature_id['unattributed'], True))
 
         # add feature pub for point_mutation
         cursor.execute(fp_sql, (pm_id, pub_id))
