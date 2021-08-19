@@ -5,6 +5,7 @@ grp_dbxref_sql = """ INSERT INTO grp_dbxref (grp_id, dbxref_id) VALUES (%s, %s) 
 grp_cvterm_sql = """ INSERT INTO grp_cvterm (grp_id, cvterm_id, pub_id) VALUES (%s, %s, %s) """
 grp_prop_sql = """ INSERT INTO grpprop (grp_id, type_id) VALUES (%s, %s) RETURNING grpprop_id """
 grp_proppub_sql = """ INSERT INTO grpprop_pub (grpprop_id, pub_id) VALUES (%s, %s) """
+grp_pub_sql = """ INSERT INTO grp_pub (grp_id, pub_id) VALUES (%s, %s) """
 
 
 def add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
@@ -24,6 +25,10 @@ def add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
         feature_id['grp-{}'.format(i)] = syn_id = cursor.fetchone()[0]
         cursor.execute(grp_syn_sql, (grp_id, syn_id, feature_id['unattributed'], True))
         cursor.execute(grp_syn_sql, (grp_id, syn_id, pub_id, True))
+
+        # add pubs
+        cursor.execute(grp_pub_sql, (grp_id, pub_id))
+        cursor.execute(grp_pub_sql, (grp_id, feature_id['unattributed']))
 
         # add dbxref HGNC-GG1 accession 1
         cursor.execute(grp_dbxref_sql, (grp_id, dbxref_id['HGNC-GG1-acc']))
