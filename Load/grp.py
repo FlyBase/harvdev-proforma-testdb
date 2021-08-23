@@ -6,6 +6,8 @@ grp_cvterm_sql = """ INSERT INTO grp_cvterm (grp_id, cvterm_id, pub_id) VALUES (
 grp_prop_sql = """ INSERT INTO grpprop (grp_id, type_id, value) VALUES (%s, %s, %s) RETURNING grpprop_id """
 grp_proppub_sql = """ INSERT INTO grpprop_pub (grpprop_id, pub_id) VALUES (%s, %s) """
 grp_pub_sql = """ INSERT INTO grp_pub (grp_id, pub_id) VALUES (%s, %s) """
+grp_relationship_sql = """ INSERT INTO grp_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) RETURNING grp_relationship_id"""
+grp_relationshippub_sql = """ INSERT INTO grp_relationship_pub (grp_relationship_id, pub_id) VALUES (%s, %s) """
 
 
 def add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
@@ -52,3 +54,10 @@ def add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
 
         # add proppub
         cursor.execute(grp_proppub_sql, (grpprop_id, pub_id))
+
+        # add parent relatinship
+        if i > 1:
+            cursor.execute(grp_relationship_sql, (grp_id, feature_id['grp-{}'.format(i-1)], cvterm_id['parent_grp']))
+            grp_rel_id = cursor.fetchone()[0]
+            # now add the pub
+            cursor.execute(grp_relationshippub_sql, (grp_rel_id, pub_id))
