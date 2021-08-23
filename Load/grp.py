@@ -41,8 +41,10 @@ def add_grp_data(cursor, feature_id, cvterm_id, dbxref_id, pub_id):
         # add dbxref HGNC-GG1 accession 1
         cursor.execute(grp_dbxref_sql, (grp_id, dbxref_id['HGNC-GG1-acc']))
 
-        # add cvterm
+        # add cvterms
         cursor.execute(grp_cvterm_sql, (grp_id, cvterm_id['functional group'], pub_id))
+        cursor.execute(grp_cvterm_sql, (grp_id, cvterm_id['something'], pub_id))
+        cursor.execute(grp_cvterm_sql, (grp_id, cvterm_id['nucleolus'], pub_id))
 
         # add prop
         cursor.execute(grp_prop_sql, (grp_id, cvterm_id['gg_owner'], 'owner-{}'.format(i)))
