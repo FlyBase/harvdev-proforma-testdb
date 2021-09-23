@@ -14,8 +14,9 @@ cellular_component: ['nucleolus', 'something' ,'extracellular space']
 biological_process: ['activation of immune response', 'defense response to other organism', 'rRNA processing']
 ####### End of order matters cv/cvterms
 
-
-cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment']
+cell_line_cvtermprop type: ['basis']
+cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment', 'source_genotype',
+                     'source_strain', 'source_cross', 'karyotype']
 cell_line_libraryprop type: ['member_of_reagent_collection', 'experimental_attribute']
 cell_line_relationship: ['targeted_mutant_from']
 CHEBI: ['1', '2', '3', '4','5']
@@ -43,11 +44,11 @@ FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage
 FlyBase miscellaneous CV: [
     'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'biosample', 'biotic stimulus study', 'cell isolation', 'chemical entity', 'colocalizes_with', 'comment',
     'contributes_to', 'disease implicated variant', 'evidence_code', 
-    'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint', 'functional group',
+    'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint', 'functional group', 'female',
     'in vitro construct - amino acid replacement', 'in vitro construct - coding region fusion', 
     'in vitro construct - regulatory fusion',
     'inferred from direct assay', 'inferred from mutant phenotype', 'isolated cells', 'natural population',
-    'misc 1', 'misc 2', 'misc 3', 'multi-individual sample',
+    'male', 'misc 1', 'misc 2', 'misc 3', 'multi-individual sample',
     'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5',
     'photoactivatable fluorescent protein', 'protein detection tool', 'project',
     'qualifier', 'reagent collection', 'RNA detection tool', 'single balancer', 'spontaneous',
