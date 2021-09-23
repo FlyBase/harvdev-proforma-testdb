@@ -18,6 +18,7 @@ from Load.gene_alleles import add_genes_and_alleles
 from Load.tp_ti import create_tpti, create_tip
 from Load.chemical import add_chemical_data
 from Load.grp import add_grp_data
+from Load.cell_line import add_cell_line_data
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -452,15 +453,10 @@ cursor.execute(fs_sql, (symbol_id, te_id, pub_id))
 
 # Cell line
 print("Adding cell line data.")
-cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES (%s, %s, %s) """
-cursor.execute(cellline_sql, ('cellline1', 'cellline1', organism_id['Dmel']))
+add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id)
 
 # Chemical data
 add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id)
-# print("Adding chemical data.")
-# chemical_sql = """ INSERT INTO feature (name, uniquename, organism_id, type_id, dbxref_id) VALUES (%s, %s, %s, %s, %s) """
-# cursor.execute(chemical_sql, ('octan-1-ol', 'FBch0016188', organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['16188']))
-# cursor.execute(syn_sql, ('CHEBI:16188', cvterm_id['symbol'], 'CHEBI:16188'))
 
 # Gene grp
 print("Adding gene grp data.")
