@@ -451,6 +451,24 @@ symbol_id = cursor.fetchone()[0]
 # add feature_synonym
 cursor.execute(fs_sql, (symbol_id, te_id, pub_id))
 
+
+# library
+print("Adding library data.")
+str_sql = """ INSERT INTO library (uniquename, name, type_id, organism_id)
+              VALUES (%s, %s, %s, %s) RETURNING library_id """
+str_fs_sql = """ INSERT INTO library_synonym (synonym_id, library_id,  pub_id)
+                 VALUES (%s, %s, %s) """
+for i in range(1, 11):
+    name = "LIBRARY-{}".format(i)
+    cursor.execute(str_sql, ("FBlc:temp_{}".format(i), name, cv_cvterm_id['FlyBase miscellaneous CV']['reagent collection'], organism_id['Dmel']))
+    feature_id[name] = str_id = cursor.fetchone()[0]
+
+    cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
+    symbol_id = cursor.fetchone()[0]
+
+    # add library_synonym
+    cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
+
 # Cell line
 print("Adding cell line data.")
 add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id)
@@ -480,24 +498,6 @@ for i in range(1, 11):
 
     # add strain_synonym
     cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
-
-# library
-print("Adding library data.")
-str_sql = """ INSERT INTO library (uniquename, name, type_id, organism_id)
-              VALUES (%s, %s, %s, %s) RETURNING library_id """
-str_fs_sql = """ INSERT INTO library_synonym (synonym_id, library_id,  pub_id)
-                 VALUES (%s, %s, %s) """
-for i in range(1, 11):
-    name = "LIBRARY-{}".format(i)
-    cursor.execute(str_sql, ("FBlc:temp_{}".format(i), name, cv_cvterm_id['FlyBase miscellaneous CV']['reagent collection'], organism_id['Dmel']))
-    str_id = cursor.fetchone()[0]
-
-    cursor.execute(syn_sql, (name, cv_cvterm_id['synonym type']['symbol'], name))
-    symbol_id = cursor.fetchone()[0]
-
-    # add library_synonym
-    cursor.execute(str_fs_sql, (symbol_id, str_id, pub_id))
-
 
 # add chromosome_structure_variation
 print("Adding chromosome_structure_variation data.")
