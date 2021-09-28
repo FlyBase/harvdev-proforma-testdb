@@ -9,9 +9,12 @@ def add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id):
     cell_line_libraryprop_sql = """ INSERT INTO cell_line_libraryprop (cell_line_library_id, type_id, rank) VALUES (%s, %s, %s) """
     cell_line_cvterm_sql = """ INSERT INTO  cell_line_cvterm (cell_line_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING cell_line_cvterm_id"""
     cell_line_cvtermprop_sql = """ INSERT INTO  cell_line_cvtermprop (cell_line_cvterm_id, type_id, rank,value) VALUES (%s, %s, %s, %s) """
+    count = 9100001
     for i in range(1, 11):
         name = 'cellline{}'.format(i)
-        cursor.execute(cellline_sql, (name, name, organism_id['Dmel']))
+        uniquename = "FBtc{}".format(count)
+        count += 1
+        cursor.execute(cellline_sql, (name, uniquename, organism_id['Dmel']))
         cellline_id = cursor.fetchone()[0]
 
         # add synonyms
