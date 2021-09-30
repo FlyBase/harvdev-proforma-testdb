@@ -31,6 +31,10 @@ def add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id):
             cursor.execute(celllineprop_sql, (cellline_id, cv_cvterm_id['cell_lineprop type'][prop_cvterm], "{}-{}".format(prop_cvterm, i), 0))
             celllineprop_id = cursor.fetchone()[0]
             cursor.execute(celllineprop_pub_sql, (celllineprop_id, pub_id))
+            if prop_cvterm == 'lab_of_origin':  # add another to test bangd functionality
+                cursor.execute(celllineprop_sql, (cellline_id, cv_cvterm_id['cell_lineprop type'][prop_cvterm], "{}-another{}".format(prop_cvterm, i), 1))
+                celllineprop_id = cursor.fetchone()[0]
+                cursor.execute(celllineprop_pub_sql, (celllineprop_id, pub_id))
 
         # add library
         cursor.execute(cell_line_library_sql, (cellline_id, feature_id['LIBRARY-{}'.format(i)], pub_id))
