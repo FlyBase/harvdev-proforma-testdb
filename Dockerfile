@@ -21,7 +21,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/
 # Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
 #  There are some warnings (in red) that show up during the build. You can hide
 #  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common postgresql-10 postgresql-client-10 postgresql-contrib-10 python3-pip
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common postgresql-13 postgresql-client-13 postgresql-contrib-13 python3-pip
 
 # Note: The official Debian and Ubuntu images automatically ``apt-get clean``
 # after each ``apt-get``
@@ -31,7 +31,7 @@ ADD . .
 
 RUN pip3 install -r requirements.txt
 
-# Run the rest of the commands as the ``postgres`` user created by the ``postgres-10`` package when it was ``apt-get installed``
+# Run the rest of the commands as the ``postgres`` user created by the ``postgres-13`` package when it was ``apt-get installed``
 USER postgres
 
 # Create a PostgreSQL role named ``docker`` with ``docker`` as the password and
@@ -49,29 +49,29 @@ RUN    /etc/init.d/postgresql start &&\
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/10/main/pg_hba.conf
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/13/main/pg_hba.conf
 
-# And add ``listen_addresses`` to ``/etc/postgresql/10/main/postgresql.conf``
-RUN echo "listen_addresses='*'" >> /etc/postgresql/10/main/postgresql.conf
+# And add ``listen_addresses`` to ``/etc/postgresql/13/main/postgresql.conf``
+RUN echo "listen_addresses='*'" >> /etc/postgresql/13/main/postgresql.conf
 
 # Turn on verbose logging for all SQL commands
-RUN echo "log_destination = 'stderr'" >> /etc/postgresql/10/main/postgresql.conf
-RUN echo "logging_collector = on" >> /etc/postgresql/10/main/postgresql.conf
-RUN echo "log_statement = 'all'" >> /etc/postgresql/10/main/postgresql.conf
+RUN echo "log_destination = 'stderr'" >> /etc/postgresql/13/main/postgresql.conf
+RUN echo "logging_collector = on" >> /etc/postgresql/13/main/postgresql.conf
+RUN echo "log_statement = 'all'" >> /etc/postgresql/13/main/postgresql.conf
 
 # https://pythonspeed.com/articles/faster-db-tests/
-RUN echo "fsync = off" >> /etc/postgresql/10/main/postgresql.conf
+RUN echo "fsync = off" >> /etc/postgresql/13/main/postgresql.conf
 
 # Do not add '\' in front of '\' to make '\\'
-RUN echo "standard_conforming_strings = off" >> /etc/postgresql/10/main/postgresql.conf
+RUN echo "standard_conforming_strings = off" >> /etc/postgresql/13/main/postgresql.conf
 
 # https://serverfault.com/questions/323356/postgres-connection-establishment-slow
-RUN echo "log_hostname = off" >> /etc/postgresql/10/main/postgresql.conf
+RUN echo "log_hostname = off" >> /etc/postgresql/13/main/postgresql.conf
 
-RUN echo "log_directory = '/var/log/postgresql'" >> /etc/postgresql/10/main/postgresql.conf
+RUN echo "log_directory = '/var/log/postgresql'" >> /etc/postgresql/13/main/postgresql.conf
 
 # Expose the PostgreSQL port
 EXPOSE 5432
 
 # Set the default command to run when starting the container
-CMD ["/usr/lib/postgresql/10/bin/postgres", "-D", "/var/lib/postgresql/10/main", "-c", "config_file=/etc/postgresql/10/main/postgresql.conf"]
+CMD ["/usr/lib/postgresql/13/bin/postgres", "-D", "/var/lib/postgresql/13/main", "-c", "config_file=/etc/postgresql/13/main/postgresql.conf"]
