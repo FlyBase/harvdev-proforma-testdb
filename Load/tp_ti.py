@@ -68,3 +68,10 @@ def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id
             create_tip(cursor, 'ti', ti_name, organism_id['Dmel'], db_id, cvterm_id, feature_id, ti_feature_type_name, pub_id)
             # add tp
             create_tip(cursor, 'tp', tp_name, organism_id[species], db_id, cvterm_id, feature_id, tp_feature_type_name, pub_id)
+
+    for item_prefix in ('P'):
+        for i in range(5):
+            ti_feature_type_name = 'transposable_element_insertion_site'
+            species = 'Dmel'
+            ti_name = "{}{}test{}{}".format(item_prefix, '{', '}', i+1)
+            create_tip(cursor, 'ti', ti_name, organism_id['Dmel'], db_id, cvterm_id, feature_id, ti_feature_type_name, pub_id)
