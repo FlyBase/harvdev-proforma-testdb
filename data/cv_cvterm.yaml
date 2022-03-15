@@ -121,13 +121,16 @@ relationship: ['located_in', 'part_of']
 
 relationship type: [
     'alleleof', 'associated_with', 'attributed_as_expression_of',
-    'belongs_to', 'break_of', 'carried_on', 'carries_tool', 'cyto_left_end', 'cyto_right_end', 'derived_from',
-    'encodes_tool',
+    'belongs_to', 'break_of', 'carried_on', 'carries_tool', 'cyto_left_end', 'cyto_right_end', 'deletes', 'derived_from',
+    'duplicates', 'encodes_tool',
     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
-    'identified_with', 'maps_to_clone', 'member_gene_of', 'nomaps_to_clone', 'overlap_inferred', 'parent_grp', 'partof',
+    'identified_with', 'maps_to_clone', 'member_gene_of', 'molec_deletes', 'molec_dups',
+    'molec_nondeletes', 'molec_nondups', 'molec_partdeletes', 'molec_partdups', 
+    'nomaps_to_clone', 'nondeletes', 'nonduplicates',
+    'overlap_inferred', 'parent_grp', 'part_deletes', 'part_duplicates', 'partof',
     'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
-    'recom_right_end', 'recom_left_end','tagged_with', 'undefined_grp']
+    'recom_right_end', 'recom_left_end', 'segregant_of', 'tagged_with', 'undefined_grp']
 
 selected_anatomy: [
     'unassigned_class', 'selected_anatomy', 'unassigned_anatomy', 'selected_class',
