@@ -77,6 +77,8 @@ library_strainprop type: ['member_of_reagent_collection', 'experimental_attribut
 
 synonym type: ['fullname', 'symbol', 'unspecified', 'nickname']
 
+phendesc type: ['aberr_pheno']
+
 property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
     'aberr_relationships',
