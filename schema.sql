@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.3
--- Dumped by pg_dump version 11.5
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -109,7 +109,7 @@ CREATE FUNCTION public.analysis_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.analysis_audit() OWNER TO postgres;
+ALTER FUNCTION public.analysis_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION analysis_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -185,7 +185,7 @@ CREATE FUNCTION public.analysisfeature_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.analysisfeature_audit() OWNER TO postgres;
+ALTER FUNCTION public.analysisfeature_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION analysisfeature_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -261,7 +261,7 @@ CREATE FUNCTION public.analysisgrp_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.analysisgrp_audit() OWNER TO postgres;
+ALTER FUNCTION public.analysisgrp_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION analysisgrp_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -337,7 +337,7 @@ CREATE FUNCTION public.analysisgrpmember_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.analysisgrpmember_audit() OWNER TO postgres;
+ALTER FUNCTION public.analysisgrpmember_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION analysisgrpmember_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -389,7 +389,7 @@ CREATE FUNCTION public.analysisprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.analysisprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.analysisprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION analysisprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -407,7 +407,7 @@ CREATE FUNCTION public.boxquery(integer, integer) RETURNS box
     AS $_$SELECT box (create_point($1, $2), create_point($1, $2))$_$;
 
 
-ALTER FUNCTION public.boxquery(integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.boxquery(integer, integer) OWNER TO go;
 
 --
 -- Name: boxquery(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -418,7 +418,7 @@ CREATE FUNCTION public.boxquery(integer, integer, integer) RETURNS box
     AS $_$SELECT box (create_point($1, $2), create_point($1, $3))$_$;
 
 
-ALTER FUNCTION public.boxquery(integer, integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.boxquery(integer, integer, integer) OWNER TO go;
 
 --
 -- Name: boxrange(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -430,7 +430,7 @@ CREATE FUNCTION public.boxrange(integer, integer) RETURNS box
     AS $_$SELECT box (create_point(CAST(0 AS integer), $1), create_point($2,500000000))$_$;
 
 
-ALTER FUNCTION public.boxrange(integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.boxrange(integer, integer) OWNER TO go;
 
 --
 -- Name: boxrange(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -442,7 +442,7 @@ CREATE FUNCTION public.boxrange(integer, integer, integer) RETURNS box
     AS $_$SELECT box (create_point($1, $2), create_point($1,$3))$_$;
 
 
-ALTER FUNCTION public.boxrange(integer, integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.boxrange(integer, integer, integer) OWNER TO go;
 
 --
 -- Name: cell_line_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -503,7 +503,7 @@ CREATE FUNCTION public.cell_line_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -555,7 +555,7 @@ CREATE FUNCTION public.cell_line_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -607,7 +607,7 @@ CREATE FUNCTION public.cell_line_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -659,7 +659,7 @@ CREATE FUNCTION public.cell_line_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -711,7 +711,7 @@ CREATE FUNCTION public.cell_line_feature_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_feature_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_feature_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_feature_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -763,7 +763,7 @@ CREATE FUNCTION public.cell_line_library_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_library_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_library_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_library_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -815,7 +815,7 @@ CREATE FUNCTION public.cell_line_libraryprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_libraryprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_libraryprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_libraryprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -867,7 +867,7 @@ CREATE FUNCTION public.cell_line_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -919,7 +919,7 @@ CREATE FUNCTION public.cell_line_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -971,7 +971,7 @@ CREATE FUNCTION public.cell_line_strain_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_strain_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_strain_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_strain_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1023,7 +1023,7 @@ CREATE FUNCTION public.cell_line_strainprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_strainprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_strainprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_strainprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1095,7 +1095,7 @@ CREATE FUNCTION public.cell_line_synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_line_synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_line_synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_line_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1147,7 +1147,7 @@ CREATE FUNCTION public.cell_lineprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_lineprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_lineprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_lineprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1199,7 +1199,7 @@ CREATE FUNCTION public.cell_lineprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cell_lineprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.cell_lineprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cell_lineprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1329,7 +1329,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.chado_args_init() OWNER TO postgres;
+ALTER FUNCTION public.chado_args_init() OWNER TO go;
 
 --
 -- Name: contact_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -1374,7 +1374,7 @@ CREATE FUNCTION public.contact_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.contact_audit() OWNER TO postgres;
+ALTER FUNCTION public.contact_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION contact_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1392,7 +1392,7 @@ CREATE FUNCTION public.create_point(integer, integer) RETURNS point
     AS $_$SELECT point ($1, $2)$_$;
 
 
-ALTER FUNCTION public.create_point(integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.create_point(integer, integer) OWNER TO go;
 
 --
 -- Name: cv_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -1437,7 +1437,7 @@ CREATE FUNCTION public.cv_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cv_audit() OWNER TO postgres;
+ALTER FUNCTION public.cv_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cv_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1521,7 +1521,7 @@ CREATE FUNCTION public.cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1573,7 +1573,7 @@ CREATE FUNCTION public.cvterm_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cvterm_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.cvterm_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cvterm_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1604,7 +1604,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.cvterm_name_fn_u() OWNER TO postgres;
+ALTER FUNCTION public.cvterm_name_fn_u() OWNER TO go;
 
 --
 -- Name: cvterm_name_fn_ue(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -1628,7 +1628,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.cvterm_name_fn_ue() OWNER TO postgres;
+ALTER FUNCTION public.cvterm_name_fn_ue() OWNER TO go;
 
 --
 -- Name: cvterm_name_fn_up(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -1652,7 +1652,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.cvterm_name_fn_up() OWNER TO postgres;
+ALTER FUNCTION public.cvterm_name_fn_up() OWNER TO go;
 
 --
 -- Name: cvterm_relationship_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -1697,7 +1697,7 @@ CREATE FUNCTION public.cvterm_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cvterm_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.cvterm_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cvterm_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1765,7 +1765,7 @@ CREATE FUNCTION public.cvtermpath_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cvtermpath_audit() OWNER TO postgres;
+ALTER FUNCTION public.cvtermpath_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cvtermpath_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1817,7 +1817,7 @@ CREATE FUNCTION public.cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1869,7 +1869,7 @@ CREATE FUNCTION public.cvtermsynonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.cvtermsynonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.cvtermsynonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION cvtermsynonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -1945,7 +1945,7 @@ CREATE FUNCTION public.db_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.db_audit() OWNER TO postgres;
+ALTER FUNCTION public.db_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION db_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2005,7 +2005,7 @@ CREATE FUNCTION public.dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2057,7 +2057,7 @@ CREATE FUNCTION public.dbxrefprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.dbxrefprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.dbxrefprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION dbxrefprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2125,7 +2125,7 @@ CREATE FUNCTION public.eimage_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.eimage_audit() OWNER TO postgres;
+ALTER FUNCTION public.eimage_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION eimage_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2177,7 +2177,7 @@ CREATE FUNCTION public.environment_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.environment_audit() OWNER TO postgres;
+ALTER FUNCTION public.environment_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION environment_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2229,7 +2229,7 @@ CREATE FUNCTION public.environment_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.environment_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.environment_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION environment_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2328,7 +2328,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.expression_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.expression_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: expression_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -2381,7 +2381,7 @@ CREATE FUNCTION public.expression_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.expression_audit() OWNER TO postgres;
+ALTER FUNCTION public.expression_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION expression_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2433,7 +2433,7 @@ CREATE FUNCTION public.expression_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.expression_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.expression_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION expression_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2485,7 +2485,7 @@ CREATE FUNCTION public.expression_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.expression_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.expression_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION expression_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2537,7 +2537,7 @@ CREATE FUNCTION public.expression_image_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.expression_image_audit() OWNER TO postgres;
+ALTER FUNCTION public.expression_image_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION expression_image_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2589,7 +2589,7 @@ CREATE FUNCTION public.expression_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.expression_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.expression_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION expression_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2641,7 +2641,7 @@ CREATE FUNCTION public.expressionprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.expressionprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.expressionprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION expressionprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2754,7 +2754,7 @@ END;
 $_$;
 
 
-ALTER FUNCTION public.feature_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.feature_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: feature_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -2887,7 +2887,7 @@ CREATE FUNCTION public.feature_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2939,7 +2939,7 @@ CREATE FUNCTION public.feature_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -2991,7 +2991,7 @@ CREATE FUNCTION public.feature_cvterm_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_cvterm_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_cvterm_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_cvterm_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3043,7 +3043,7 @@ CREATE FUNCTION public.feature_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3095,7 +3095,7 @@ CREATE FUNCTION public.feature_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3106,7 +3106,7 @@ COMMENT ON FUNCTION public.feature_dbxref_audit() IS 'This is an automatically g
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: feature; Type: TABLE; Schema: public; Owner: postgres
@@ -3129,7 +3129,7 @@ CREATE TABLE public.feature (
 );
 
 
-ALTER TABLE public.feature OWNER TO postgres;
+ALTER TABLE public.feature OWNER TO go;
 
 --
 -- Name: feature_disjoint_from(integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -3146,7 +3146,7 @@ CREATE FUNCTION public.feature_disjoint_from(integer) RETURNS SETOF public.featu
    ( x.fmax < y.fmin OR x.fmin > y.fmax ) $_$;
 
 
-ALTER FUNCTION public.feature_disjoint_from(integer) OWNER TO postgres;
+ALTER FUNCTION public.feature_disjoint_from(integer) OWNER TO go;
 
 --
 -- Name: feature_expression_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -3191,7 +3191,7 @@ CREATE FUNCTION public.feature_expression_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_expression_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_expression_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_expression_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3243,7 +3243,7 @@ CREATE FUNCTION public.feature_expressionprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_expressionprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_expressionprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_expressionprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3295,7 +3295,7 @@ CREATE FUNCTION public.feature_genotype_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_genotype_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_genotype_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_genotype_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3347,7 +3347,7 @@ CREATE FUNCTION public.feature_grpmember_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_grpmember_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_grpmember_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_grpmember_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3399,7 +3399,7 @@ CREATE FUNCTION public.feature_grpmember_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_grpmember_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_grpmember_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_grpmember_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3451,7 +3451,7 @@ CREATE FUNCTION public.feature_humanhealth_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_humanhealth_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_humanhealth_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_humanhealth_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3503,7 +3503,7 @@ CREATE FUNCTION public.feature_interaction_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_interaction_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_interaction_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_interaction_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3555,7 +3555,7 @@ CREATE FUNCTION public.feature_interaction_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_interaction_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_interaction_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_interaction_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3607,7 +3607,7 @@ CREATE FUNCTION public.feature_interactionprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_interactionprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_interactionprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_interactionprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3631,7 +3631,7 @@ CREATE FUNCTION public.feature_overlaps(integer) RETURNS SETOF public.feature
    ( x.fmax >= y.fmin AND x.fmin <= y.fmax ) $_$;
 
 
-ALTER FUNCTION public.feature_overlaps(integer) OWNER TO postgres;
+ALTER FUNCTION public.feature_overlaps(integer) OWNER TO go;
 
 --
 -- Name: feature_phenotype_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -3676,7 +3676,7 @@ CREATE FUNCTION public.feature_phenotype_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_phenotype_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_phenotype_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_phenotype_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -3933,7 +3933,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.feature_propagatename_fn_u() OWNER TO postgres;
+ALTER FUNCTION public.feature_propagatename_fn_u() OWNER TO go;
 
 --
 -- Name: feature_pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -3978,7 +3978,7 @@ CREATE FUNCTION public.feature_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4030,7 +4030,7 @@ CREATE FUNCTION public.feature_pubprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_pubprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_pubprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_pubprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4082,7 +4082,7 @@ CREATE FUNCTION public.feature_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4193,7 +4193,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.feature_relationship_fn_d() OWNER TO postgres;
+ALTER FUNCTION public.feature_relationship_fn_d() OWNER TO go;
 
 --
 -- Name: feature_relationship_propagatename_fn_i(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -4535,7 +4535,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.feature_relationship_propagatename_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.feature_relationship_propagatename_fn_i() OWNER TO go;
 
 --
 -- Name: feature_relationship_pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -4580,7 +4580,7 @@ CREATE FUNCTION public.feature_relationship_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_relationship_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_relationship_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_relationship_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4632,7 +4632,7 @@ CREATE FUNCTION public.feature_relationshipprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_relationshipprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_relationshipprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_relationshipprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4684,7 +4684,7 @@ CREATE FUNCTION public.feature_relationshipprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_relationshipprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_relationshipprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_relationshipprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4756,7 +4756,7 @@ CREATE FUNCTION public.feature_synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.feature_synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.feature_synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION feature_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4888,7 +4888,7 @@ CREATE FUNCTION public.featureloc_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featureloc_audit() OWNER TO postgres;
+ALTER FUNCTION public.featureloc_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featureloc_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -4992,7 +4992,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.featureloc_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.featureloc_fn_i() OWNER TO go;
 
 --
 -- Name: featureloc_fn_u(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5089,7 +5089,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.featureloc_fn_u() OWNER TO postgres;
+ALTER FUNCTION public.featureloc_fn_u() OWNER TO go;
 
 --
 -- Name: featureloc_pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5134,7 +5134,7 @@ CREATE FUNCTION public.featureloc_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featureloc_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.featureloc_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featureloc_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5164,7 +5164,7 @@ CREATE TABLE public.featureloc (
 );
 
 
-ALTER TABLE public.featureloc OWNER TO postgres;
+ALTER TABLE public.featureloc OWNER TO go;
 
 --
 -- Name: featureloc_slice(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5175,7 +5175,7 @@ CREATE FUNCTION public.featureloc_slice(integer, integer) RETURNS SETOF public.f
     AS $_$SELECT * from featureloc where boxquery($1, $2) @ boxrange(fmin,fmax)$_$;
 
 
-ALTER FUNCTION public.featureloc_slice(integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.featureloc_slice(integer, integer) OWNER TO go;
 
 --
 -- Name: featureloc_slice(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5188,7 +5188,7 @@ CREATE FUNCTION public.featureloc_slice(integer, integer, integer) RETURNS SETOF
    WHERE boxquery($1, $2, $3) && boxrange(srcfeature_id,fmin,fmax)$_$;
 
 
-ALTER FUNCTION public.featureloc_slice(integer, integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.featureloc_slice(integer, integer, integer) OWNER TO go;
 
 --
 -- Name: featureloc_slice(character varying, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5203,7 +5203,7 @@ CREATE FUNCTION public.featureloc_slice(character varying, integer, integer) RET
    AND srcf.name = $1 $_$;
 
 
-ALTER FUNCTION public.featureloc_slice(character varying, integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.featureloc_slice(character varying, integer, integer) OWNER TO go;
 
 --
 -- Name: featuremap_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5256,7 +5256,7 @@ CREATE FUNCTION public.featuremap_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featuremap_audit() OWNER TO postgres;
+ALTER FUNCTION public.featuremap_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featuremap_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5316,7 +5316,7 @@ CREATE FUNCTION public.featuremap_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featuremap_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.featuremap_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featuremap_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5392,7 +5392,7 @@ CREATE FUNCTION public.featurepos_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featurepos_audit() OWNER TO postgres;
+ALTER FUNCTION public.featurepos_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featurepos_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5444,7 +5444,7 @@ CREATE FUNCTION public.featureprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featureprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.featureprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featureprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5496,7 +5496,7 @@ CREATE FUNCTION public.featureprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featureprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.featureprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featureprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5596,7 +5596,7 @@ CREATE FUNCTION public.featurerange_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.featurerange_audit() OWNER TO postgres;
+ALTER FUNCTION public.featurerange_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION featurerange_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -5614,7 +5614,7 @@ CREATE FUNCTION public.featureslice(integer, integer) RETURNS SETOF public.featu
     AS $_$SELECT * from featureloc where boxquery($1, $2) @ boxrange(fmin,fmax)$_$;
 
 
-ALTER FUNCTION public.featureslice(integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.featureslice(integer, integer) OWNER TO go;
 
 --
 -- Name: fn_feature_del(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5709,7 +5709,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.fn_feature_del() OWNER TO postgres;
+ALTER FUNCTION public.fn_feature_del() OWNER TO go;
 
 --
 -- Name: fn_feature_evi_del(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5765,7 +5765,7 @@ BEGIN
 $$;
 
 
-ALTER FUNCTION public.fn_feature_evi_del() OWNER TO postgres;
+ALTER FUNCTION public.fn_feature_evi_del() OWNER TO go;
 
 --
 -- Name: genotype_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -5818,13 +5818,429 @@ CREATE FUNCTION public.genotype_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.genotype_audit() OWNER TO postgres;
+ALTER FUNCTION public.genotype_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION genotype_audit(); Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON FUNCTION public.genotype_audit() IS 'This is an automatically generated function for auditing table genotype.  For each transaction on this table, a record is inserted into table audit_chado reflecting time and type of transaction, user executing transaction, and current column values (for INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE transactions).';
+
+
+--
+-- Name: genotype_cvterm_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotype_cvterm_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotype_cvterm_id;
+                ukey_vals := NEW.genotype_id || '<audit_delimiter>' || NEW.cvterm_id || '<audit_delimiter>' || NEW.pub_id || '<audit_delimiter>' || NEW.is_not || '<audit_delimiter>' || NEW.rank;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'cvterm_id' || '<audit_delimiter>' || 'pub_id' || '<audit_delimiter>' || 'is_not' || '<audit_delimiter>' || 'rank';
+                audit_cols := 'genotype_cvterm_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'cvterm_id' || '<audit_delimiter>' || 'pub_id' || '<audit_delimiter>' || 'is_not' || '<audit_delimiter>' || 'rank';
+                audit_vals := NEW.genotype_cvterm_id || '<audit_delimiter>' || NEW.genotype_id || '<audit_delimiter>' || NEW.cvterm_id || '<audit_delimiter>' || NEW.pub_id || '<audit_delimiter>' || NEW.is_not || '<audit_delimiter>' || NEW.rank;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+
+        ELSE
+                pkey := OLD.genotype_cvterm_id;
+                ukey_vals := OLD.genotype_id || '<audit_delimiter>' || OLD.cvterm_id || '<audit_delimiter>' || OLD.pub_id || '<audit_delimiter>' || OLD.is_not || '<audit_delimiter>' || OLD.rank;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'cvterm_id' || '<audit_delimiter>' || 'pub_id' || '<audit_delimiter>' || 'is_not' || '<audit_delimiter>' || 'rank';
+                audit_cols := 'genotype_cvterm_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'cvterm_id' || '<audit_delimiter>' || 'pub_id' || '<audit_delimiter>' || 'is_not' || '<audit_delimiter>' || 'rank';
+                audit_vals := OLD.genotype_cvterm_id || '<audit_delimiter>' || OLD.genotype_id || '<audit_delimiter>' || OLD.cvterm_id || '<audit_delimiter>' || OLD.pub_id || '<audit_delimiter>' || OLD.is_not || '<audit_delimiter>' || OLD.rank;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotype_cvterm_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotype_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotype_cvterm_audit() IS 'This is an automatically
+generated function for auditing table genotype_cvterm.  For each transaction on
+this table, a record is inserted into table audit_chado reflecting time and type
+of transaction, user executing transaction, and current column values (for
+INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE
+transactions).';
+
+
+--
+-- Name: genotype_cvtermprop_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotype_cvtermprop_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotype_cvtermprop_id;
+                ukey_vals := NEW.genotype_cvterm_id || '<audit_delimiter>' || NEW.type_id || '<audit_delimiter>' || NEW.rank;
+                ukey_cols := 'genotype_cvterm_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank';
+                audit_cols := 'genotype_cvtermprop_id' || '<audit_delimiter>' || 'genotype_cvterm_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank';
+                audit_vals := NEW.genotype_cvtermprop_id || '<audit_delimiter>' || NEW.genotype_cvterm_id || '<audit_delimiter>' || NEW.type_id || '<audit_delimiter>' || NEW.rank;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+
+        ELSE
+                pkey := OLD.genotype_cvtermprop_id;
+                ukey_vals := OLD.genotype_cvterm_id || '<audit_delimiter>' || OLD.type_id || '<audit_delimiter>' || OLD.rank;
+                ukey_cols := 'genotype_cvterm_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank';
+                audit_cols := 'genotype_cvtermprop_id' || '<audit_delimiter>' || 'genotype_cvterm_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank';
+                audit_vals := OLD.genotype_cvtermprop_id || '<audit_delimiter>' || OLD.genotype_cvterm_id || '<audit_delimiter>' || OLD.type_id || '<audit_delimiter>' || OLD.rank;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotype_cvtermprop_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotype_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotype_cvtermprop_audit() IS 'This is an automatically
+generated function for auditing table genotype_cvtermprop.  For each transaction
+on this table, a record is inserted into table audit_chado reflecting time and
+type of transaction, user executing transaction, and current column values (for
+INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE
+transactions).';
+
+
+--
+-- Name: genotype_dbxref_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotype_dbxref_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotype_dbxref_id;
+                ukey_vals := NEW.genotype_id || '<audit_delimiter>' || NEW.dbxref_id;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'dbxref_id';
+                audit_cols := 'genotype_dbxref_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'dbxref_id' || '<audit_delimiter>' || 'is_current';
+                audit_vals := NEW.genotype_dbxref_id || '<audit_delimiter>' || NEW.genotype_id || '<audit_delimiter>' || NEW.dbxref_id || '<audit_delimiter>' || NEW.is_current;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+        ELSE
+                pkey := OLD.genotype_dbxref_id;
+                ukey_vals := OLD.genotype_id || '<audit_delimiter>' || OLD.dbxref_id;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'dbxref_id';
+                audit_cols := 'genotype_dbxref_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'dbxref_id' || '<audit_delimiter>' || 'is_current';
+                audit_vals := OLD.genotype_dbxref_id || '<audit_delimiter>' || OLD.genotype_id || '<audit_delimiter>' || OLD.dbxref_id || '<audit_delimiter>' || OLD.is_current;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotype_dbxref_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotype_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotype_dbxref_audit() IS 'This is an automatically generated function for auditing table genotype_dbxref. For each transaction on this table, a record is inserted into table audit_chado reflecting time and type of transaction, user executing transaction, and current column values (for INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE transactions).';
+
+
+--
+-- Name: genotype_pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotype_pub_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotype_pub_id;
+                ukey_vals := NEW.genotype_id || '<audit_delimiter>' || NEW.pub_id;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'pub_id';
+                audit_cols := 'genotype_pub_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'pub_id';
+                audit_vals := NEW.genotype_pub_id || '<audit_delimiter>' || NEW.genotype_id || '<audit_delimiter>' || NEW.pub_id;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+
+        ELSE
+                pkey := OLD.genotype_pub_id;
+                ukey_vals := OLD.genotype_id || '<audit_delimiter>' || OLD.pub_id;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'pub_id';
+                audit_cols := 'genotype_pub_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'pub_id';
+                audit_vals := OLD.genotype_pub_id || '<audit_delimiter>' || OLD.genotype_id || '<audit_delimiter>' || OLD.pub_id;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotype_pub_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotype_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotype_pub_audit() IS 'This is an automatically generated
+function for auditing table genotype_pub. For each transaction on this table, a
+record is inserted into table audit_chado reflecting time and type of
+transaction, user executing transaction, and current column values (for INSERT
+transactions) or old (pre-change) column values (for UPDATE and DELETE
+transactions).';
+
+
+--
+-- Name: genotype_synonym_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotype_synonym_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotype_synonym_id;
+                ukey_vals := NEW.synonym_id || '<audit_delimiter>' || NEW.genotype_id || '<audit_delimiter>' || NEW.pub_id;
+                ukey_cols := 'synonym_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'pub_id';
+                audit_cols := 'genotype_synonym_id' || '<audit_delimiter>' || 'synonym_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'pub_id' || '<audit_delimiter>' || 'is_current';
+                audit_vals := NEW.genotype_synonym_id || '<audit_delimiter>' || NEW.synonym_id || '<audit_delimiter>' || NEW.genotype_id || '<audit_delimiter>' || NEW.pub_id || '<audit_delimiter>' || NEW.is_current;
+                IF (NEW.is_internal IS NOT NULL) THEN
+                        IF (NEW.is_internal = true) THEN
+                                bval := 'true';
+                        END IF;
+                        IF (NEW.is_internal = false) THEN
+                                bval := 'false';
+                        END IF;
+                        audit_vals := audit_vals || '<audit_delimiter>' || bval;
+                        audit_cols := audit_cols || '<audit_delimiter>' || 'is_internal';
+                END IF;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+        ELSE
+                pkey := OLD.genotype_synonym_id;
+                ukey_vals := OLD.synonym_id || '<audit_delimiter>' || OLD.genotype_id || '<audit_delimiter>' || OLD.pub_id;
+                ukey_cols := 'synonym_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'pub_id';
+                audit_cols := 'genotype_synonym_id' || '<audit_delimiter>' || 'synonym_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'pub_id' || '<audit_delimiter>' || 'is_current';
+                audit_vals := OLD.genotype_synonym_id || '<audit_delimiter>' || OLD.synonym_id || '<audit_delimiter>' || OLD.genotype_id || '<audit_delimiter>' || OLD.pub_id || '<audit_delimiter>' || OLD.is_current;
+                IF (OLD.is_internal IS NOT NULL) THEN
+                        IF (OLD.is_internal = true) THEN
+                                bval := 'true';
+                        END IF;
+                        IF (OLD.is_internal = false) THEN
+                                bval := 'false';
+                        END IF;
+                        audit_vals := audit_vals || '<audit_delimiter>' || bval;
+                        audit_cols := audit_cols || '<audit_delimiter>' || 'is_internal';
+                END IF;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotype_synonym_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotype_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotype_synonym_audit() IS 'This is an automatically generated function for auditing table genotype_synonym. For each transaction on this table, a record is inserted into table audit_chado reflecting time and type of transaction, user executing transaction, and current column values (for INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE transactions).';
+
+
+--
+-- Name: genotypeprop_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotypeprop_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotypeprop_id;
+                ukey_vals := NEW.genotype_id || '<audit_delimiter>' || NEW.type_id || '<audit_delimiter>' || NEW.rank;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank';
+                audit_cols := 'genotypeprop_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank'  || '<audit_delimiter>' || 'cvalue_id';
+                audit_vals := NEW.genotypeprop_id || '<audit_delimiter>' || NEW.genotype_id || '<audit_delimiter>' || NEW.type_id || '<audit_delimiter>' || NEW.rank;
+                IF (NEW.value IS NOT NULL) THEN
+                        audit_vals := audit_vals || '<audit_delimiter>' || NEW.value;
+                ELSE
+                        audit_vals := audit_vals || '<audit_delimiter>' || 'NULL';
+                END IF;
+                IF (NEW.cvalue_id IS NOT NULL) THEN
+                        audit_vals := audit_vals || '<audit_delimiter>' || NEW.cvalue_id;
+                ELSE
+                        audit_vals := audit_vals || '<audit_delimiter>' || 'NULL';
+                END IF;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+        ELSE
+                pkey := OLD.genotypeprop_id;
+                ukey_vals := OLD.genotype_id || '<audit_delimiter>' || OLD.type_id || '<audit_delimiter>' || OLD.rank;
+                ukey_cols := 'genotype_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank';
+                audit_cols := 'genotypeprop_id' || '<audit_delimiter>' || 'genotype_id' || '<audit_delimiter>' || 'type_id' || '<audit_delimiter>' || 'rank'  || '<audit_delimiter>' || 'cvalue_id';
+                audit_vals := OLD.genotypeprop_id || '<audit_delimiter>' || OLD.genotype_id || '<audit_delimiter>' || OLD.type_id || '<audit_delimiter>' || OLD.rank;
+                IF (OLD.value IS NOT NULL) THEN
+                        audit_vals := audit_vals || '<audit_delimiter>' || OLD.value;
+                ELSE
+                        audit_vals := audit_vals || '<audit_delimiter>' || 'NULL';
+                END IF;
+                IF (OLD.cvalue_id IS NOT NULL) THEN
+                        audit_vals := audit_vals || '<audit_delimiter>' || OLD.cvalue_id;
+                ELSE
+                        audit_vals := audit_vals || '<audit_delimiter>' || 'NULL';
+                END IF;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotypeprop_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotypeprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotypeprop_audit() IS 'This is an automatically generated function for auditing table genotypeprop. For each transaction on this table, a record is inserted into table audit_chado reflecting time and type of transaction, user executing transaction, and current column values (for INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE transactions).';
+
+
+--
+-- Name: genotypeprop_pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.genotypeprop_pub_audit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+        pkey integer;
+        ukey_vals text;
+        ukey_cols varchar;
+        audit_vals text;
+        audit_cols varchar;
+        bval varchar;
+BEGIN
+        IF TG_OP = 'INSERT' THEN
+                pkey := NEW.genotypeprop_pub_id;
+                ukey_vals := NEW.genotypeprop_id || '<audit_delimiter>' || NEW.pub_id;
+                ukey_cols := 'genotypeprop_id' || '<audit_delimiter>' || 'pub_id';
+                audit_cols := 'genotypeprop_pub_id' || '<audit_delimiter>' || 'genotypeprop_id' || '<audit_delimiter>' || 'pub_id';
+                audit_vals := NEW.genotypeprop_pub_id || '<audit_delimiter>' || NEW.genotypeprop_id || '<audit_delimiter>' || NEW.pub_id;
+                INSERT into audit_chado SELECT 'I', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                RETURN NEW;
+
+        ELSE
+                pkey := OLD.genotypeprop_pub_id;
+                ukey_vals := OLD.genotypeprop_id || '<audit_delimiter>' || OLD.pub_id;
+                ukey_cols := 'genotypeprop_id' || '<audit_delimiter>' || 'pub_id';
+                audit_cols := 'genotypeprop_pub_id' || '<audit_delimiter>' || 'genotypeprop_id' || '<audit_delimiter>' || 'pub_id';
+                audit_vals := OLD.genotypeprop_pub_id || '<audit_delimiter>' || OLD.genotypeprop_id || '<audit_delimiter>' || OLD.pub_id;
+                IF TG_OP = 'UPDATE' THEN
+                        INSERT into audit_chado SELECT 'U', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+                IF TG_OP = 'DELETE' THEN
+                        INSERT into audit_chado SELECT 'D', now(), user, TG_RELNAME, pkey, ukey_cols, ukey_vals, audit_cols, audit_vals;
+                        RETURN OLD;
+                END IF;
+        END IF;
+END;
+$$;
+
+
+ALTER FUNCTION public.genotypeprop_pub_audit() OWNER TO go;
+
+--
+-- Name: FUNCTION genotypeprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON FUNCTION public.genotypeprop_pub_audit() IS 'This is an automatically generated function for auditing table genotypeprop_pub. For each transaction on this table, a record is inserted into table audit_chado reflecting time and type of transaction, user executing transaction, and current column values (for INSERT transactions) or old (pre-change) column values (for UPDATE and DELETE transactions).';
 
 
 --
@@ -5915,7 +6331,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.grp_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.grp_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: grp_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -6000,7 +6416,7 @@ CREATE FUNCTION public.grp_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6052,7 +6468,7 @@ CREATE FUNCTION public.grp_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6104,7 +6520,7 @@ CREATE FUNCTION public.grp_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6156,7 +6572,7 @@ CREATE FUNCTION public.grp_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6208,7 +6624,7 @@ CREATE FUNCTION public.grp_pubprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_pubprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_pubprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_pubprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6260,7 +6676,7 @@ CREATE FUNCTION public.grp_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6312,7 +6728,7 @@ CREATE FUNCTION public.grp_relationship_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_relationship_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_relationship_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_relationship_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6364,7 +6780,7 @@ CREATE FUNCTION public.grp_relationshipprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_relationshipprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_relationshipprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_relationshipprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6436,7 +6852,7 @@ CREATE FUNCTION public.grp_synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grp_synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.grp_synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grp_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6488,7 +6904,7 @@ CREATE FUNCTION public.grpmember_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpmember_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpmember_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpmember_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6540,7 +6956,7 @@ CREATE FUNCTION public.grpmember_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpmember_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpmember_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpmember_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6592,7 +7008,7 @@ CREATE FUNCTION public.grpmember_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpmember_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpmember_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpmember_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6644,7 +7060,7 @@ CREATE FUNCTION public.grpmemberprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpmemberprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpmemberprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpmemberprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6696,7 +7112,7 @@ CREATE FUNCTION public.grpmemberprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpmemberprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpmemberprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpmemberprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6748,7 +7164,7 @@ CREATE FUNCTION public.grpprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6800,7 +7216,7 @@ CREATE FUNCTION public.grpprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.grpprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.grpprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION grpprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -6899,7 +7315,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.humanhealth_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: humanhealth_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -6972,7 +7388,7 @@ CREATE FUNCTION public.humanhealth_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7024,7 +7440,7 @@ CREATE FUNCTION public.humanhealth_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7076,7 +7492,7 @@ CREATE FUNCTION public.humanhealth_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7128,7 +7544,7 @@ CREATE FUNCTION public.humanhealth_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7180,7 +7596,7 @@ CREATE FUNCTION public.humanhealth_dbxrefprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_dbxrefprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_dbxrefprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_dbxrefprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7232,7 +7648,7 @@ CREATE FUNCTION public.humanhealth_dbxrefprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_dbxrefprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_dbxrefprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_dbxrefprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7284,7 +7700,7 @@ CREATE FUNCTION public.humanhealth_feature_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_feature_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_feature_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_feature_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7336,7 +7752,7 @@ CREATE FUNCTION public.humanhealth_featureprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_featureprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_featureprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_featureprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7388,7 +7804,7 @@ CREATE FUNCTION public.humanhealth_phenotype_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_phenotype_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_phenotype_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_phenotype_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7440,7 +7856,7 @@ CREATE FUNCTION public.humanhealth_phenotypeprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_phenotypeprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_phenotypeprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_phenotypeprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7492,7 +7908,7 @@ CREATE FUNCTION public.humanhealth_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7544,7 +7960,7 @@ CREATE FUNCTION public.humanhealth_pubprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_pubprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_pubprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_pubprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7596,7 +8012,7 @@ CREATE FUNCTION public.humanhealth_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7648,7 +8064,7 @@ CREATE FUNCTION public.humanhealth_relationship_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_relationship_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_relationship_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_relationship_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7720,7 +8136,7 @@ CREATE FUNCTION public.humanhealth_synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealth_synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealth_synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealth_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7772,7 +8188,7 @@ CREATE FUNCTION public.humanhealthprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealthprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealthprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealthprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7824,7 +8240,7 @@ CREATE FUNCTION public.humanhealthprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.humanhealthprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.humanhealthprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION humanhealthprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7896,7 +8312,7 @@ CREATE FUNCTION public.interaction_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -7948,7 +8364,7 @@ CREATE FUNCTION public.interaction_cell_line_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_cell_line_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_cell_line_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_cell_line_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8000,7 +8416,7 @@ CREATE FUNCTION public.interaction_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8052,7 +8468,7 @@ CREATE FUNCTION public.interaction_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8104,7 +8520,7 @@ CREATE FUNCTION public.interaction_expression_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_expression_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_expression_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_expression_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8156,7 +8572,7 @@ CREATE FUNCTION public.interaction_expressionprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_expressionprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_expressionprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_expressionprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8216,7 +8632,7 @@ CREATE FUNCTION public.interaction_group_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_group_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_group_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_group_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8268,7 +8684,7 @@ CREATE FUNCTION public.interaction_group_feature_interaction_audit() RETURNS tri
 $$;
 
 
-ALTER FUNCTION public.interaction_group_feature_interaction_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_group_feature_interaction_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_group_feature_interaction_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8320,7 +8736,7 @@ CREATE FUNCTION public.interaction_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interaction_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.interaction_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interaction_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8372,7 +8788,7 @@ CREATE FUNCTION public.interactionprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interactionprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.interactionprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interactionprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8424,7 +8840,7 @@ CREATE FUNCTION public.interactionprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.interactionprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.interactionprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION interactionprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8522,7 +8938,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.library_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.library_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: library_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -8603,7 +9019,7 @@ CREATE FUNCTION public.library_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8655,7 +9071,7 @@ CREATE FUNCTION public.library_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8707,7 +9123,7 @@ CREATE FUNCTION public.library_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8759,7 +9175,7 @@ CREATE FUNCTION public.library_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8811,7 +9227,7 @@ CREATE FUNCTION public.library_dbxrefprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_dbxrefprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_dbxrefprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_dbxrefprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8863,7 +9279,7 @@ CREATE FUNCTION public.library_expression_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_expression_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_expression_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_expression_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8915,7 +9331,7 @@ CREATE FUNCTION public.library_expressionprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_expressionprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_expressionprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_expressionprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -8967,7 +9383,7 @@ CREATE FUNCTION public.library_feature_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_feature_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_feature_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_feature_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9019,7 +9435,7 @@ CREATE FUNCTION public.library_featureprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_featureprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_featureprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_featureprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9071,7 +9487,7 @@ CREATE FUNCTION public.library_grpmember_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_grpmember_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_grpmember_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_grpmember_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9123,7 +9539,7 @@ CREATE FUNCTION public.library_humanhealth_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_humanhealth_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_humanhealth_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_humanhealth_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9175,7 +9591,7 @@ CREATE FUNCTION public.library_humanhealthprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_humanhealthprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_humanhealthprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_humanhealthprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9227,7 +9643,7 @@ CREATE FUNCTION public.library_interaction_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_interaction_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_interaction_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_interaction_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9279,7 +9695,7 @@ CREATE FUNCTION public.library_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9331,7 +9747,7 @@ CREATE FUNCTION public.library_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9383,7 +9799,7 @@ CREATE FUNCTION public.library_relationship_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_relationship_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_relationship_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_relationship_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9435,7 +9851,7 @@ CREATE FUNCTION public.library_strain_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_strain_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_strain_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_strain_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9487,7 +9903,7 @@ CREATE FUNCTION public.library_strainprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_strainprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_strainprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_strainprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9559,7 +9975,7 @@ CREATE FUNCTION public.library_synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.library_synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.library_synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION library_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9611,7 +10027,7 @@ CREATE FUNCTION public.libraryprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.libraryprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.libraryprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION libraryprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9663,7 +10079,7 @@ CREATE FUNCTION public.libraryprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.libraryprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.libraryprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION libraryprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9775,7 +10191,7 @@ CREATE FUNCTION public.lock_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.lock_audit() OWNER TO postgres;
+ALTER FUNCTION public.lock_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION lock_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9843,7 +10259,7 @@ CREATE FUNCTION public.organism_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9895,7 +10311,7 @@ CREATE FUNCTION public.organism_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9947,7 +10363,7 @@ CREATE FUNCTION public.organism_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -9999,7 +10415,7 @@ CREATE FUNCTION public.organism_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10051,7 +10467,7 @@ CREATE FUNCTION public.organism_grpmember_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_grpmember_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_grpmember_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_grpmember_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10103,7 +10519,7 @@ CREATE FUNCTION public.organism_library_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_library_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_library_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_library_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10155,7 +10571,7 @@ CREATE FUNCTION public.organism_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organism_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.organism_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organism_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10207,7 +10623,7 @@ CREATE FUNCTION public.organismprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organismprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.organismprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organismprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10259,7 +10675,7 @@ CREATE FUNCTION public.organismprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.organismprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.organismprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION organismprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10277,7 +10693,7 @@ CREATE FUNCTION public.p(integer, integer) RETURNS point
     AS $_$SELECT point ($1, $2)$_$;
 
 
-ALTER FUNCTION public.p(integer, integer) OWNER TO postgres;
+ALTER FUNCTION public.p(integer, integer) OWNER TO go;
 
 --
 -- Name: phendesc_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -10322,7 +10738,7 @@ CREATE FUNCTION public.phendesc_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.phendesc_audit() OWNER TO postgres;
+ALTER FUNCTION public.phendesc_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION phendesc_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10406,7 +10822,7 @@ CREATE FUNCTION public.phenotype_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.phenotype_audit() OWNER TO postgres;
+ALTER FUNCTION public.phenotype_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION phenotype_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10466,7 +10882,7 @@ CREATE FUNCTION public.phenotype_comparison_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.phenotype_comparison_audit() OWNER TO postgres;
+ALTER FUNCTION public.phenotype_comparison_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION phenotype_comparison_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10518,7 +10934,7 @@ CREATE FUNCTION public.phenotype_comparison_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.phenotype_comparison_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.phenotype_comparison_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION phenotype_comparison_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10570,7 +10986,7 @@ CREATE FUNCTION public.phenotype_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.phenotype_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.phenotype_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION phenotype_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10622,7 +11038,7 @@ CREATE FUNCTION public.phenstatement_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.phenstatement_audit() OWNER TO postgres;
+ALTER FUNCTION public.phenstatement_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION phenstatement_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10674,7 +11090,7 @@ CREATE FUNCTION public.project_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.project_audit() OWNER TO postgres;
+ALTER FUNCTION public.project_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION project_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10778,7 +11194,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.pub_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.pub_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: pub_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -10923,7 +11339,7 @@ CREATE FUNCTION public.pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -10975,7 +11391,7 @@ CREATE FUNCTION public.pub_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.pub_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.pub_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION pub_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11027,7 +11443,7 @@ CREATE FUNCTION public.pub_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.pub_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.pub_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION pub_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11103,7 +11519,7 @@ CREATE FUNCTION public.pubauthor_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.pubauthor_audit() OWNER TO postgres;
+ALTER FUNCTION public.pubauthor_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION pubauthor_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11155,7 +11571,7 @@ CREATE FUNCTION public.pubprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.pubprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.pubprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION pubprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11191,7 +11607,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.pubprop_rank_fn_u() OWNER TO postgres;
+ALTER FUNCTION public.pubprop_rank_fn_u() OWNER TO go;
 
 --
 -- Name: strain_assignname_fn_i(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -11283,7 +11699,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.strain_assignname_fn_i() OWNER TO postgres;
+ALTER FUNCTION public.strain_assignname_fn_i() OWNER TO go;
 
 --
 -- Name: strain_audit(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -11356,7 +11772,7 @@ CREATE FUNCTION public.strain_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11408,7 +11824,7 @@ CREATE FUNCTION public.strain_cvterm_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_cvterm_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_cvterm_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_cvterm_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11460,7 +11876,7 @@ CREATE FUNCTION public.strain_cvtermprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_cvtermprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_cvtermprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_cvtermprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11512,7 +11928,7 @@ CREATE FUNCTION public.strain_dbxref_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_dbxref_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_dbxref_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_dbxref_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11564,7 +11980,7 @@ CREATE FUNCTION public.strain_feature_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_feature_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_feature_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_feature_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11616,7 +12032,7 @@ CREATE FUNCTION public.strain_featureprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_featureprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_featureprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_featureprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11668,7 +12084,7 @@ CREATE FUNCTION public.strain_phenotype_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_phenotype_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_phenotype_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_phenotype_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11720,7 +12136,7 @@ CREATE FUNCTION public.strain_phenotypeprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_phenotypeprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_phenotypeprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_phenotypeprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11772,7 +12188,7 @@ CREATE FUNCTION public.strain_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11824,7 +12240,7 @@ CREATE FUNCTION public.strain_relationship_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_relationship_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_relationship_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_relationship_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11876,7 +12292,7 @@ CREATE FUNCTION public.strain_relationship_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_relationship_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_relationship_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_relationship_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -11948,7 +12364,7 @@ CREATE FUNCTION public.strain_synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strain_synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.strain_synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strain_synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -12000,7 +12416,7 @@ CREATE FUNCTION public.strainprop_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strainprop_audit() OWNER TO postgres;
+ALTER FUNCTION public.strainprop_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strainprop_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -12052,7 +12468,7 @@ CREATE FUNCTION public.strainprop_pub_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.strainprop_pub_audit() OWNER TO postgres;
+ALTER FUNCTION public.strainprop_pub_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION strainprop_pub_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -12104,7 +12520,7 @@ CREATE FUNCTION public.synonym_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.synonym_audit() OWNER TO postgres;
+ALTER FUNCTION public.synonym_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION synonym_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -12196,7 +12612,7 @@ CREATE FUNCTION public.tableinfo_audit() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.tableinfo_audit() OWNER TO postgres;
+ALTER FUNCTION public.tableinfo_audit() OWNER TO go;
 
 --
 -- Name: FUNCTION tableinfo_audit(); Type: COMMENT; Schema: public; Owner: postgres
@@ -12220,7 +12636,7 @@ CREATE TABLE public.analysisfeature (
 );
 
 
-ALTER TABLE public.analysisfeature OWNER TO postgres;
+ALTER TABLE public.analysisfeature OWNER TO go;
 
 --
 -- Name: cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -12237,7 +12653,7 @@ CREATE TABLE public.cvterm (
 );
 
 
-ALTER TABLE public.cvterm OWNER TO postgres;
+ALTER TABLE public.cvterm OWNER TO go;
 
 --
 -- Name: af_type; Type: VIEW; Schema: public; Owner: postgres
@@ -12263,7 +12679,7 @@ CREATE VIEW public.af_type AS
   WHERE ((f.type_id = c.cvterm_id) AND (f.feature_id = af.feature_id));
 
 
-ALTER TABLE public.af_type OWNER TO postgres;
+ALTER TABLE public.af_type OWNER TO go;
 
 --
 -- Name: feature_relationship; Type: TABLE; Schema: public; Owner: postgres
@@ -12279,7 +12695,7 @@ CREATE TABLE public.feature_relationship (
 );
 
 
-ALTER TABLE public.feature_relationship OWNER TO postgres;
+ALTER TABLE public.feature_relationship OWNER TO go;
 
 --
 -- Name: alignment_evidence; Type: VIEW; Schema: public; Owner: postgres
@@ -12298,7 +12714,7 @@ CREATE VIEW public.alignment_evidence AS
   GROUP BY anchor.feature_id, fr.object_id, af.analysis_id;
 
 
-ALTER TABLE public.alignment_evidence OWNER TO postgres;
+ALTER TABLE public.alignment_evidence OWNER TO go;
 
 --
 -- Name: analysis; Type: TABLE; Schema: public; Owner: postgres
@@ -12318,7 +12734,7 @@ CREATE TABLE public.analysis (
 );
 
 
-ALTER TABLE public.analysis OWNER TO postgres;
+ALTER TABLE public.analysis OWNER TO go;
 
 --
 -- Name: analysis_analysis_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12332,7 +12748,7 @@ CREATE SEQUENCE public.analysis_analysis_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.analysis_analysis_id_seq OWNER TO postgres;
+ALTER TABLE public.analysis_analysis_id_seq OWNER TO go;
 
 --
 -- Name: analysis_analysis_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12353,7 +12769,7 @@ CREATE SEQUENCE public.analysisfeature_analysisfeature_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.analysisfeature_analysisfeature_id_seq OWNER TO postgres;
+ALTER TABLE public.analysisfeature_analysisfeature_id_seq OWNER TO go;
 
 --
 -- Name: analysisfeature_analysisfeature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12377,7 +12793,7 @@ CREATE TABLE public.analysisgrp (
 );
 
 
-ALTER TABLE public.analysisgrp OWNER TO postgres;
+ALTER TABLE public.analysisgrp OWNER TO go;
 
 --
 -- Name: analysisgrp_analysisgrp_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12391,7 +12807,7 @@ CREATE SEQUENCE public.analysisgrp_analysisgrp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.analysisgrp_analysisgrp_id_seq OWNER TO postgres;
+ALTER TABLE public.analysisgrp_analysisgrp_id_seq OWNER TO go;
 
 --
 -- Name: analysisgrp_analysisgrp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12415,7 +12831,7 @@ CREATE TABLE public.analysisgrpmember (
 );
 
 
-ALTER TABLE public.analysisgrpmember OWNER TO postgres;
+ALTER TABLE public.analysisgrpmember OWNER TO go;
 
 --
 -- Name: analysisgrpmember_analysisgrpmember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12429,7 +12845,7 @@ CREATE SEQUENCE public.analysisgrpmember_analysisgrpmember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.analysisgrpmember_analysisgrpmember_id_seq OWNER TO postgres;
+ALTER TABLE public.analysisgrpmember_analysisgrpmember_id_seq OWNER TO go;
 
 --
 -- Name: analysisgrpmember_analysisgrpmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12450,7 +12866,7 @@ CREATE TABLE public.analysisprop (
 );
 
 
-ALTER TABLE public.analysisprop OWNER TO postgres;
+ALTER TABLE public.analysisprop OWNER TO go;
 
 --
 -- Name: analysisprop_analysisprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12464,7 +12880,7 @@ CREATE SEQUENCE public.analysisprop_analysisprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.analysisprop_analysisprop_id_seq OWNER TO postgres;
+ALTER TABLE public.analysisprop_analysisprop_id_seq OWNER TO go;
 
 --
 -- Name: analysisprop_analysisprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12490,14 +12906,7 @@ CREATE TABLE public.audit_chado (
 );
 
 
-ALTER TABLE public.audit_chado OWNER TO postgres;
-
---
--- Name: TABLE audit_chado; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON TABLE public.audit_chado IS 'Records auditing information for tables in chado.  The tables to be audited will have trigger functions to populate this table.';
-
+ALTER TABLE public.audit_chado OWNER TO go;
 
 --
 -- Name: cell_line; Type: TABLE; Schema: public; Owner: postgres
@@ -12513,7 +12922,7 @@ CREATE TABLE public.cell_line (
 );
 
 
-ALTER TABLE public.cell_line OWNER TO postgres;
+ALTER TABLE public.cell_line OWNER TO go;
 
 --
 -- Name: cell_line_cell_line_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12527,7 +12936,7 @@ CREATE SEQUENCE public.cell_line_cell_line_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_cell_line_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_cell_line_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_cell_line_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12549,7 +12958,7 @@ CREATE TABLE public.cell_line_cvterm (
 );
 
 
-ALTER TABLE public.cell_line_cvterm OWNER TO postgres;
+ALTER TABLE public.cell_line_cvterm OWNER TO go;
 
 --
 -- Name: cell_line_cvterm_cell_line_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12563,7 +12972,7 @@ CREATE SEQUENCE public.cell_line_cvterm_cell_line_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_cvterm_cell_line_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_cvterm_cell_line_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_cvterm_cell_line_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12585,7 +12994,7 @@ CREATE TABLE public.cell_line_cvtermprop (
 );
 
 
-ALTER TABLE public.cell_line_cvtermprop OWNER TO postgres;
+ALTER TABLE public.cell_line_cvtermprop OWNER TO go;
 
 --
 -- Name: cell_line_cvtermprop_cell_line_cvtermprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12599,7 +13008,7 @@ CREATE SEQUENCE public.cell_line_cvtermprop_cell_line_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_cvtermprop_cell_line_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_cvtermprop_cell_line_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_cvtermprop_cell_line_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12620,7 +13029,7 @@ CREATE TABLE public.cell_line_dbxref (
 );
 
 
-ALTER TABLE public.cell_line_dbxref OWNER TO postgres;
+ALTER TABLE public.cell_line_dbxref OWNER TO go;
 
 --
 -- Name: cell_line_dbxref_cell_line_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12634,7 +13043,7 @@ CREATE SEQUENCE public.cell_line_dbxref_cell_line_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_dbxref_cell_line_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_dbxref_cell_line_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_dbxref_cell_line_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12655,7 +13064,7 @@ CREATE TABLE public.cell_line_feature (
 );
 
 
-ALTER TABLE public.cell_line_feature OWNER TO postgres;
+ALTER TABLE public.cell_line_feature OWNER TO go;
 
 --
 -- Name: cell_line_feature_cell_line_feature_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12669,7 +13078,7 @@ CREATE SEQUENCE public.cell_line_feature_cell_line_feature_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_feature_cell_line_feature_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_feature_cell_line_feature_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_feature_cell_line_feature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12690,7 +13099,7 @@ CREATE TABLE public.cell_line_library (
 );
 
 
-ALTER TABLE public.cell_line_library OWNER TO postgres;
+ALTER TABLE public.cell_line_library OWNER TO go;
 
 --
 -- Name: cell_line_library_cell_line_library_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12704,7 +13113,7 @@ CREATE SEQUENCE public.cell_line_library_cell_line_library_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_library_cell_line_library_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_library_cell_line_library_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_library_cell_line_library_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12726,7 +13135,7 @@ CREATE TABLE public.cell_line_libraryprop (
 );
 
 
-ALTER TABLE public.cell_line_libraryprop OWNER TO postgres;
+ALTER TABLE public.cell_line_libraryprop OWNER TO go;
 
 --
 -- Name: TABLE cell_line_libraryprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -12747,7 +13156,7 @@ CREATE SEQUENCE public.cell_line_libraryprop_cell_line_libraryprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_libraryprop_cell_line_libraryprop_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_libraryprop_cell_line_libraryprop_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_libraryprop_cell_line_libraryprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12767,7 +13176,7 @@ CREATE TABLE public.cell_line_pub (
 );
 
 
-ALTER TABLE public.cell_line_pub OWNER TO postgres;
+ALTER TABLE public.cell_line_pub OWNER TO go;
 
 --
 -- Name: cell_line_pub_cell_line_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12781,7 +13190,7 @@ CREATE SEQUENCE public.cell_line_pub_cell_line_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_pub_cell_line_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_pub_cell_line_pub_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_pub_cell_line_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12802,7 +13211,7 @@ CREATE TABLE public.cell_line_relationship (
 );
 
 
-ALTER TABLE public.cell_line_relationship OWNER TO postgres;
+ALTER TABLE public.cell_line_relationship OWNER TO go;
 
 --
 -- Name: cell_line_relationship_cell_line_relationship_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12816,7 +13225,7 @@ CREATE SEQUENCE public.cell_line_relationship_cell_line_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_relationship_cell_line_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_relationship_cell_line_relationship_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_relationship_cell_line_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12837,7 +13246,7 @@ CREATE TABLE public.cell_line_strain (
 );
 
 
-ALTER TABLE public.cell_line_strain OWNER TO postgres;
+ALTER TABLE public.cell_line_strain OWNER TO go;
 
 --
 -- Name: TABLE cell_line_strain; Type: COMMENT; Schema: public; Owner: postgres
@@ -12858,7 +13267,7 @@ CREATE SEQUENCE public.cell_line_strain_cell_line_strain_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_strain_cell_line_strain_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_strain_cell_line_strain_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_strain_cell_line_strain_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12880,7 +13289,7 @@ CREATE TABLE public.cell_line_strainprop (
 );
 
 
-ALTER TABLE public.cell_line_strainprop OWNER TO postgres;
+ALTER TABLE public.cell_line_strainprop OWNER TO go;
 
 --
 -- Name: TABLE cell_line_strainprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -12901,7 +13310,7 @@ CREATE SEQUENCE public.cell_line_strainprop_cell_line_strainprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_strainprop_cell_line_strainprop_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_strainprop_cell_line_strainprop_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_strainprop_cell_line_strainprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12924,7 +13333,7 @@ CREATE TABLE public.cell_line_synonym (
 );
 
 
-ALTER TABLE public.cell_line_synonym OWNER TO postgres;
+ALTER TABLE public.cell_line_synonym OWNER TO go;
 
 --
 -- Name: cell_line_synonym_cell_line_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12938,7 +13347,7 @@ CREATE SEQUENCE public.cell_line_synonym_cell_line_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_line_synonym_cell_line_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_line_synonym_cell_line_synonym_id_seq OWNER TO go;
 
 --
 -- Name: cell_line_synonym_cell_line_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12960,7 +13369,7 @@ CREATE TABLE public.cell_lineprop (
 );
 
 
-ALTER TABLE public.cell_lineprop OWNER TO postgres;
+ALTER TABLE public.cell_lineprop OWNER TO go;
 
 --
 -- Name: cell_lineprop_cell_lineprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -12974,7 +13383,7 @@ CREATE SEQUENCE public.cell_lineprop_cell_lineprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_lineprop_cell_lineprop_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_lineprop_cell_lineprop_id_seq OWNER TO go;
 
 --
 -- Name: cell_lineprop_cell_lineprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -12994,7 +13403,7 @@ CREATE TABLE public.cell_lineprop_pub (
 );
 
 
-ALTER TABLE public.cell_lineprop_pub OWNER TO postgres;
+ALTER TABLE public.cell_lineprop_pub OWNER TO go;
 
 --
 -- Name: cell_lineprop_pub_cell_lineprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13008,7 +13417,7 @@ CREATE SEQUENCE public.cell_lineprop_pub_cell_lineprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cell_lineprop_pub_cell_lineprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.cell_lineprop_pub_cell_lineprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: cell_lineprop_pub_cell_lineprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13028,7 +13437,7 @@ CREATE TABLE public.contact (
 );
 
 
-ALTER TABLE public.contact OWNER TO postgres;
+ALTER TABLE public.contact OWNER TO go;
 
 --
 -- Name: contact_contact_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13042,7 +13451,7 @@ CREATE SEQUENCE public.contact_contact_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.contact_contact_id_seq OWNER TO postgres;
+ALTER TABLE public.contact_contact_id_seq OWNER TO go;
 
 --
 -- Name: contact_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13062,7 +13471,7 @@ CREATE TABLE public.cv (
 );
 
 
-ALTER TABLE public.cv OWNER TO postgres;
+ALTER TABLE public.cv OWNER TO go;
 
 --
 -- Name: cv_cv_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13076,7 +13485,7 @@ CREATE SEQUENCE public.cv_cv_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cv_cv_id_seq OWNER TO postgres;
+ALTER TABLE public.cv_cv_id_seq OWNER TO go;
 
 --
 -- Name: cv_cv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13097,7 +13506,7 @@ CREATE SEQUENCE public.cvterm_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cvterm_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.cvterm_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: cvterm_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13118,7 +13527,7 @@ CREATE TABLE public.cvterm_dbxref (
 );
 
 
-ALTER TABLE public.cvterm_dbxref OWNER TO postgres;
+ALTER TABLE public.cvterm_dbxref OWNER TO go;
 
 --
 -- Name: cvterm_dbxref_cvterm_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13132,7 +13541,7 @@ CREATE SEQUENCE public.cvterm_dbxref_cvterm_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cvterm_dbxref_cvterm_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.cvterm_dbxref_cvterm_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: cvterm_dbxref_cvterm_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13153,7 +13562,7 @@ CREATE TABLE public.cvterm_relationship (
 );
 
 
-ALTER TABLE public.cvterm_relationship OWNER TO postgres;
+ALTER TABLE public.cvterm_relationship OWNER TO go;
 
 --
 -- Name: cvterm_relationship_cvterm_relationship_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13167,7 +13576,7 @@ CREATE SEQUENCE public.cvterm_relationship_cvterm_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cvterm_relationship_cvterm_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.cvterm_relationship_cvterm_relationship_id_seq OWNER TO go;
 
 --
 -- Name: cvterm_relationship_cvterm_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13189,7 +13598,7 @@ CREATE VIEW public.cvterm_type AS
   WHERE (cvt.cv_id = cv.cv_id);
 
 
-ALTER TABLE public.cvterm_type OWNER TO postgres;
+ALTER TABLE public.cvterm_type OWNER TO go;
 
 --
 -- Name: cvtermpath; Type: TABLE; Schema: public; Owner: postgres
@@ -13205,7 +13614,7 @@ CREATE TABLE public.cvtermpath (
 );
 
 
-ALTER TABLE public.cvtermpath OWNER TO postgres;
+ALTER TABLE public.cvtermpath OWNER TO go;
 
 --
 -- Name: cvtermpath_cvtermpath_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13219,7 +13628,7 @@ CREATE SEQUENCE public.cvtermpath_cvtermpath_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cvtermpath_cvtermpath_id_seq OWNER TO postgres;
+ALTER TABLE public.cvtermpath_cvtermpath_id_seq OWNER TO go;
 
 --
 -- Name: cvtermpath_cvtermpath_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13241,7 +13650,7 @@ CREATE TABLE public.cvtermprop (
 );
 
 
-ALTER TABLE public.cvtermprop OWNER TO postgres;
+ALTER TABLE public.cvtermprop OWNER TO go;
 
 --
 -- Name: cvtermprop_cvtermprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13255,7 +13664,7 @@ CREATE SEQUENCE public.cvtermprop_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cvtermprop_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.cvtermprop_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: cvtermprop_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13276,7 +13685,7 @@ CREATE TABLE public.cvtermsynonym (
 );
 
 
-ALTER TABLE public.cvtermsynonym OWNER TO postgres;
+ALTER TABLE public.cvtermsynonym OWNER TO go;
 
 --
 -- Name: cvtermsynonym_cvtermsynonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13290,7 +13699,7 @@ CREATE SEQUENCE public.cvtermsynonym_cvtermsynonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cvtermsynonym_cvtermsynonym_id_seq OWNER TO postgres;
+ALTER TABLE public.cvtermsynonym_cvtermsynonym_id_seq OWNER TO go;
 
 --
 -- Name: cvtermsynonym_cvtermsynonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13313,7 +13722,7 @@ CREATE TABLE public.db (
 );
 
 
-ALTER TABLE public.db OWNER TO postgres;
+ALTER TABLE public.db OWNER TO go;
 
 --
 -- Name: db_db_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13327,7 +13736,7 @@ CREATE SEQUENCE public.db_db_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.db_db_id_seq OWNER TO postgres;
+ALTER TABLE public.db_db_id_seq OWNER TO go;
 
 --
 -- Name: db_db_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13350,7 +13759,7 @@ CREATE TABLE public.dbxref (
 );
 
 
-ALTER TABLE public.dbxref OWNER TO postgres;
+ALTER TABLE public.dbxref OWNER TO go;
 
 --
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13364,7 +13773,7 @@ CREATE SEQUENCE public.dbxref_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.dbxref_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.dbxref_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13386,7 +13795,7 @@ CREATE TABLE public.dbxrefprop (
 );
 
 
-ALTER TABLE public.dbxrefprop OWNER TO postgres;
+ALTER TABLE public.dbxrefprop OWNER TO go;
 
 --
 -- Name: dbxrefprop_dbxrefprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13400,7 +13809,7 @@ CREATE SEQUENCE public.dbxrefprop_dbxrefprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.dbxrefprop_dbxrefprop_id_seq OWNER TO postgres;
+ALTER TABLE public.dbxrefprop_dbxrefprop_id_seq OWNER TO go;
 
 --
 -- Name: dbxrefprop_dbxrefprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13421,7 +13830,7 @@ CREATE TABLE public.eimage (
 );
 
 
-ALTER TABLE public.eimage OWNER TO postgres;
+ALTER TABLE public.eimage OWNER TO go;
 
 --
 -- Name: eimage_eimage_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13435,7 +13844,7 @@ CREATE SEQUENCE public.eimage_eimage_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.eimage_eimage_id_seq OWNER TO postgres;
+ALTER TABLE public.eimage_eimage_id_seq OWNER TO go;
 
 --
 -- Name: eimage_eimage_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13455,7 +13864,7 @@ CREATE TABLE public.environment (
 );
 
 
-ALTER TABLE public.environment OWNER TO postgres;
+ALTER TABLE public.environment OWNER TO go;
 
 --
 -- Name: environment_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -13468,7 +13877,7 @@ CREATE TABLE public.environment_cvterm (
 );
 
 
-ALTER TABLE public.environment_cvterm OWNER TO postgres;
+ALTER TABLE public.environment_cvterm OWNER TO go;
 
 --
 -- Name: environment_cvterm_environment_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13482,7 +13891,7 @@ CREATE SEQUENCE public.environment_cvterm_environment_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.environment_cvterm_environment_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.environment_cvterm_environment_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: environment_cvterm_environment_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13503,7 +13912,7 @@ CREATE SEQUENCE public.environment_environment_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.environment_environment_id_seq OWNER TO postgres;
+ALTER TABLE public.environment_environment_id_seq OWNER TO go;
 
 --
 -- Name: environment_environment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13524,7 +13933,7 @@ CREATE TABLE public.expression (
 );
 
 
-ALTER TABLE public.expression OWNER TO postgres;
+ALTER TABLE public.expression OWNER TO go;
 
 --
 -- Name: expression_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -13539,7 +13948,7 @@ CREATE TABLE public.expression_cvterm (
 );
 
 
-ALTER TABLE public.expression_cvterm OWNER TO postgres;
+ALTER TABLE public.expression_cvterm OWNER TO go;
 
 --
 -- Name: expression_cvterm_expression_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13553,7 +13962,7 @@ CREATE SEQUENCE public.expression_cvterm_expression_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.expression_cvterm_expression_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.expression_cvterm_expression_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: expression_cvterm_expression_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13575,7 +13984,7 @@ CREATE TABLE public.expression_cvtermprop (
 );
 
 
-ALTER TABLE public.expression_cvtermprop OWNER TO postgres;
+ALTER TABLE public.expression_cvtermprop OWNER TO go;
 
 --
 -- Name: TABLE expression_cvtermprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -13627,7 +14036,7 @@ CREATE SEQUENCE public.expression_cvtermprop_expression_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.expression_cvtermprop_expression_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.expression_cvtermprop_expression_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: expression_cvtermprop_expression_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13648,7 +14057,7 @@ CREATE SEQUENCE public.expression_expression_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.expression_expression_id_seq OWNER TO postgres;
+ALTER TABLE public.expression_expression_id_seq OWNER TO go;
 
 --
 -- Name: expression_expression_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13668,7 +14077,7 @@ CREATE TABLE public.expression_image (
 );
 
 
-ALTER TABLE public.expression_image OWNER TO postgres;
+ALTER TABLE public.expression_image OWNER TO go;
 
 --
 -- Name: expression_image_expression_image_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13682,7 +14091,7 @@ CREATE SEQUENCE public.expression_image_expression_image_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.expression_image_expression_image_id_seq OWNER TO postgres;
+ALTER TABLE public.expression_image_expression_image_id_seq OWNER TO go;
 
 --
 -- Name: expression_image_expression_image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13702,7 +14111,7 @@ CREATE TABLE public.expression_pub (
 );
 
 
-ALTER TABLE public.expression_pub OWNER TO postgres;
+ALTER TABLE public.expression_pub OWNER TO go;
 
 --
 -- Name: expression_pub_expression_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13716,7 +14125,7 @@ CREATE SEQUENCE public.expression_pub_expression_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.expression_pub_expression_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.expression_pub_expression_pub_id_seq OWNER TO go;
 
 --
 -- Name: expression_pub_expression_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13738,7 +14147,7 @@ CREATE TABLE public.expressionprop (
 );
 
 
-ALTER TABLE public.expressionprop OWNER TO postgres;
+ALTER TABLE public.expressionprop OWNER TO go;
 
 --
 -- Name: expressionprop_expressionprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13752,7 +14161,7 @@ CREATE SEQUENCE public.expressionprop_expressionprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.expressionprop_expressionprop_id_seq OWNER TO postgres;
+ALTER TABLE public.expressionprop_expressionprop_id_seq OWNER TO go;
 
 --
 -- Name: expressionprop_expressionprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13784,7 +14193,7 @@ CREATE VIEW public.f_type AS
   WHERE (f.type_id = c.cvterm_id);
 
 
-ALTER TABLE public.f_type OWNER TO postgres;
+ALTER TABLE public.f_type OWNER TO go;
 
 --
 -- Name: f_loc; Type: VIEW; Schema: public; Owner: postgres
@@ -13802,7 +14211,7 @@ CREATE VIEW public.f_loc AS
   WHERE (f.feature_id = fl.feature_id);
 
 
-ALTER TABLE public.f_loc OWNER TO postgres;
+ALTER TABLE public.f_loc OWNER TO go;
 
 --
 -- Name: feature_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -13817,7 +14226,7 @@ CREATE TABLE public.feature_cvterm (
 );
 
 
-ALTER TABLE public.feature_cvterm OWNER TO postgres;
+ALTER TABLE public.feature_cvterm OWNER TO go;
 
 --
 -- Name: feature_cvterm_dbxref; Type: TABLE; Schema: public; Owner: postgres
@@ -13830,7 +14239,7 @@ CREATE TABLE public.feature_cvterm_dbxref (
 );
 
 
-ALTER TABLE public.feature_cvterm_dbxref OWNER TO postgres;
+ALTER TABLE public.feature_cvterm_dbxref OWNER TO go;
 
 --
 -- Name: TABLE feature_cvterm_dbxref; Type: COMMENT; Schema: public; Owner: postgres
@@ -13851,7 +14260,7 @@ CREATE SEQUENCE public.feature_cvterm_dbxref_feature_cvterm_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_cvterm_dbxref_feature_cvterm_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_cvterm_dbxref_feature_cvterm_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: feature_cvterm_dbxref_feature_cvterm_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13872,7 +14281,7 @@ CREATE SEQUENCE public.feature_cvterm_feature_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_cvterm_feature_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_cvterm_feature_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: feature_cvterm_feature_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13894,7 +14303,7 @@ CREATE TABLE public.feature_cvtermprop (
 );
 
 
-ALTER TABLE public.feature_cvtermprop OWNER TO postgres;
+ALTER TABLE public.feature_cvtermprop OWNER TO go;
 
 --
 -- Name: feature_cvtermprop_feature_cvtermprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13908,7 +14317,7 @@ CREATE SEQUENCE public.feature_cvtermprop_feature_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_cvtermprop_feature_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_cvtermprop_feature_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: feature_cvtermprop_feature_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13929,7 +14338,7 @@ CREATE TABLE public.feature_dbxref (
 );
 
 
-ALTER TABLE public.feature_dbxref OWNER TO postgres;
+ALTER TABLE public.feature_dbxref OWNER TO go;
 
 --
 -- Name: feature_dbxref_feature_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13943,7 +14352,7 @@ CREATE SEQUENCE public.feature_dbxref_feature_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_dbxref_feature_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_dbxref_feature_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: feature_dbxref_feature_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -13964,7 +14373,7 @@ CREATE TABLE public.feature_expression (
 );
 
 
-ALTER TABLE public.feature_expression OWNER TO postgres;
+ALTER TABLE public.feature_expression OWNER TO go;
 
 --
 -- Name: feature_expression_feature_expression_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -13978,7 +14387,7 @@ CREATE SEQUENCE public.feature_expression_feature_expression_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_expression_feature_expression_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_expression_feature_expression_id_seq OWNER TO go;
 
 --
 -- Name: feature_expression_feature_expression_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14000,7 +14409,7 @@ CREATE TABLE public.feature_expressionprop (
 );
 
 
-ALTER TABLE public.feature_expressionprop OWNER TO postgres;
+ALTER TABLE public.feature_expressionprop OWNER TO go;
 
 --
 -- Name: TABLE feature_expressionprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -14022,7 +14431,7 @@ CREATE SEQUENCE public.feature_expressionprop_feature_expressionprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_expressionprop_feature_expressionprop_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_expressionprop_feature_expressionprop_id_seq OWNER TO go;
 
 --
 -- Name: feature_expressionprop_feature_expressionprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14043,7 +14452,7 @@ CREATE SEQUENCE public.feature_feature_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_feature_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_feature_id_seq OWNER TO go;
 
 --
 -- Name: feature_feature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14067,7 +14476,7 @@ CREATE TABLE public.feature_genotype (
 );
 
 
-ALTER TABLE public.feature_genotype OWNER TO postgres;
+ALTER TABLE public.feature_genotype OWNER TO go;
 
 --
 -- Name: feature_genotype_feature_genotype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14081,7 +14490,7 @@ CREATE SEQUENCE public.feature_genotype_feature_genotype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_genotype_feature_genotype_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_genotype_feature_genotype_id_seq OWNER TO go;
 
 --
 -- Name: feature_genotype_feature_genotype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14101,7 +14510,7 @@ CREATE TABLE public.feature_grpmember (
 );
 
 
-ALTER TABLE public.feature_grpmember OWNER TO postgres;
+ALTER TABLE public.feature_grpmember OWNER TO go;
 
 --
 -- Name: feature_grpmember_feature_grpmember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14115,7 +14524,7 @@ CREATE SEQUENCE public.feature_grpmember_feature_grpmember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_grpmember_feature_grpmember_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_grpmember_feature_grpmember_id_seq OWNER TO go;
 
 --
 -- Name: feature_grpmember_feature_grpmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14135,7 +14544,7 @@ CREATE TABLE public.feature_grpmember_pub (
 );
 
 
-ALTER TABLE public.feature_grpmember_pub OWNER TO postgres;
+ALTER TABLE public.feature_grpmember_pub OWNER TO go;
 
 --
 -- Name: feature_grpmember_pub_feature_grpmember_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14149,7 +14558,7 @@ CREATE SEQUENCE public.feature_grpmember_pub_feature_grpmember_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_grpmember_pub_feature_grpmember_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_grpmember_pub_feature_grpmember_pub_id_seq OWNER TO go;
 
 --
 -- Name: feature_grpmember_pub_feature_grpmember_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14170,7 +14579,7 @@ CREATE TABLE public.feature_humanhealth_dbxref (
 );
 
 
-ALTER TABLE public.feature_humanhealth_dbxref OWNER TO postgres;
+ALTER TABLE public.feature_humanhealth_dbxref OWNER TO go;
 
 --
 -- Name: TABLE feature_humanhealth_dbxref; Type: COMMENT; Schema: public; Owner: postgres
@@ -14191,7 +14600,7 @@ CREATE SEQUENCE public.feature_humanhealth_dbxref_feature_humanhealth_dbxref_id_
     CACHE 1;
 
 
-ALTER TABLE public.feature_humanhealth_dbxref_feature_humanhealth_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_humanhealth_dbxref_feature_humanhealth_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: feature_humanhealth_dbxref_feature_humanhealth_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14213,7 +14622,7 @@ CREATE TABLE public.feature_interaction (
 );
 
 
-ALTER TABLE public.feature_interaction OWNER TO postgres;
+ALTER TABLE public.feature_interaction OWNER TO go;
 
 --
 -- Name: feature_interaction_feature_interaction_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14227,7 +14636,7 @@ CREATE SEQUENCE public.feature_interaction_feature_interaction_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_interaction_feature_interaction_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_interaction_feature_interaction_id_seq OWNER TO go;
 
 --
 -- Name: feature_interaction_feature_interaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14247,7 +14656,7 @@ CREATE TABLE public.feature_interaction_pub (
 );
 
 
-ALTER TABLE public.feature_interaction_pub OWNER TO postgres;
+ALTER TABLE public.feature_interaction_pub OWNER TO go;
 
 --
 -- Name: feature_interaction_pub_feature_interaction_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14261,7 +14670,7 @@ CREATE SEQUENCE public.feature_interaction_pub_feature_interaction_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_interaction_pub_feature_interaction_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_interaction_pub_feature_interaction_pub_id_seq OWNER TO go;
 
 --
 -- Name: feature_interaction_pub_feature_interaction_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14283,7 +14692,7 @@ CREATE TABLE public.feature_interactionprop (
 );
 
 
-ALTER TABLE public.feature_interactionprop OWNER TO postgres;
+ALTER TABLE public.feature_interactionprop OWNER TO go;
 
 --
 -- Name: feature_interactionprop_feature_interactionprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14297,7 +14706,7 @@ CREATE SEQUENCE public.feature_interactionprop_feature_interactionprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_interactionprop_feature_interactionprop_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_interactionprop_feature_interactionprop_id_seq OWNER TO go;
 
 --
 -- Name: feature_interactionprop_feature_interactionprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14317,7 +14726,7 @@ CREATE TABLE public.feature_phenotype (
 );
 
 
-ALTER TABLE public.feature_phenotype OWNER TO postgres;
+ALTER TABLE public.feature_phenotype OWNER TO go;
 
 --
 -- Name: feature_phenotype_feature_phenotype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14331,7 +14740,7 @@ CREATE SEQUENCE public.feature_phenotype_feature_phenotype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_phenotype_feature_phenotype_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_phenotype_feature_phenotype_id_seq OWNER TO go;
 
 --
 -- Name: feature_phenotype_feature_phenotype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14351,7 +14760,7 @@ CREATE TABLE public.feature_pub (
 );
 
 
-ALTER TABLE public.feature_pub OWNER TO postgres;
+ALTER TABLE public.feature_pub OWNER TO go;
 
 --
 -- Name: feature_pub_feature_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14365,7 +14774,7 @@ CREATE SEQUENCE public.feature_pub_feature_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_pub_feature_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_pub_feature_pub_id_seq OWNER TO go;
 
 --
 -- Name: feature_pub_feature_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14387,7 +14796,7 @@ CREATE TABLE public.feature_pubprop (
 );
 
 
-ALTER TABLE public.feature_pubprop OWNER TO postgres;
+ALTER TABLE public.feature_pubprop OWNER TO go;
 
 --
 -- Name: TABLE feature_pubprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -14408,7 +14817,7 @@ CREATE SEQUENCE public.feature_pubprop_feature_pubprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_pubprop_feature_pubprop_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_pubprop_feature_pubprop_id_seq OWNER TO go;
 
 --
 -- Name: feature_pubprop_feature_pubprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14429,7 +14838,7 @@ CREATE SEQUENCE public.feature_relationship_feature_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_relationship_feature_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_relationship_feature_relationship_id_seq OWNER TO go;
 
 --
 -- Name: feature_relationship_feature_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14449,7 +14858,7 @@ CREATE TABLE public.feature_relationship_pub (
 );
 
 
-ALTER TABLE public.feature_relationship_pub OWNER TO postgres;
+ALTER TABLE public.feature_relationship_pub OWNER TO go;
 
 --
 -- Name: feature_relationship_pub_feature_relationship_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14463,7 +14872,7 @@ CREATE SEQUENCE public.feature_relationship_pub_feature_relationship_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_relationship_pub_feature_relationship_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_relationship_pub_feature_relationship_pub_id_seq OWNER TO go;
 
 --
 -- Name: feature_relationship_pub_feature_relationship_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14485,7 +14894,7 @@ CREATE TABLE public.feature_relationshipprop (
 );
 
 
-ALTER TABLE public.feature_relationshipprop OWNER TO postgres;
+ALTER TABLE public.feature_relationshipprop OWNER TO go;
 
 --
 -- Name: feature_relationshipprop_feature_relationshipprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14499,7 +14908,7 @@ CREATE SEQUENCE public.feature_relationshipprop_feature_relationshipprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_relationshipprop_feature_relationshipprop_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_relationshipprop_feature_relationshipprop_id_seq OWNER TO go;
 
 --
 -- Name: feature_relationshipprop_feature_relationshipprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14519,7 +14928,7 @@ CREATE TABLE public.feature_relationshipprop_pub (
 );
 
 
-ALTER TABLE public.feature_relationshipprop_pub OWNER TO postgres;
+ALTER TABLE public.feature_relationshipprop_pub OWNER TO go;
 
 --
 -- Name: feature_relationshipprop_pub_feature_relationshipprop_pub_i_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14533,7 +14942,7 @@ CREATE SEQUENCE public.feature_relationshipprop_pub_feature_relationshipprop_pub
     CACHE 1;
 
 
-ALTER TABLE public.feature_relationshipprop_pub_feature_relationshipprop_pub_i_seq OWNER TO postgres;
+ALTER TABLE public.feature_relationshipprop_pub_feature_relationshipprop_pub_i_seq OWNER TO go;
 
 --
 -- Name: feature_relationshipprop_pub_feature_relationshipprop_pub_i_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14556,7 +14965,7 @@ CREATE TABLE public.feature_synonym (
 );
 
 
-ALTER TABLE public.feature_synonym OWNER TO postgres;
+ALTER TABLE public.feature_synonym OWNER TO go;
 
 --
 -- Name: feature_synonym_feature_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14570,7 +14979,7 @@ CREATE SEQUENCE public.feature_synonym_feature_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_synonym_feature_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.feature_synonym_feature_synonym_id_seq OWNER TO go;
 
 --
 -- Name: feature_synonym_feature_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14591,7 +15000,7 @@ CREATE SEQUENCE public.feature_uniquename_seq
     CACHE 1;
 
 
-ALTER TABLE public.feature_uniquename_seq OWNER TO postgres;
+ALTER TABLE public.feature_uniquename_seq OWNER TO go;
 
 --
 -- Name: featureloc_allcoords; Type: VIEW; Schema: public; Owner: postgres
@@ -14623,7 +15032,7 @@ CREATE VIEW public.featureloc_allcoords AS
    FROM public.featureloc;
 
 
-ALTER TABLE public.featureloc_allcoords OWNER TO postgres;
+ALTER TABLE public.featureloc_allcoords OWNER TO go;
 
 --
 -- Name: featureloc_featureloc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14637,7 +15046,7 @@ CREATE SEQUENCE public.featureloc_featureloc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featureloc_featureloc_id_seq OWNER TO postgres;
+ALTER TABLE public.featureloc_featureloc_id_seq OWNER TO go;
 
 --
 -- Name: featureloc_featureloc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14657,7 +15066,7 @@ CREATE TABLE public.featureloc_pub (
 );
 
 
-ALTER TABLE public.featureloc_pub OWNER TO postgres;
+ALTER TABLE public.featureloc_pub OWNER TO go;
 
 --
 -- Name: TABLE featureloc_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -14678,7 +15087,7 @@ CREATE SEQUENCE public.featureloc_pub_featureloc_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featureloc_pub_featureloc_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.featureloc_pub_featureloc_pub_id_seq OWNER TO go;
 
 --
 -- Name: featureloc_pub_featureloc_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14699,7 +15108,7 @@ CREATE TABLE public.featuremap (
 );
 
 
-ALTER TABLE public.featuremap OWNER TO postgres;
+ALTER TABLE public.featuremap OWNER TO go;
 
 --
 -- Name: featuremap_featuremap_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14713,7 +15122,7 @@ CREATE SEQUENCE public.featuremap_featuremap_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featuremap_featuremap_id_seq OWNER TO postgres;
+ALTER TABLE public.featuremap_featuremap_id_seq OWNER TO go;
 
 --
 -- Name: featuremap_featuremap_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14733,7 +15142,7 @@ CREATE TABLE public.featuremap_pub (
 );
 
 
-ALTER TABLE public.featuremap_pub OWNER TO postgres;
+ALTER TABLE public.featuremap_pub OWNER TO go;
 
 --
 -- Name: featuremap_pub_featuremap_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14747,7 +15156,7 @@ CREATE SEQUENCE public.featuremap_pub_featuremap_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featuremap_pub_featuremap_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.featuremap_pub_featuremap_pub_id_seq OWNER TO go;
 
 --
 -- Name: featuremap_pub_featuremap_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14769,7 +15178,7 @@ CREATE TABLE public.featurepos (
 );
 
 
-ALTER TABLE public.featurepos OWNER TO postgres;
+ALTER TABLE public.featurepos OWNER TO go;
 
 --
 -- Name: featurepos_featuremap_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14783,7 +15192,7 @@ CREATE SEQUENCE public.featurepos_featuremap_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featurepos_featuremap_id_seq OWNER TO postgres;
+ALTER TABLE public.featurepos_featuremap_id_seq OWNER TO go;
 
 --
 -- Name: featurepos_featuremap_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14804,7 +15213,7 @@ CREATE SEQUENCE public.featurepos_featurepos_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featurepos_featurepos_id_seq OWNER TO postgres;
+ALTER TABLE public.featurepos_featurepos_id_seq OWNER TO go;
 
 --
 -- Name: featurepos_featurepos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14826,7 +15235,7 @@ CREATE TABLE public.featureprop (
 );
 
 
-ALTER TABLE public.featureprop OWNER TO postgres;
+ALTER TABLE public.featureprop OWNER TO go;
 
 --
 -- Name: featureprop_featureprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14840,7 +15249,7 @@ CREATE SEQUENCE public.featureprop_featureprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featureprop_featureprop_id_seq OWNER TO postgres;
+ALTER TABLE public.featureprop_featureprop_id_seq OWNER TO go;
 
 --
 -- Name: featureprop_featureprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14860,7 +15269,7 @@ CREATE TABLE public.featureprop_pub (
 );
 
 
-ALTER TABLE public.featureprop_pub OWNER TO postgres;
+ALTER TABLE public.featureprop_pub OWNER TO go;
 
 --
 -- Name: featureprop_pub_featureprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14874,7 +15283,7 @@ CREATE SEQUENCE public.featureprop_pub_featureprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featureprop_pub_featureprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.featureprop_pub_featureprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: featureprop_pub_featureprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14899,7 +15308,7 @@ CREATE TABLE public.featurerange (
 );
 
 
-ALTER TABLE public.featurerange OWNER TO postgres;
+ALTER TABLE public.featurerange OWNER TO go;
 
 --
 -- Name: featurerange_featurerange_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14913,7 +15322,7 @@ CREATE SEQUENCE public.featurerange_featurerange_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.featurerange_featurerange_id_seq OWNER TO postgres;
+ALTER TABLE public.featurerange_featurerange_id_seq OWNER TO go;
 
 --
 -- Name: featurerange_featurerange_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -14945,7 +15354,7 @@ CREATE VIEW public.fnr_type AS
   WHERE ((f.type_id = c.cvterm_id) AND (af.feature_id IS NULL));
 
 
-ALTER TABLE public.fnr_type OWNER TO postgres;
+ALTER TABLE public.fnr_type OWNER TO go;
 
 --
 -- Name: fp_key; Type: VIEW; Schema: public; Owner: postgres
@@ -14961,7 +15370,7 @@ CREATE VIEW public.fp_key AS
   WHERE (fp.type_id = c.cvterm_id);
 
 
-ALTER TABLE public.fp_key OWNER TO postgres;
+ALTER TABLE public.fp_key OWNER TO go;
 
 --
 -- Name: genotype; Type: TABLE; Schema: public; Owner: postgres
@@ -14970,12 +15379,205 @@ ALTER TABLE public.fp_key OWNER TO postgres;
 CREATE TABLE public.genotype (
     genotype_id integer NOT NULL,
     uniquename text NOT NULL,
-    description character varying(255),
-    name text
+    description text,
+    name text,
+    is_obsolete boolean DEFAULT false
 );
 
 
-ALTER TABLE public.genotype OWNER TO postgres;
+ALTER TABLE public.genotype OWNER TO go;
+
+--
+-- Name: genotype_cvterm; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotype_cvterm (
+    genotype_cvterm_id bigint NOT NULL,
+    genotype_id bigint NOT NULL,
+    cvterm_id bigint NOT NULL,
+    pub_id bigint NOT NULL,
+    is_not boolean DEFAULT false NOT NULL,
+    rank integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.genotype_cvterm OWNER TO go;
+
+--
+-- Name: TABLE genotype_cvterm; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.genotype_cvterm IS 'Associate a term from a cv with a
+genotype, for example, DO annotation.';
+
+
+--
+-- Name: COLUMN genotype_cvterm.pub_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_cvterm.pub_id IS 'Provenance for the annotation.
+Each annotation should have a single primary publication (which may be of the
+appropriate type for computational analyses) where more details can be found.';
+
+
+--
+-- Name: COLUMN genotype_cvterm.is_not; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_cvterm.is_not IS 'If this is set to true, then this
+annotation is interpreted as a NEGATIVE annotation - i.e. the genotype does
+NOT have the specified function, process, component, part, etc. See GO docs for
+more details.';
+
+
+--
+-- Name: genotype_cvterm_genotype_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotype_cvterm_genotype_cvterm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotype_cvterm_genotype_cvterm_id_seq OWNER TO go;
+
+--
+-- Name: genotype_cvterm_genotype_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotype_cvterm_genotype_cvterm_id_seq OWNED BY public.genotype_cvterm.genotype_cvterm_id;
+
+
+--
+-- Name: genotype_cvtermprop; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotype_cvtermprop (
+    genotype_cvtermprop_id bigint NOT NULL,
+    genotype_cvterm_id bigint NOT NULL,
+    type_id bigint NOT NULL,
+    value text,
+    rank integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.genotype_cvtermprop OWNER TO go;
+
+--
+-- Name: TABLE genotype_cvtermprop; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.genotype_cvtermprop IS 'Extensible properties for
+genotype to cvterm associations. Examples: GO evidence codes;
+qualifiers; metadata such as the date ON which the entry was curated
+and the source of the association. See the genotypeprop table for
+meanings of type_id, value and rank.';
+
+
+--
+-- Name: COLUMN genotype_cvtermprop.type_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_cvtermprop.type_id IS 'The name of the
+property/slot is a cvterm. The meaning of the property is defined in
+that cvterm. cvterms may come from the OBO evidence code cv.';
+
+
+--
+-- Name: COLUMN genotype_cvtermprop.value; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_cvtermprop.value IS 'The value of the
+property, represented as text. Numeric values are converted to their
+text representation. This is less efficient than using native database
+types, but is easier to query.';
+
+
+--
+-- Name: COLUMN genotype_cvtermprop.rank; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_cvtermprop.rank IS 'Property-Value
+ordering. Any genotype_cvterm can have multiple values for any particular
+property type - these are ordered in a list using rank, counting from
+zero. For properties that are single-valued rather than multi-valued,
+the default 0 value should be used.';
+
+
+--
+-- Name: genotype_cvtermprop_genotype_cvtermprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotype_cvtermprop_genotype_cvtermprop_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotype_cvtermprop_genotype_cvtermprop_id_seq OWNER TO go;
+
+--
+-- Name: genotype_cvtermprop_genotype_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotype_cvtermprop_genotype_cvtermprop_id_seq OWNED BY public.genotype_cvtermprop.genotype_cvtermprop_id;
+
+
+--
+-- Name: genotype_dbxref; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotype_dbxref (
+    genotype_dbxref_id bigint NOT NULL,
+    genotype_id bigint NOT NULL,
+    dbxref_id bigint NOT NULL,
+    is_current boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.genotype_dbxref OWNER TO go;
+
+--
+-- Name: TABLE genotype_dbxref; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.genotype_dbxref IS 'Links a genotype to dbxrefs.';
+
+
+--
+-- Name: COLUMN genotype_dbxref.is_current; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_dbxref.is_current IS 'True if this secondary dbxref
+is the most up to date accession in the corresponding db. Retired accessions
+should set this field to false';
+
+
+--
+-- Name: genotype_dbxref_genotype_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotype_dbxref_genotype_dbxref_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotype_dbxref_genotype_dbxref_id_seq OWNER TO go;
+
+--
+-- Name: genotype_dbxref_genotype_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotype_dbxref_genotype_dbxref_id_seq OWNED BY public.genotype_dbxref.genotype_dbxref_id;
+
 
 --
 -- Name: genotype_genotype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -14989,13 +15591,219 @@ CREATE SEQUENCE public.genotype_genotype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.genotype_genotype_id_seq OWNER TO postgres;
+ALTER TABLE public.genotype_genotype_id_seq OWNER TO go;
 
 --
 -- Name: genotype_genotype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.genotype_genotype_id_seq OWNED BY public.genotype.genotype_id;
+
+
+--
+-- Name: genotype_pub; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotype_pub (
+    genotype_pub_id bigint NOT NULL,
+    genotype_id bigint NOT NULL,
+    pub_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.genotype_pub OWNER TO go;
+
+--
+-- Name: TABLE genotype_pub; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.genotype_pub IS 'Provenance. Linking table between genotypes and publications that mention them.';
+
+
+--
+-- Name: genotype_pub_genotype_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotype_pub_genotype_pub_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotype_pub_genotype_pub_id_seq OWNER TO go;
+
+--
+-- Name: genotype_pub_genotype_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotype_pub_genotype_pub_id_seq OWNED BY public.genotype_pub.genotype_pub_id;
+
+
+--
+-- Name: genotype_synonym; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotype_synonym (
+    genotype_synonym_id bigint NOT NULL,
+    genotype_id bigint NOT NULL,
+    synonym_id bigint NOT NULL,
+    pub_id bigint NOT NULL,
+    is_current boolean DEFAULT true NOT NULL,
+    is_internal boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.genotype_synonym OWNER TO go;
+
+--
+-- Name: TABLE genotype_synonym; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.genotype_synonym IS 'Linking table between genotype and synonym.';
+
+
+--
+-- Name: COLUMN genotype_synonym.pub_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_synonym.pub_id IS 'The pub_id link is for relating the
+usage of a given synonym to the publication in which it was used.';
+
+
+--
+-- Name: COLUMN genotype_synonym.is_current; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_synonym.is_current IS 'The is_current boolean
+indicates whether the linked synonym is the current -official- symbol for
+the linked genotype.';
+
+
+--
+-- Name: COLUMN genotype_synonym.is_internal; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotype_synonym.is_internal IS 'Typically a synonym exists
+so that somebody querying the db with an obsolete name can find the object they
+are looking for (under its current name).  If the synonym has been used
+publicly and deliberately (e.g. in a paper), it may also be listed in reports
+as a synonym. If the synonym was not used deliberately (e.g. there was a typo
+which went public), then the is_internal boolean may be set to -true- so that
+it is known that the synonym is -internal- and should be queryable but should
+not be listed in reports as a valid synonym.';
+
+
+--
+-- Name: genotype_synonym_genotype_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotype_synonym_genotype_synonym_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotype_synonym_genotype_synonym_id_seq OWNER TO go;
+
+--
+-- Name: genotype_synonym_genotype_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotype_synonym_genotype_synonym_id_seq OWNED BY public.genotype_synonym.genotype_synonym_id;
+
+
+--
+-- Name: genotypeprop; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotypeprop (
+    genotypeprop_id bigint NOT NULL,
+    genotype_id bigint NOT NULL,
+    type_id bigint NOT NULL,
+    value text,
+    rank integer DEFAULT 0 NOT NULL,
+    cvalue_id bigint
+);
+
+
+ALTER TABLE public.genotypeprop OWNER TO go;
+
+--
+-- Name: COLUMN genotypeprop.cvalue_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.genotypeprop.cvalue_id IS 'The value of the property if that
+value should be the name of a controlled vocabulary term.  It is preferred that
+a property either use the value or cvalue_id column but not both.  For example,
+if the property type is "color" then the cvalue_id could be a term named
+"green".';
+
+
+--
+-- Name: genotypeprop_genotypeprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotypeprop_genotypeprop_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotypeprop_genotypeprop_id_seq OWNER TO go;
+
+--
+-- Name: genotypeprop_genotypeprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotypeprop_genotypeprop_id_seq OWNED BY public.genotypeprop.genotypeprop_id;
+
+
+--
+-- Name: genotypeprop_pub; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genotypeprop_pub (
+    genotypeprop_pub_id bigint NOT NULL,
+    genotypeprop_id bigint NOT NULL,
+    pub_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.genotypeprop_pub OWNER TO go;
+
+--
+-- Name: TABLE genotypeprop_pub; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.genotypeprop_pub IS 'Provenance. Any genotypeprop assignment
+can optionally be supported by a publication.';
+
+
+--
+-- Name: genotypeprop_pub_genotypeprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genotypeprop_pub_genotypeprop_pub_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genotypeprop_pub_genotypeprop_pub_id_seq OWNER TO go;
+
+--
+-- Name: genotypeprop_pub_genotypeprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genotypeprop_pub_genotypeprop_pub_id_seq OWNED BY public.genotypeprop_pub.genotypeprop_pub_id;
 
 
 --
@@ -15019,7 +15827,7 @@ UNION ALL
   WHERE ((fp.type_id = cv.cvterm_id) AND (((cv.name)::text = ('cyto_range'::character varying)::text) OR ((cv.name)::text = ('gbunit'::character varying)::text)));
 
 
-ALTER TABLE public.gffatts_slim OWNER TO postgres;
+ALTER TABLE public.gffatts_slim OWNER TO go;
 
 --
 -- Name: gffatts_slpar; Type: VIEW; Schema: public; Owner: postgres
@@ -15050,7 +15858,7 @@ UNION ALL
    FROM public.feature_relationship pk;
 
 
-ALTER TABLE public.gffatts_slpar OWNER TO postgres;
+ALTER TABLE public.gffatts_slpar OWNER TO go;
 
 --
 -- Name: grp; Type: TABLE; Schema: public; Owner: postgres
@@ -15066,7 +15874,7 @@ CREATE TABLE public.grp (
 );
 
 
-ALTER TABLE public.grp OWNER TO postgres;
+ALTER TABLE public.grp OWNER TO go;
 
 --
 -- Name: grp_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -15081,7 +15889,7 @@ CREATE TABLE public.grp_cvterm (
 );
 
 
-ALTER TABLE public.grp_cvterm OWNER TO postgres;
+ALTER TABLE public.grp_cvterm OWNER TO go;
 
 --
 -- Name: grp_cvterm_grp_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15095,7 +15903,7 @@ CREATE SEQUENCE public.grp_cvterm_grp_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_cvterm_grp_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_cvterm_grp_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: grp_cvterm_grp_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15116,7 +15924,7 @@ CREATE TABLE public.grp_dbxref (
 );
 
 
-ALTER TABLE public.grp_dbxref OWNER TO postgres;
+ALTER TABLE public.grp_dbxref OWNER TO go;
 
 --
 -- Name: grp_dbxref_grp_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15130,7 +15938,7 @@ CREATE SEQUENCE public.grp_dbxref_grp_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_dbxref_grp_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_dbxref_grp_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: grp_dbxref_grp_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15151,7 +15959,7 @@ CREATE SEQUENCE public.grp_grp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_grp_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_grp_id_seq OWNER TO go;
 
 --
 -- Name: grp_grp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15171,7 +15979,7 @@ CREATE TABLE public.grp_pub (
 );
 
 
-ALTER TABLE public.grp_pub OWNER TO postgres;
+ALTER TABLE public.grp_pub OWNER TO go;
 
 --
 -- Name: grp_pub_grp_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15185,7 +15993,7 @@ CREATE SEQUENCE public.grp_pub_grp_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_pub_grp_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_pub_grp_pub_id_seq OWNER TO go;
 
 --
 -- Name: grp_pub_grp_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15207,7 +16015,7 @@ CREATE TABLE public.grp_pubprop (
 );
 
 
-ALTER TABLE public.grp_pubprop OWNER TO postgres;
+ALTER TABLE public.grp_pubprop OWNER TO go;
 
 --
 -- Name: grp_pubprop_grp_pubprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15221,7 +16029,7 @@ CREATE SEQUENCE public.grp_pubprop_grp_pubprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_pubprop_grp_pubprop_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_pubprop_grp_pubprop_id_seq OWNER TO go;
 
 --
 -- Name: grp_pubprop_grp_pubprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15244,7 +16052,7 @@ CREATE TABLE public.grp_relationship (
 );
 
 
-ALTER TABLE public.grp_relationship OWNER TO postgres;
+ALTER TABLE public.grp_relationship OWNER TO go;
 
 --
 -- Name: grp_relationship_grp_relationship_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15258,7 +16066,7 @@ CREATE SEQUENCE public.grp_relationship_grp_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_relationship_grp_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_relationship_grp_relationship_id_seq OWNER TO go;
 
 --
 -- Name: grp_relationship_grp_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15278,7 +16086,7 @@ CREATE TABLE public.grp_relationship_pub (
 );
 
 
-ALTER TABLE public.grp_relationship_pub OWNER TO postgres;
+ALTER TABLE public.grp_relationship_pub OWNER TO go;
 
 --
 -- Name: grp_relationship_pub_grp_relationship_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15292,7 +16100,7 @@ CREATE SEQUENCE public.grp_relationship_pub_grp_relationship_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_relationship_pub_grp_relationship_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_relationship_pub_grp_relationship_pub_id_seq OWNER TO go;
 
 --
 -- Name: grp_relationship_pub_grp_relationship_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15314,7 +16122,7 @@ CREATE TABLE public.grp_relationshipprop (
 );
 
 
-ALTER TABLE public.grp_relationshipprop OWNER TO postgres;
+ALTER TABLE public.grp_relationshipprop OWNER TO go;
 
 --
 -- Name: grp_relationshipprop_grp_relationshipprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15328,7 +16136,7 @@ CREATE SEQUENCE public.grp_relationshipprop_grp_relationshipprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_relationshipprop_grp_relationshipprop_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_relationshipprop_grp_relationshipprop_id_seq OWNER TO go;
 
 --
 -- Name: grp_relationshipprop_grp_relationshipprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15351,7 +16159,7 @@ CREATE TABLE public.grp_synonym (
 );
 
 
-ALTER TABLE public.grp_synonym OWNER TO postgres;
+ALTER TABLE public.grp_synonym OWNER TO go;
 
 --
 -- Name: grp_synonym_grp_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15365,7 +16173,7 @@ CREATE SEQUENCE public.grp_synonym_grp_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grp_synonym_grp_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.grp_synonym_grp_synonym_id_seq OWNER TO go;
 
 --
 -- Name: grp_synonym_grp_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15386,7 +16194,7 @@ CREATE TABLE public.grpmember (
 );
 
 
-ALTER TABLE public.grpmember OWNER TO postgres;
+ALTER TABLE public.grpmember OWNER TO go;
 
 --
 -- Name: grpmember_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -15401,7 +16209,7 @@ CREATE TABLE public.grpmember_cvterm (
 );
 
 
-ALTER TABLE public.grpmember_cvterm OWNER TO postgres;
+ALTER TABLE public.grpmember_cvterm OWNER TO go;
 
 --
 -- Name: grpmember_cvterm_grpmember_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15415,7 +16223,7 @@ CREATE SEQUENCE public.grpmember_cvterm_grpmember_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpmember_cvterm_grpmember_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.grpmember_cvterm_grpmember_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: grpmember_cvterm_grpmember_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15436,7 +16244,7 @@ CREATE SEQUENCE public.grpmember_grpmember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpmember_grpmember_id_seq OWNER TO postgres;
+ALTER TABLE public.grpmember_grpmember_id_seq OWNER TO go;
 
 --
 -- Name: grpmember_grpmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15456,7 +16264,7 @@ CREATE TABLE public.grpmember_pub (
 );
 
 
-ALTER TABLE public.grpmember_pub OWNER TO postgres;
+ALTER TABLE public.grpmember_pub OWNER TO go;
 
 --
 -- Name: grpmember_pub_grpmember_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15470,7 +16278,7 @@ CREATE SEQUENCE public.grpmember_pub_grpmember_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpmember_pub_grpmember_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.grpmember_pub_grpmember_pub_id_seq OWNER TO go;
 
 --
 -- Name: grpmember_pub_grpmember_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15492,7 +16300,7 @@ CREATE TABLE public.grpmemberprop (
 );
 
 
-ALTER TABLE public.grpmemberprop OWNER TO postgres;
+ALTER TABLE public.grpmemberprop OWNER TO go;
 
 --
 -- Name: grpmemberprop_grpmemberprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15506,7 +16314,7 @@ CREATE SEQUENCE public.grpmemberprop_grpmemberprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpmemberprop_grpmemberprop_id_seq OWNER TO postgres;
+ALTER TABLE public.grpmemberprop_grpmemberprop_id_seq OWNER TO go;
 
 --
 -- Name: grpmemberprop_grpmemberprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15526,7 +16334,7 @@ CREATE TABLE public.grpmemberprop_pub (
 );
 
 
-ALTER TABLE public.grpmemberprop_pub OWNER TO postgres;
+ALTER TABLE public.grpmemberprop_pub OWNER TO go;
 
 --
 -- Name: grpmemberprop_pub_grpmemberprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15540,7 +16348,7 @@ CREATE SEQUENCE public.grpmemberprop_pub_grpmemberprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpmemberprop_pub_grpmemberprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.grpmemberprop_pub_grpmemberprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: grpmemberprop_pub_grpmemberprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15562,7 +16370,7 @@ CREATE TABLE public.grpprop (
 );
 
 
-ALTER TABLE public.grpprop OWNER TO postgres;
+ALTER TABLE public.grpprop OWNER TO go;
 
 --
 -- Name: grpprop_grpprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15576,7 +16384,7 @@ CREATE SEQUENCE public.grpprop_grpprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpprop_grpprop_id_seq OWNER TO postgres;
+ALTER TABLE public.grpprop_grpprop_id_seq OWNER TO go;
 
 --
 -- Name: grpprop_grpprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15596,7 +16404,7 @@ CREATE TABLE public.grpprop_pub (
 );
 
 
-ALTER TABLE public.grpprop_pub OWNER TO postgres;
+ALTER TABLE public.grpprop_pub OWNER TO go;
 
 --
 -- Name: grpprop_pub_grpprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15610,7 +16418,7 @@ CREATE SEQUENCE public.grpprop_pub_grpprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.grpprop_pub_grpprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.grpprop_pub_grpprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: grpprop_pub_grpprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15633,7 +16441,7 @@ CREATE TABLE public.humanhealth (
 );
 
 
-ALTER TABLE public.humanhealth OWNER TO postgres;
+ALTER TABLE public.humanhealth OWNER TO go;
 
 --
 -- Name: TABLE humanhealth; Type: COMMENT; Schema: public; Owner: postgres
@@ -15654,7 +16462,7 @@ CREATE TABLE public.humanhealth_cvterm (
 );
 
 
-ALTER TABLE public.humanhealth_cvterm OWNER TO postgres;
+ALTER TABLE public.humanhealth_cvterm OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_cvterm; Type: COMMENT; Schema: public; Owner: postgres
@@ -15675,7 +16483,7 @@ CREATE SEQUENCE public.humanhealth_cvterm_humanhealth_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_cvterm_humanhealth_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_cvterm_humanhealth_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_cvterm_humanhealth_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15697,7 +16505,7 @@ CREATE TABLE public.humanhealth_cvtermprop (
 );
 
 
-ALTER TABLE public.humanhealth_cvtermprop OWNER TO postgres;
+ALTER TABLE public.humanhealth_cvtermprop OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_cvtermprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -15749,7 +16557,7 @@ CREATE SEQUENCE public.humanhealth_cvtermprop_humanhealth_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_cvtermprop_humanhealth_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_cvtermprop_humanhealth_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_cvtermprop_humanhealth_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15770,7 +16578,7 @@ CREATE TABLE public.humanhealth_dbxref (
 );
 
 
-ALTER TABLE public.humanhealth_dbxref OWNER TO postgres;
+ALTER TABLE public.humanhealth_dbxref OWNER TO go;
 
 --
 -- Name: humanhealth_dbxref_humanhealth_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -15784,7 +16592,7 @@ CREATE SEQUENCE public.humanhealth_dbxref_humanhealth_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_dbxref_humanhealth_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_dbxref_humanhealth_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_dbxref_humanhealth_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15806,7 +16614,7 @@ CREATE TABLE public.humanhealth_dbxrefprop (
 );
 
 
-ALTER TABLE public.humanhealth_dbxrefprop OWNER TO postgres;
+ALTER TABLE public.humanhealth_dbxrefprop OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_dbxrefprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -15827,7 +16635,7 @@ CREATE SEQUENCE public.humanhealth_dbxrefprop_humanhealth_dbxrefprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_dbxrefprop_humanhealth_dbxrefprop_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_dbxrefprop_humanhealth_dbxrefprop_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_dbxrefprop_humanhealth_dbxrefprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15847,7 +16655,7 @@ CREATE TABLE public.humanhealth_dbxrefprop_pub (
 );
 
 
-ALTER TABLE public.humanhealth_dbxrefprop_pub OWNER TO postgres;
+ALTER TABLE public.humanhealth_dbxrefprop_pub OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_dbxrefprop_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -15868,7 +16676,7 @@ CREATE SEQUENCE public.humanhealth_dbxrefprop_pub_humanhealth_dbxrefprop_pub_id_
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_dbxrefprop_pub_humanhealth_dbxrefprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_dbxrefprop_pub_humanhealth_dbxrefprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_dbxrefprop_pub_humanhealth_dbxrefprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15889,7 +16697,7 @@ CREATE TABLE public.humanhealth_feature (
 );
 
 
-ALTER TABLE public.humanhealth_feature OWNER TO postgres;
+ALTER TABLE public.humanhealth_feature OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_feature; Type: COMMENT; Schema: public; Owner: postgres
@@ -15910,7 +16718,7 @@ CREATE SEQUENCE public.humanhealth_feature_humanhealth_feature_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_feature_humanhealth_feature_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_feature_humanhealth_feature_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_feature_humanhealth_feature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15932,7 +16740,7 @@ CREATE TABLE public.humanhealth_featureprop (
 );
 
 
-ALTER TABLE public.humanhealth_featureprop OWNER TO postgres;
+ALTER TABLE public.humanhealth_featureprop OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_featureprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -15953,7 +16761,7 @@ CREATE SEQUENCE public.humanhealth_featureprop_humanhealth_featureprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_featureprop_humanhealth_featureprop_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_featureprop_humanhealth_featureprop_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_featureprop_humanhealth_featureprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15974,7 +16782,7 @@ CREATE SEQUENCE public.humanhealth_humanhealth_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_humanhealth_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_humanhealth_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_humanhealth_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -15995,7 +16803,7 @@ CREATE TABLE public.humanhealth_phenotype (
 );
 
 
-ALTER TABLE public.humanhealth_phenotype OWNER TO postgres;
+ALTER TABLE public.humanhealth_phenotype OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_phenotype; Type: COMMENT; Schema: public; Owner: postgres
@@ -16016,7 +16824,7 @@ CREATE SEQUENCE public.humanhealth_phenotype_humanhealth_phenotype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_phenotype_humanhealth_phenotype_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_phenotype_humanhealth_phenotype_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_phenotype_humanhealth_phenotype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16038,7 +16846,7 @@ CREATE TABLE public.humanhealth_phenotypeprop (
 );
 
 
-ALTER TABLE public.humanhealth_phenotypeprop OWNER TO postgres;
+ALTER TABLE public.humanhealth_phenotypeprop OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_phenotypeprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -16059,7 +16867,7 @@ CREATE SEQUENCE public.humanhealth_phenotypeprop_humanhealth_phenotypeprop_id_se
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_phenotypeprop_humanhealth_phenotypeprop_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_phenotypeprop_humanhealth_phenotypeprop_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_phenotypeprop_humanhealth_phenotypeprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16079,7 +16887,7 @@ CREATE TABLE public.humanhealth_pub (
 );
 
 
-ALTER TABLE public.humanhealth_pub OWNER TO postgres;
+ALTER TABLE public.humanhealth_pub OWNER TO go;
 
 --
 -- Name: humanhealth_pub_humanhealth_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16093,7 +16901,7 @@ CREATE SEQUENCE public.humanhealth_pub_humanhealth_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_pub_humanhealth_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_pub_humanhealth_pub_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_pub_humanhealth_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16115,7 +16923,7 @@ CREATE TABLE public.humanhealth_pubprop (
 );
 
 
-ALTER TABLE public.humanhealth_pubprop OWNER TO postgres;
+ALTER TABLE public.humanhealth_pubprop OWNER TO go;
 
 --
 -- Name: humanhealth_pubprop_humanhealth_pubprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16129,7 +16937,7 @@ CREATE SEQUENCE public.humanhealth_pubprop_humanhealth_pubprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_pubprop_humanhealth_pubprop_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_pubprop_humanhealth_pubprop_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_pubprop_humanhealth_pubprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16152,7 +16960,7 @@ CREATE TABLE public.humanhealth_relationship (
 );
 
 
-ALTER TABLE public.humanhealth_relationship OWNER TO postgres;
+ALTER TABLE public.humanhealth_relationship OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_relationship; Type: COMMENT; Schema: public; Owner: postgres
@@ -16173,7 +16981,7 @@ CREATE SEQUENCE public.humanhealth_relationship_humanhealth_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_relationship_humanhealth_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_relationship_humanhealth_relationship_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_relationship_humanhealth_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16193,7 +17001,7 @@ CREATE TABLE public.humanhealth_relationship_pub (
 );
 
 
-ALTER TABLE public.humanhealth_relationship_pub OWNER TO postgres;
+ALTER TABLE public.humanhealth_relationship_pub OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_relationship_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -16214,7 +17022,7 @@ CREATE SEQUENCE public.humanhealth_relationship_pub_humanhealth_relationship_pub
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_relationship_pub_humanhealth_relationship_pub_i_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_relationship_pub_humanhealth_relationship_pub_i_seq OWNER TO go;
 
 --
 -- Name: humanhealth_relationship_pub_humanhealth_relationship_pub_i_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16237,7 +17045,7 @@ CREATE TABLE public.humanhealth_synonym (
 );
 
 
-ALTER TABLE public.humanhealth_synonym OWNER TO postgres;
+ALTER TABLE public.humanhealth_synonym OWNER TO go;
 
 --
 -- Name: TABLE humanhealth_synonym; Type: COMMENT; Schema: public; Owner: postgres
@@ -16258,7 +17066,7 @@ CREATE SEQUENCE public.humanhealth_synonym_humanhealth_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealth_synonym_humanhealth_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealth_synonym_humanhealth_synonym_id_seq OWNER TO go;
 
 --
 -- Name: humanhealth_synonym_humanhealth_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16280,7 +17088,7 @@ CREATE TABLE public.humanhealthprop (
 );
 
 
-ALTER TABLE public.humanhealthprop OWNER TO postgres;
+ALTER TABLE public.humanhealthprop OWNER TO go;
 
 --
 -- Name: humanhealthprop_humanhealthprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16294,7 +17102,7 @@ CREATE SEQUENCE public.humanhealthprop_humanhealthprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealthprop_humanhealthprop_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealthprop_humanhealthprop_id_seq OWNER TO go;
 
 --
 -- Name: humanhealthprop_humanhealthprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16314,7 +17122,7 @@ CREATE TABLE public.humanhealthprop_pub (
 );
 
 
-ALTER TABLE public.humanhealthprop_pub OWNER TO postgres;
+ALTER TABLE public.humanhealthprop_pub OWNER TO go;
 
 --
 -- Name: TABLE humanhealthprop_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -16335,7 +17143,7 @@ CREATE SEQUENCE public.humanhealthprop_pub_humanhealthprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.humanhealthprop_pub_humanhealthprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.humanhealthprop_pub_humanhealthprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: humanhealthprop_pub_humanhealthprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16357,7 +17165,7 @@ CREATE TABLE public.interaction (
 );
 
 
-ALTER TABLE public.interaction OWNER TO postgres;
+ALTER TABLE public.interaction OWNER TO go;
 
 --
 -- Name: interaction_cell_line; Type: TABLE; Schema: public; Owner: postgres
@@ -16371,7 +17179,7 @@ CREATE TABLE public.interaction_cell_line (
 );
 
 
-ALTER TABLE public.interaction_cell_line OWNER TO postgres;
+ALTER TABLE public.interaction_cell_line OWNER TO go;
 
 --
 -- Name: interaction_cell_line_interaction_cell_line_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16385,7 +17193,7 @@ CREATE SEQUENCE public.interaction_cell_line_interaction_cell_line_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_cell_line_interaction_cell_line_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_cell_line_interaction_cell_line_id_seq OWNER TO go;
 
 --
 -- Name: interaction_cell_line_interaction_cell_line_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16405,7 +17213,7 @@ CREATE TABLE public.interaction_cvterm (
 );
 
 
-ALTER TABLE public.interaction_cvterm OWNER TO postgres;
+ALTER TABLE public.interaction_cvterm OWNER TO go;
 
 --
 -- Name: interaction_cvterm_interaction_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16419,7 +17227,7 @@ CREATE SEQUENCE public.interaction_cvterm_interaction_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_cvterm_interaction_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_cvterm_interaction_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: interaction_cvterm_interaction_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16441,7 +17249,7 @@ CREATE TABLE public.interaction_cvtermprop (
 );
 
 
-ALTER TABLE public.interaction_cvtermprop OWNER TO postgres;
+ALTER TABLE public.interaction_cvtermprop OWNER TO go;
 
 --
 -- Name: interaction_cvtermprop_interaction_cvtermprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16455,7 +17263,7 @@ CREATE SEQUENCE public.interaction_cvtermprop_interaction_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_cvtermprop_interaction_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_cvtermprop_interaction_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: interaction_cvtermprop_interaction_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16476,7 +17284,7 @@ CREATE TABLE public.interaction_expression (
 );
 
 
-ALTER TABLE public.interaction_expression OWNER TO postgres;
+ALTER TABLE public.interaction_expression OWNER TO go;
 
 --
 -- Name: interaction_expression_interaction_expression_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16490,7 +17298,7 @@ CREATE SEQUENCE public.interaction_expression_interaction_expression_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_expression_interaction_expression_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_expression_interaction_expression_id_seq OWNER TO go;
 
 --
 -- Name: interaction_expression_interaction_expression_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16512,7 +17320,7 @@ CREATE TABLE public.interaction_expressionprop (
 );
 
 
-ALTER TABLE public.interaction_expressionprop OWNER TO postgres;
+ALTER TABLE public.interaction_expressionprop OWNER TO go;
 
 --
 -- Name: interaction_expressionprop_interaction_expressionprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16526,7 +17334,7 @@ CREATE SEQUENCE public.interaction_expressionprop_interaction_expressionprop_id_
     CACHE 1;
 
 
-ALTER TABLE public.interaction_expressionprop_interaction_expressionprop_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_expressionprop_interaction_expressionprop_id_seq OWNER TO go;
 
 --
 -- Name: interaction_expressionprop_interaction_expressionprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16547,7 +17355,7 @@ CREATE TABLE public.interaction_group (
 );
 
 
-ALTER TABLE public.interaction_group OWNER TO postgres;
+ALTER TABLE public.interaction_group OWNER TO go;
 
 --
 -- Name: interaction_group_feature_interaction; Type: TABLE; Schema: public; Owner: postgres
@@ -16562,7 +17370,7 @@ CREATE TABLE public.interaction_group_feature_interaction (
 );
 
 
-ALTER TABLE public.interaction_group_feature_interaction OWNER TO postgres;
+ALTER TABLE public.interaction_group_feature_interaction OWNER TO go;
 
 --
 -- Name: interaction_group_feature_int_interaction_group_feature_int_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16576,7 +17384,7 @@ CREATE SEQUENCE public.interaction_group_feature_int_interaction_group_feature_i
     CACHE 1;
 
 
-ALTER TABLE public.interaction_group_feature_int_interaction_group_feature_int_seq OWNER TO postgres;
+ALTER TABLE public.interaction_group_feature_int_interaction_group_feature_int_seq OWNER TO go;
 
 --
 -- Name: interaction_group_feature_int_interaction_group_feature_int_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16597,7 +17405,7 @@ CREATE SEQUENCE public.interaction_group_interaction_group_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_group_interaction_group_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_group_interaction_group_id_seq OWNER TO go;
 
 --
 -- Name: interaction_group_interaction_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16618,7 +17426,7 @@ CREATE SEQUENCE public.interaction_interaction_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_interaction_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_interaction_id_seq OWNER TO go;
 
 --
 -- Name: interaction_interaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16638,7 +17446,7 @@ CREATE TABLE public.interaction_pub (
 );
 
 
-ALTER TABLE public.interaction_pub OWNER TO postgres;
+ALTER TABLE public.interaction_pub OWNER TO go;
 
 --
 -- Name: interaction_pub_interaction_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16652,7 +17460,7 @@ CREATE SEQUENCE public.interaction_pub_interaction_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interaction_pub_interaction_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.interaction_pub_interaction_pub_id_seq OWNER TO go;
 
 --
 -- Name: interaction_pub_interaction_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16674,7 +17482,7 @@ CREATE TABLE public.interactionprop (
 );
 
 
-ALTER TABLE public.interactionprop OWNER TO postgres;
+ALTER TABLE public.interactionprop OWNER TO go;
 
 --
 -- Name: interactionprop_interactionprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16688,7 +17496,7 @@ CREATE SEQUENCE public.interactionprop_interactionprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interactionprop_interactionprop_id_seq OWNER TO postgres;
+ALTER TABLE public.interactionprop_interactionprop_id_seq OWNER TO go;
 
 --
 -- Name: interactionprop_interactionprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16708,7 +17516,7 @@ CREATE TABLE public.interactionprop_pub (
 );
 
 
-ALTER TABLE public.interactionprop_pub OWNER TO postgres;
+ALTER TABLE public.interactionprop_pub OWNER TO go;
 
 --
 -- Name: interactionprop_pub_interactionprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16722,7 +17530,7 @@ CREATE SEQUENCE public.interactionprop_pub_interactionprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.interactionprop_pub_interactionprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.interactionprop_pub_interactionprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: interactionprop_pub_interactionprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16747,7 +17555,7 @@ CREATE TABLE public.library (
 );
 
 
-ALTER TABLE public.library OWNER TO postgres;
+ALTER TABLE public.library OWNER TO go;
 
 --
 -- Name: library_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -16761,7 +17569,7 @@ CREATE TABLE public.library_cvterm (
 );
 
 
-ALTER TABLE public.library_cvterm OWNER TO postgres;
+ALTER TABLE public.library_cvterm OWNER TO go;
 
 --
 -- Name: library_cvterm_library_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16775,7 +17583,7 @@ CREATE SEQUENCE public.library_cvterm_library_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_cvterm_library_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.library_cvterm_library_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: library_cvterm_library_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16797,7 +17605,7 @@ CREATE TABLE public.library_cvtermprop (
 );
 
 
-ALTER TABLE public.library_cvtermprop OWNER TO postgres;
+ALTER TABLE public.library_cvtermprop OWNER TO go;
 
 --
 -- Name: library_cvtermprop_library_cvtermprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16811,7 +17619,7 @@ CREATE SEQUENCE public.library_cvtermprop_library_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_cvtermprop_library_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.library_cvtermprop_library_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: library_cvtermprop_library_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16832,7 +17640,7 @@ CREATE TABLE public.library_dbxref (
 );
 
 
-ALTER TABLE public.library_dbxref OWNER TO postgres;
+ALTER TABLE public.library_dbxref OWNER TO go;
 
 --
 -- Name: library_dbxref_library_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16846,7 +17654,7 @@ CREATE SEQUENCE public.library_dbxref_library_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_dbxref_library_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.library_dbxref_library_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: library_dbxref_library_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16868,7 +17676,7 @@ CREATE TABLE public.library_dbxrefprop (
 );
 
 
-ALTER TABLE public.library_dbxrefprop OWNER TO postgres;
+ALTER TABLE public.library_dbxrefprop OWNER TO go;
 
 --
 -- Name: TABLE library_dbxrefprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -16889,7 +17697,7 @@ CREATE SEQUENCE public.library_dbxrefprop_library_dbxrefprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_dbxrefprop_library_dbxrefprop_id_seq OWNER TO postgres;
+ALTER TABLE public.library_dbxrefprop_library_dbxrefprop_id_seq OWNER TO go;
 
 --
 -- Name: library_dbxrefprop_library_dbxrefprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16910,7 +17718,7 @@ CREATE TABLE public.library_expression (
 );
 
 
-ALTER TABLE public.library_expression OWNER TO postgres;
+ALTER TABLE public.library_expression OWNER TO go;
 
 --
 -- Name: library_expression_library_expression_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16924,7 +17732,7 @@ CREATE SEQUENCE public.library_expression_library_expression_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_expression_library_expression_id_seq OWNER TO postgres;
+ALTER TABLE public.library_expression_library_expression_id_seq OWNER TO go;
 
 --
 -- Name: library_expression_library_expression_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16946,7 +17754,7 @@ CREATE TABLE public.library_expressionprop (
 );
 
 
-ALTER TABLE public.library_expressionprop OWNER TO postgres;
+ALTER TABLE public.library_expressionprop OWNER TO go;
 
 --
 -- Name: library_expressionprop_library_expressionprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16960,7 +17768,7 @@ CREATE SEQUENCE public.library_expressionprop_library_expressionprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_expressionprop_library_expressionprop_id_seq OWNER TO postgres;
+ALTER TABLE public.library_expressionprop_library_expressionprop_id_seq OWNER TO go;
 
 --
 -- Name: library_expressionprop_library_expressionprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -16980,7 +17788,7 @@ CREATE TABLE public.library_feature (
 );
 
 
-ALTER TABLE public.library_feature OWNER TO postgres;
+ALTER TABLE public.library_feature OWNER TO go;
 
 --
 -- Name: library_feature_library_feature_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -16994,7 +17802,7 @@ CREATE SEQUENCE public.library_feature_library_feature_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_feature_library_feature_id_seq OWNER TO postgres;
+ALTER TABLE public.library_feature_library_feature_id_seq OWNER TO go;
 
 --
 -- Name: library_feature_library_feature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17016,7 +17824,7 @@ CREATE TABLE public.library_featureprop (
 );
 
 
-ALTER TABLE public.library_featureprop OWNER TO postgres;
+ALTER TABLE public.library_featureprop OWNER TO go;
 
 --
 -- Name: TABLE library_featureprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -17044,7 +17852,7 @@ CREATE SEQUENCE public.library_featureprop_library_featureprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_featureprop_library_featureprop_id_seq OWNER TO postgres;
+ALTER TABLE public.library_featureprop_library_featureprop_id_seq OWNER TO go;
 
 --
 -- Name: library_featureprop_library_featureprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17064,7 +17872,7 @@ CREATE TABLE public.library_grpmember (
 );
 
 
-ALTER TABLE public.library_grpmember OWNER TO postgres;
+ALTER TABLE public.library_grpmember OWNER TO go;
 
 --
 -- Name: library_grpmember_library_grpmember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17078,7 +17886,7 @@ CREATE SEQUENCE public.library_grpmember_library_grpmember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_grpmember_library_grpmember_id_seq OWNER TO postgres;
+ALTER TABLE public.library_grpmember_library_grpmember_id_seq OWNER TO go;
 
 --
 -- Name: library_grpmember_library_grpmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17099,7 +17907,7 @@ CREATE TABLE public.library_humanhealth (
 );
 
 
-ALTER TABLE public.library_humanhealth OWNER TO postgres;
+ALTER TABLE public.library_humanhealth OWNER TO go;
 
 --
 -- Name: TABLE library_humanhealth; Type: COMMENT; Schema: public; Owner: postgres
@@ -17120,7 +17928,7 @@ CREATE SEQUENCE public.library_humanhealth_library_humanhealth_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_humanhealth_library_humanhealth_id_seq OWNER TO postgres;
+ALTER TABLE public.library_humanhealth_library_humanhealth_id_seq OWNER TO go;
 
 --
 -- Name: library_humanhealth_library_humanhealth_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17142,7 +17950,7 @@ CREATE TABLE public.library_humanhealthprop (
 );
 
 
-ALTER TABLE public.library_humanhealthprop OWNER TO postgres;
+ALTER TABLE public.library_humanhealthprop OWNER TO go;
 
 --
 -- Name: TABLE library_humanhealthprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -17163,7 +17971,7 @@ CREATE SEQUENCE public.library_humanhealthprop_library_humanhealthprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_humanhealthprop_library_humanhealthprop_id_seq OWNER TO postgres;
+ALTER TABLE public.library_humanhealthprop_library_humanhealthprop_id_seq OWNER TO go;
 
 --
 -- Name: library_humanhealthprop_library_humanhealthprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17184,7 +17992,7 @@ CREATE TABLE public.library_interaction (
 );
 
 
-ALTER TABLE public.library_interaction OWNER TO postgres;
+ALTER TABLE public.library_interaction OWNER TO go;
 
 --
 -- Name: library_interaction_library_interaction_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17198,7 +18006,7 @@ CREATE SEQUENCE public.library_interaction_library_interaction_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_interaction_library_interaction_id_seq OWNER TO postgres;
+ALTER TABLE public.library_interaction_library_interaction_id_seq OWNER TO go;
 
 --
 -- Name: library_interaction_library_interaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17219,7 +18027,7 @@ CREATE SEQUENCE public.library_library_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_library_id_seq OWNER TO postgres;
+ALTER TABLE public.library_library_id_seq OWNER TO go;
 
 --
 -- Name: library_library_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17239,7 +18047,7 @@ CREATE TABLE public.library_pub (
 );
 
 
-ALTER TABLE public.library_pub OWNER TO postgres;
+ALTER TABLE public.library_pub OWNER TO go;
 
 --
 -- Name: library_pub_library_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17253,7 +18061,7 @@ CREATE SEQUENCE public.library_pub_library_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_pub_library_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.library_pub_library_pub_id_seq OWNER TO go;
 
 --
 -- Name: library_pub_library_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17274,7 +18082,7 @@ CREATE TABLE public.library_relationship (
 );
 
 
-ALTER TABLE public.library_relationship OWNER TO postgres;
+ALTER TABLE public.library_relationship OWNER TO go;
 
 --
 -- Name: library_relationship_library_relationship_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17288,7 +18096,7 @@ CREATE SEQUENCE public.library_relationship_library_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_relationship_library_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.library_relationship_library_relationship_id_seq OWNER TO go;
 
 --
 -- Name: library_relationship_library_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17308,7 +18116,7 @@ CREATE TABLE public.library_relationship_pub (
 );
 
 
-ALTER TABLE public.library_relationship_pub OWNER TO postgres;
+ALTER TABLE public.library_relationship_pub OWNER TO go;
 
 --
 -- Name: library_relationship_pub_library_relationship_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17322,7 +18130,7 @@ CREATE SEQUENCE public.library_relationship_pub_library_relationship_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_relationship_pub_library_relationship_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.library_relationship_pub_library_relationship_pub_id_seq OWNER TO go;
 
 --
 -- Name: library_relationship_pub_library_relationship_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17343,7 +18151,7 @@ CREATE TABLE public.library_strain (
 );
 
 
-ALTER TABLE public.library_strain OWNER TO postgres;
+ALTER TABLE public.library_strain OWNER TO go;
 
 --
 -- Name: TABLE library_strain; Type: COMMENT; Schema: public; Owner: postgres
@@ -17364,7 +18172,7 @@ CREATE SEQUENCE public.library_strain_library_strain_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_strain_library_strain_id_seq OWNER TO postgres;
+ALTER TABLE public.library_strain_library_strain_id_seq OWNER TO go;
 
 --
 -- Name: library_strain_library_strain_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17386,7 +18194,7 @@ CREATE TABLE public.library_strainprop (
 );
 
 
-ALTER TABLE public.library_strainprop OWNER TO postgres;
+ALTER TABLE public.library_strainprop OWNER TO go;
 
 --
 -- Name: TABLE library_strainprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -17407,7 +18215,7 @@ CREATE SEQUENCE public.library_strainprop_library_strainprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_strainprop_library_strainprop_id_seq OWNER TO postgres;
+ALTER TABLE public.library_strainprop_library_strainprop_id_seq OWNER TO go;
 
 --
 -- Name: library_strainprop_library_strainprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17430,7 +18238,7 @@ CREATE TABLE public.library_synonym (
 );
 
 
-ALTER TABLE public.library_synonym OWNER TO postgres;
+ALTER TABLE public.library_synonym OWNER TO go;
 
 --
 -- Name: library_synonym_library_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17444,7 +18252,7 @@ CREATE SEQUENCE public.library_synonym_library_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.library_synonym_library_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.library_synonym_library_synonym_id_seq OWNER TO go;
 
 --
 -- Name: library_synonym_library_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17466,7 +18274,7 @@ CREATE TABLE public.libraryprop (
 );
 
 
-ALTER TABLE public.libraryprop OWNER TO postgres;
+ALTER TABLE public.libraryprop OWNER TO go;
 
 --
 -- Name: libraryprop_libraryprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17480,7 +18288,7 @@ CREATE SEQUENCE public.libraryprop_libraryprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.libraryprop_libraryprop_id_seq OWNER TO postgres;
+ALTER TABLE public.libraryprop_libraryprop_id_seq OWNER TO go;
 
 --
 -- Name: libraryprop_libraryprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17500,7 +18308,7 @@ CREATE TABLE public.libraryprop_pub (
 );
 
 
-ALTER TABLE public.libraryprop_pub OWNER TO postgres;
+ALTER TABLE public.libraryprop_pub OWNER TO go;
 
 --
 -- Name: libraryprop_pub_libraryprop_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17514,7 +18322,7 @@ CREATE SEQUENCE public.libraryprop_pub_libraryprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.libraryprop_pub_libraryprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.libraryprop_pub_libraryprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: libraryprop_pub_libraryprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17542,7 +18350,7 @@ CREATE TABLE public.lock (
 );
 
 
-ALTER TABLE public.lock OWNER TO postgres;
+ALTER TABLE public.lock OWNER TO go;
 
 --
 -- Name: lock_lock_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17556,7 +18364,7 @@ CREATE SEQUENCE public.lock_lock_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.lock_lock_id_seq OWNER TO postgres;
+ALTER TABLE public.lock_lock_id_seq OWNER TO go;
 
 --
 -- Name: lock_lock_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17579,7 +18387,7 @@ CREATE TABLE public.organism (
 );
 
 
-ALTER TABLE public.organism OWNER TO postgres;
+ALTER TABLE public.organism OWNER TO go;
 
 --
 -- Name: organism_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -17594,7 +18402,7 @@ CREATE TABLE public.organism_cvterm (
 );
 
 
-ALTER TABLE public.organism_cvterm OWNER TO postgres;
+ALTER TABLE public.organism_cvterm OWNER TO go;
 
 --
 -- Name: TABLE organism_cvterm; Type: COMMENT; Schema: public; Owner: postgres
@@ -17626,7 +18434,7 @@ CREATE SEQUENCE public.organism_cvterm_organism_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_cvterm_organism_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_cvterm_organism_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: organism_cvterm_organism_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17648,7 +18456,7 @@ CREATE TABLE public.organism_cvtermprop (
 );
 
 
-ALTER TABLE public.organism_cvtermprop OWNER TO postgres;
+ALTER TABLE public.organism_cvtermprop OWNER TO go;
 
 --
 -- Name: TABLE organism_cvtermprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -17700,7 +18508,7 @@ CREATE SEQUENCE public.organism_cvtermprop_organism_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_cvtermprop_organism_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_cvtermprop_organism_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: organism_cvtermprop_organism_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17721,7 +18529,7 @@ CREATE TABLE public.organism_dbxref (
 );
 
 
-ALTER TABLE public.organism_dbxref OWNER TO postgres;
+ALTER TABLE public.organism_dbxref OWNER TO go;
 
 --
 -- Name: organism_dbxref_organism_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17735,7 +18543,7 @@ CREATE SEQUENCE public.organism_dbxref_organism_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_dbxref_organism_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_dbxref_organism_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: organism_dbxref_organism_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17755,7 +18563,7 @@ CREATE TABLE public.organism_grpmember (
 );
 
 
-ALTER TABLE public.organism_grpmember OWNER TO postgres;
+ALTER TABLE public.organism_grpmember OWNER TO go;
 
 --
 -- Name: organism_grpmember_organism_grpmember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17769,7 +18577,7 @@ CREATE SEQUENCE public.organism_grpmember_organism_grpmember_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_grpmember_organism_grpmember_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_grpmember_organism_grpmember_id_seq OWNER TO go;
 
 --
 -- Name: organism_grpmember_organism_grpmember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17789,7 +18597,7 @@ CREATE TABLE public.organism_library (
 );
 
 
-ALTER TABLE public.organism_library OWNER TO postgres;
+ALTER TABLE public.organism_library OWNER TO go;
 
 --
 -- Name: organism_library_organism_library_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17803,7 +18611,7 @@ CREATE SEQUENCE public.organism_library_organism_library_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_library_organism_library_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_library_organism_library_id_seq OWNER TO go;
 
 --
 -- Name: organism_library_organism_library_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17824,7 +18632,7 @@ CREATE SEQUENCE public.organism_organism_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_organism_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_organism_id_seq OWNER TO go;
 
 --
 -- Name: organism_organism_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17844,7 +18652,7 @@ CREATE TABLE public.organism_pub (
 );
 
 
-ALTER TABLE public.organism_pub OWNER TO postgres;
+ALTER TABLE public.organism_pub OWNER TO go;
 
 --
 -- Name: organism_pub_organism_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17858,7 +18666,7 @@ CREATE SEQUENCE public.organism_pub_organism_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organism_pub_organism_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.organism_pub_organism_pub_id_seq OWNER TO go;
 
 --
 -- Name: organism_pub_organism_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17880,7 +18688,7 @@ CREATE TABLE public.organismprop (
 );
 
 
-ALTER TABLE public.organismprop OWNER TO postgres;
+ALTER TABLE public.organismprop OWNER TO go;
 
 --
 -- Name: organismprop_organismprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17894,7 +18702,7 @@ CREATE SEQUENCE public.organismprop_organismprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organismprop_organismprop_id_seq OWNER TO postgres;
+ALTER TABLE public.organismprop_organismprop_id_seq OWNER TO go;
 
 --
 -- Name: organismprop_organismprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17914,7 +18722,7 @@ CREATE TABLE public.organismprop_pub (
 );
 
 
-ALTER TABLE public.organismprop_pub OWNER TO postgres;
+ALTER TABLE public.organismprop_pub OWNER TO go;
 
 --
 -- Name: TABLE organismprop_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -17935,7 +18743,7 @@ CREATE SEQUENCE public.organismprop_pub_organismprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.organismprop_pub_organismprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.organismprop_pub_organismprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: organismprop_pub_organismprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17958,7 +18766,7 @@ CREATE TABLE public.phendesc (
 );
 
 
-ALTER TABLE public.phendesc OWNER TO postgres;
+ALTER TABLE public.phendesc OWNER TO go;
 
 --
 -- Name: phendesc_phendesc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -17972,7 +18780,7 @@ CREATE SEQUENCE public.phendesc_phendesc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.phendesc_phendesc_id_seq OWNER TO postgres;
+ALTER TABLE public.phendesc_phendesc_id_seq OWNER TO go;
 
 --
 -- Name: phendesc_phendesc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -17996,7 +18804,7 @@ CREATE TABLE public.phenotype (
 );
 
 
-ALTER TABLE public.phenotype OWNER TO postgres;
+ALTER TABLE public.phenotype OWNER TO go;
 
 --
 -- Name: phenotype_comparison; Type: TABLE; Schema: public; Owner: postgres
@@ -18015,7 +18823,7 @@ CREATE TABLE public.phenotype_comparison (
 );
 
 
-ALTER TABLE public.phenotype_comparison OWNER TO postgres;
+ALTER TABLE public.phenotype_comparison OWNER TO go;
 
 --
 -- Name: phenotype_comparison_cvterm; Type: TABLE; Schema: public; Owner: postgres
@@ -18029,7 +18837,7 @@ CREATE TABLE public.phenotype_comparison_cvterm (
 );
 
 
-ALTER TABLE public.phenotype_comparison_cvterm OWNER TO postgres;
+ALTER TABLE public.phenotype_comparison_cvterm OWNER TO go;
 
 --
 -- Name: phenotype_comparison_cvterm_phenotype_comparison_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18043,7 +18851,7 @@ CREATE SEQUENCE public.phenotype_comparison_cvterm_phenotype_comparison_cvterm_i
     CACHE 1;
 
 
-ALTER TABLE public.phenotype_comparison_cvterm_phenotype_comparison_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.phenotype_comparison_cvterm_phenotype_comparison_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: phenotype_comparison_cvterm_phenotype_comparison_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18064,7 +18872,7 @@ CREATE SEQUENCE public.phenotype_comparison_phenotype_comparison_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.phenotype_comparison_phenotype_comparison_id_seq OWNER TO postgres;
+ALTER TABLE public.phenotype_comparison_phenotype_comparison_id_seq OWNER TO go;
 
 --
 -- Name: phenotype_comparison_phenotype_comparison_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18085,7 +18893,7 @@ CREATE TABLE public.phenotype_cvterm (
 );
 
 
-ALTER TABLE public.phenotype_cvterm OWNER TO postgres;
+ALTER TABLE public.phenotype_cvterm OWNER TO go;
 
 --
 -- Name: phenotype_cvterm_phenotype_cvterm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18099,7 +18907,7 @@ CREATE SEQUENCE public.phenotype_cvterm_phenotype_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.phenotype_cvterm_phenotype_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.phenotype_cvterm_phenotype_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: phenotype_cvterm_phenotype_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18120,7 +18928,7 @@ CREATE SEQUENCE public.phenotype_phenotype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.phenotype_phenotype_id_seq OWNER TO postgres;
+ALTER TABLE public.phenotype_phenotype_id_seq OWNER TO go;
 
 --
 -- Name: phenotype_phenotype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18143,7 +18951,7 @@ CREATE TABLE public.phenstatement (
 );
 
 
-ALTER TABLE public.phenstatement OWNER TO postgres;
+ALTER TABLE public.phenstatement OWNER TO go;
 
 --
 -- Name: phenstatement_phenstatement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18157,7 +18965,7 @@ CREATE SEQUENCE public.phenstatement_phenstatement_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.phenstatement_phenstatement_id_seq OWNER TO postgres;
+ALTER TABLE public.phenstatement_phenstatement_id_seq OWNER TO go;
 
 --
 -- Name: phenstatement_phenstatement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18181,7 +18989,7 @@ CREATE VIEW public.prediction_evidence AS
   WHERE ((anchor.srcfeature_id = evloc.srcfeature_id) AND (anchor.strand = evloc.strand) AND (evloc.feature_id = af.feature_id) AND ((evloc.fmin <= anchor.fmax) AND (evloc.fmax >= anchor.fmin)));
 
 
-ALTER TABLE public.prediction_evidence OWNER TO postgres;
+ALTER TABLE public.prediction_evidence OWNER TO go;
 
 --
 -- Name: project; Type: TABLE; Schema: public; Owner: postgres
@@ -18194,7 +19002,7 @@ CREATE TABLE public.project (
 );
 
 
-ALTER TABLE public.project OWNER TO postgres;
+ALTER TABLE public.project OWNER TO go;
 
 --
 -- Name: project_project_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18208,7 +19016,7 @@ CREATE SEQUENCE public.project_project_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.project_project_id_seq OWNER TO postgres;
+ALTER TABLE public.project_project_id_seq OWNER TO go;
 
 --
 -- Name: project_project_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18239,7 +19047,7 @@ CREATE TABLE public.pub (
 );
 
 
-ALTER TABLE public.pub OWNER TO postgres;
+ALTER TABLE public.pub OWNER TO go;
 
 --
 -- Name: pub_dbxref; Type: TABLE; Schema: public; Owner: postgres
@@ -18253,7 +19061,7 @@ CREATE TABLE public.pub_dbxref (
 );
 
 
-ALTER TABLE public.pub_dbxref OWNER TO postgres;
+ALTER TABLE public.pub_dbxref OWNER TO go;
 
 --
 -- Name: pub_dbxref_pub_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18267,7 +19075,7 @@ CREATE SEQUENCE public.pub_dbxref_pub_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pub_dbxref_pub_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.pub_dbxref_pub_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: pub_dbxref_pub_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18288,7 +19096,7 @@ CREATE SEQUENCE public.pub_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pub_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.pub_pub_id_seq OWNER TO go;
 
 --
 -- Name: pub_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18309,7 +19117,7 @@ CREATE TABLE public.pub_relationship (
 );
 
 
-ALTER TABLE public.pub_relationship OWNER TO postgres;
+ALTER TABLE public.pub_relationship OWNER TO go;
 
 --
 -- Name: pub_relationship_pub_relationship_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18323,7 +19131,7 @@ CREATE SEQUENCE public.pub_relationship_pub_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pub_relationship_pub_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.pub_relationship_pub_relationship_id_seq OWNER TO go;
 
 --
 -- Name: pub_relationship_pub_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18347,7 +19155,7 @@ CREATE TABLE public.pubauthor (
 );
 
 
-ALTER TABLE public.pubauthor OWNER TO postgres;
+ALTER TABLE public.pubauthor OWNER TO go;
 
 --
 -- Name: pubauthor_pubauthor_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18361,7 +19169,7 @@ CREATE SEQUENCE public.pubauthor_pubauthor_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pubauthor_pubauthor_id_seq OWNER TO postgres;
+ALTER TABLE public.pubauthor_pubauthor_id_seq OWNER TO go;
 
 --
 -- Name: pubauthor_pubauthor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18383,7 +19191,7 @@ CREATE TABLE public.pubprop (
 );
 
 
-ALTER TABLE public.pubprop OWNER TO postgres;
+ALTER TABLE public.pubprop OWNER TO go;
 
 --
 -- Name: pubprop_pubprop_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18397,7 +19205,7 @@ CREATE SEQUENCE public.pubprop_pubprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pubprop_pubprop_id_seq OWNER TO postgres;
+ALTER TABLE public.pubprop_pubprop_id_seq OWNER TO go;
 
 --
 -- Name: pubprop_pubprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18420,7 +19228,7 @@ CREATE TABLE public.strain (
 );
 
 
-ALTER TABLE public.strain OWNER TO postgres;
+ALTER TABLE public.strain OWNER TO go;
 
 --
 -- Name: TABLE strain; Type: COMMENT; Schema: public; Owner: postgres
@@ -18441,7 +19249,7 @@ CREATE TABLE public.strain_cvterm (
 );
 
 
-ALTER TABLE public.strain_cvterm OWNER TO postgres;
+ALTER TABLE public.strain_cvterm OWNER TO go;
 
 --
 -- Name: TABLE strain_cvterm; Type: COMMENT; Schema: public; Owner: postgres
@@ -18462,7 +19270,7 @@ CREATE SEQUENCE public.strain_cvterm_strain_cvterm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_cvterm_strain_cvterm_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_cvterm_strain_cvterm_id_seq OWNER TO go;
 
 --
 -- Name: strain_cvterm_strain_cvterm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18484,7 +19292,7 @@ CREATE TABLE public.strain_cvtermprop (
 );
 
 
-ALTER TABLE public.strain_cvtermprop OWNER TO postgres;
+ALTER TABLE public.strain_cvtermprop OWNER TO go;
 
 --
 -- Name: TABLE strain_cvtermprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -18536,7 +19344,7 @@ CREATE SEQUENCE public.strain_cvtermprop_strain_cvtermprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_cvtermprop_strain_cvtermprop_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_cvtermprop_strain_cvtermprop_id_seq OWNER TO go;
 
 --
 -- Name: strain_cvtermprop_strain_cvtermprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18557,7 +19365,7 @@ CREATE TABLE public.strain_dbxref (
 );
 
 
-ALTER TABLE public.strain_dbxref OWNER TO postgres;
+ALTER TABLE public.strain_dbxref OWNER TO go;
 
 --
 -- Name: strain_dbxref_strain_dbxref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18571,7 +19379,7 @@ CREATE SEQUENCE public.strain_dbxref_strain_dbxref_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_dbxref_strain_dbxref_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_dbxref_strain_dbxref_id_seq OWNER TO go;
 
 --
 -- Name: strain_dbxref_strain_dbxref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18592,7 +19400,7 @@ CREATE TABLE public.strain_feature (
 );
 
 
-ALTER TABLE public.strain_feature OWNER TO postgres;
+ALTER TABLE public.strain_feature OWNER TO go;
 
 --
 -- Name: TABLE strain_feature; Type: COMMENT; Schema: public; Owner: postgres
@@ -18613,7 +19421,7 @@ CREATE SEQUENCE public.strain_feature_strain_feature_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_feature_strain_feature_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_feature_strain_feature_id_seq OWNER TO go;
 
 --
 -- Name: strain_feature_strain_feature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18635,7 +19443,7 @@ CREATE TABLE public.strain_featureprop (
 );
 
 
-ALTER TABLE public.strain_featureprop OWNER TO postgres;
+ALTER TABLE public.strain_featureprop OWNER TO go;
 
 --
 -- Name: TABLE strain_featureprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -18656,7 +19464,7 @@ CREATE SEQUENCE public.strain_featureprop_strain_featureprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_featureprop_strain_featureprop_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_featureprop_strain_featureprop_id_seq OWNER TO go;
 
 --
 -- Name: strain_featureprop_strain_featureprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18677,7 +19485,7 @@ CREATE TABLE public.strain_phenotype (
 );
 
 
-ALTER TABLE public.strain_phenotype OWNER TO postgres;
+ALTER TABLE public.strain_phenotype OWNER TO go;
 
 --
 -- Name: TABLE strain_phenotype; Type: COMMENT; Schema: public; Owner: postgres
@@ -18698,7 +19506,7 @@ CREATE SEQUENCE public.strain_phenotype_strain_phenotype_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_phenotype_strain_phenotype_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_phenotype_strain_phenotype_id_seq OWNER TO go;
 
 --
 -- Name: strain_phenotype_strain_phenotype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18720,7 +19528,7 @@ CREATE TABLE public.strain_phenotypeprop (
 );
 
 
-ALTER TABLE public.strain_phenotypeprop OWNER TO postgres;
+ALTER TABLE public.strain_phenotypeprop OWNER TO go;
 
 --
 -- Name: TABLE strain_phenotypeprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -18741,7 +19549,7 @@ CREATE SEQUENCE public.strain_phenotypeprop_strain_phenotypeprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_phenotypeprop_strain_phenotypeprop_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_phenotypeprop_strain_phenotypeprop_id_seq OWNER TO go;
 
 --
 -- Name: strain_phenotypeprop_strain_phenotypeprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18761,7 +19569,7 @@ CREATE TABLE public.strain_pub (
 );
 
 
-ALTER TABLE public.strain_pub OWNER TO postgres;
+ALTER TABLE public.strain_pub OWNER TO go;
 
 --
 -- Name: strain_pub_strain_pub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -18775,7 +19583,7 @@ CREATE SEQUENCE public.strain_pub_strain_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_pub_strain_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_pub_strain_pub_id_seq OWNER TO go;
 
 --
 -- Name: strain_pub_strain_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18798,7 +19606,7 @@ CREATE TABLE public.strain_relationship (
 );
 
 
-ALTER TABLE public.strain_relationship OWNER TO postgres;
+ALTER TABLE public.strain_relationship OWNER TO go;
 
 --
 -- Name: TABLE strain_relationship; Type: COMMENT; Schema: public; Owner: postgres
@@ -18818,7 +19626,7 @@ CREATE TABLE public.strain_relationship_pub (
 );
 
 
-ALTER TABLE public.strain_relationship_pub OWNER TO postgres;
+ALTER TABLE public.strain_relationship_pub OWNER TO go;
 
 --
 -- Name: TABLE strain_relationship_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -18839,7 +19647,7 @@ CREATE SEQUENCE public.strain_relationship_pub_strain_relationship_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_relationship_pub_strain_relationship_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_relationship_pub_strain_relationship_pub_id_seq OWNER TO go;
 
 --
 -- Name: strain_relationship_pub_strain_relationship_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18860,7 +19668,7 @@ CREATE SEQUENCE public.strain_relationship_strain_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_relationship_strain_relationship_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_relationship_strain_relationship_id_seq OWNER TO go;
 
 --
 -- Name: strain_relationship_strain_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18881,7 +19689,7 @@ CREATE SEQUENCE public.strain_strain_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_strain_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_strain_id_seq OWNER TO go;
 
 --
 -- Name: strain_strain_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18904,7 +19712,7 @@ CREATE TABLE public.strain_synonym (
 );
 
 
-ALTER TABLE public.strain_synonym OWNER TO postgres;
+ALTER TABLE public.strain_synonym OWNER TO go;
 
 --
 -- Name: TABLE strain_synonym; Type: COMMENT; Schema: public; Owner: postgres
@@ -18925,7 +19733,7 @@ CREATE SEQUENCE public.strain_synonym_strain_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strain_synonym_strain_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.strain_synonym_strain_synonym_id_seq OWNER TO go;
 
 --
 -- Name: strain_synonym_strain_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -18947,7 +19755,7 @@ CREATE TABLE public.strainprop (
 );
 
 
-ALTER TABLE public.strainprop OWNER TO postgres;
+ALTER TABLE public.strainprop OWNER TO go;
 
 --
 -- Name: TABLE strainprop; Type: COMMENT; Schema: public; Owner: postgres
@@ -18967,7 +19775,7 @@ CREATE TABLE public.strainprop_pub (
 );
 
 
-ALTER TABLE public.strainprop_pub OWNER TO postgres;
+ALTER TABLE public.strainprop_pub OWNER TO go;
 
 --
 -- Name: TABLE strainprop_pub; Type: COMMENT; Schema: public; Owner: postgres
@@ -18988,7 +19796,7 @@ CREATE SEQUENCE public.strainprop_pub_strainprop_pub_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strainprop_pub_strainprop_pub_id_seq OWNER TO postgres;
+ALTER TABLE public.strainprop_pub_strainprop_pub_id_seq OWNER TO go;
 
 --
 -- Name: strainprop_pub_strainprop_pub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -19009,7 +19817,7 @@ CREATE SEQUENCE public.strainprop_strainprop_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.strainprop_strainprop_id_seq OWNER TO postgres;
+ALTER TABLE public.strainprop_strainprop_id_seq OWNER TO go;
 
 --
 -- Name: strainprop_strainprop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -19024,13 +19832,13 @@ ALTER SEQUENCE public.strainprop_strainprop_id_seq OWNED BY public.strainprop.st
 
 CREATE TABLE public.synonym (
     synonym_id integer NOT NULL,
-    name character varying(255) NOT NULL,
+    name character varying(1024) NOT NULL,
     type_id integer NOT NULL,
-    synonym_sgml character varying(255) NOT NULL
+    synonym_sgml character varying(1024) NOT NULL
 );
 
 
-ALTER TABLE public.synonym OWNER TO postgres;
+ALTER TABLE public.synonym OWNER TO go;
 
 --
 -- Name: synonym_synonym_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -19044,7 +19852,7 @@ CREATE SEQUENCE public.synonym_synonym_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.synonym_synonym_id_seq OWNER TO postgres;
+ALTER TABLE public.synonym_synonym_id_seq OWNER TO go;
 
 --
 -- Name: synonym_synonym_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -19069,7 +19877,7 @@ CREATE TABLE public.tableinfo (
 );
 
 
-ALTER TABLE public.tableinfo OWNER TO postgres;
+ALTER TABLE public.tableinfo OWNER TO go;
 
 --
 -- Name: tableinfo_tableinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -19083,7 +19891,7 @@ CREATE SEQUENCE public.tableinfo_tableinfo_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tableinfo_tableinfo_id_seq OWNER TO postgres;
+ALTER TABLE public.tableinfo_tableinfo_id_seq OWNER TO go;
 
 --
 -- Name: tableinfo_tableinfo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -19108,7 +19916,7 @@ CREATE TABLE public.update_track (
 );
 
 
-ALTER TABLE public.update_track OWNER TO postgres;
+ALTER TABLE public.update_track OWNER TO go;
 
 --
 -- Name: update_track_update_track_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -19122,7 +19930,7 @@ CREATE SEQUENCE public.update_track_update_track_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.update_track_update_track_id_seq OWNER TO postgres;
+ALTER TABLE public.update_track_update_track_id_seq OWNER TO go;
 
 --
 -- Name: update_track_update_track_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -19626,6 +20434,55 @@ ALTER TABLE ONLY public.featurerange ALTER COLUMN featurerange_id SET DEFAULT ne
 --
 
 ALTER TABLE ONLY public.genotype ALTER COLUMN genotype_id SET DEFAULT nextval('public.genotype_genotype_id_seq'::regclass);
+
+
+--
+-- Name: genotype_cvterm genotype_cvterm_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvterm ALTER COLUMN genotype_cvterm_id SET DEFAULT nextval('public.genotype_cvterm_genotype_cvterm_id_seq'::regclass);
+
+
+--
+-- Name: genotype_cvtermprop genotype_cvtermprop_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvtermprop ALTER COLUMN genotype_cvtermprop_id SET DEFAULT nextval('public.genotype_cvtermprop_genotype_cvtermprop_id_seq'::regclass);
+
+
+--
+-- Name: genotype_dbxref genotype_dbxref_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_dbxref ALTER COLUMN genotype_dbxref_id SET DEFAULT nextval('public.genotype_dbxref_genotype_dbxref_id_seq'::regclass);
+
+
+--
+-- Name: genotype_pub genotype_pub_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_pub ALTER COLUMN genotype_pub_id SET DEFAULT nextval('public.genotype_pub_genotype_pub_id_seq'::regclass);
+
+
+--
+-- Name: genotype_synonym genotype_synonym_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_synonym ALTER COLUMN genotype_synonym_id SET DEFAULT nextval('public.genotype_synonym_genotype_synonym_id_seq'::regclass);
+
+
+--
+-- Name: genotypeprop genotypeprop_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop ALTER COLUMN genotypeprop_id SET DEFAULT nextval('public.genotypeprop_genotypeprop_id_seq'::regclass);
+
+
+--
+-- Name: genotypeprop_pub genotypeprop_pub_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop_pub ALTER COLUMN genotypeprop_pub_id SET DEFAULT nextval('public.genotypeprop_pub_genotypeprop_pub_id_seq'::regclass);
 
 
 --
@@ -21445,11 +22302,123 @@ ALTER TABLE ONLY public.genotype
 
 
 --
+-- Name: genotype_cvterm genotype_cvterm_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvterm
+    ADD CONSTRAINT genotype_cvterm_c1 UNIQUE (genotype_id, cvterm_id, pub_id, rank);
+
+
+--
+-- Name: genotype_cvterm genotype_cvterm_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvterm
+    ADD CONSTRAINT genotype_cvterm_pkey PRIMARY KEY (genotype_cvterm_id);
+
+
+--
+-- Name: genotype_cvtermprop genotype_cvtermprop_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvtermprop
+    ADD CONSTRAINT genotype_cvtermprop_c1 UNIQUE (genotype_cvterm_id, type_id, rank);
+
+
+--
+-- Name: genotype_cvtermprop genotype_cvtermprop_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvtermprop
+    ADD CONSTRAINT genotype_cvtermprop_pkey PRIMARY KEY (genotype_cvtermprop_id);
+
+
+--
+-- Name: genotype_dbxref genotype_dbxref_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_dbxref
+    ADD CONSTRAINT genotype_dbxref_c1 UNIQUE (genotype_id, dbxref_id);
+
+
+--
+-- Name: genotype_dbxref genotype_dbxref_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_dbxref
+    ADD CONSTRAINT genotype_dbxref_pkey PRIMARY KEY (genotype_dbxref_id);
+
+
+--
+-- Name: genotype_synonym genotype_id_synonym_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_synonym
+    ADD CONSTRAINT genotype_id_synonym_c1 UNIQUE (synonym_id, genotype_id, pub_id);
+
+
+--
 -- Name: genotype genotype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.genotype
     ADD CONSTRAINT genotype_pkey PRIMARY KEY (genotype_id);
+
+
+--
+-- Name: genotype_pub genotype_pub_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_pub
+    ADD CONSTRAINT genotype_pub_c1 UNIQUE (genotype_id, pub_id);
+
+
+--
+-- Name: genotype_pub genotype_pub_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_pub
+    ADD CONSTRAINT genotype_pub_pkey PRIMARY KEY (genotype_pub_id);
+
+
+--
+-- Name: genotype_synonym genotype_synonym_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_synonym
+    ADD CONSTRAINT genotype_synonym_pkey PRIMARY KEY (genotype_synonym_id);
+
+
+--
+-- Name: genotypeprop genotypeprop_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop
+    ADD CONSTRAINT genotypeprop_c1 UNIQUE (genotype_id, type_id, rank);
+
+
+--
+-- Name: genotypeprop genotypeprop_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop
+    ADD CONSTRAINT genotypeprop_pkey PRIMARY KEY (genotypeprop_id);
+
+
+--
+-- Name: genotypeprop_pub genotypeprop_pub_c1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop_pub
+    ADD CONSTRAINT genotypeprop_pub_c1 UNIQUE (genotypeprop_id, pub_id);
+
+
+--
+-- Name: genotypeprop_pub genotypeprop_pub_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop_pub
+    ADD CONSTRAINT genotypeprop_pub_pkey PRIMARY KEY (genotypeprop_pub_id);
 
 
 --
@@ -23172,13 +24141,6 @@ CREATE INDEX analysisprop_idx2 ON public.analysisprop USING btree (type_id);
 
 
 --
--- Name: audit_idx1; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX audit_idx1 ON public.audit_chado USING btree (audited_table, record_pkey);
-
-
---
 -- Name: binloc_boxrange; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -23970,6 +24932,55 @@ CREATE INDEX featurerange_idx6 ON public.featurerange USING btree (rightendf_id)
 
 
 --
+-- Name: genotype_cvterm_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_cvterm_idx1 ON public.genotype_cvterm USING btree (genotype_id);
+
+
+--
+-- Name: genotype_cvterm_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_cvterm_idx2 ON public.genotype_cvterm USING btree (cvterm_id);
+
+
+--
+-- Name: genotype_cvterm_idx3; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_cvterm_idx3 ON public.genotype_cvterm USING btree (pub_id);
+
+
+--
+-- Name: genotype_cvtermprop_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_cvtermprop_idx1 ON public.genotype_cvtermprop USING btree (genotype_cvterm_id);
+
+
+--
+-- Name: genotype_cvtermprop_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_cvtermprop_idx2 ON public.genotype_cvtermprop USING btree (type_id);
+
+
+--
+-- Name: genotype_dbxref_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_dbxref_idx1 ON public.genotype_dbxref USING btree (genotype_id);
+
+
+--
+-- Name: genotype_dbxref_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_dbxref_idx2 ON public.genotype_dbxref USING btree (dbxref_id);
+
+
+--
 -- Name: genotype_idx1; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -23981,6 +24992,76 @@ CREATE INDEX genotype_idx1 ON public.genotype USING btree (uniquename);
 --
 
 CREATE INDEX genotype_idx2 ON public.genotype USING btree (name);
+
+
+--
+-- Name: genotype_pub_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_pub_idx1 ON public.genotype_pub USING btree (genotype_id);
+
+
+--
+-- Name: genotype_pub_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_pub_idx2 ON public.genotype_pub USING btree (pub_id);
+
+
+--
+-- Name: genotype_synonym_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_synonym_idx1 ON public.genotype_synonym USING btree (synonym_id);
+
+
+--
+-- Name: genotype_synonym_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_synonym_idx2 ON public.genotype_synonym USING btree (genotype_id);
+
+
+--
+-- Name: genotype_synonym_idx3; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotype_synonym_idx3 ON public.genotype_synonym USING btree (pub_id);
+
+
+--
+-- Name: genotypeprop_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotypeprop_idx1 ON public.genotypeprop USING btree (genotype_id);
+
+
+--
+-- Name: genotypeprop_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotypeprop_idx2 ON public.genotypeprop USING btree (type_id);
+
+
+--
+-- Name: genotypeprop_idx3; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotypeprop_idx3 ON public.genotypeprop USING btree (cvalue_id);
+
+
+--
+-- Name: genotypeprop_pub_idx1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotypeprop_pub_idx1 ON public.genotypeprop_pub USING btree (genotypeprop_id);
+
+
+--
+-- Name: genotypeprop_pub_idx2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX genotypeprop_pub_idx2 ON public.genotypeprop_pub USING btree (pub_id);
 
 
 --
@@ -25478,1309 +26559,1358 @@ CREATE INDEX synonym_idx3 ON public.synonym USING btree (synonym_sgml);
 -- Name: analysis analysis_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER analysis_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysis FOR EACH ROW EXECUTE PROCEDURE public.analysis_audit();
+CREATE TRIGGER analysis_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysis FOR EACH ROW EXECUTE FUNCTION public.analysis_audit();
 
 
 --
 -- Name: analysisfeature analysisfeature_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER analysisfeature_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisfeature FOR EACH ROW EXECUTE PROCEDURE public.analysisfeature_audit();
+CREATE TRIGGER analysisfeature_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisfeature FOR EACH ROW EXECUTE FUNCTION public.analysisfeature_audit();
 
 
 --
 -- Name: analysisgrp analysisgrp_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER analysisgrp_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisgrp FOR EACH ROW EXECUTE PROCEDURE public.analysisgrp_audit();
+CREATE TRIGGER analysisgrp_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisgrp FOR EACH ROW EXECUTE FUNCTION public.analysisgrp_audit();
 
 
 --
 -- Name: analysisgrpmember analysisgrpmember_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER analysisgrpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisgrpmember FOR EACH ROW EXECUTE PROCEDURE public.analysisgrpmember_audit();
+CREATE TRIGGER analysisgrpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisgrpmember FOR EACH ROW EXECUTE FUNCTION public.analysisgrpmember_audit();
 
 
 --
 -- Name: analysisprop analysisprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER analysisprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisprop FOR EACH ROW EXECUTE PROCEDURE public.analysisprop_audit();
+CREATE TRIGGER analysisprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.analysisprop FOR EACH ROW EXECUTE FUNCTION public.analysisprop_audit();
 
 
 --
 -- Name: cell_line cell_line_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line FOR EACH ROW EXECUTE PROCEDURE public.cell_line_audit();
+CREATE TRIGGER cell_line_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line FOR EACH ROW EXECUTE FUNCTION public.cell_line_audit();
 
 
 --
 -- Name: cell_line_cvterm cell_line_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_cvterm FOR EACH ROW EXECUTE PROCEDURE public.cell_line_cvterm_audit();
+CREATE TRIGGER cell_line_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_cvterm FOR EACH ROW EXECUTE FUNCTION public.cell_line_cvterm_audit();
 
 
 --
 -- Name: cell_line_cvtermprop cell_line_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.cell_line_cvtermprop_audit();
+CREATE TRIGGER cell_line_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.cell_line_cvtermprop_audit();
 
 
 --
 -- Name: cell_line_dbxref cell_line_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_dbxref FOR EACH ROW EXECUTE PROCEDURE public.cell_line_dbxref_audit();
+CREATE TRIGGER cell_line_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_dbxref FOR EACH ROW EXECUTE FUNCTION public.cell_line_dbxref_audit();
 
 
 --
 -- Name: cell_line_feature cell_line_feature_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_feature FOR EACH ROW EXECUTE PROCEDURE public.cell_line_feature_audit();
+CREATE TRIGGER cell_line_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_feature FOR EACH ROW EXECUTE FUNCTION public.cell_line_feature_audit();
 
 
 --
 -- Name: cell_line_library cell_line_library_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_library_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_library FOR EACH ROW EXECUTE PROCEDURE public.cell_line_library_audit();
+CREATE TRIGGER cell_line_library_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_library FOR EACH ROW EXECUTE FUNCTION public.cell_line_library_audit();
 
 
 --
 -- Name: cell_line_libraryprop cell_line_libraryprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_libraryprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_libraryprop FOR EACH ROW EXECUTE PROCEDURE public.cell_line_libraryprop_audit();
+CREATE TRIGGER cell_line_libraryprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_libraryprop FOR EACH ROW EXECUTE FUNCTION public.cell_line_libraryprop_audit();
 
 
 --
 -- Name: cell_line_pub cell_line_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_pub FOR EACH ROW EXECUTE PROCEDURE public.cell_line_pub_audit();
+CREATE TRIGGER cell_line_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_pub FOR EACH ROW EXECUTE FUNCTION public.cell_line_pub_audit();
 
 
 --
 -- Name: cell_line_relationship cell_line_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_relationship FOR EACH ROW EXECUTE PROCEDURE public.cell_line_relationship_audit();
+CREATE TRIGGER cell_line_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_relationship FOR EACH ROW EXECUTE FUNCTION public.cell_line_relationship_audit();
 
 
 --
 -- Name: cell_line_strain cell_line_strain_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_strain_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_strain FOR EACH ROW EXECUTE PROCEDURE public.cell_line_strain_audit();
+CREATE TRIGGER cell_line_strain_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_strain FOR EACH ROW EXECUTE FUNCTION public.cell_line_strain_audit();
 
 
 --
 -- Name: cell_line_strainprop cell_line_strainprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_strainprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_strainprop FOR EACH ROW EXECUTE PROCEDURE public.cell_line_strainprop_audit();
+CREATE TRIGGER cell_line_strainprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_strainprop FOR EACH ROW EXECUTE FUNCTION public.cell_line_strainprop_audit();
 
 
 --
 -- Name: cell_line_synonym cell_line_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_line_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_synonym FOR EACH ROW EXECUTE PROCEDURE public.cell_line_synonym_audit();
+CREATE TRIGGER cell_line_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_line_synonym FOR EACH ROW EXECUTE FUNCTION public.cell_line_synonym_audit();
 
 
 --
 -- Name: cell_lineprop cell_lineprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_lineprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_lineprop FOR EACH ROW EXECUTE PROCEDURE public.cell_lineprop_audit();
+CREATE TRIGGER cell_lineprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_lineprop FOR EACH ROW EXECUTE FUNCTION public.cell_lineprop_audit();
 
 
 --
 -- Name: cell_lineprop_pub cell_lineprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cell_lineprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_lineprop_pub FOR EACH ROW EXECUTE PROCEDURE public.cell_lineprop_pub_audit();
+CREATE TRIGGER cell_lineprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.cell_lineprop_pub FOR EACH ROW EXECUTE FUNCTION public.cell_lineprop_pub_audit();
 
 
 --
 -- Name: contact contact_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER contact_audit AFTER INSERT OR DELETE OR UPDATE ON public.contact FOR EACH ROW EXECUTE PROCEDURE public.contact_audit();
+CREATE TRIGGER contact_audit AFTER INSERT OR DELETE OR UPDATE ON public.contact FOR EACH ROW EXECUTE FUNCTION public.contact_audit();
 
 
 --
 -- Name: cv cv_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cv_audit AFTER INSERT OR DELETE OR UPDATE ON public.cv FOR EACH ROW EXECUTE PROCEDURE public.cv_audit();
+CREATE TRIGGER cv_audit AFTER INSERT OR DELETE OR UPDATE ON public.cv FOR EACH ROW EXECUTE FUNCTION public.cv_audit();
 
 
 --
 -- Name: cvterm cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvterm FOR EACH ROW EXECUTE PROCEDURE public.cvterm_audit();
+CREATE TRIGGER cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvterm FOR EACH ROW EXECUTE FUNCTION public.cvterm_audit();
 
 
 --
 -- Name: cvterm_dbxref cvterm_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cvterm_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvterm_dbxref FOR EACH ROW EXECUTE PROCEDURE public.cvterm_dbxref_audit();
+CREATE TRIGGER cvterm_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvterm_dbxref FOR EACH ROW EXECUTE FUNCTION public.cvterm_dbxref_audit();
 
 
 --
 -- Name: cvterm_relationship cvterm_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cvterm_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvterm_relationship FOR EACH ROW EXECUTE PROCEDURE public.cvterm_relationship_audit();
+CREATE TRIGGER cvterm_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvterm_relationship FOR EACH ROW EXECUTE FUNCTION public.cvterm_relationship_audit();
 
 
 --
 -- Name: cvtermpath cvtermpath_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cvtermpath_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvtermpath FOR EACH ROW EXECUTE PROCEDURE public.cvtermpath_audit();
+CREATE TRIGGER cvtermpath_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvtermpath FOR EACH ROW EXECUTE FUNCTION public.cvtermpath_audit();
 
 
 --
 -- Name: cvtermprop cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.cvtermprop_audit();
+CREATE TRIGGER cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvtermprop FOR EACH ROW EXECUTE FUNCTION public.cvtermprop_audit();
 
 
 --
 -- Name: cvtermsynonym cvtermsynonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER cvtermsynonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvtermsynonym FOR EACH ROW EXECUTE PROCEDURE public.cvtermsynonym_audit();
+CREATE TRIGGER cvtermsynonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.cvtermsynonym FOR EACH ROW EXECUTE FUNCTION public.cvtermsynonym_audit();
 
 
 --
 -- Name: db db_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER db_audit AFTER INSERT OR DELETE OR UPDATE ON public.db FOR EACH ROW EXECUTE PROCEDURE public.db_audit();
+CREATE TRIGGER db_audit AFTER INSERT OR DELETE OR UPDATE ON public.db FOR EACH ROW EXECUTE FUNCTION public.db_audit();
 
 
 --
 -- Name: dbxref dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.dbxref FOR EACH ROW EXECUTE PROCEDURE public.dbxref_audit();
+CREATE TRIGGER dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.dbxref FOR EACH ROW EXECUTE FUNCTION public.dbxref_audit();
 
 
 --
 -- Name: dbxrefprop dbxrefprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER dbxrefprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.dbxrefprop FOR EACH ROW EXECUTE PROCEDURE public.dbxrefprop_audit();
+CREATE TRIGGER dbxrefprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.dbxrefprop FOR EACH ROW EXECUTE FUNCTION public.dbxrefprop_audit();
 
 
 --
 -- Name: eimage eimage_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER eimage_audit AFTER INSERT OR DELETE OR UPDATE ON public.eimage FOR EACH ROW EXECUTE PROCEDURE public.eimage_audit();
+CREATE TRIGGER eimage_audit AFTER INSERT OR DELETE OR UPDATE ON public.eimage FOR EACH ROW EXECUTE FUNCTION public.eimage_audit();
 
 
 --
 -- Name: environment environment_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER environment_audit AFTER INSERT OR DELETE OR UPDATE ON public.environment FOR EACH ROW EXECUTE PROCEDURE public.environment_audit();
+CREATE TRIGGER environment_audit AFTER INSERT OR DELETE OR UPDATE ON public.environment FOR EACH ROW EXECUTE FUNCTION public.environment_audit();
 
 
 --
 -- Name: environment_cvterm environment_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER environment_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.environment_cvterm FOR EACH ROW EXECUTE PROCEDURE public.environment_cvterm_audit();
+CREATE TRIGGER environment_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.environment_cvterm FOR EACH ROW EXECUTE FUNCTION public.environment_cvterm_audit();
 
 
 --
 -- Name: expression expression_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expression_assignname_tr_i AFTER INSERT ON public.expression FOR EACH ROW EXECUTE PROCEDURE public.expression_assignname_fn_i();
+CREATE TRIGGER expression_assignname_tr_i AFTER INSERT ON public.expression FOR EACH ROW EXECUTE FUNCTION public.expression_assignname_fn_i();
 
 
 --
 -- Name: expression expression_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression FOR EACH ROW EXECUTE PROCEDURE public.expression_audit();
+CREATE TRIGGER expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression FOR EACH ROW EXECUTE FUNCTION public.expression_audit();
 
 
 --
 -- Name: expression_cvterm expression_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expression_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_cvterm FOR EACH ROW EXECUTE PROCEDURE public.expression_cvterm_audit();
+CREATE TRIGGER expression_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_cvterm FOR EACH ROW EXECUTE FUNCTION public.expression_cvterm_audit();
 
 
 --
 -- Name: expression_cvtermprop expression_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expression_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.expression_cvtermprop_audit();
+CREATE TRIGGER expression_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.expression_cvtermprop_audit();
 
 
 --
 -- Name: expression_image expression_image_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expression_image_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_image FOR EACH ROW EXECUTE PROCEDURE public.expression_image_audit();
+CREATE TRIGGER expression_image_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_image FOR EACH ROW EXECUTE FUNCTION public.expression_image_audit();
 
 
 --
 -- Name: expression_pub expression_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expression_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_pub FOR EACH ROW EXECUTE PROCEDURE public.expression_pub_audit();
+CREATE TRIGGER expression_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.expression_pub FOR EACH ROW EXECUTE FUNCTION public.expression_pub_audit();
 
 
 --
 -- Name: expressionprop expressionprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.expressionprop FOR EACH ROW EXECUTE PROCEDURE public.expressionprop_audit();
+CREATE TRIGGER expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.expressionprop FOR EACH ROW EXECUTE FUNCTION public.expressionprop_audit();
 
 
 --
 -- Name: feature feature_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_assignname_tr_i AFTER INSERT ON public.feature FOR EACH ROW EXECUTE PROCEDURE public.feature_assignname_fn_i();
+CREATE TRIGGER feature_assignname_tr_i AFTER INSERT ON public.feature FOR EACH ROW EXECUTE FUNCTION public.feature_assignname_fn_i();
 
 
 --
 -- Name: feature feature_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature FOR EACH ROW EXECUTE PROCEDURE public.feature_audit();
+CREATE TRIGGER feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature FOR EACH ROW EXECUTE FUNCTION public.feature_audit();
 
 
 --
 -- Name: feature_cvterm feature_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_cvterm FOR EACH ROW EXECUTE PROCEDURE public.feature_cvterm_audit();
+CREATE TRIGGER feature_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_cvterm FOR EACH ROW EXECUTE FUNCTION public.feature_cvterm_audit();
 
 
 --
 -- Name: feature_cvterm_dbxref feature_cvterm_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_cvterm_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_cvterm_dbxref FOR EACH ROW EXECUTE PROCEDURE public.feature_cvterm_dbxref_audit();
+CREATE TRIGGER feature_cvterm_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_cvterm_dbxref FOR EACH ROW EXECUTE FUNCTION public.feature_cvterm_dbxref_audit();
 
 
 --
 -- Name: feature_cvtermprop feature_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.feature_cvtermprop_audit();
+CREATE TRIGGER feature_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.feature_cvtermprop_audit();
 
 
 --
 -- Name: feature_dbxref feature_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_dbxref FOR EACH ROW EXECUTE PROCEDURE public.feature_dbxref_audit();
+CREATE TRIGGER feature_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_dbxref FOR EACH ROW EXECUTE FUNCTION public.feature_dbxref_audit();
 
 
 --
 -- Name: feature_expression feature_expression_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_expression FOR EACH ROW EXECUTE PROCEDURE public.feature_expression_audit();
+CREATE TRIGGER feature_expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_expression FOR EACH ROW EXECUTE FUNCTION public.feature_expression_audit();
 
 
 --
 -- Name: feature_expressionprop feature_expressionprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_expressionprop FOR EACH ROW EXECUTE PROCEDURE public.feature_expressionprop_audit();
+CREATE TRIGGER feature_expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_expressionprop FOR EACH ROW EXECUTE FUNCTION public.feature_expressionprop_audit();
 
 
 --
 -- Name: feature_genotype feature_genotype_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_genotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_genotype FOR EACH ROW EXECUTE PROCEDURE public.feature_genotype_audit();
+CREATE TRIGGER feature_genotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_genotype FOR EACH ROW EXECUTE FUNCTION public.feature_genotype_audit();
 
 
 --
 -- Name: feature_grpmember feature_grpmember_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_grpmember FOR EACH ROW EXECUTE PROCEDURE public.feature_grpmember_audit();
+CREATE TRIGGER feature_grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_grpmember FOR EACH ROW EXECUTE FUNCTION public.feature_grpmember_audit();
 
 
 --
 -- Name: feature_grpmember_pub feature_grpmember_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_grpmember_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_grpmember_pub FOR EACH ROW EXECUTE PROCEDURE public.feature_grpmember_pub_audit();
+CREATE TRIGGER feature_grpmember_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_grpmember_pub FOR EACH ROW EXECUTE FUNCTION public.feature_grpmember_pub_audit();
 
 
 --
 -- Name: feature_humanhealth_dbxref feature_humanhealth_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_humanhealth_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_humanhealth_dbxref FOR EACH ROW EXECUTE PROCEDURE public.feature_humanhealth_dbxref_audit();
+CREATE TRIGGER feature_humanhealth_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_humanhealth_dbxref FOR EACH ROW EXECUTE FUNCTION public.feature_humanhealth_dbxref_audit();
 
 
 --
 -- Name: feature_interaction feature_interaction_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_interaction FOR EACH ROW EXECUTE PROCEDURE public.feature_interaction_audit();
+CREATE TRIGGER feature_interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_interaction FOR EACH ROW EXECUTE FUNCTION public.feature_interaction_audit();
 
 
 --
 -- Name: feature_interaction_pub feature_interaction_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_interaction_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_interaction_pub FOR EACH ROW EXECUTE PROCEDURE public.feature_interaction_pub_audit();
+CREATE TRIGGER feature_interaction_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_interaction_pub FOR EACH ROW EXECUTE FUNCTION public.feature_interaction_pub_audit();
 
 
 --
 -- Name: feature_interactionprop feature_interactionprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_interactionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_interactionprop FOR EACH ROW EXECUTE PROCEDURE public.feature_interactionprop_audit();
+CREATE TRIGGER feature_interactionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_interactionprop FOR EACH ROW EXECUTE FUNCTION public.feature_interactionprop_audit();
 
 
 --
 -- Name: feature_phenotype feature_phenotype_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_phenotype FOR EACH ROW EXECUTE PROCEDURE public.feature_phenotype_audit();
+CREATE TRIGGER feature_phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_phenotype FOR EACH ROW EXECUTE FUNCTION public.feature_phenotype_audit();
 
 
 --
 -- Name: feature feature_propagatename_tr_u; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_propagatename_tr_u AFTER UPDATE ON public.feature FOR EACH ROW EXECUTE PROCEDURE public.feature_propagatename_fn_u();
+CREATE TRIGGER feature_propagatename_tr_u AFTER UPDATE ON public.feature FOR EACH ROW EXECUTE FUNCTION public.feature_propagatename_fn_u();
 
 
 --
 -- Name: feature_pub feature_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_pub FOR EACH ROW EXECUTE PROCEDURE public.feature_pub_audit();
+CREATE TRIGGER feature_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_pub FOR EACH ROW EXECUTE FUNCTION public.feature_pub_audit();
 
 
 --
 -- Name: feature_pubprop feature_pubprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_pubprop FOR EACH ROW EXECUTE PROCEDURE public.feature_pubprop_audit();
+CREATE TRIGGER feature_pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_pubprop FOR EACH ROW EXECUTE FUNCTION public.feature_pubprop_audit();
 
 
 --
 -- Name: feature_relationship feature_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationship FOR EACH ROW EXECUTE PROCEDURE public.feature_relationship_audit();
+CREATE TRIGGER feature_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationship FOR EACH ROW EXECUTE FUNCTION public.feature_relationship_audit();
 
 
 --
 -- Name: feature_relationship feature_relationship_propagatename_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_relationship_propagatename_tr_i AFTER INSERT ON public.feature_relationship FOR EACH ROW EXECUTE PROCEDURE public.feature_relationship_propagatename_fn_i();
+CREATE TRIGGER feature_relationship_propagatename_tr_i AFTER INSERT ON public.feature_relationship FOR EACH ROW EXECUTE FUNCTION public.feature_relationship_propagatename_fn_i();
 
 
 --
 -- Name: feature_relationship_pub feature_relationship_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationship_pub FOR EACH ROW EXECUTE PROCEDURE public.feature_relationship_pub_audit();
+CREATE TRIGGER feature_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationship_pub FOR EACH ROW EXECUTE FUNCTION public.feature_relationship_pub_audit();
 
 
 --
 -- Name: feature_relationship feature_relationship_tr_d; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_relationship_tr_d BEFORE DELETE ON public.feature_relationship FOR EACH ROW EXECUTE PROCEDURE public.feature_relationship_fn_d();
+CREATE TRIGGER feature_relationship_tr_d BEFORE DELETE ON public.feature_relationship FOR EACH ROW EXECUTE FUNCTION public.feature_relationship_fn_d();
 
 
 --
 -- Name: feature_relationshipprop feature_relationshipprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_relationshipprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationshipprop FOR EACH ROW EXECUTE PROCEDURE public.feature_relationshipprop_audit();
+CREATE TRIGGER feature_relationshipprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationshipprop FOR EACH ROW EXECUTE FUNCTION public.feature_relationshipprop_audit();
 
 
 --
 -- Name: feature_relationshipprop_pub feature_relationshipprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_relationshipprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationshipprop_pub FOR EACH ROW EXECUTE PROCEDURE public.feature_relationshipprop_pub_audit();
+CREATE TRIGGER feature_relationshipprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_relationshipprop_pub FOR EACH ROW EXECUTE FUNCTION public.feature_relationshipprop_pub_audit();
 
 
 --
 -- Name: feature_synonym feature_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER feature_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_synonym FOR EACH ROW EXECUTE PROCEDURE public.feature_synonym_audit();
+CREATE TRIGGER feature_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.feature_synonym FOR EACH ROW EXECUTE FUNCTION public.feature_synonym_audit();
 
 
 --
 -- Name: featureloc featureloc_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featureloc_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureloc FOR EACH ROW EXECUTE PROCEDURE public.featureloc_audit();
+CREATE TRIGGER featureloc_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureloc FOR EACH ROW EXECUTE FUNCTION public.featureloc_audit();
 
 
 --
 -- Name: featureloc_pub featureloc_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featureloc_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureloc_pub FOR EACH ROW EXECUTE PROCEDURE public.featureloc_pub_audit();
+CREATE TRIGGER featureloc_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureloc_pub FOR EACH ROW EXECUTE FUNCTION public.featureloc_pub_audit();
 
 
 --
 -- Name: featureloc featureloc_tr_u; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featureloc_tr_u AFTER UPDATE ON public.featureloc FOR EACH ROW EXECUTE PROCEDURE public.featureloc_fn_u();
+CREATE TRIGGER featureloc_tr_u AFTER UPDATE ON public.featureloc FOR EACH ROW EXECUTE FUNCTION public.featureloc_fn_u();
 
 
 --
 -- Name: featureloc featureloctr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featureloctr_i AFTER INSERT ON public.featureloc FOR EACH ROW EXECUTE PROCEDURE public.featureloc_fn_i();
+CREATE TRIGGER featureloctr_i AFTER INSERT ON public.featureloc FOR EACH ROW EXECUTE FUNCTION public.featureloc_fn_i();
 
 
 --
 -- Name: featuremap featuremap_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featuremap_audit AFTER INSERT OR DELETE OR UPDATE ON public.featuremap FOR EACH ROW EXECUTE PROCEDURE public.featuremap_audit();
+CREATE TRIGGER featuremap_audit AFTER INSERT OR DELETE OR UPDATE ON public.featuremap FOR EACH ROW EXECUTE FUNCTION public.featuremap_audit();
 
 
 --
 -- Name: featuremap_pub featuremap_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featuremap_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featuremap_pub FOR EACH ROW EXECUTE PROCEDURE public.featuremap_pub_audit();
+CREATE TRIGGER featuremap_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featuremap_pub FOR EACH ROW EXECUTE FUNCTION public.featuremap_pub_audit();
 
 
 --
 -- Name: featurepos featurepos_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featurepos_audit AFTER INSERT OR DELETE OR UPDATE ON public.featurepos FOR EACH ROW EXECUTE PROCEDURE public.featurepos_audit();
+CREATE TRIGGER featurepos_audit AFTER INSERT OR DELETE OR UPDATE ON public.featurepos FOR EACH ROW EXECUTE FUNCTION public.featurepos_audit();
 
 
 --
 -- Name: featureprop featureprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureprop FOR EACH ROW EXECUTE PROCEDURE public.featureprop_audit();
+CREATE TRIGGER featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureprop FOR EACH ROW EXECUTE FUNCTION public.featureprop_audit();
 
 
 --
 -- Name: featureprop_pub featureprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featureprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureprop_pub FOR EACH ROW EXECUTE PROCEDURE public.featureprop_pub_audit();
+CREATE TRIGGER featureprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.featureprop_pub FOR EACH ROW EXECUTE FUNCTION public.featureprop_pub_audit();
 
 
 --
 -- Name: featurerange featurerange_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER featurerange_audit AFTER INSERT OR DELETE OR UPDATE ON public.featurerange FOR EACH ROW EXECUTE PROCEDURE public.featurerange_audit();
+CREATE TRIGGER featurerange_audit AFTER INSERT OR DELETE OR UPDATE ON public.featurerange FOR EACH ROW EXECUTE FUNCTION public.featurerange_audit();
 
 
 --
 -- Name: genotype genotype_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER genotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype FOR EACH ROW EXECUTE PROCEDURE public.genotype_audit();
+CREATE TRIGGER genotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype FOR EACH ROW EXECUTE FUNCTION public.genotype_audit();
+
+
+--
+-- Name: genotype_cvterm genotype_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotype_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype_cvterm FOR EACH ROW EXECUTE FUNCTION public.genotype_cvterm_audit();
+
+
+--
+-- Name: genotype_cvtermprop genotype_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotype_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.genotype_cvtermprop_audit();
+
+
+--
+-- Name: genotype_dbxref genotype_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotype_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype_dbxref FOR EACH ROW EXECUTE FUNCTION public.genotype_dbxref_audit();
+
+
+--
+-- Name: genotype_pub genotype_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotype_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype_pub FOR EACH ROW EXECUTE FUNCTION public.genotype_pub_audit();
+
+
+--
+-- Name: genotype_synonym genotype_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotype_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotype_synonym FOR EACH ROW EXECUTE FUNCTION public.genotype_synonym_audit();
+
+
+--
+-- Name: genotypeprop genotypeprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotypeprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotypeprop FOR EACH ROW EXECUTE FUNCTION public.genotypeprop_audit();
+
+
+--
+-- Name: genotypeprop_pub genotypeprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER genotypeprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.genotypeprop_pub FOR EACH ROW EXECUTE FUNCTION public.genotypeprop_pub_audit();
 
 
 --
 -- Name: grp grp_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_assignname_tr_i AFTER INSERT ON public.grp FOR EACH ROW EXECUTE PROCEDURE public.grp_assignname_fn_i();
+CREATE TRIGGER grp_assignname_tr_i AFTER INSERT ON public.grp FOR EACH ROW EXECUTE FUNCTION public.grp_assignname_fn_i();
 
 
 --
 -- Name: grp grp_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp FOR EACH ROW EXECUTE PROCEDURE public.grp_audit();
+CREATE TRIGGER grp_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp FOR EACH ROW EXECUTE FUNCTION public.grp_audit();
 
 
 --
 -- Name: grp_cvterm grp_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_cvterm FOR EACH ROW EXECUTE PROCEDURE public.grp_cvterm_audit();
+CREATE TRIGGER grp_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_cvterm FOR EACH ROW EXECUTE FUNCTION public.grp_cvterm_audit();
 
 
 --
 -- Name: grp_dbxref grp_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_dbxref FOR EACH ROW EXECUTE PROCEDURE public.grp_dbxref_audit();
+CREATE TRIGGER grp_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_dbxref FOR EACH ROW EXECUTE FUNCTION public.grp_dbxref_audit();
 
 
 --
 -- Name: grp_pub grp_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_pub FOR EACH ROW EXECUTE PROCEDURE public.grp_pub_audit();
+CREATE TRIGGER grp_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_pub FOR EACH ROW EXECUTE FUNCTION public.grp_pub_audit();
 
 
 --
 -- Name: grp_pubprop grp_pubprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_pubprop FOR EACH ROW EXECUTE PROCEDURE public.grp_pubprop_audit();
+CREATE TRIGGER grp_pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_pubprop FOR EACH ROW EXECUTE FUNCTION public.grp_pubprop_audit();
 
 
 --
 -- Name: grp_relationship grp_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_relationship FOR EACH ROW EXECUTE PROCEDURE public.grp_relationship_audit();
+CREATE TRIGGER grp_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_relationship FOR EACH ROW EXECUTE FUNCTION public.grp_relationship_audit();
 
 
 --
 -- Name: grp_relationship_pub grp_relationship_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_relationship_pub FOR EACH ROW EXECUTE PROCEDURE public.grp_relationship_pub_audit();
+CREATE TRIGGER grp_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_relationship_pub FOR EACH ROW EXECUTE FUNCTION public.grp_relationship_pub_audit();
 
 
 --
 -- Name: grp_relationshipprop grp_relationshipprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_relationshipprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_relationshipprop FOR EACH ROW EXECUTE PROCEDURE public.grp_relationshipprop_audit();
+CREATE TRIGGER grp_relationshipprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_relationshipprop FOR EACH ROW EXECUTE FUNCTION public.grp_relationshipprop_audit();
 
 
 --
 -- Name: grp_synonym grp_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grp_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_synonym FOR EACH ROW EXECUTE PROCEDURE public.grp_synonym_audit();
+CREATE TRIGGER grp_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.grp_synonym FOR EACH ROW EXECUTE FUNCTION public.grp_synonym_audit();
 
 
 --
 -- Name: grpmember grpmember_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmember FOR EACH ROW EXECUTE PROCEDURE public.grpmember_audit();
+CREATE TRIGGER grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmember FOR EACH ROW EXECUTE FUNCTION public.grpmember_audit();
 
 
 --
 -- Name: grpmember_cvterm grpmember_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpmember_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmember_cvterm FOR EACH ROW EXECUTE PROCEDURE public.grpmember_cvterm_audit();
+CREATE TRIGGER grpmember_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmember_cvterm FOR EACH ROW EXECUTE FUNCTION public.grpmember_cvterm_audit();
 
 
 --
 -- Name: grpmember_pub grpmember_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpmember_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmember_pub FOR EACH ROW EXECUTE PROCEDURE public.grpmember_pub_audit();
+CREATE TRIGGER grpmember_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmember_pub FOR EACH ROW EXECUTE FUNCTION public.grpmember_pub_audit();
 
 
 --
 -- Name: grpmemberprop grpmemberprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpmemberprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmemberprop FOR EACH ROW EXECUTE PROCEDURE public.grpmemberprop_audit();
+CREATE TRIGGER grpmemberprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmemberprop FOR EACH ROW EXECUTE FUNCTION public.grpmemberprop_audit();
 
 
 --
 -- Name: grpmemberprop_pub grpmemberprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpmemberprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmemberprop_pub FOR EACH ROW EXECUTE PROCEDURE public.grpmemberprop_pub_audit();
+CREATE TRIGGER grpmemberprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpmemberprop_pub FOR EACH ROW EXECUTE FUNCTION public.grpmemberprop_pub_audit();
 
 
 --
 -- Name: grpprop grpprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpprop FOR EACH ROW EXECUTE PROCEDURE public.grpprop_audit();
+CREATE TRIGGER grpprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpprop FOR EACH ROW EXECUTE FUNCTION public.grpprop_audit();
 
 
 --
 -- Name: grpprop_pub grpprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER grpprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpprop_pub FOR EACH ROW EXECUTE PROCEDURE public.grpprop_pub_audit();
+CREATE TRIGGER grpprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.grpprop_pub FOR EACH ROW EXECUTE FUNCTION public.grpprop_pub_audit();
 
 
 --
 -- Name: humanhealth humanhealth_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_assignname_tr_i AFTER INSERT ON public.humanhealth FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_assignname_fn_i();
+CREATE TRIGGER humanhealth_assignname_tr_i AFTER INSERT ON public.humanhealth FOR EACH ROW EXECUTE FUNCTION public.humanhealth_assignname_fn_i();
 
 
 --
 -- Name: humanhealth humanhealth_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_audit();
+CREATE TRIGGER humanhealth_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth FOR EACH ROW EXECUTE FUNCTION public.humanhealth_audit();
 
 
 --
 -- Name: humanhealth_cvterm humanhealth_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_cvterm FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_cvterm_audit();
+CREATE TRIGGER humanhealth_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_cvterm FOR EACH ROW EXECUTE FUNCTION public.humanhealth_cvterm_audit();
 
 
 --
 -- Name: humanhealth_cvtermprop humanhealth_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_cvtermprop_audit();
+CREATE TRIGGER humanhealth_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.humanhealth_cvtermprop_audit();
 
 
 --
 -- Name: humanhealth_dbxref humanhealth_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_dbxref FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_dbxref_audit();
+CREATE TRIGGER humanhealth_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_dbxref FOR EACH ROW EXECUTE FUNCTION public.humanhealth_dbxref_audit();
 
 
 --
 -- Name: humanhealth_dbxrefprop humanhealth_dbxrefprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_dbxrefprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_dbxrefprop FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_dbxrefprop_audit();
+CREATE TRIGGER humanhealth_dbxrefprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_dbxrefprop FOR EACH ROW EXECUTE FUNCTION public.humanhealth_dbxrefprop_audit();
 
 
 --
 -- Name: humanhealth_dbxrefprop_pub humanhealth_dbxrefprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_dbxrefprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_dbxrefprop_pub FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_dbxrefprop_pub_audit();
+CREATE TRIGGER humanhealth_dbxrefprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_dbxrefprop_pub FOR EACH ROW EXECUTE FUNCTION public.humanhealth_dbxrefprop_pub_audit();
 
 
 --
 -- Name: humanhealth_feature humanhealth_feature_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_feature FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_feature_audit();
+CREATE TRIGGER humanhealth_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_feature FOR EACH ROW EXECUTE FUNCTION public.humanhealth_feature_audit();
 
 
 --
 -- Name: humanhealth_featureprop humanhealth_featureprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_featureprop FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_featureprop_audit();
+CREATE TRIGGER humanhealth_featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_featureprop FOR EACH ROW EXECUTE FUNCTION public.humanhealth_featureprop_audit();
 
 
 --
 -- Name: humanhealth_phenotype humanhealth_phenotype_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_phenotype FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_phenotype_audit();
+CREATE TRIGGER humanhealth_phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_phenotype FOR EACH ROW EXECUTE FUNCTION public.humanhealth_phenotype_audit();
 
 
 --
 -- Name: humanhealth_phenotypeprop humanhealth_phenotypeprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_phenotypeprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_phenotypeprop FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_phenotypeprop_audit();
+CREATE TRIGGER humanhealth_phenotypeprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_phenotypeprop FOR EACH ROW EXECUTE FUNCTION public.humanhealth_phenotypeprop_audit();
 
 
 --
 -- Name: humanhealth_pub humanhealth_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_pub FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_pub_audit();
+CREATE TRIGGER humanhealth_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_pub FOR EACH ROW EXECUTE FUNCTION public.humanhealth_pub_audit();
 
 
 --
 -- Name: humanhealth_pubprop humanhealth_pubprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_pubprop FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_pubprop_audit();
+CREATE TRIGGER humanhealth_pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_pubprop FOR EACH ROW EXECUTE FUNCTION public.humanhealth_pubprop_audit();
 
 
 --
 -- Name: humanhealth_relationship humanhealth_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_relationship FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_relationship_audit();
+CREATE TRIGGER humanhealth_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_relationship FOR EACH ROW EXECUTE FUNCTION public.humanhealth_relationship_audit();
 
 
 --
 -- Name: humanhealth_relationship_pub humanhealth_relationship_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_relationship_pub FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_relationship_pub_audit();
+CREATE TRIGGER humanhealth_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_relationship_pub FOR EACH ROW EXECUTE FUNCTION public.humanhealth_relationship_pub_audit();
 
 
 --
 -- Name: humanhealth_synonym humanhealth_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealth_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_synonym FOR EACH ROW EXECUTE PROCEDURE public.humanhealth_synonym_audit();
+CREATE TRIGGER humanhealth_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealth_synonym FOR EACH ROW EXECUTE FUNCTION public.humanhealth_synonym_audit();
 
 
 --
 -- Name: humanhealthprop humanhealthprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealthprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealthprop FOR EACH ROW EXECUTE PROCEDURE public.humanhealthprop_audit();
+CREATE TRIGGER humanhealthprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealthprop FOR EACH ROW EXECUTE FUNCTION public.humanhealthprop_audit();
 
 
 --
 -- Name: humanhealthprop_pub humanhealthprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER humanhealthprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealthprop_pub FOR EACH ROW EXECUTE PROCEDURE public.humanhealthprop_pub_audit();
+CREATE TRIGGER humanhealthprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.humanhealthprop_pub FOR EACH ROW EXECUTE FUNCTION public.humanhealthprop_pub_audit();
 
 
 --
 -- Name: interaction interaction_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction FOR EACH ROW EXECUTE PROCEDURE public.interaction_audit();
+CREATE TRIGGER interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction FOR EACH ROW EXECUTE FUNCTION public.interaction_audit();
 
 
 --
 -- Name: interaction_cell_line interaction_cell_line_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_cell_line_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_cell_line FOR EACH ROW EXECUTE PROCEDURE public.interaction_cell_line_audit();
+CREATE TRIGGER interaction_cell_line_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_cell_line FOR EACH ROW EXECUTE FUNCTION public.interaction_cell_line_audit();
 
 
 --
 -- Name: interaction_cvterm interaction_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_cvterm FOR EACH ROW EXECUTE PROCEDURE public.interaction_cvterm_audit();
+CREATE TRIGGER interaction_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_cvterm FOR EACH ROW EXECUTE FUNCTION public.interaction_cvterm_audit();
 
 
 --
 -- Name: interaction_cvtermprop interaction_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.interaction_cvtermprop_audit();
+CREATE TRIGGER interaction_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.interaction_cvtermprop_audit();
 
 
 --
 -- Name: interaction_expression interaction_expression_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_expression FOR EACH ROW EXECUTE PROCEDURE public.interaction_expression_audit();
+CREATE TRIGGER interaction_expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_expression FOR EACH ROW EXECUTE FUNCTION public.interaction_expression_audit();
 
 
 --
 -- Name: interaction_expressionprop interaction_expressionprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_expressionprop FOR EACH ROW EXECUTE PROCEDURE public.interaction_expressionprop_audit();
+CREATE TRIGGER interaction_expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_expressionprop FOR EACH ROW EXECUTE FUNCTION public.interaction_expressionprop_audit();
 
 
 --
 -- Name: interaction_group interaction_group_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_group_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_group FOR EACH ROW EXECUTE PROCEDURE public.interaction_group_audit();
+CREATE TRIGGER interaction_group_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_group FOR EACH ROW EXECUTE FUNCTION public.interaction_group_audit();
 
 
 --
 -- Name: interaction_group_feature_interaction interaction_group_feature_interaction_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_group_feature_interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_group_feature_interaction FOR EACH ROW EXECUTE PROCEDURE public.interaction_group_feature_interaction_audit();
+CREATE TRIGGER interaction_group_feature_interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_group_feature_interaction FOR EACH ROW EXECUTE FUNCTION public.interaction_group_feature_interaction_audit();
 
 
 --
 -- Name: interaction_pub interaction_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interaction_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_pub FOR EACH ROW EXECUTE PROCEDURE public.interaction_pub_audit();
+CREATE TRIGGER interaction_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.interaction_pub FOR EACH ROW EXECUTE FUNCTION public.interaction_pub_audit();
 
 
 --
 -- Name: interactionprop interactionprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interactionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.interactionprop FOR EACH ROW EXECUTE PROCEDURE public.interactionprop_audit();
+CREATE TRIGGER interactionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.interactionprop FOR EACH ROW EXECUTE FUNCTION public.interactionprop_audit();
 
 
 --
 -- Name: interactionprop_pub interactionprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER interactionprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.interactionprop_pub FOR EACH ROW EXECUTE PROCEDURE public.interactionprop_pub_audit();
+CREATE TRIGGER interactionprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.interactionprop_pub FOR EACH ROW EXECUTE FUNCTION public.interactionprop_pub_audit();
 
 
 --
 -- Name: library library_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_assignname_tr_i AFTER INSERT ON public.library FOR EACH ROW EXECUTE PROCEDURE public.library_assignname_fn_i();
+CREATE TRIGGER library_assignname_tr_i AFTER INSERT ON public.library FOR EACH ROW EXECUTE FUNCTION public.library_assignname_fn_i();
 
 
 --
 -- Name: library library_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_audit AFTER INSERT OR DELETE OR UPDATE ON public.library FOR EACH ROW EXECUTE PROCEDURE public.library_audit();
+CREATE TRIGGER library_audit AFTER INSERT OR DELETE OR UPDATE ON public.library FOR EACH ROW EXECUTE FUNCTION public.library_audit();
 
 
 --
 -- Name: library_cvterm library_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_cvterm FOR EACH ROW EXECUTE PROCEDURE public.library_cvterm_audit();
+CREATE TRIGGER library_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_cvterm FOR EACH ROW EXECUTE FUNCTION public.library_cvterm_audit();
 
 
 --
 -- Name: library_cvtermprop library_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.library_cvtermprop_audit();
+CREATE TRIGGER library_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.library_cvtermprop_audit();
 
 
 --
 -- Name: library_dbxref library_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_dbxref FOR EACH ROW EXECUTE PROCEDURE public.library_dbxref_audit();
+CREATE TRIGGER library_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_dbxref FOR EACH ROW EXECUTE FUNCTION public.library_dbxref_audit();
 
 
 --
 -- Name: library_dbxrefprop library_dbxrefprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_dbxrefprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_dbxrefprop FOR EACH ROW EXECUTE PROCEDURE public.library_dbxrefprop_audit();
+CREATE TRIGGER library_dbxrefprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_dbxrefprop FOR EACH ROW EXECUTE FUNCTION public.library_dbxrefprop_audit();
 
 
 --
 -- Name: library_expression library_expression_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_expression FOR EACH ROW EXECUTE PROCEDURE public.library_expression_audit();
+CREATE TRIGGER library_expression_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_expression FOR EACH ROW EXECUTE FUNCTION public.library_expression_audit();
 
 
 --
 -- Name: library_expressionprop library_expressionprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_expressionprop FOR EACH ROW EXECUTE PROCEDURE public.library_expressionprop_audit();
+CREATE TRIGGER library_expressionprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_expressionprop FOR EACH ROW EXECUTE FUNCTION public.library_expressionprop_audit();
 
 
 --
 -- Name: library_feature library_feature_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_feature FOR EACH ROW EXECUTE PROCEDURE public.library_feature_audit();
+CREATE TRIGGER library_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_feature FOR EACH ROW EXECUTE FUNCTION public.library_feature_audit();
 
 
 --
 -- Name: library_featureprop library_featureprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_featureprop FOR EACH ROW EXECUTE PROCEDURE public.library_featureprop_audit();
+CREATE TRIGGER library_featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_featureprop FOR EACH ROW EXECUTE FUNCTION public.library_featureprop_audit();
 
 
 --
 -- Name: library_grpmember library_grpmember_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_grpmember FOR EACH ROW EXECUTE PROCEDURE public.library_grpmember_audit();
+CREATE TRIGGER library_grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_grpmember FOR EACH ROW EXECUTE FUNCTION public.library_grpmember_audit();
 
 
 --
 -- Name: library_humanhealth library_humanhealth_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_humanhealth_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_humanhealth FOR EACH ROW EXECUTE PROCEDURE public.library_humanhealth_audit();
+CREATE TRIGGER library_humanhealth_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_humanhealth FOR EACH ROW EXECUTE FUNCTION public.library_humanhealth_audit();
 
 
 --
 -- Name: library_humanhealthprop library_humanhealthprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_humanhealthprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_humanhealthprop FOR EACH ROW EXECUTE PROCEDURE public.library_humanhealthprop_audit();
+CREATE TRIGGER library_humanhealthprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_humanhealthprop FOR EACH ROW EXECUTE FUNCTION public.library_humanhealthprop_audit();
 
 
 --
 -- Name: library_interaction library_interaction_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_interaction FOR EACH ROW EXECUTE PROCEDURE public.library_interaction_audit();
+CREATE TRIGGER library_interaction_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_interaction FOR EACH ROW EXECUTE FUNCTION public.library_interaction_audit();
 
 
 --
 -- Name: library_pub library_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_pub FOR EACH ROW EXECUTE PROCEDURE public.library_pub_audit();
+CREATE TRIGGER library_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_pub FOR EACH ROW EXECUTE FUNCTION public.library_pub_audit();
 
 
 --
 -- Name: library_relationship library_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_relationship FOR EACH ROW EXECUTE PROCEDURE public.library_relationship_audit();
+CREATE TRIGGER library_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_relationship FOR EACH ROW EXECUTE FUNCTION public.library_relationship_audit();
 
 
 --
 -- Name: library_relationship_pub library_relationship_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_relationship_pub FOR EACH ROW EXECUTE PROCEDURE public.library_relationship_pub_audit();
+CREATE TRIGGER library_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_relationship_pub FOR EACH ROW EXECUTE FUNCTION public.library_relationship_pub_audit();
 
 
 --
 -- Name: library_strain library_strain_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_strain_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_strain FOR EACH ROW EXECUTE PROCEDURE public.library_strain_audit();
+CREATE TRIGGER library_strain_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_strain FOR EACH ROW EXECUTE FUNCTION public.library_strain_audit();
 
 
 --
 -- Name: library_strainprop library_strainprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_strainprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_strainprop FOR EACH ROW EXECUTE PROCEDURE public.library_strainprop_audit();
+CREATE TRIGGER library_strainprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_strainprop FOR EACH ROW EXECUTE FUNCTION public.library_strainprop_audit();
 
 
 --
 -- Name: library_synonym library_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER library_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_synonym FOR EACH ROW EXECUTE PROCEDURE public.library_synonym_audit();
+CREATE TRIGGER library_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.library_synonym FOR EACH ROW EXECUTE FUNCTION public.library_synonym_audit();
 
 
 --
 -- Name: libraryprop libraryprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER libraryprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.libraryprop FOR EACH ROW EXECUTE PROCEDURE public.libraryprop_audit();
+CREATE TRIGGER libraryprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.libraryprop FOR EACH ROW EXECUTE FUNCTION public.libraryprop_audit();
 
 
 --
 -- Name: libraryprop_pub libraryprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER libraryprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.libraryprop_pub FOR EACH ROW EXECUTE PROCEDURE public.libraryprop_pub_audit();
+CREATE TRIGGER libraryprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.libraryprop_pub FOR EACH ROW EXECUTE FUNCTION public.libraryprop_pub_audit();
 
 
 --
 -- Name: lock lock_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER lock_audit AFTER INSERT OR DELETE OR UPDATE ON public.lock FOR EACH ROW EXECUTE PROCEDURE public.lock_audit();
+CREATE TRIGGER lock_audit AFTER INSERT OR DELETE OR UPDATE ON public.lock FOR EACH ROW EXECUTE FUNCTION public.lock_audit();
 
 
 --
 -- Name: organism organism_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism FOR EACH ROW EXECUTE PROCEDURE public.organism_audit();
+CREATE TRIGGER organism_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism FOR EACH ROW EXECUTE FUNCTION public.organism_audit();
 
 
 --
 -- Name: organism_cvterm organism_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_cvterm FOR EACH ROW EXECUTE PROCEDURE public.organism_cvterm_audit();
+CREATE TRIGGER organism_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_cvterm FOR EACH ROW EXECUTE FUNCTION public.organism_cvterm_audit();
 
 
 --
 -- Name: organism_cvtermprop organism_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.organism_cvtermprop_audit();
+CREATE TRIGGER organism_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.organism_cvtermprop_audit();
 
 
 --
 -- Name: organism_dbxref organism_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_dbxref FOR EACH ROW EXECUTE PROCEDURE public.organism_dbxref_audit();
+CREATE TRIGGER organism_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_dbxref FOR EACH ROW EXECUTE FUNCTION public.organism_dbxref_audit();
 
 
 --
 -- Name: organism_grpmember organism_grpmember_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_grpmember FOR EACH ROW EXECUTE PROCEDURE public.organism_grpmember_audit();
+CREATE TRIGGER organism_grpmember_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_grpmember FOR EACH ROW EXECUTE FUNCTION public.organism_grpmember_audit();
 
 
 --
 -- Name: organism_library organism_library_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_library_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_library FOR EACH ROW EXECUTE PROCEDURE public.organism_library_audit();
+CREATE TRIGGER organism_library_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_library FOR EACH ROW EXECUTE FUNCTION public.organism_library_audit();
 
 
 --
 -- Name: organism_pub organism_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organism_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_pub FOR EACH ROW EXECUTE PROCEDURE public.organism_pub_audit();
+CREATE TRIGGER organism_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.organism_pub FOR EACH ROW EXECUTE FUNCTION public.organism_pub_audit();
 
 
 --
 -- Name: organismprop organismprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organismprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.organismprop FOR EACH ROW EXECUTE PROCEDURE public.organismprop_audit();
+CREATE TRIGGER organismprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.organismprop FOR EACH ROW EXECUTE FUNCTION public.organismprop_audit();
 
 
 --
 -- Name: organismprop_pub organismprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER organismprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.organismprop_pub FOR EACH ROW EXECUTE PROCEDURE public.organismprop_pub_audit();
+CREATE TRIGGER organismprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.organismprop_pub FOR EACH ROW EXECUTE FUNCTION public.organismprop_pub_audit();
 
 
 --
 -- Name: phendesc phendesc_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER phendesc_audit AFTER INSERT OR DELETE OR UPDATE ON public.phendesc FOR EACH ROW EXECUTE PROCEDURE public.phendesc_audit();
+CREATE TRIGGER phendesc_audit AFTER INSERT OR DELETE OR UPDATE ON public.phendesc FOR EACH ROW EXECUTE FUNCTION public.phendesc_audit();
 
 
 --
 -- Name: phenotype phenotype_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype FOR EACH ROW EXECUTE PROCEDURE public.phenotype_audit();
+CREATE TRIGGER phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype FOR EACH ROW EXECUTE FUNCTION public.phenotype_audit();
 
 
 --
 -- Name: phenotype_comparison phenotype_comparison_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER phenotype_comparison_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype_comparison FOR EACH ROW EXECUTE PROCEDURE public.phenotype_comparison_audit();
+CREATE TRIGGER phenotype_comparison_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype_comparison FOR EACH ROW EXECUTE FUNCTION public.phenotype_comparison_audit();
 
 
 --
 -- Name: phenotype_comparison_cvterm phenotype_comparison_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER phenotype_comparison_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype_comparison_cvterm FOR EACH ROW EXECUTE PROCEDURE public.phenotype_comparison_cvterm_audit();
+CREATE TRIGGER phenotype_comparison_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype_comparison_cvterm FOR EACH ROW EXECUTE FUNCTION public.phenotype_comparison_cvterm_audit();
 
 
 --
 -- Name: phenotype_cvterm phenotype_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER phenotype_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype_cvterm FOR EACH ROW EXECUTE PROCEDURE public.phenotype_cvterm_audit();
+CREATE TRIGGER phenotype_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenotype_cvterm FOR EACH ROW EXECUTE FUNCTION public.phenotype_cvterm_audit();
 
 
 --
 -- Name: phenstatement phenstatement_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER phenstatement_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenstatement FOR EACH ROW EXECUTE PROCEDURE public.phenstatement_audit();
+CREATE TRIGGER phenstatement_audit AFTER INSERT OR DELETE OR UPDATE ON public.phenstatement FOR EACH ROW EXECUTE FUNCTION public.phenstatement_audit();
 
 
 --
 -- Name: project project_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER project_audit AFTER INSERT OR DELETE OR UPDATE ON public.project FOR EACH ROW EXECUTE PROCEDURE public.project_audit();
+CREATE TRIGGER project_audit AFTER INSERT OR DELETE OR UPDATE ON public.project FOR EACH ROW EXECUTE FUNCTION public.project_audit();
 
 
 --
 -- Name: pub pub_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER pub_assignname_tr_i AFTER INSERT ON public.pub FOR EACH ROW EXECUTE PROCEDURE public.pub_assignname_fn_i();
+CREATE TRIGGER pub_assignname_tr_i AFTER INSERT ON public.pub FOR EACH ROW EXECUTE FUNCTION public.pub_assignname_fn_i();
 
 
 --
 -- Name: pub pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.pub FOR EACH ROW EXECUTE PROCEDURE public.pub_audit();
+CREATE TRIGGER pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.pub FOR EACH ROW EXECUTE FUNCTION public.pub_audit();
 
 
 --
 -- Name: pub_dbxref pub_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER pub_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.pub_dbxref FOR EACH ROW EXECUTE PROCEDURE public.pub_dbxref_audit();
+CREATE TRIGGER pub_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.pub_dbxref FOR EACH ROW EXECUTE FUNCTION public.pub_dbxref_audit();
 
 
 --
 -- Name: pub_relationship pub_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER pub_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.pub_relationship FOR EACH ROW EXECUTE PROCEDURE public.pub_relationship_audit();
+CREATE TRIGGER pub_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.pub_relationship FOR EACH ROW EXECUTE FUNCTION public.pub_relationship_audit();
 
 
 --
 -- Name: pubauthor pubauthor_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER pubauthor_audit AFTER INSERT OR DELETE OR UPDATE ON public.pubauthor FOR EACH ROW EXECUTE PROCEDURE public.pubauthor_audit();
+CREATE TRIGGER pubauthor_audit AFTER INSERT OR DELETE OR UPDATE ON public.pubauthor FOR EACH ROW EXECUTE FUNCTION public.pubauthor_audit();
 
 
 --
 -- Name: pubprop pubprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.pubprop FOR EACH ROW EXECUTE PROCEDURE public.pubprop_audit();
+CREATE TRIGGER pubprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.pubprop FOR EACH ROW EXECUTE FUNCTION public.pubprop_audit();
 
 
 --
 -- Name: strain strain_assignname_tr_i; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_assignname_tr_i AFTER INSERT ON public.strain FOR EACH ROW EXECUTE PROCEDURE public.strain_assignname_fn_i();
+CREATE TRIGGER strain_assignname_tr_i AFTER INSERT ON public.strain FOR EACH ROW EXECUTE FUNCTION public.strain_assignname_fn_i();
 
 
 --
 -- Name: strain strain_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain FOR EACH ROW EXECUTE PROCEDURE public.strain_audit();
+CREATE TRIGGER strain_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain FOR EACH ROW EXECUTE FUNCTION public.strain_audit();
 
 
 --
 -- Name: strain_cvterm strain_cvterm_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_cvterm FOR EACH ROW EXECUTE PROCEDURE public.strain_cvterm_audit();
+CREATE TRIGGER strain_cvterm_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_cvterm FOR EACH ROW EXECUTE FUNCTION public.strain_cvterm_audit();
 
 
 --
 -- Name: strain_cvtermprop strain_cvtermprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_cvtermprop FOR EACH ROW EXECUTE PROCEDURE public.strain_cvtermprop_audit();
+CREATE TRIGGER strain_cvtermprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_cvtermprop FOR EACH ROW EXECUTE FUNCTION public.strain_cvtermprop_audit();
 
 
 --
 -- Name: strain_dbxref strain_dbxref_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_dbxref FOR EACH ROW EXECUTE PROCEDURE public.strain_dbxref_audit();
+CREATE TRIGGER strain_dbxref_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_dbxref FOR EACH ROW EXECUTE FUNCTION public.strain_dbxref_audit();
 
 
 --
 -- Name: strain_feature strain_feature_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_feature FOR EACH ROW EXECUTE PROCEDURE public.strain_feature_audit();
+CREATE TRIGGER strain_feature_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_feature FOR EACH ROW EXECUTE FUNCTION public.strain_feature_audit();
 
 
 --
 -- Name: strain_featureprop strain_featureprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_featureprop FOR EACH ROW EXECUTE PROCEDURE public.strain_featureprop_audit();
+CREATE TRIGGER strain_featureprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_featureprop FOR EACH ROW EXECUTE FUNCTION public.strain_featureprop_audit();
 
 
 --
 -- Name: strain_phenotype strain_phenotype_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_phenotype FOR EACH ROW EXECUTE PROCEDURE public.strain_phenotype_audit();
+CREATE TRIGGER strain_phenotype_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_phenotype FOR EACH ROW EXECUTE FUNCTION public.strain_phenotype_audit();
 
 
 --
 -- Name: strain_phenotypeprop strain_phenotypeprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_phenotypeprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_phenotypeprop FOR EACH ROW EXECUTE PROCEDURE public.strain_phenotypeprop_audit();
+CREATE TRIGGER strain_phenotypeprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_phenotypeprop FOR EACH ROW EXECUTE FUNCTION public.strain_phenotypeprop_audit();
 
 
 --
 -- Name: strain_pub strain_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_pub FOR EACH ROW EXECUTE PROCEDURE public.strain_pub_audit();
+CREATE TRIGGER strain_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_pub FOR EACH ROW EXECUTE FUNCTION public.strain_pub_audit();
 
 
 --
 -- Name: strain_relationship strain_relationship_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_relationship FOR EACH ROW EXECUTE PROCEDURE public.strain_relationship_audit();
+CREATE TRIGGER strain_relationship_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_relationship FOR EACH ROW EXECUTE FUNCTION public.strain_relationship_audit();
 
 
 --
 -- Name: strain_relationship_pub strain_relationship_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_relationship_pub FOR EACH ROW EXECUTE PROCEDURE public.strain_relationship_pub_audit();
+CREATE TRIGGER strain_relationship_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_relationship_pub FOR EACH ROW EXECUTE FUNCTION public.strain_relationship_pub_audit();
 
 
 --
 -- Name: strain_synonym strain_synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strain_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_synonym FOR EACH ROW EXECUTE PROCEDURE public.strain_synonym_audit();
+CREATE TRIGGER strain_synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.strain_synonym FOR EACH ROW EXECUTE FUNCTION public.strain_synonym_audit();
 
 
 --
 -- Name: strainprop strainprop_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strainprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strainprop FOR EACH ROW EXECUTE PROCEDURE public.strainprop_audit();
+CREATE TRIGGER strainprop_audit AFTER INSERT OR DELETE OR UPDATE ON public.strainprop FOR EACH ROW EXECUTE FUNCTION public.strainprop_audit();
 
 
 --
 -- Name: strainprop_pub strainprop_pub_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER strainprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.strainprop_pub FOR EACH ROW EXECUTE PROCEDURE public.strainprop_pub_audit();
+CREATE TRIGGER strainprop_pub_audit AFTER INSERT OR DELETE OR UPDATE ON public.strainprop_pub FOR EACH ROW EXECUTE FUNCTION public.strainprop_pub_audit();
 
 
 --
 -- Name: synonym synonym_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.synonym FOR EACH ROW EXECUTE PROCEDURE public.synonym_audit();
+CREATE TRIGGER synonym_audit AFTER INSERT OR DELETE OR UPDATE ON public.synonym FOR EACH ROW EXECUTE FUNCTION public.synonym_audit();
 
 
 --
 -- Name: tableinfo tableinfo_audit; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER tableinfo_audit AFTER INSERT OR DELETE OR UPDATE ON public.tableinfo FOR EACH ROW EXECUTE PROCEDURE public.tableinfo_audit();
+CREATE TRIGGER tableinfo_audit AFTER INSERT OR DELETE OR UPDATE ON public.tableinfo FOR EACH ROW EXECUTE FUNCTION public.tableinfo_audit();
 
 
 --
 -- Name: feature tr_feature_del; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER tr_feature_del BEFORE DELETE ON public.feature FOR EACH ROW EXECUTE PROCEDURE public.fn_feature_del();
+CREATE TRIGGER tr_feature_del BEFORE DELETE ON public.feature FOR EACH ROW EXECUTE FUNCTION public.fn_feature_del();
 
 
 --
 -- Name: feature tr_feature_evi_del; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER tr_feature_evi_del BEFORE UPDATE ON public.feature FOR EACH ROW EXECUTE PROCEDURE public.fn_feature_evi_del();
+CREATE TRIGGER tr_feature_evi_del BEFORE UPDATE ON public.feature FOR EACH ROW EXECUTE FUNCTION public.fn_feature_evi_del();
 
 
 --
@@ -27941,6 +29071,142 @@ ALTER TABLE ONLY public.featurerange
 
 ALTER TABLE ONLY public.featurerange
     ADD CONSTRAINT featurerange_rightstartf_id_fkey FOREIGN KEY (rightstartf_id) REFERENCES public.feature(feature_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_cvterm genotype_cvterm_cvterm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvterm
+    ADD CONSTRAINT genotype_cvterm_cvterm_id_fkey FOREIGN KEY (cvterm_id) REFERENCES public.cvterm(cvterm_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_cvterm genotype_cvterm_genotype_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvterm
+    ADD CONSTRAINT genotype_cvterm_genotype_id_fkey FOREIGN KEY (genotype_id) REFERENCES public.genotype(genotype_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_cvterm genotype_cvterm_pub_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvterm
+    ADD CONSTRAINT genotype_cvterm_pub_id_fkey FOREIGN KEY (pub_id) REFERENCES public.pub(pub_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_cvtermprop genotype_cvtermprop_genotype_cvterm_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvtermprop
+    ADD CONSTRAINT genotype_cvtermprop_genotype_cvterm_id_fkey FOREIGN KEY (genotype_cvterm_id) REFERENCES public.genotype_cvterm(genotype_cvterm_id) ON DELETE CASCADE;
+
+
+--
+-- Name: genotype_cvtermprop genotype_cvtermprop_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_cvtermprop
+    ADD CONSTRAINT genotype_cvtermprop_type_id_fkey FOREIGN KEY (type_id) REFERENCES public.cvterm(cvterm_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_dbxref genotype_dbxref_dbxref_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_dbxref
+    ADD CONSTRAINT genotype_dbxref_dbxref_id_fkey FOREIGN KEY (dbxref_id) REFERENCES public.dbxref(dbxref_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_dbxref genotype_dbxref_genotype_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_dbxref
+    ADD CONSTRAINT genotype_dbxref_genotype_id_fkey FOREIGN KEY (genotype_id) REFERENCES public.genotype(genotype_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_pub genotype_pub_genotype_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_pub
+    ADD CONSTRAINT genotype_pub_genotype_id_fkey FOREIGN KEY (genotype_id) REFERENCES public.genotype(genotype_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_pub genotype_pub_pub_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_pub
+    ADD CONSTRAINT genotype_pub_pub_id_fkey FOREIGN KEY (pub_id) REFERENCES public.pub(pub_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_synonym genotype_synonym_genotype_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_synonym
+    ADD CONSTRAINT genotype_synonym_genotype_id_fkey FOREIGN KEY (genotype_id) REFERENCES public.genotype(genotype_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_synonym genotype_synonym_pub_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_synonym
+    ADD CONSTRAINT genotype_synonym_pub_id_fkey FOREIGN KEY (pub_id) REFERENCES public.pub(pub_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotype_synonym genotype_synonym_synonym_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotype_synonym
+    ADD CONSTRAINT genotype_synonym_synonym_id_fkey FOREIGN KEY (synonym_id) REFERENCES public.synonym(synonym_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotypeprop genotypeprop_cvalue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop
+    ADD CONSTRAINT genotypeprop_cvalue_id_fkey FOREIGN KEY (cvalue_id) REFERENCES public.cvterm(cvterm_id) ON DELETE SET NULL;
+
+
+--
+-- Name: genotypeprop genotypeprop_genotype_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop
+    ADD CONSTRAINT genotypeprop_genotype_id_fkey FOREIGN KEY (genotype_id) REFERENCES public.genotype(genotype_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotypeprop_pub genotypeprop_pub_genotypeprop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop_pub
+    ADD CONSTRAINT genotypeprop_pub_genotypeprop_id_fkey FOREIGN KEY (genotypeprop_id) REFERENCES public.genotypeprop(genotypeprop_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotypeprop_pub genotypeprop_pub_pub_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop_pub
+    ADD CONSTRAINT genotypeprop_pub_pub_id_fkey FOREIGN KEY (pub_id) REFERENCES public.pub(pub_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: genotypeprop genotypeprop_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genotypeprop
+    ADD CONSTRAINT genotypeprop_type_id_fkey FOREIGN KEY (type_id) REFERENCES public.cvterm(cvterm_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -31124,8 +32390,6 @@ GRANT ALL ON SEQUENCE public.analysisprop_analysisprop_id_seq TO PUBLIC;
 -- Name: TABLE audit_chado; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT ALL ON TABLE public.audit_chado TO postgres;
-GRANT ALL ON TABLE public.audit_chado TO postgres;
 GRANT ALL ON TABLE public.audit_chado TO PUBLIC;
 
 
@@ -32280,12 +33544,110 @@ GRANT ALL ON TABLE public.genotype TO PUBLIC;
 
 
 --
+-- Name: TABLE genotype_cvterm; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotype_cvterm TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotype_cvterm_genotype_cvterm_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotype_cvterm_genotype_cvterm_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE genotype_cvtermprop; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotype_cvtermprop TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotype_cvtermprop_genotype_cvtermprop_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotype_cvtermprop_genotype_cvtermprop_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE genotype_dbxref; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotype_dbxref TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotype_dbxref_genotype_dbxref_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotype_dbxref_genotype_dbxref_id_seq TO PUBLIC;
+
+
+--
 -- Name: SEQUENCE genotype_genotype_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
 GRANT ALL ON SEQUENCE public.genotype_genotype_id_seq TO postgres;
 GRANT ALL ON SEQUENCE public.genotype_genotype_id_seq TO postgres;
 GRANT ALL ON SEQUENCE public.genotype_genotype_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE genotype_pub; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotype_pub TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotype_pub_genotype_pub_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotype_pub_genotype_pub_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE genotype_synonym; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotype_synonym TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotype_synonym_genotype_synonym_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotype_synonym_genotype_synonym_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE genotypeprop; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotypeprop TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotypeprop_genotypeprop_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotypeprop_genotypeprop_id_seq TO PUBLIC;
+
+
+--
+-- Name: TABLE genotypeprop_pub; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.genotypeprop_pub TO PUBLIC;
+
+
+--
+-- Name: SEQUENCE genotypeprop_pub_genotypeprop_pub_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.genotypeprop_pub_genotypeprop_pub_id_seq TO PUBLIC;
 
 
 --
