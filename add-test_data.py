@@ -275,8 +275,9 @@ add_organism_data(cursor, organism_id, cvterm_id, db_id)
 
 
 # add an enviroment ?
-sql = """ INSERT INTO environment (uniquename) VALUES (%s) """
+sql = """ INSERT INTO environment (uniquename) VALUES (%s) RETURNING environment_id"""
 cursor.execute(sql, ('unspecified',))
+feature_id['env_unspecified'] = cursor.fetchone()[0]
 
 for i in range(10):
     accession = "{:05d}".format(i+1)
@@ -310,6 +311,7 @@ cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], '2L', '2L', 'ACTGATG'*100, 700, cvterm_id['golden_path']))
 
 cursor.execute(feat_sql, (None, organism_id['Dmel'], 'unspecified', 'unspecified', 'ACTGATG'*100, 700, cvterm_id['chromosome']))
+feature_id['chrom_unspecified'] = cursor.fetchone()[0]
 
 # add bands
 for beg in [94, 95]:
@@ -518,7 +520,7 @@ add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 # add chromosome_structure_variation
 print("Adding chromosome_structure_variation data.")
 add_sb_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
-add_aberration_data(cursor, cvterm_id, organism_id['Dmel'], db_id, pub_id, feature_id)
+add_aberration_data(cursor, cvterm_id, db_id, pub_id, feature_id, organism_id)
 
 # create feature relationship between 'single balancers' and ' aberations
 fr_sql = """ INSERT INTO feature_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
