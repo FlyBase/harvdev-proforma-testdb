@@ -113,7 +113,7 @@ def add_aberration_data(cursor, cvterm_id, db_id, pub_id, feature_id, organism_i
         pheno_id = cursor.fetchone()[0]
 
         # Add phenStatement
-        cursor.execute(phen_stat_sql, (geno_id, feature_id['env_unspecified'], pheno_id, cvterm_id['desc_cvterm'], pub_id))
+        cursor.execute(phen_stat_sql, (geno_id, feature_id['env_unspecified'], pheno_id, cvterm_id['aberr_pheno'], pub_id))
 
         # Add breakpoint
         break_name = "{}:bk1".format(aber_name)
