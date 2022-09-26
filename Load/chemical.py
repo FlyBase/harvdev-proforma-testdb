@@ -8,7 +8,8 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
     syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
     feat_pub_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUEs (%s, %s)"""
     dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
-
+    featprop_sql = """ INSERT INTO featureprop (feature_id, type_id, rank, value)
+                       VALUES (%s, %s, %s, %s) """
     chebi_publication_title = 'ChEBI: Chemical Entities of Biological Interest, EBI.'
     cursor.execute(pub_sql.format(chebi_publication_title))
     chem_pub_id = cursor.fetchone()[0]
@@ -25,8 +26,22 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         cursor.execute(feat_pub_sql, (chem_id,  chem_pub_id))
         if i != 4:  # first one only linked to chebi paper
             cursor.execute(feat_pub_sql, (chem_id,  pub_id))
+        ############
+        # Add props.
+        ############
+        # CH3b is_variant, value comes frmm CH3c
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 0, f"var_{i}_1"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 1, f"var_{i}_2"))
+        # inchikey from chebi
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['inchikey'], 0, f"inchi_{i}_1"))
+        # inexact_match CH3f
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 0, f"var_{i}_1"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 1, f"var_{i}_2"))
+        # comment CH5a
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 0, f"var_{i}_1"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 1, f"var_{i}_2"))
 
-    # cretae obsolete values for testing
+    # create obsolete values for testing
     chems = (['carbon dioxide', '16526'],
              ['hydrogen peroxide', '16240'])
     obsolete = True
