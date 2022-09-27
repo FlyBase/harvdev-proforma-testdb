@@ -17,7 +17,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
     chem_pub_id = cursor.fetchone()[0]
 
     obsolete = False
-    for i in range(6):
+    for i in range(10):
         cursor.execute(chemical_sql, ('octan-{}-ol'.format(i+1), 'FBch:temp_{}'.format(i+1),
                        organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['{}'.format(i+1)], obsolete))
         chem_id = cursor.fetchone()[0]
