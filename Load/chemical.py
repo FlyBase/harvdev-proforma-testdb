@@ -35,11 +35,11 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         # inchikey from chebi
         cursor.execute(featprop_sql, (chem_id, cvterm_id['inchikey'], 0, f"inchi_{i}_1"))
         # inexact_match CH3f
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 0, f"var_{i}_1"))
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 1, f"var_{i}_2"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 0, f"inex_{i}_1"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 1, f"inex_{i}_2"))
         # comment CH5a
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 0, f"var_{i}_1"))
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 1, f"var_{i}_2"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 0, f"com_{i}_1"))
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 1, f"com_{i}_2"))
 
     # create obsolete values for testing
     chems = (['carbon dioxide', '16526'],
