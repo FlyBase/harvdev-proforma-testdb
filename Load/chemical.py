@@ -37,6 +37,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         cursor.execute(syn_sql, ('OCTANOL-{}'.format(i+1), cvterm_id['fullname'], 'OCTANOL-{}'.format(i+1)))
         syn_id = cursor.fetchone()[0]
         cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, True))
 
         # OCT-X [symbol,fullname], is_current FALSE
         cursor.execute(syn_sql, ('OCT-{}'.format(i+1), cvterm_id['symbol'], 'OCT-{}'.format(i+1)))
@@ -55,8 +56,10 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         # Add props.
         ############
         # CH3b is_variant, value comes frmm CH3c
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 0, f"var_{i+1}_1"))
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 1, f"var_{i+1}_2"))
+        # leave one with no isvariant for testing
+        if i != 4:
+            cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 0, f"var_{i+1}_1"))
+            # cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 1, f"var_{i+1}_2"))
         # inchikey from chebi
         cursor.execute(featprop_sql, (chem_id, cvterm_id['inchikey'], 0, f"inchi_{i+1}_1"))
         # inexact_match CH3f
