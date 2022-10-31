@@ -102,7 +102,7 @@ def add_aberration_data(cursor, cvterm_id, db_id, pub_id, feature_id, organism_i
             cursor.execute(frpub_sql, (fr_id, pub_id))
 
         # Add feature genotype
-        cursor.execute(feat_gen_sql, (feature_id['chrom_unspecified'], cvterm_id['aberr_pheno'], aber_id, 0, 0, geno_id))
+        cursor.execute(feat_gen_sql, (aber_id, cvterm_id['aberr_pheno'], aber_id, 0, 0, geno_id))
 
         # Add phen desc for each line in input
         desc = "Phenotype Description {}".format(i+1)

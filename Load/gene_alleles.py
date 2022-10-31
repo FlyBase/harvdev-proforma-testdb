@@ -749,6 +749,7 @@ def create_G1f_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id, dbxr
                         gene_prefix='G1f',
                         tool_prefix='',
                         gene_props=props,
+                        pub_format="Merge"
                         )
     for i in range(1, 7):
         gene_id = feature_id['G1f{}'.format(i)]
