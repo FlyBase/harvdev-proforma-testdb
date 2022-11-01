@@ -50,8 +50,9 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
 
         # Feat pub
         cursor.execute(feat_pub_sql, (chem_id,  chem_pub_id))
+        print(chem_pub_id)
         if i != 4:  # first one only linked to chebi paper
-            cursor.execute(feat_pub_sql, (chem_id,  pub_id))
+            cursor.execute(feat_pub_sql, (chem_id,  i+17))
         ############
         # Add props.
         ############
