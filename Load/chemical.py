@@ -17,7 +17,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
     chem_pub_id = cursor.fetchone()[0]
 
     obsolete = False
-    for i in range(10):
+    for i in range(12):
         cursor.execute(chemical_sql, ('octan-{}-ol'.format(i+1), 'FBch:temp_{}'.format(i+1),
                        organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['{}'.format(i+1)], obsolete))
         chem_id = cursor.fetchone()[0]
@@ -82,3 +82,17 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         chem_id = cursor.fetchone()[0]
         cursor.execute(syn_sql, ("CHEBI:{}".format(chem[1]), cvterm_id['symbol'], "CHEBI:{}".format(chem[1])))
         # No PUB as obsolete and these would not have a pub
+
+    # create greek values for testing
+    chems = (['α-testchem1', 'alpha-testchem1', '16271'],
+             ['α-testchem2', 'alpha-testchem2', '16272'])
+    obsolete = False
+    for chem in chems:
+        cursor.execute(dbxref_sql, (db_id['CHEBI'], chem[2]))
+        dbxref_id = cursor.fetchone()[0]
+        cursor.execute(chemical_sql, (chem[1], 'FBch00{}'.format(chem[2]),
+                       organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id, obsolete))
+        chem_id = cursor.fetchone()[0]
+        cursor.execute(syn_sql, ("CHEBI:{}".format(chem[1]), cvterm_id['symbol'], "CHEBI:{}".format(chem[2])))
+
+        cursor.execute(syn_sql, (chem[1], cvterm_id['fullname'], chem[0]))
