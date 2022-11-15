@@ -32,7 +32,7 @@ feature_cvtermprop type: [
     'common_tool_uses', 'webcv', 'date']
 feature_expression property type: ['curated_as', 'comment']
 feature_pubprop type: ['abstract_languages']
-feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position']
+feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position', 'score', 'start_location', 'end_location']
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
@@ -55,7 +55,7 @@ FlyBase miscellaneous CV: [
     'transcriptome', 'umbrella project', 'unspecified']
 
 GenBank feature qualifier: [
-    'comment', 'linked_to', 'na_change', 'pr_change',
+    'comment', 'linked_to', 'bound_moiety', 'na_change', 'pr_change',
     'reported_genomic_loc','reported_na_change', 'reported_pr_change']
 grp property type: ['gg_description', 'gg_pathway_abstract', 'gg_owner', 'gg_comment',
                     'gg_review_date', 'gg_internal_notes']
@@ -83,11 +83,11 @@ property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
     'aberr_relationships',
     'additional_disease-implication_change', 'allele_report_comment',
-    'aminoacid_rep', 'availability','balancer_status', 'bodypart_expression_marker', 'breeding_comment', 'category', 'cellular_description',
+    'aminoacid_rep', 'availability','balancer_status', 'bodypart_expression_marker', 'bound_moiety_comment', 'breeding_comment', 'category', 'cellular_description',
     'comment', 'complementation', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_analysis', 'data_type', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'deleted_segment', 
     'derived_cyto_location', 'description', 'diopt_ortholog', 'discoverer', 'disease_associated', 'div_comment',
-    'dros_model_overview', 'duplicated_segment', 'etymology', 'extract_chr', 'foreign_seq_data',
+    'dros_model_overview', 'duplicated_segment', 'etymology', 'evidence', 'extract_chr', 'foreign_seq_data',
     'gen_loc_comment', 'gen_loc_error',
     'gen_pheno_comment', 'gene_class', 'gene_order', 'gene_phenotypes', 'gene_relationships',
     'gene_summary_date', 'gene_summary_info', 'gene_summary_internal_notes',
@@ -100,7 +100,7 @@ property type: [
     'is_expression_analysed_in_wildtype', 'is_gene_model_decorated',
     'is_genome_annotation_analysed', 'is_physical_interaction_analysed',
     'is_polymorphism_reported', 'is_variant', 'linked_to', 'members_in_db',
-    'merge_source', 'misc', 'mode_of_assay', 'molecular_description', 'molecular_info',
+    'merge_source', 'misc', 'mobility shift assay', 'mode_of_assay', 'molecular_description', 'molecular_info',
     'molobject_type', 'new_order', 'non_Dmel_location', 'nucleotide_sub', 'number_in_collection', 'number_collection_comment', 'official_db',
     'origin_comment', 'origin_type', 'other_disease-implication_change', 'owner', 'phenotype_description',
     'primary_disease-implication_change', 'process_description',
@@ -123,8 +123,8 @@ relationship: ['located_in', 'part_of']
 
 relationship type: [
     'alleleof', 'associated_with', 'attributed_as_expression_of',
-    'belongs_to', 'break_of', 'carried_on', 'carries_tool', 'cyto_left_end', 'cyto_right_end', 'deletes', 'derived_from',
-    'duplicates', 'encodes_tool',
+    'belongs_to', 'bound_moiety', 'break_of', 'carried_on', 'carries_tool', 'cyto_left_end', 'cyto_right_end',
+    'deletes', 'derived_from', 'duplicates', 'encodes_tool',
     'fnally_comps', 'fnally_noncomps', 'fnally_partcomps',
     'gain_of_fn_species', 'gets_expression_data_from', 'has_reg_region', 'has_variant', 'marked_with',
     'identified_with', 'maps_to_clone', 'member_gene_of', 'molec_deletes', 'molec_dups',
