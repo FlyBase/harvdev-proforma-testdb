@@ -17,6 +17,7 @@ from Load.div import add_div_data
 from Load.gene_alleles import add_genes_and_alleles
 from Load.tp_ti import create_tpti, create_tip
 from Load.chemical import add_chemical_data
+from Load.seqfeat import add_seqfeat_data
 from Load.grp import add_grp_data
 from Load.cell_line import add_cell_line_data
 from Load.aberration import add_aberration_data
@@ -483,6 +484,9 @@ for i in range(1, 11):
 
 # add genes
 add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
+
+# SeqFeat data
+add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id)
 
 # Add Proteins
 for i in range(5):
