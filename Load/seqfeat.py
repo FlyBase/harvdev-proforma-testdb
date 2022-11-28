@@ -41,6 +41,10 @@ def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, f
         syn_id = cursor.fetchone()[0]
         cursor.execute(fs_sql, (syn_id, sf_id, pub_id, True))
 
+        cursor.execute(syn_sql, ('seqfeat-{}'.format(i+1), cvterm_id['symbol'], 'seqfeat-{}'.format(i+1)))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, sf_id, pub_id, True))
+
         ####################################
         # seq feat have NO fullname synonyms
         ####################################
@@ -60,6 +64,7 @@ def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, f
 
         # Feat pub
         cursor.execute(feat_pub_sql, (sf_id, feature_id['unattributed']))
+        cursor.execute(feat_pub_sql, (sf_id, pub_id))
 
         ################
         # Add FeatureLoc
