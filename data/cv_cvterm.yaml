@@ -103,7 +103,7 @@ property type: [
     'merge_source', 'misc', 'mobility shift assay', 'mode_of_assay', 'molecular_description', 'molecular_info',
     'molobject_type', 'new_order', 'non_Dmel_location', 'nucleotide_sub', 'number_in_collection', 'number_collection_comment', 'official_db',
     'origin_comment', 'origin_type', 'other_disease-implication_change', 'owner', 'phenotype_description',
-    'primary_disease-implication_change', 'process_description',
+    'primer_comment', 'primary_disease-implication_change', 'process_description',
     'propagate_transgenic_uses', 'protein_coding_gene', 'protocol', 'reported_antibod_gen',
     'significant_subject_in_review', 'source_prep', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
 
