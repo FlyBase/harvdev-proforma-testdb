@@ -96,10 +96,14 @@ def add_aberration_data(cursor, cvterm_id, db_id, pub_id, feature_id, organism_i
 
         # add feature relationship
         if i:
-            cursor.execute(feat_rel_sql, (aber_id, (aber_id - 1), cvterm_id['overlap_inferred']))
+            cursor.execute(feat_rel_sql, (aber_id, (aber_id - 2), cvterm_id['overlap_inferred']))
             fr_id = cursor.fetchone()[0]
             # fr pub
             cursor.execute(frpub_sql, (fr_id, pub_id))
+            # Odd ones add another paper.
+            # Need to test with feat rel linked to 1 nad 2 papers
+            if i % 2:
+                cursor.execute(frpub_sql, (fr_id, pub_id-1))
 
         # Add feature genotype
         cursor.execute(feat_gen_sql, (aber_id, cvterm_id['aberr_pheno'], aber_id, 0, 0, geno_id))

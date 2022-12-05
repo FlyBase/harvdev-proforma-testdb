@@ -19,6 +19,8 @@ def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, f
 
     feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id)
                        VALUES (%s, %s, %s) RETURNING feature_relationship_id """
+    feat_rel_pub_sql = """ INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id)
+                           VALUES (%s, %s) """
     frp_sql = """ INSERT INTO feature_relationshipprop (feature_relationship_id, type_id, value, rank)
                   VALUES (%s, %s, %s, %s) RETURNING  feature_relationshipprop_id"""
     frpub_sql = """ INSERT INTO feature_relationshipprop_pub (feature_relationshipprop_id, pub_id) VALUES (%s, %s) """
@@ -99,11 +101,38 @@ def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, f
         fp_id = cursor.fetchone()[0]
         cursor.execute(fppub_sql, (fp_id, pub_id))
 
-        # featue relationship prop pubs
+        # feature relationship (prop) pubs
+        # Gene
         cursor.execute(feat_rel_sql, (sf_id, feature_id['symbol-{}'.format(i+1)], cvterm_id['associated_with']))
         fr_id = cursor.fetchone()[0]
+        cursor.execute(feat_rel_pub_sql, (fr_id, pub_id))
+
+        # lets add another pub to see what happens on removal of f_r_p
+        if i % 2:
+            cursor.execute(feat_rel_pub_sql, (fr_id, pub_id-1))
 
         cursor.execute(frp_sql, (fr_id, cvterm_id['score'], i+1, i+1))
         frp_id = cursor.fetchone()[0]
 
         cursor.execute(frpub_sql, (frp_id, pub_id))
+
+        # Allele
+        cursor.execute(feat_rel_sql, (sf_id, feature_id['al-symbol-{}'.format(i+1)], cvterm_id['associated_with']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(feat_rel_pub_sql, (fr_id, pub_id))
+        # lets add another pub to see what happens on removal of f_r_p
+        if i % 2:
+            cursor.execute(feat_rel_pub_sql, (fr_id, pub_id-1))
+
+        # Polypeptide
+        cursor.execute(feat_rel_sql, (sf_id, feature_id['pp-symbol-{}'.format(i+1)], cvterm_id['associated_with']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(feat_rel_pub_sql, (fr_id, pub_id))
+
+        # transgenic_transposable_element
+        cursor.execute(feat_rel_sql, (sf_id, feature_id['P{}TT{}{}'.format('{', i+1, '}')], cvterm_id['associated_with']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(feat_rel_pub_sql, (fr_id, pub_id))
+        # lets add another pub to see what happens on removal of f_r_p
+        if i % 2:
+            cursor.execute(feat_rel_pub_sql, (fr_id, pub_id-1))
