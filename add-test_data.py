@@ -485,17 +485,15 @@ for i in range(1, 11):
 # add genes
 add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
-# SeqFeat data
-add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id)
-
 # Add Proteins
-for i in range(5):
+for i in range(10):
     name = "FBpp{:07d}".format(i+1)
     print("Adding protein {}".format(i+1))
     # create the protein feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], "pp-symbol-{}".format(i+1),
                               'FBpp:temp_0', None, None, cvterm_id['polypeptide']))
     protein_id = cursor.fetchone()[0]
+    feature_id["pp-symbol-{}".format(i+1)] = protein_id
 
     # add synonyms
     cursor.execute(syn_sql, ("pp-fullname-{}".format(i+1), cvterm_id['fullname'], "pp-fullname-{}".format(i+1)))
@@ -513,6 +511,9 @@ for i in range(5):
     print("fr_id = {}, type = {}".format(fr_id, cvterm_id['fly_disease-implication_change']))
     cursor.execute(feat_relprop_sql, (fr_id, cvterm_id['fly_disease-implication_change'], 'frp-{}'.format(i+1)))
     cursor.execute(feat_rel_pub, (fr_id, pub_id))
+
+# SeqFeat data
+add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id)
 
 # Humanhealth
 add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, organism_id['Hsap'])

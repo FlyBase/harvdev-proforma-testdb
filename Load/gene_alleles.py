@@ -226,6 +226,7 @@ def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, 
         feat_rel = cursor.fetchone()[0]
         # feat rel pub
         cursor.execute(frpub_sql, (feat_rel, pub_id))
+        cursor.execute(frpub_sql, (feat_rel, pub_id-1))
     except Exception as e:  # should be okay if exists already
         print("Problem {}, just checking".format(e))
     return "{}: {}".format(feat_details['type'], name)
@@ -888,11 +889,17 @@ def add_gene_data_for_bang(cursor, organism_id, feature_id, cvterm_id, dbxref_id
         cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frpub_sql, (fr_id, pub_id))
+        # lets add another pub to see what happens on removal of f_r_p
+        if i % 2:
+            cursor.execute(frpub_sql, (fr_id, pub_id-1))
 
         tool_sym = "P{}TE{}{}".format('{', count+2, '}')
         cursor.execute(feat_rel_sql, (feature_id['symbol-{}'.format(i)], feature_id[tool_sym], cvterm_id['recom_right_end']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frpub_sql, (fr_id, pub_id))
+        # lets add another pub to see what happens on removal of f_r_p
+        if i % 2:
+            cursor.execute(frpub_sql, (fr_id, pub_id-1))
 
         # G11 Feature prop
         cursor.execute(fprop_sql, (feature_id['symbol-{}'.format(i)], cvterm_id['cyto_loc_comment'], 'somevalue', 0))
