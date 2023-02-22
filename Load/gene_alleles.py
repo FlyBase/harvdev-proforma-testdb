@@ -161,7 +161,7 @@ def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, fe
 
 
 def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, allele_name,
-                             feat1_id, cvterm_id, org_id, db_id, pub_id, feature_id):
+                             feat1_id, cvterm_id, org_id, db_id, pub_id, feature_id, org_dict):
     """Get/create feature and add relationship to another feature.
 
     Args:
@@ -188,6 +188,8 @@ def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, 
     name = name.replace('<gene_name>', gene_name)
     name = name.replace('<tool_name>', "{}{}".format(tool_name, count+1))
     name = name.replace('<allele_name>', allele_name)
+    if 'org_abbr' in feat_details:
+        org_id = org_dict[feat_details['org_abbr']]
     uniquename = feat_details['uniquename'].replace('<number>', "{:07d}".format(allele_count))
     if name not in feature_id:
         # create dbxref,  accession -> uniquename
@@ -349,7 +351,7 @@ def add_props(cursor, feat_id, feat_props, cvterm_id, pub_id):
 
 
 def add_relationships(rela_list, cursor, count, tool_name, gene_name, allele_name, feat1_id,
-                      cvterm_id, org_id, db_id, pub_id, feature_id):
+                      cvterm_id, org_id, db_id, pub_id, feature_id, org_dict):
     """Add relationships to feature list.
 
     Args:
@@ -375,7 +377,7 @@ def add_relationships(rela_list, cursor, count, tool_name, gene_name, allele_nam
             print("NOTICE: using pub {} for {}.".format(item['relationship_pub'], item['name']))
             rela_pub = feature_id[item['relationship_pub']]
         mess = feature_relationship_add(cursor, count, item, tool_name, gene_name, allele_name, feat1_id,
-                                        cvterm_id, org_id, db_id, rela_pub, feature_id)
+                                        cvterm_id, org_id, db_id, rela_pub, feature_id, org_dict)
         log += " {}".format(mess)
     return log
 
@@ -383,7 +385,7 @@ def add_relationships(rela_list, cursor, count, tool_name, gene_name, allele_nam
 def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=5, num_alleles=3, gene_prefix=None, allele_prefix=None,
                         tool_prefix=None, gene_relationships=None, allele_relationships=None, pub_format=None,
-                        gene_props=None, allele_props=None, org_abbr='Dmel'
+                        gene_props=None, allele_props=None, org_abbr='Dmel', allele_org_abbr='Dmel'
                         ):
     """Create the genes and alleles.
 
@@ -413,7 +415,7 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
         gene_props: <dict> props to be added to each gene. dict has a field: [proptype, value] format
         alelele_props: <dict>props to be added to each allele. dict has a field: [proptype, value] format
         org_abbr: <string> (default 'Dmel') abbreviation for the organism.
-
+        allele_org_abbr: <string> (default 'Dmel') abbreviation for the alleles organism.
     Return List: List of genes and their alleles.
        [gene_id1, [allele_id1, allele_id2],
         gene_id2, [allele_id3, allele_id4]]
@@ -421,6 +423,7 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
     global gene_count, allele_count
 
     org_id = org_dict[org_abbr]
+    allele_org_id = org_dict[allele_org_abbr]
     """
     if tool_prefix is given:-
        FBgn0086784 geneprefixX
@@ -443,16 +446,16 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
         (gene_name, gene_id) = create_gene(cursor, i, gene_prefix, cvterm_id, org_id, db_id, pub_id, feature_id)
         create_log = " gene: {}".format(gene_name)
         create_log += add_relationships(gene_relationships, cursor, i, "", gene_name, 'allele_name_filler', gene_id,
-                                        cvterm_id, org_id, db_id, pub_id, feature_id)
+                                        cvterm_id, org_id, db_id, pub_id, feature_id, org_dict)
         print(gene_name)
         allele_ids = []
         # now add 'num_alleles' alleles for each
         for j in range(num_alleles):
-            (allele_name, allele_id) = create_allele(cursor, i, j, gene_id, gene_name, allele_prefix, tool_prefix, cvterm_id, org_id, db_id, pub_id, feature_id)
+            (allele_name, allele_id) = create_allele(cursor, i, j, gene_id, gene_name, allele_prefix, tool_prefix, cvterm_id, allele_org_id, db_id, pub_id, feature_id)
             create_log += " allele: {}".format(allele_name)
             allele_ids.append(allele_id)
             create_log += add_relationships(allele_relationships, cursor, j, tool_prefix, gene_name, allele_name, allele_id,
-                                            cvterm_id, org_id, db_id, pub_id, feature_id)
+                                            cvterm_id, org_id, db_id, pub_id, feature_id, org_dict)
             print(create_log)
             # add props if defined to allele
             if allele_props:
@@ -611,6 +614,7 @@ def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, 
     """
     allele_relationships = [{'name': 'P{<tool_name>-<gene_name>.H}',
                              'uniquename': 'FBtp<number>',
+                             'org_abbr': 'Ssss',
                              'type': 'transgenic_transposable_element',
                              'relationship': 'associated_with'}]
     create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
@@ -620,7 +624,8 @@ def create_gene_allele_for_GA10(cursor, org_dict, feature_id, cvterm_id, db_id, 
                         allele_prefix=None,
                         tool_prefix='GA10Tool',
                         allele_relationships=allele_relationships,
-                        pub_format="GA10_title_"
+                        pub_format="GA10_title_"  # ,
+                        # allele_org_abbr='Ssss'
                         )
 
 
