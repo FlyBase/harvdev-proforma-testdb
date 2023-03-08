@@ -375,7 +375,7 @@ for i in range(5):
     tool_sym = "Tool-sym-{}".format(i)
     print("Adding tool {}".format(tool_sym))
     # create the tool feature
-    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+    cursor.execute(feat_sql, (None, organism_id['Ssss'], tool_sym,
                               'FBto:temp_0', None, None, cvterm_id['engineered_region']))
     tool_id = cursor.fetchone()[0]
 
@@ -411,7 +411,7 @@ for i in range(10):
     tool_sym = "pP{}EC{}{}".format('{', i+1, '}')
     print("Adding engineered_plasmid {}".format(tool_sym))
     # create the tool feature
-    cursor.execute(feat_sql, (None, organism_id['Dmel'], tool_sym,
+    cursor.execute(feat_sql, (None, organism_id['Ssss'], tool_sym,
                               'FBmc:temp_0', None, None, cvterm_id['engineered_plasmid']))
     tool_id = cursor.fetchone()[0]
 
