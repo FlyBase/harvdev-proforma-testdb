@@ -351,7 +351,7 @@ for i in range(40, 50):
     cdna_id = cursor.fetchone()[0]
 
 # mRNA
-for i in range(5):
+for i in range(15):
     name = "FBtr{:07d}".format(i+1)
     print("Adding mRNA {}".format(i+1))
     # create the gene feature
@@ -370,7 +370,7 @@ for i in range(5):
     cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id))
 
 # Tools
-for i in range(5):
+for i in range(15):
     name = "FBto{:07d}".format(i+1)
     tool_sym = "Tool-sym-{}".format(i)
     print("Adding tool {}".format(tool_sym))
@@ -389,7 +389,7 @@ for i in range(5):
 create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id, pub_id, feature_id)
 
 # transposable_element_insertion_site
-for i in range(10):
+for i in range(15):
     # name = "FBti{:07d}".format(i+1)
     tool_sym = "P{}TE{}{}".format('{', i+1, '}')
     print("Adding transposable_element_insertion_site {}".format(tool_sym))
@@ -398,7 +398,7 @@ for i in range(10):
 
 
 # transgenic_transposable_element
-for i in range(10):
+for i in range(15):
     # name = "FBtp{:07d}".format(i+1)
     print("Adding transgenic_transposable_element {}".format(i+1))
     tool_sym = "P{}TT{}{}".format('{', i+1, '}')
@@ -406,7 +406,7 @@ for i in range(10):
     create_tip(cursor, 'tp', tool_sym, organism_id['Dmel'], db_id, cvterm_id, feature_id, 'transgenic_transposable_element', pub_id)
 
 # engineered_plasmid
-for i in range(10):
+for i in range(15):
     # name = "FBmc{:07d}".format(i+1)
     tool_sym = "pP{}EC{}{}".format('{', i+1, '}')
     print("Adding engineered_plasmid {}".format(tool_sym))
@@ -486,7 +486,7 @@ for i in range(1, 11):
 add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
 # Add Proteins
-for i in range(10):
+for i in range(15):
     name = "FBpp{:07d}".format(i+1)
     print("Adding protein {}".format(i+1))
     # create the protein feature
