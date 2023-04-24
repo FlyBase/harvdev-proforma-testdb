@@ -26,7 +26,7 @@ def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, f
     frpub_sql = """ INSERT INTO feature_relationshipprop_pub (feature_relationshipprop_id, pub_id) VALUES (%s, %s) """
 
     obsolete = False
-    for i in range(9):
+    for i in range(15):
         cursor.execute(dbxref_sql, (db_id['FlyBase'], 'FBsf000000000{}'.format(i+1)))
         dx_id = cursor.fetchone()[0]
         cursor.execute(chemical_sql, ('seqfeat-{}'.format(i+1), 'FBsf000000000{}'.format(i+1),
