@@ -486,7 +486,7 @@ for i in range(1, 11):
 add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
 # Add Proteins
-for i in range(10):
+for i in range(15):
     name = "FBpp{:07d}".format(i+1)
     print("Adding protein {}".format(i+1))
     # create the protein feature
