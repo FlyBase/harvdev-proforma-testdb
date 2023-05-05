@@ -1,4 +1,4 @@
-def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
+def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id):
     """Add chemical data"""
     print("Adding chemical data.")
 
@@ -93,6 +93,11 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id):
         cursor.execute(chemical_sql, (chem[1], 'FBch00{}'.format(chem[2]),
                        organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id, obsolete))
         chem_id = cursor.fetchone()[0]
+
         cursor.execute(syn_sql, ("CHEBI:{}".format(chem[1]), cvterm_id['symbol'], "CHEBI:{}".format(chem[2])))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
 
         cursor.execute(syn_sql, (chem[1], cvterm_id['fullname'], chem[0]))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, chem_id, feature_id['FBrf0243181'], True))

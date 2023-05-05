@@ -239,6 +239,7 @@ def load_pub_author_pubprop(parsed_yaml):
 
         cursor.execute(pub_sql, (pub_title, pub_type_id, pub_uniquename, pub_pyear, 'miniref bob'))
         pub_id = cursor.fetchone()[0]
+        feature_id[pub_uniquename] = pub_id
 
         for pubprop in entry['pubprop']:
 
@@ -456,7 +457,7 @@ print("Adding cell line data.")
 add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id)
 
 # Chemical data
-add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id)
+add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id)
 
 # Gene grp
 print("Adding gene grp data.")
