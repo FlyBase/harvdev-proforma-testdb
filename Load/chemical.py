@@ -11,13 +11,15 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
     feat_pub_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUEs (%s, %s)"""
     dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id"""
     featprop_sql = """ INSERT INTO featureprop (feature_id, type_id, rank, value)
-                       VALUES (%s, %s, %s, %s) """
+                       VALUES (%s, %s, %s, %s) RETURNING featureprop_id"""
+    fppub_sql = """ INSERT INTO featureprop_pub (featureprop_id, pub_id) VALUES (%s, %s) """
+
     chebi_publication_title = 'ChEBI: Chemical Entities of Biological Interest, EBI.'
     cursor.execute(pub_sql.format(chebi_publication_title))
     chem_pub_id = cursor.fetchone()[0]
 
     obsolete = False
-    for i in range(12):
+    for i in range(15):
         cursor.execute(chemical_sql, ('octan-{}-ol'.format(i+1), 'FBch:temp_{}'.format(i+1),
                        organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id['{}'.format(i+1)], obsolete))
         chem_id = cursor.fetchone()[0]
@@ -60,16 +62,31 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
         # leave one with no isvariant for testing
         if i != 4:
             cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 0, f"var_{i+1}_1"))
-            # cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 1, f"var_{i+1}_2"))
+            fp_id = cursor.fetchone()[0]
+            cursor.execute(fppub_sql, (fp_id, pub_id))
+
         # inchikey from chebi
         cursor.execute(featprop_sql, (chem_id, cvterm_id['inchikey'], 0, f"inchi_{i+1}_1"))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fppub_sql, (fp_id, pub_id))
+
         # inexact_match CH3f
         cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 0, f"inex_{i+1}_1"))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fppub_sql, (fp_id, pub_id))
+
         cursor.execute(featprop_sql, (chem_id, cvterm_id['inexact_match'], 1, f"inex_{i+1}_2"))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fppub_sql, (fp_id, pub_id))
+
         # comment CH5a
         cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 0, f"com_{i+1}_1"))
-        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 1, f"com_{i+1}_2"))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fppub_sql, (fp_id, pub_id))
 
+        cursor.execute(featprop_sql, (chem_id, cvterm_id['comment'], 1, f"com_{i+1}_2"))
+        fp_id = cursor.fetchone()[0]
+        cursor.execute(fppub_sql, (fp_id, pub_id))
     # create obsolete values for testing
     chems = (['carbon dioxide', '16526'],
              ['hydrogen peroxide', '16240'])
