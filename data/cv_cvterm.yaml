@@ -19,7 +19,7 @@ cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment', 'source_genoty
                      'source_strain', 'source_cross', 'karyotype']
 cell_line_libraryprop type: ['member_of_reagent_collection', 'experimental_attribute']
 cell_line_relationship: ['targeted_mutant_from']
-CHEBI: ['1', '2', '3', '4','5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
+CHEBI: []
 
 DOID: []
 disease_ontology: ['hh-1']
