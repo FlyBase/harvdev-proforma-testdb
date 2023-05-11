@@ -1,4 +1,4 @@
-def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id):
+def add_seqfeat_data(cursor, cv_cvterm_id, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id):
     """Add seqfest data"""
     print("Adding seqfeat data.")
 
@@ -81,23 +81,25 @@ def add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, f
         ############
 
         # internal notes
-        cursor.execute(featprop_sql, (sf_id, cvterm_id['internalnotes'], 0, f"inote_{i+1}_1"))
+        cursor.execute(featprop_sql, (sf_id, cv_cvterm_id['property type']['internalnotes'], 0, f"inote_{i+1}_1"))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fppub_sql, (fp_id, pub_id))
 
         # evidence
-        cursor.execute(featprop_sql, (sf_id, cvterm_id['evidence'], 0, f"evidence_{i+1}_1"))
+        cursor.execute(featprop_sql, (sf_id, cv_cvterm_id['property type']['evidence'], 0, f"evidence_{i+1}_1"))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fppub_sql, (fp_id, pub_id))
-        cursor.execute(featprop_sql, (sf_id, cvterm_id['evidence'], 1, f"evidence_{i+1}_2"))
+
+        cursor.execute(featprop_sql, (sf_id, cv_cvterm_id['property type']['evidence'], 1, f"evidence_{i+1}_2"))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fppub_sql, (fp_id, pub_id))
 
         # linked_to
-        cursor.execute(featprop_sql, (sf_id, cvterm_id['linked_to'], 0, f"linked_to_{i+1}_1"))
+        cursor.execute(featprop_sql, (sf_id, cv_cvterm_id['GenBank feature qualifier']['linked_to'], 0, f"linked_to_{i+1}_1"))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fppub_sql, (fp_id, pub_id))
-        cursor.execute(featprop_sql, (sf_id, cvterm_id['linked_to'], 1, f"linked_to_{i+1}_2"))
+
+        cursor.execute(featprop_sql, (sf_id, cv_cvterm_id['GenBank feature qualifier']['linked_to'], 1, f"linked_to_{i+1}_2"))
         fp_id = cursor.fetchone()[0]
         cursor.execute(fppub_sql, (fp_id, pub_id))
 
