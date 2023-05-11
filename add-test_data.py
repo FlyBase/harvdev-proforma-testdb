@@ -514,7 +514,7 @@ for i in range(15):
     cursor.execute(feat_rel_pub, (fr_id, pub_id))
 
 # SeqFeat data
-add_seqfeat_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id)
+add_seqfeat_data(cursor, cv_cvterm_id, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id)
 
 # Humanhealth
 add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub_id, organism_id['Hsap'])
