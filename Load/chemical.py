@@ -75,7 +75,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
         ############
         # CH3b is_variant, value comes frmm CH3c
         # leave one with no isvariant for testing
-        if i != 4:
+        if i not in [4, 13]:
             cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 0, f"var_{i+1}_1"))
             fp_id = cursor.fetchone()[0]
             cursor.execute(fppub_sql, (fp_id, pub_id))
