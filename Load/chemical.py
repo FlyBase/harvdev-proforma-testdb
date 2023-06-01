@@ -1,8 +1,25 @@
 # Add chemical data
 #
+# which are chemical features
+""" select * from feature where uniquename like 'FBch%';"""
 # To view dbxrefs for these:-
-# select f.uniquename, f.name, db.name, dx.accession from feature f, dbxref dx, db db, feature_dbxref fdx
-# where fdx.dbxref_id= dx.dbxref_id and fdx.feature_id = f.feature_id and dx.db_id = db.db_id and f.uniquename like 'FBch%';
+""" select f.uniquename, f.name, db.name, dx.accession
+        from feature f, dbxref dx, db db, feature_dbxref fdx
+        where fdx.dbxref_id= dx.dbxref_id and
+        fdx.feature_id = f.feature_id and
+        dx.db_id = db.db_id and
+        f.uniquename like 'FBch%';
+"""
+# To view synonyms
+"""
+select left(s.name, 20) as syn_name , left(s.synonym_sgml, 20) as sgml_name, cvt.name, fs.is_current, p.title
+    from feature_synonym fs, synonym s, cvterm cvt, pub p
+    where fs.synonym_id = s.synonym_id and
+          fs.pub_id = p.pub_id and
+          s.type_id = cvt.cvterm_id and
+          fs.feature_id = 595;
+"""
+
 
 def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, feature_id):
     """Add chemical data"""
@@ -21,9 +38,14 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
     fppub_sql = """ INSERT INTO featureprop_pub (featureprop_id, pub_id) VALUES (%s, %s) """
     f_dbx = """ INSERT INTO feature_dbxref (feature_id, dbxref_id)
                 VALUES (%s, %s) """
+
     chebi_publication_title = 'ChEBI: Chemical Entities of Biological Interest, EBI.'
     cursor.execute(pub_sql.format(chebi_publication_title))
     chem_pub_id = cursor.fetchone()[0]
+
+    pubchem_publication_title = 'PubChem, NIH.'
+    cursor.execute(pub_sql.format(pubchem_publication_title))
+    pubchem_pub_id = cursor.fetchone()[0]
 
     obsolete = False
     for i in range(20):
@@ -44,38 +66,50 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
         # CHEBI:X
         cursor.execute(syn_sql, ('CHEBI:{}'.format(i+1), cvterm_id['symbol'], 'CHEBI:{}'.format(i+1)))
         syn_id = cursor.fetchone()[0]
-        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, True))
 
-        # OCTANOL-X, [symbol,fullname], is_current TRUE
-        cursor.execute(syn_sql, ('OCTANOL-{}'.format(i+1), cvterm_id['symbol'], 'OCTANOL-{}'.format(i+1)))
+        # Mimic what comes in from a proforma CH1a and CH1b
+        # ! CH1a. Chemical name to use in FlyBase : SoftWater
+        # ! CH1b. Chemical name used in reference (other than original source) :H2O
+
+        # octan-X-ol, [symbol,fullname], is_current TRUE
+        cursor.execute(syn_sql, ('octan-{}-ol'.format(i+1), cvterm_id['symbol'], 'octan-{}-ol'.format(i+1)))
         syn_id = cursor.fetchone()[0]
-        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, True))
 
-        cursor.execute(syn_sql, ('OCTANOL-{}'.format(i+1), cvterm_id['fullname'], 'OCTANOL-{}'.format(i+1)))
+        cursor.execute(syn_sql, ('octan-{}-ol'.format(i+1), cvterm_id['fullname'], 'octan-{}-ol'.format(i+1)))
         syn_id = cursor.fetchone()[0]
         cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
         cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, True))
+        if i > 10:
+            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, True))
 
         # OCT-X [symbol,fullname], is_current FALSE
-        cursor.execute(syn_sql, ('OCT-{}'.format(i+1), cvterm_id['symbol'], 'OCT-{}'.format(i+1)))
+        cursor.execute(syn_sql, ('OCT-CH1B-{}'.format(i+1), cvterm_id['symbol'], 'OCT-{}'.format(i+1)))
         syn_id = cursor.fetchone()[0]
-        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, False))
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, False))
 
-        cursor.execute(syn_sql, ('OCT-{}'.format(i+1), cvterm_id['fullname'], 'OCT-{}'.format(i+1)))
+        cursor.execute(syn_sql, ('OCT-CH1B-{}'.format(i+1), cvterm_id['fullname'], 'OCT-{}'.format(i+1)))
         syn_id = cursor.fetchone()[0]
-        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, False))
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, False))
+
+        # pretend comes from CHEBI
+        cursor.execute(syn_sql, ('OCT-CHEBI-{}'.format(i+1), cvterm_id['symbol'], 'OCT-CHEBI-{}'.format(i+1)))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, False))
 
         # Feat pub
         cursor.execute(feat_pub_sql, (chem_id,  chem_pub_id))
         print(chem_pub_id)
-        if i != 4:  # first one only linked to chebi paper
+        if i != 4:  # first one only linked to chebi paper ????????
             cursor.execute(feat_pub_sql, (chem_id,  i+17))
+
         ############
         # Add props.
         ############
         # CH3b is_variant, value comes frmm CH3c
         # leave one with no isvariant for testing
-        if i != 4:
+        if i not in [4, 13]:
             cursor.execute(featprop_sql, (chem_id, cvterm_id['is_variant'], 0, f"var_{i+1}_1"))
             fp_id = cursor.fetchone()[0]
             cursor.execute(fppub_sql, (fp_id, pub_id))
@@ -105,6 +139,27 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
 
         # Add feature_dbxref.
         cursor.execute(f_dbx, (chem_id, chem_dbxref_id))
+
+        if i > 10:  # add pubchem for this chemical too.
+            # Feat pub
+            cursor.execute(feat_pub_sql, (chem_id,  pubchem_pub_id))
+            # add dbxref
+            cursor.execute(dbxref_sql, (db_id['PubChem'], f"{i+1}"))
+            pubchem_dbxref_id = cursor.fetchone()[0]
+            # Add feature_dbxref.
+            cursor.execute(f_dbx, (chem_id, pubchem_dbxref_id))
+
+            ##########
+            # synonyms
+            ##########
+            # PubChem:X
+            cursor.execute(syn_sql, ('PubChem:{}'.format(i+1), cvterm_id['symbol'], 'PubChem:{}'.format(i+1)))
+            syn_id = cursor.fetchone()[0]
+            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, True))
+            # pubchem-X , just another one to make sure we get them all on deletion.
+            cursor.execute(syn_sql, ('pubchem-{}'.format(i+1), cvterm_id['symbol'], 'pubchem-{}'.format(i+1)))
+            syn_id = cursor.fetchone()[0]
+            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, True))
 
     # create obsolete values for testing
     chems = (['carbon dioxide', '16526'],
