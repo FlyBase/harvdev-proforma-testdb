@@ -66,7 +66,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
         # CHEBI:X
         cursor.execute(syn_sql, ('CHEBI:{}'.format(i+1), cvterm_id['symbol'], 'CHEBI:{}'.format(i+1)))
         syn_id = cursor.fetchone()[0]
-        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, True))
+        cursor.execute(fs_sql, (syn_id, chem_id, chem_pub_id, False))
 
         # Mimic what comes in from a proforma CH1a and CH1b
         # ! CH1a. Chemical name to use in FlyBase : SoftWater
@@ -155,11 +155,11 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
             # PubChem:X
             cursor.execute(syn_sql, ('PubChem:{}'.format(i+1), cvterm_id['symbol'], 'PubChem:{}'.format(i+1)))
             syn_id = cursor.fetchone()[0]
-            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, True))
+            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, False))
             # pubchem-X , just another one to make sure we get them all on deletion.
             cursor.execute(syn_sql, ('pubchem-{}'.format(i+1), cvterm_id['symbol'], 'pubchem-{}'.format(i+1)))
             syn_id = cursor.fetchone()[0]
-            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, True))
+            cursor.execute(fs_sql, (syn_id, chem_id, pubchem_pub_id, False))
 
     # create obsolete values for testing
     chems = (['carbon dioxide', '16526'],
