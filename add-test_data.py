@@ -355,7 +355,7 @@ for i in range(40, 50):
 for i in range(15):
     name = "FBtr{:07d}".format(i+1)
     print("Adding mRNA {}".format(i+1))
-    # create the gene feature
+    # create the mRNA feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], "symbol-{}RA".format(i+1),
                               'FBtr:temp_0', None, None, cvterm_id['mRNA']))
     mrna_id = cursor.fetchone()[0]
@@ -368,6 +368,22 @@ for i in range(15):
 
     # add feature_synonym
     cursor.execute(fs_sql, (name_id, mrna_id, pub_id))
+    cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id))
+
+# RNA xprn objects
+for i in range(15):
+    name = "FBtr{:07d}".format(i+16)
+    print("Adding RNA xprn objects {}".format(i+1))
+    # create the RNA feature
+    cursor.execute(feat_sql, (None, organism_id['Dmel'], "symbol-{}-XR".format(i+1),
+                              'FBtr:temp_0', None, None, cvterm_id['mRNA']))
+    mrna_id = cursor.fetchone()[0]
+
+    # add synonyms
+    cursor.execute(syn_sql, ("symbol-{}-XR".format(i+1), cvterm_id['symbol'], "symbol-{}-XR".format(i+1)))
+    symbol_id = cursor.fetchone()[0]
+
+    # add feature_synonym
     cursor.execute(fs_sql, (symbol_id, mrna_id, pub_id))
 
 # Tools
