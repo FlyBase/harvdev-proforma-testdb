@@ -376,7 +376,7 @@ for i in range(15):
     print("Adding RNA xprn objects {}".format(i+1))
     # create the RNA feature
     cursor.execute(feat_sql, (None, organism_id['Dmel'], "symbol-{}-XR".format(i+1),
-                              'FBtr:temp_0', None, None, cvterm_id['RNA']))
+                              'FBtr:temp_0', None, None, cvterm_id['mRNA']))
     mrna_id = cursor.fetchone()[0]
 
     # add synonyms
