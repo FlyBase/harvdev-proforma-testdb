@@ -21,6 +21,7 @@ from Load.seqfeat import add_seqfeat_data
 from Load.grp import add_grp_data
 from Load.cell_line import add_cell_line_data
 from Load.aberration import add_aberration_data
+from Load.drivers import add_driver_data
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -522,6 +523,8 @@ add_humanhealth_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref, pub
 # Disease Implicated Variants (DIV)
 add_div_data(cursor, organism_id, cv_cvterm_id, feature_id, pub_id, db_dbxref)
 
+# add drivers
+add_driver_data(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id)
 
 # add chromosome_structure_variation
 print("Adding chromosome_structure_variation data.")

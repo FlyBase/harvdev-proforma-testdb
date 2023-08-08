@@ -8,10 +8,13 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'natural population', 'cloned_region', 'engineered_region', 'transgenic_transposable_element',
      'transposable_element_insertion_site', 'chromosome_band', 'allele', 'transposable_element',
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
-     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site']
+     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence']
 molecular_function: ['mRNA binding']
-cellular_component: ['nucleolus', 'something' ,'extracellular space']
+cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum']
 biological_process: ['activation of immune response', 'defense response to other organism', 'rRNA processing']
+FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5', 'dissociated larval fat cell',
+                     'embryonic/larval hemolymph',
+                     'anatomy 1', 'anatomy 2', 'anatomy 3', 'mesoderm']
 ####### End of order matters cv/cvterms
 
 cell_line_cvtermprop type: ['basis']
@@ -24,8 +27,8 @@ CHEBI: []
 DOID: []
 disease_ontology: ['hh-1']
 
-experimental assays: ['distribution deduced from reporter (Gal4 UAS)']
-expression slots: ['stage', 'anatomy', 'assay']
+experimental assays: ['distribution deduced from reporter (Gal4 UAS)', 'in situ']
+expression slots: ['stage', 'anatomy', 'assay', 'cellular']
 
 feature_cvtermprop type: [
     'wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property',
@@ -36,9 +39,7 @@ feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 're
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
-FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5',
-                     'embryonic/larval hemolymph',
-                     'anatomy 1', 'anatomy 2', 'anatomy 3']
+
 FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3',
                          'wandering third instar larval stage']
 FlyBase miscellaneous CV: [
@@ -52,6 +53,7 @@ FlyBase miscellaneous CV: [
     'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5',
     'photoactivatable fluorescent protein', 'protein detection tool', 'project',
     'qualifier', 'reagent collection', 'RNA detection tool', 'single balancer', 'spontaneous',
+    'split system combination',
     'transcriptome', 'umbrella project', 'unspecified']
 
 GenBank feature qualifier: [
@@ -83,7 +85,7 @@ property type: [
     'GO_internal_notes', 'GO_review_date', 'HDM_comment', 'OMIM_pheno_table', 'PCR_template',
     'aberr_relationships',
     'additional_disease-implication_change', 'allele_report_comment',
-    'aminoacid_rep', 'availability','balancer_status', 'bodypart_expression_marker', 'bound_moiety_comment', 'breeding_comment', 'category', 'cellular_description',
+    'aminoacid_rep', 'availability','balancer_status', 'bodypart_expression_text', 'bodypart_expression_marker', 'bound_moiety_comment', 'breeding_comment', 'category', 'cellular_description',
     'comment', 'complementation', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_analysis', 'data_type', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'deleted_segment', 
     'derived_cyto_location', 'description', 'diopt_ortholog', 'discoverer', 'disease_associated', 'div_comment',
@@ -131,7 +133,7 @@ relationship type: [
     'identified_with', 'maps_to_clone', 'member_gene_of', 'molec_deletes', 'molec_dups',
     'molec_nondeletes', 'molec_nondups', 'molec_partdeletes', 'molec_partdups', 
     'nomaps_to_clone', 'nondeletes', 'nonduplicates', 'originates_from',
-    'overlap_inferred', 'parent_grp', 'part_deletes', 'part_duplicates', 'partof',
+    'overlap_inferred', 'partially_produced_by', 'parent_grp', 'part_deletes', 'part_duplicates', 'partof',
     'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
     'recom_right_end', 'recom_left_end', 'related_tool', 'segregant_of', 'tagged_with', 'undefined_grp']
 
