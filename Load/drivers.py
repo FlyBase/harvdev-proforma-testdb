@@ -10,7 +10,7 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
     dbxref_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
     fs_sql = """ INSERT INTO feature_synonym (synonym_id, feature_id,  pub_id) VALUES (%s, %s, %s) """
     feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
-
+    feat_cvterm_sql = """INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s)"""
     # create domain
     dom_name = 'DBD'
     cursor.execute(feat_sql, (None, org_dict['Dmel'], 'DBD and LBD domains', 'ss-XP_DBD and LBD domains',
@@ -90,3 +90,71 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
             #  P{GAL4(DBD)-hb}  | transgenic_transposable_element | FBtp0001259 | Ssss         | associated_with
 
             #  pP{GAL4(DBD)-hb} | engineered_plasmid              | FBmc0001249 | Ssss         | gets_expression_data_from
+
+
+    # add split system combination to test merging and deleting etc.
+    # NOTE: Using i to get different papers for things to ease tracking later.
+
+    e_sql = """INSERT INTO expression (uniquename, description) values (%s, %s) RETURNING expression_id"""
+    fe_sql = """INSERT INTO feature_expression (feature_id, expression_id, pub_id)
+                VALUES (%s, %s, %s) RETURNING feature_expression_id"""
+    fep_sql = """INSERT INTO feature_expressionprop (feature_expression_id, type_id, value) VALUES (%s, %s, %s)"""
+    ec_sql = """INSERT INTO expression_cvterm (expression_id, cvterm_id, cvterm_type_id) VALUES (%s, %s, %s)"""
+    fr_sql = """INSERT INTO feature_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id"""
+    frp_sql = """INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s)"""
+
+    for i in range(4, 9):
+        # Scer\\GAL4[DBD.hb1]INTERSECTIONHsap\\RELA[DBD.pxn1]
+        # Scer\GAL4<up>DBD.hb1</up>∩Hsap\RELA<up>DBD.pxn1</up>
+        co_name = f"Scer\\GAL4[DBD.hb{i}]INTERSECTIONHsap\\RELA[DBD.pxn{i}]"
+        co_syn = f"Scer\\GAL4<up>DBD.hb{i}</up>\∩Hsap\\RELA<up>DBD.pxn{i}</up>"
+        unique_name = 'FBco{:07d}'.format(i)
+        print("Adding split system combination {} {} - syn {}".format(unique_name, i, co_name))
+        cursor.execute(dbxref_sql, (db_id['FlyBase'], unique_name))
+        co_dbxref_id = cursor.fetchone()[0]
+
+        cursor.execute(feat_sql, (co_dbxref_id, org_dict['Ssss'], co_name, unique_name,
+                                  None, 0, cvterm_id['split system combination']))
+        feature_id[co_name] = cursor.fetchone()[0]
+
+        # add synonym
+        cursor.execute(syn_sql, (feature_id[co_name], cvterm_id['symbol'], co_syn))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, feature_id[co_name], feature_id['unattributed']))
+
+        # add feature cvterms
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | dissociated larval fat cell | FBrf0000001
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | synthetic_sequence          | FBrf0000001
+        cursor.execute(feat_cvterm_sql, (feature_id[co_name], cvterm_id['dissociated larval fat cell'],
+                                         feature_id[f'CO_paper_{i}']))
+        cursor.execute(feat_cvterm_sql, (feature_id[co_name], cvterm_id['synthetic_sequence'],
+                                         feature_id[f'CO_paper_{i}']))
+
+        # feature_expression
+        cursor.execute(e_sql, ('FBex{:07d}'.format(i), f"desc {i}"))
+        exp_id = cursor.fetchone()[0]
+        cursor.execute(fe_sql, (feature_id[co_name], exp_id, feature_id[f'CO_paper_{i}']))
+        feat_exp_id = cursor.fetchone()[0]
+
+        # feature_expressionprop
+        cursor.execute(fep_sql, (feat_exp_id, cvterm_id['comment'], f"Comment {i}"))
+
+        # expression_cvterms
+        # if even add anatomy | mesoderm
+        # else assay    | in situ
+        if (i % 2) == 0:
+            cursor.execute(ec_sql, (exp_id, cvterm_id['mesoderm'], cvterm_id['anatomy']))
+        else:
+            cursor.execute(ec_sql, (exp_id, cvterm_id['in situ'], cvterm_id['assay']))
+
+        # feature relationship and frp
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | partially_produced_by | FBal0500002 | Scer\GAL4[DBD.hb1]  |
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | partially_produced_by | FBal0500013 | Hsap\RELA[DBD.pxn1] |
+
+        cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Scer\\GAL4[DBD.hb{i}]'], cvterm_id['partially_produced_by']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(frp_sql, (fr_id, feature_id[f'CO_paper_{i}']))
+        cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Hsap\RELA[DBD.pxn{i}]'], cvterm_id['partially_produced_by']))
+        fr_id = cursor.fetchone()[0]
+        cursor.execute(frp_sql, (fr_id, feature_id[f'CO_paper_{i}']))
+

@@ -17,6 +17,12 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
     cursor.execute(pubprop_sql, (pub_id, 0, cvterm_id['curated_by'], "Curator:bob McBob...."))
     # cursor.execute(pubprop_sql, (pub_id, pubprop_rank, pubprop_type_id, pubprop_value))
 
+    for i in range(1, 9):
+        cursor.execute(pub_sql, ('CO_paper_{}'.format(i), cvterm_id['computer file'], 'FBrf100000{}'.format(i), '1967', 'miniref_{}'.format(i)))
+        pub_id = cursor.fetchone()[0]
+        feature_id['CO_paper_{}'.format(i)] = pub_id
+        print("Pub'{}' id = {}".format('CO_paper_{}'.format(i), pub_id))
+
     temp_rank = 0
     for fly_ref in ('FBrf0104946', 'FBrf0105495'):
         temp_rank += 1
