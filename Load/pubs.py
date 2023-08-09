@@ -52,6 +52,7 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
     for i in range(4, 14):
         cursor.execute(pub_sql, ('Journal_{}'.format(i+1), cvterm_id['journal'], 'multipub:temp_{}'.format(i), '2018', 'miniref_{}'.format(i+1)))
         pub_id = cursor.fetchone()[0]
+        feature_id['Journal_{}'.format(i+1)] = pub_id
         cursor.execute(editor_sql, (pub_id, 1, 'Surname', 'one', True))
         cursor.execute(editor_sql, (pub_id, 2, 'Surname', 'two', True))
         cursor.execute(editor_sql, (pub_id, 3, 'Surname_{}'.format(i+1), 'Whatever', True))

@@ -12,10 +12,14 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
     feat_rel_sql = """ INSERT INTO feature_relationship (subject_id, object_id,  type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id """
     feat_cvterm_sql = """INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s)"""
     # create domain
-    dom_name = 'DBD'
+    start_dom_name = 'DBD'
+    end_dom_name = 'AD'
     cursor.execute(feat_sql, (None, org_dict['Dmel'], 'DBD and LBD domains', 'ss-XP_DBD and LBD domains',
                               "", 0, cvterm_id['polypeptide']))
-    feature_id[dom_name] = cursor.fetchone()[0]
+    feature_id[start_dom_name] = cursor.fetchone()[0]
+    cursor.execute(feat_sql, (None, org_dict['Dmel'], 'AD domains', 'AD domains',
+                              "", 0, cvterm_id['polypeptide']))
+    feature_id[end_dom_name] = cursor.fetchone()[0]
 
     count = gene_count = 500000
     for start in ['Scer\\GAL4', 'Hsap\\RELA']:
@@ -46,8 +50,10 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
             #  hb               | gene                            | FBgn0001180 | Dmel         | has_reg_region
             if start == 'Scer\\GAL4':
                 gene_name = f'hb{i+1}'
+                dom_name = start_dom_name
             else:
                 gene_name = f'pxn{i + 1}'
+                dom_name = end_dom_name
             count = count + 1
             al_sym_name = "{}<up>{}.{}</up>".format(start, dom_name, gene_name)
             al_name = "{}[{}.{}]".format(start, dom_name, gene_name)
@@ -104,10 +110,10 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
     frp_sql = """INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s)"""
 
     for i in range(4, 9):
-        # Scer\\GAL4[DBD.hb1]INTERSECTIONHsap\\RELA[DBD.pxn1]
-        # Scer\GAL4<up>DBD.hb1</up>∩Hsap\RELA<up>DBD.pxn1</up>
-        co_name = f"Scer\\GAL4[DBD.hb{i}]INTERSECTIONHsap\\RELA[DBD.pxn{i}]"
-        co_syn = f"Scer\\GAL4<up>DBD.hb{i}</up>\∩Hsap\\RELA<up>DBD.pxn{i}</up>"
+        # Scer\\GAL4[DBD.hb1]INTERSECTIONHsap\\RELA[AD.pxn1]
+        # Scer\GAL4<up>DBD.hb1</up>∩Hsap\RELA<up>AD.pxn1</up>
+        co_name = f"Scer\\GAL4[DBD.hb{i}]INTERSECTIONHsap\\RELA[AD.pxn{i}]"
+        co_syn = f"Scer\\GAL4<up>DBD.hb{i}</up>\∩Hsap\\RELA<up>AD.pxn{i}</up>"
         unique_name = 'FBco{:07d}'.format(i)
         print("Adding split system combination {} {} - syn {}".format(unique_name, i, co_name))
         cursor.execute(dbxref_sql, (db_id['FlyBase'], unique_name))
@@ -123,8 +129,8 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
         cursor.execute(fs_sql, (syn_id, feature_id[co_name], feature_id['unattributed']))
 
         # add feature cvterms
-        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | dissociated larval fat cell | FBrf0000001
-        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | synthetic_sequence          | FBrf0000001
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[AD.pxn1] | dissociated larval fat cell | FBrf0000001
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[AD.pxn1] | synthetic_sequence          | FBrf0000001
         cursor.execute(feat_cvterm_sql, (feature_id[co_name], cvterm_id['dissociated larval fat cell'],
                                          feature_id[f'CO_paper_{i}']))
         cursor.execute(feat_cvterm_sql, (feature_id[co_name], cvterm_id['synthetic_sequence'],
@@ -148,13 +154,13 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
             cursor.execute(ec_sql, (exp_id, cvterm_id['in situ'], cvterm_id['assay']))
 
         # feature relationship and frp
-        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | partially_produced_by | FBal0500002 | Scer\GAL4[DBD.hb1]  |
-        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[DBD.pxn1] | partially_produced_by | FBal0500013 | Hsap\RELA[DBD.pxn1] |
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[AD.pxn1] | partially_produced_by | FBal0500002 | Scer\GAL4[DBD.hb1]  |
+        # FBco0000001 | Scer\GAL4[DBD.hb1]INTERSECTIONHsap\RELA[AD.pxn1] | partially_produced_by | FBal0500013 | Hsap\RELA[DBD.pxn1] |
 
         cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Scer\\GAL4[DBD.hb{i}]'], cvterm_id['partially_produced_by']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frp_sql, (fr_id, feature_id[f'CO_paper_{i}']))
-        cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Hsap\RELA[DBD.pxn{i}]'], cvterm_id['partially_produced_by']))
+        cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Hsap\RELA[AD.pxn{i}]'], cvterm_id['partially_produced_by']))
         fr_id = cursor.fetchone()[0]
         cursor.execute(frp_sql, (fr_id, feature_id[f'CO_paper_{i}']))
 
