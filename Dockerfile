@@ -29,6 +29,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software
 ADD . .
 #ADD data /data
 
+RUN pip3 install --upgrade pip
+
 RUN pip3 install -r requirements.txt
 
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-13`` package when it was ``apt-get installed``
