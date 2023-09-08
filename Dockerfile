@@ -21,13 +21,15 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/
 # Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
 #  There are some warnings (in red) that show up during the build. You can hide
 #  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common postgresql-13 postgresql-client-13 postgresql-contrib-13 python3-pip
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common postgresql-13 postgresql-client-13 postgresql-contrib-13 python3-pip libpq-dev
 
 # Note: The official Debian and Ubuntu images automatically ``apt-get clean``
 # after each ``apt-get``
 
 ADD . .
 #ADD data /data
+
+RUN pip3 install --upgrade pip
 
 RUN pip3 install -r requirements.txt
 
