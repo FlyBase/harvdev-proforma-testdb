@@ -1,2 +1,2 @@
 psycopg2-binary
-# pyyaml
+PyYAML>=6.0.1
