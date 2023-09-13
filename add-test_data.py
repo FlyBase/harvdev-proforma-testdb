@@ -22,6 +22,7 @@ from Load.grp import add_grp_data
 from Load.cell_line import add_cell_line_data
 from Load.aberration import add_aberration_data
 from Load.drivers import add_driver_data
+from Load.geneproduct import create_geneproducts
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -557,6 +558,9 @@ for i in range(1, 11):
     cursor.execute(fr_sql, (feature_id[sb_name], feature_id[ab_name], cvterm_id['carried_on']))
     fr_id = cursor.fetchone()[0]
     cursor.execute(frp_sql, (fr_id, pub_id))
+
+# gene product data
+create_geneproducts(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
 conn.commit()
 conn.close()

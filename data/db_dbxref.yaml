@@ -1,7 +1,7 @@
 testdb: ['hh-1']
 testdb2: []
 EMBL-EBI Single Cell Expression Atlas Datasets:  []
-FBbt: []
+FBbt: ['dissociated larval fat cell', 'CP1 lineage neuron']
 FBcv: []
 FBdv: []
 GB: ['GB1', 'GB2']

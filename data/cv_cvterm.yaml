@@ -2,13 +2,13 @@
 
 # order dependent cv/cvterms. i.e. accession are specific and numbered.
 #######################################################################
-# Order is important only add to end of SO list. Tests relie on this!!
+# Order is important only add to end of SO list. Tests rely on this!!
 SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRNA_gene',
      'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
      'natural population', 'cloned_region', 'engineered_region', 'transgenic_transposable_element',
      'transposable_element_insertion_site', 'chromosome_band', 'allele', 'transposable_element',
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
-     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence']
+     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence', 'RNA']
 molecular_function: ['mRNA binding']
 cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum']
 biological_process: ['activation of immune response', 'defense response to other organism', 'rRNA processing']
