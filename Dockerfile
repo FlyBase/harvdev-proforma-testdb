@@ -3,7 +3,7 @@
 #
 
 FROM ubuntu:18.04
-RUN apt-get update && apt-get install -y gnupg curl ca-certificates 
+RUN apt-get update && apt-get install -y gnupg curl ca-certificates
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 # Add the PostgreSQL PGP key to verify their Debian packages.
 # It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
@@ -16,7 +16,7 @@ ARG SOURCE_BRANCH=master
 
 # Add PostgreSQL's repository. Idocker-boomt contains the most recent stable release
 #     of PostgreSQL, ``9.3``.
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
 #  There are some warnings (in red) that show up during the build. You can hide
