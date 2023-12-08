@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 13.3
--- Dumped by pg_dump version 13.3
+-- Dumped by pg_dump version 14.7 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12730,7 +12730,8 @@ CREATE TABLE public.analysis (
     sourcename character varying(255),
     sourceversion character varying(255),
     sourceuri text,
-    timeexecuted timestamp without time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL
+    timeexecuted timestamp without time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
+    is_obsolete boolean DEFAULT false NOT NULL
 );
 
 
@@ -19050,6 +19051,44 @@ CREATE TABLE public.pub (
 ALTER TABLE public.pub OWNER TO go;
 
 --
+-- Name: pub_analysis_feature; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pub_analysis_feature (
+    pub_analysis_feature_id integer NOT NULL,
+    pub_id integer NOT NULL,
+    analysis_id integer NOT NULL,
+    feature_id integer NOT NULL,
+    score double precision,
+    status character varying(30)
+);
+
+
+ALTER TABLE public.pub_analysis_feature OWNER TO go;
+
+--
+-- Name: pub_analysis_feature_pub_analysis_feature_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.pub_analysis_feature_pub_analysis_feature_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pub_analysis_feature_pub_analysis_feature_id_seq OWNER TO go;
+
+--
+-- Name: pub_analysis_feature_pub_analysis_feature_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.pub_analysis_feature_pub_analysis_feature_id_seq OWNED BY public.pub_analysis_feature.pub_analysis_feature_id;
+
+
+--
 -- Name: pub_dbxref; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -21064,6 +21103,13 @@ ALTER TABLE ONLY public.project ALTER COLUMN project_id SET DEFAULT nextval('pub
 --
 
 ALTER TABLE ONLY public.pub ALTER COLUMN pub_id SET DEFAULT nextval('public.pub_pub_id_seq'::regclass);
+
+
+--
+-- Name: pub_analysis_feature pub_analysis_feature_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pub_analysis_feature ALTER COLUMN pub_analysis_feature_id SET DEFAULT nextval('public.pub_analysis_feature_pub_analysis_feature_id_seq'::regclass);
 
 
 --
@@ -23731,6 +23777,22 @@ ALTER TABLE ONLY public.project
 
 ALTER TABLE ONLY public.project
     ADD CONSTRAINT project_pkey PRIMARY KEY (project_id);
+
+
+--
+-- Name: pub_analysis_feature pub_analysis_feature_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pub_analysis_feature
+    ADD CONSTRAINT pub_analysis_feature_pkey PRIMARY KEY (pub_analysis_feature_id);
+
+
+--
+-- Name: pub_analysis_feature pub_analysis_feature_pub_id_analysis_id_feature_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pub_analysis_feature
+    ADD CONSTRAINT pub_analysis_feature_pub_id_analysis_id_feature_id_key UNIQUE (pub_id, analysis_id, feature_id);
 
 
 --
@@ -30495,6 +30557,30 @@ ALTER TABLE ONLY public.organismprop_pub
 
 ALTER TABLE ONLY public.organismprop
     ADD CONSTRAINT organismprop_type_id_fkey FOREIGN KEY (type_id) REFERENCES public.cvterm(cvterm_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pub_analysis_feature paf_fk_analysis; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pub_analysis_feature
+    ADD CONSTRAINT paf_fk_analysis FOREIGN KEY (analysis_id) REFERENCES public.analysis(analysis_id);
+
+
+--
+-- Name: pub_analysis_feature paf_fk_feature; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pub_analysis_feature
+    ADD CONSTRAINT paf_fk_feature FOREIGN KEY (feature_id) REFERENCES public.feature(feature_id);
+
+
+--
+-- Name: pub_analysis_feature paf_fk_pub; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pub_analysis_feature
+    ADD CONSTRAINT paf_fk_pub FOREIGN KEY (pub_id) REFERENCES public.pub(pub_id);
 
 
 --
