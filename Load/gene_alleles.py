@@ -732,6 +732,19 @@ def create_allele_GA90(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
             cursor.execute(fpp_sql, (fp_id, pub_id))
 
 
+def create_bracket_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
+    """
+    Create genes/allels with '(' and [}' in them.
+    This will be used for testing formats allowed etc.
+    """
+    create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+                        num_genes=6,
+                        num_alleles=1,
+                        gene_prefix='a(1)48',
+                        tool_prefix=''
+                        )
+
+
 def create_G1f_gene(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id, dbxref_id):
     """Create gene data for G1f to test merging.
 
@@ -997,3 +1010,5 @@ def add_genes_and_alleles(cursor, organism_id, feature_id, cvterm_id, dbxref_id,
     create_G1f_gene(cursor, organism_id, feature_id, cvterm_id, db_id, feature_id['Nature_3'], dbxref_id)
 
     create_allele_PDEV_184(cursor, organism_id, feature_id, cvterm_id, db_id, pub_id)
+
+    create_bracket_gene(cursor, organism_id, feature_id, cvterm_id, db_id, pub_id)

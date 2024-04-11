@@ -10,11 +10,13 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
      'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence', 'RNA']
 molecular_function: ['mRNA binding']
-cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum']
+cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum',
+                     'mitochondrial crista', 'mitochondrion']
 biological_process: ['activation of immune response', 'defense response to other organism', 'rRNA processing']
 FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5', 'dissociated larval fat cell',
                      'embryonic/larval hemolymph',
-                     'anatomy 1', 'anatomy 2', 'anatomy 3', 'mesoderm']
+                     'anatomy 1', 'anatomy 2', 'anatomy 3', 'mesoderm',
+                     'indirect flight muscle', 'macrochaeta', 'scutellar bristle']
 ####### End of order matters cv/cvterms
 
 cell_line_cvtermprop type: ['basis']
@@ -35,7 +37,8 @@ feature_cvtermprop type: [
     'common_tool_uses', 'webcv', 'date']
 feature_expression property type: ['curated_as', 'comment']
 feature_pubprop type: ['abstract_languages']
-feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position', 'score', 'start_location', 'end_location']
+feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position', 'score',
+                                'start_location', 'end_location', 'is_subset_expression', 'is_relative_wildtype']
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
