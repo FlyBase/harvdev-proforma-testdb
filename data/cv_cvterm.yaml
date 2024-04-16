@@ -16,7 +16,8 @@ biological_process: ['activation of immune response', 'defense response to other
 FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5', 'dissociated larval fat cell',
                      'embryonic/larval hemolymph',
                      'anatomy 1', 'anatomy 2', 'anatomy 3', 'mesoderm',
-                     'indirect flight muscle', 'macrochaeta', 'scutellar bristle']
+                     'indirect flight muscle', 'macrochaeta', 'scutellar bristle',
+                     'increased number']
 ####### End of order matters cv/cvterms
 
 cell_line_cvtermprop type: ['basis']
@@ -46,7 +47,8 @@ FlyBase_internal: ['pubprop type:curated_by']
 FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3',
                          'wandering third instar larval stage']
 FlyBase miscellaneous CV: [
-    'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'biosample', 'biotic stimulus study', 'cell isolation', 'chemical entity', 'colocalizes_with', 'comment',
+    'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'biosample', 'biotic stimulus study', 'cell isolation', 'chemical entity',
+    'conditional', 'colocalizes_with', 'comment',
     'contributes_to', 'disease implicated variant', 'evidence_code', 
     'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint', 'functional group', 'female',
     'in vitro construct',
