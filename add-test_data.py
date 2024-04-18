@@ -363,9 +363,9 @@ for i in range(15):
     mrna_id = cursor.fetchone()[0]
 
     # add synonyms
-    cursor.execute(syn_sql, ("fullname-{}".format(i+1), cvterm_id['fullname'], "fullname-{}RA".format(i+1)))
+    cursor.execute(syn_sql, ("fullname-{}RA".format(i+1), cvterm_id['fullname'], "fullname-{}RA".format(i+1)))
     name_id = cursor.fetchone()[0]
-    cursor.execute(syn_sql, ("symbol-{}".format(i+1), cvterm_id['symbol'], "symbol-{}RA".format(i+1)))
+    cursor.execute(syn_sql, ("symbol-{}RA".format(i+1), cvterm_id['symbol'], "symbol-{}RA".format(i+1)))
     symbol_id = cursor.fetchone()[0]
 
     # add feature_synonym
