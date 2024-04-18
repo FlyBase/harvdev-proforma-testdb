@@ -152,7 +152,7 @@ def create_gene(cursor, count, gene_prefix, cvterm_id, org_id, db_id, pub_id, fe
 
         # add feature_synonym for gene
         if pub_id != feature_id['unattributed']:
-            cursor.execute(fs_sql, (symbol_id, gene_id, pub_id, True))
+            cursor.execute(fs_sql, (symbol_id, gene_id, pub_id, False))
         cursor.execute(fs_sql, (symbol_id, gene_id, feature_id['unattributed'], True))
 
     # add feature pub for gene
@@ -263,18 +263,13 @@ def _create_allele(cursor, allele_name, sgml_name, allele_unique_name, cvterm_id
 
     # add feature_synonym for allele
     if pub_id != feature_id['unattributed']:
-        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id, True))
+        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id, False))
     cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed'], True))
 
     # add fullname synonym for allele
     cursor.execute(syn_sql, ("{}-fullname".format(allele_name),
                    cvterm_id['fullname'], "{}-fullname".format(sgml_name)))
     symbol_id = cursor.fetchone()[0]
-
-    # add feature_synonym for allele
-    if pub_id != feature_id['unattributed']:
-        cursor.execute(fs_sql, (symbol_id, allele_id, pub_id, True))
-    cursor.execute(fs_sql, (symbol_id, allele_id, feature_id['unattributed'], True))
 
     # add alternative not current feature_synonym for allele
     cursor.execute(syn_sql, ("alt-{}".format(allele_name),
