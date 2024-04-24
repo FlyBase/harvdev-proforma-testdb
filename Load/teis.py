@@ -83,7 +83,7 @@ def create_teis(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pu
     tp_feature_type_name = 'transgenic_transposable_element'
     for i in range(10):
         tp_name = "Mi{" + str(i+1) + '}'
-        feature_id[tp_name] = create_tip(cursor, 'tp', tp_name, organism_id['Dmel'], db_id, cvterm_id, feature_id, tp_feature_type_name, pub_id)
+        feature_id[tp_name] = create_tip(cursor, 'tp', tp_name, organism_id['Ssss'], db_id, cvterm_id, feature_id, tp_feature_type_name, pub_id)
 
         name = f"{tp_name}teis{i+1}[Clk1]"
         uniquename = f'FBti::temp_{i}'
