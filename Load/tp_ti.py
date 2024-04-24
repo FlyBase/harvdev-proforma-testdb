@@ -55,11 +55,9 @@ def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id
         for i in range(5):
             ti_feature_type_name = 'transposable_element_insertion_site'
             tp_feature_type_name = 'transgenic_transposable_element'
-            species = 'Dmel'
             if item_prefix == 'TI':
                 ti_feature_type_name = 'insertion_site'
                 tp_feature_type_name = 'engineered_region'
-                species = 'Ssss'
             tp_name = '{}{}{}{}'.format(item_prefix, '{', i+1, '}')
             ti_name = '{}BGG{}'.format(tp_name, i+1)
             print("Adding {} {}".format(tp_name, ti_name))
@@ -67,11 +65,10 @@ def create_tpti(cursor, feat_sql, syn_sql, fs_sql, organism_id, db_id, cvterm_id
             # ti first
             create_tip(cursor, 'ti', ti_name, organism_id['Dmel'], db_id, cvterm_id, feature_id, ti_feature_type_name, pub_id)
             # add tp
-            create_tip(cursor, 'tp', tp_name, organism_id[species], db_id, cvterm_id, feature_id, tp_feature_type_name, pub_id)
+            create_tip(cursor, 'tp', tp_name, organism_id['Ssss'], db_id, cvterm_id, feature_id, tp_feature_type_name, pub_id)
 
     for item_prefix in ('P'):
         for i in range(5):
             ti_feature_type_name = 'transposable_element_insertion_site'
-            species = 'Dmel'
             ti_name = "{}{}test{}{}".format(item_prefix, '{', '}', i+1)
             create_tip(cursor, 'ti', ti_name, organism_id['Dmel'], db_id, cvterm_id, feature_id, ti_feature_type_name, pub_id)
