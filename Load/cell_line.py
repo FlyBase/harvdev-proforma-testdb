@@ -3,7 +3,7 @@ def add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id):
     cellline_sql = """ INSERT INTO cell_line (name, uniquename, organism_id) VALUES (%s, %s, %s) RETURNING cell_line_id """
     celllineprop_sql = """ INSERT INTO cell_lineprop (cell_line_id, type_id, value, rank) VALUES (%s, %s, %s, %s) RETURNING cell_lineprop_id """
     celllineprop_pub_sql = """ INSERT INTO cell_lineprop_pub (cell_lineprop_id, pub_id) VALUES (%s, %s) """
-    cellline_syn_sql = """ INSERT INTO cell_line_synonym (synonym_id, cell_line_id,  pub_id) VALUES (%s, %s, %s) """
+    cellline_syn_sql = """ INSERT INTO cell_line_synonym (synonym_id, cell_line_id,  pub_id, is_current) VALUES (%s, %s, %s, %s) """
     syn_sql = """ INSERT INTO synonym (name, type_id, synonym_sgml) VALUES (%s, %s, %s) RETURNING synonym_id """
     cell_line_library_sql = """ INSERT INTO cell_line_library (cell_line_id, library_id, pub_id) VALUES (%s, %s, %s) RETURNING cell_line_library_id"""
     cell_line_libraryprop_sql = """ INSERT INTO cell_line_libraryprop (cell_line_library_id, type_id, rank) VALUES (%s, %s, %s) """
@@ -22,8 +22,8 @@ def add_cell_line_data(cursor, organism_id, cv_cvterm_id, pub_id, feature_id):
         symbol_id = cursor.fetchone()[0]
 
         # add cell_line__synonym
-        cursor.execute(cellline_syn_sql, (symbol_id, cellline_id, pub_id))
-        cursor.execute(cellline_syn_sql, (symbol_id, cellline_id, feature_id['unattributed']))
+        cursor.execute(cellline_syn_sql, (symbol_id, cellline_id, pub_id, 'f'))
+        cursor.execute(cellline_syn_sql, (symbol_id, cellline_id, feature_id['unattributed'], 't'))
 
         # add props
         for prop_cvterm in ('source_strain', 'source_genotype', 'source_cross', 'lab_of_origin',
