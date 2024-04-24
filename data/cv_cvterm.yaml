@@ -8,7 +8,8 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'natural population', 'cloned_region', 'engineered_region', 'transgenic_transposable_element',
      'transposable_element_insertion_site', 'chromosome_band', 'allele', 'transposable_element',
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
-     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence', 'RNA']
+     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence', 'RNA',
+     'missense_variant', 'wild_type']
 molecular_function: ['mRNA binding']
 cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum',
                      'mitochondrial crista', 'mitochondrion']
@@ -35,7 +36,7 @@ expression slots: ['stage', 'anatomy', 'assay', 'cellular']
 
 feature_cvtermprop type: [
     'wt_class', 'aberr_class', 'tool_uses', 'transgene_uses property',
-    'common_tool_uses', 'webcv', 'date']
+    'common_tool_uses', 'webcv', 'date', 'transgenic_product_class']
 feature_expression property type: ['curated_as', 'comment']
 feature_pubprop type: ['abstract_languages']
 feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position', 'score',
