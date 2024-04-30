@@ -96,7 +96,7 @@ property type: [
     'derived_cyto_location', 'description', 'diopt_ortholog', 'discoverer', 'disease_associated', 'div_comment',
     'dros_model_overview', 'duplicated_segment', 'etymology', 'evidence', 'extract_chr', 'foreign_seq_data',
     'gen_loc_comment', 'gen_loc_error',
-    'gen_pheno_comment', 'gene_class', 'gene_order', 'gene_phenotypes', 'gene_relationships',
+    'gen_pheno_comment', 'gene_class', 'gene_nomenclature_comment', 'gene_order', 'gene_phenotypes', 'gene_relationships',
     'gene_summary_date', 'gene_summary_info', 'gene_summary_internal_notes',
     'gene_summary_text', 'genetic_location', 'genetics_description',
     'has_GO_curation', 'hdm_comments', 'hdm_internal_notes', 'hgnc_link',
