@@ -5,12 +5,15 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
     pub_sql = """ INSERT INTO pub (title, type_id, uniquename, pyear, miniref) VALUES (%s, %s, %s, %s, %s) RETURNING pub_id """
     pubprop_sql = """ INSERT INTO pubprop (pub_id, rank, type_id, value) VALUES (%s, %s, %s, %s) """
     editor_sql = """ INSERT INTO pubauthor (pub_id, rank, surname, givennames, editor) VALUES (%s, %s, %s, %s, %s) """
+    pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
 
     for i in range(2, 9):
         cursor.execute(pub_sql, ('Nature_{}'.format(i), cvterm_id['computer file'], 'FBrf000000{}'.format(i), '1967', 'miniref_{}'.format(i)))
         pub_id = cursor.fetchone()[0]
         feature_id['Nature_{}'.format(i)] = pub_id
         print("Pub'{}' id = {}".format('Nature_{}'.format(i), pub_id))
+        cursor.execute(pub_dbxref_sql, (pub_id, db_dbxref['pubmed'][f'{i}']))
+
     cursor.execute(pub_sql, ('unattributed', cvterm_id['unattributed'], 'unattributed', '1973', 'miniref_10'))
     pub_id = cursor.fetchone()[0]
     feature_id['unattributed'] = pub_id
@@ -48,7 +51,6 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
     parent_pub_id = cursor.fetchone()[0]
 
     # create general multipubs for testing
-    pub_dbxref_sql = """ INSERT INTO pub_dbxref (pub_id, dbxref_id) VALUES (%s, %s) """
     for i in range(4, 14):
         cursor.execute(pub_sql, ('Journal_{}'.format(i+1), cvterm_id['journal'], 'multipub:temp_{}'.format(i), '2018', 'miniref_{}'.format(i+1)))
         pub_id = cursor.fetchone()[0]
