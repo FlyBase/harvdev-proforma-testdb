@@ -483,6 +483,49 @@ def create_alpha_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id)
         )
 
 
+def add_gene_GA(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
+    """Add data to test G24 banc and bangd operations.
+
+    Args:
+        cursor: <sql connection cursor> connection to testdb
+        organism_id: <int> organism id
+        feature_id: <dict> feature name to id
+        cvterm_id: <dict> cvterm name to id
+        dbxref_id: <dict> dbxref name to dbxref id
+        pub_id: <int> id of pub
+        db_id: <dict> db name to db id
+
+    """
+    create_gene_alleles(
+        cursor, organism_id, feature_id, cvterm_id, db_id, pub_id,
+        num_genes=10,
+        num_alleles=1,
+        gene_prefix='GAproptest',
+        allele_prefix=None,
+        tool_prefix='Cjk',
+        pub_format="GAproptest_title_"
+        )
+    # G24 data. feature cvterm props
+    # fc_sql = """ INSERT INTO feature_cvterm (feature_id, cvterm_id, pub_id) VALUES (%s, %s, %s) RETURNING feature_cvterm_id """
+    # fcp_sql = """ INSERT INTO feature_cvtermprop (feature_cvterm_id, type_id, value, rank) VALUES (%s, %s, %s, %s) """
+    data = [
+        {'cvterm': 'date', 'cvname': 'feature_cvtermprop type', 'value': '19671008'},
+        {'cvterm': 'provenance', 'cvname': 'FlyBase miscellaneous CV', 'value': 'FlyBase'},
+        {'cvterm': 'evidence_code', 'cvname': 'FlyBase miscellaneous CV', 'value': 'inferred from direct assay'},
+        {'cvterm': 'located_in', 'cvname': 'relationship', 'value': None}]
+
+    for i in range(10):
+        # create feature cvterm
+        cursor.execute(fc_sql,(feature_id['GAproptest{}[Cjk1]'.format(i + 1)], cvterm_id['in vitro construct'], pub_id))
+        iv_id = cursor.fetchone()[0]
+        cursor.execute(fc_sql, (feature_id['GAproptest{}[Cjk1]'.format(i+1)], cvterm_id['amorphic allele - molecular evidence'], pub_id))
+        iv_id = cursor.fetchone()[0]
+
+        # create feature cvterm props
+        for item in data:
+            cursor.execute(fcp_sql, (fc_id, cvterm_id[item['cvterm']], item['value'], 0))
+
+
 def add_gene_G24(cursor, organism_id, feature_id, cvterm_id, dbxref_id, pub_id, db_id):
     """Add data to test G24 banc and bangd operations.
 

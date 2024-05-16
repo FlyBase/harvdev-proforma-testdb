@@ -54,11 +54,11 @@ FlyBase miscellaneous CV: [
     'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint', 'functional group', 'female',
     'in vitro construct',
     'inferred from direct assay', 'inferred from mutant phenotype', 'isolated cells', 'natural population',
-    'male', 'misc 1', 'misc 2', 'misc 3', 'multi-individual sample',
+    'male', 'misc 1', 'misc 2', 'misc 3', 'multi-individual sample', 'partially',
     'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5',
     'photoactivatable fluorescent protein', 'protein detection tool', 'project',
     'qualifier', 'reagent collection', 'RNA detection tool', 'single balancer', 'spontaneous',
-    'split system combination',
+    'split system combination', 'suppressible',
     'transcriptome', 'umbrella project', 'unspecified']
 
 GenBank feature qualifier: [
