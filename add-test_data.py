@@ -24,6 +24,7 @@ from Load.aberration import add_aberration_data
 from Load.drivers import add_driver_data
 from Load.geneproduct import create_geneproducts
 from Load.teis import create_teis
+from Load.add_dbxref_to_cvterms import add_dbxref_data_to_cvterms
 
 conn = psycopg2.connect(database="fb_test")
 cursor = conn.cursor()
@@ -565,6 +566,8 @@ create_geneproducts(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id
 
 # transposable_element_insertion_site (teis)
 create_teis(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
+
+add_dbxref_data_to_cvterms(cursor, cv_cvterm_id, db_id, dbxref_id)
 
 conn.commit()
 conn.close()
