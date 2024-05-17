@@ -583,6 +583,20 @@ def create_symbols(cursor, org_dict, feature_id, cvterm_id, dbxref_id, db_id, pu
     """
     create_gene_alleles(
         cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
+        num_genes=30,
+        num_alleles=1,
+        gene_prefix='canto-',
+        allele_prefix='al-canto-',
+        )
+    # for these canto genes and alleles we need to link them to some pubs:
+    nat_pub_id = pub_id['Nature_2']
+    feat_pub_sql = """ INSERT INTO feature_pub (feature_id, pub_id) VALUEs (%s, %s)"""
+    for i in range(20):
+        cursor.execute(feat_pub_sql, (feature_id[f'canto-{i}'], pub_id))
+        cursor.execute(feat_pub_sql, (feature_id[f'al-canto-{i}'], pub_id))
+
+    create_gene_alleles(
+        cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
         num_genes=50,
         num_alleles=1,
         gene_prefix='symbol-',
