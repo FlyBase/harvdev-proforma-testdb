@@ -46,7 +46,7 @@ FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
 
 FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3',
-                         'wandering third instar larval stage']
+                         'wandering third instar larval stage', 'laval stage']
 FlyBase miscellaneous CV: [
     'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'biosample', 'biotic stimulus study', 'cell isolation', 'chemical entity',
     'conditional', 'colocalizes_with', 'comment',
