@@ -81,4 +81,8 @@ def add_pub_data(cursor, feature_id, cv_id, cvterm_id, db_id, db_dbxref):
     cursor.execute(pub_sql, ('Paper_Space', cvterm_id['paper'], 'FBrf0000020', '1967', 'miniref_{}'.format(20)))
     pub_id = cursor.fetchone()[0]
     cursor.execute(pub_relationship_sql, (cvterm_id['published_in'], pub_id, parent_space_pub_id))
+
+    # canto stuff needs a pubmed added to FBrf0000020 Paper_Space
+    cursor.execute(pub_dbxref_sql, (pub_id, db_dbxref['pubmed']['1']))
+
     return pub_id
