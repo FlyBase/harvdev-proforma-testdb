@@ -9,7 +9,7 @@ SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRN
      'transposable_element_insertion_site', 'chromosome_band', 'allele', 'transposable_element',
      'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
      'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence', 'RNA',
-     'missense_variant', 'wild_type']
+     'missense_variant', 'wild_type', 'transposable_element_flanking_region']
 molecular_function: ['mRNA binding']
 cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum',
                      'mitochondrial crista', 'mitochondrion']
@@ -112,7 +112,9 @@ property type: [
     'origin_comment', 'origin_type', 'other_disease-implication_change', 'owner', 'phenotype_description',
     'primer_comment', 'primary_disease-implication_change', 'process_description',
     'propagate_transgenic_uses', 'protein_coding_gene', 'protocol', 'reported_antibod_gen',
-    'significant_subject_in_review', 'source_prep', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role']
+    'significant_subject_in_review', 'source_prep', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role',
+    'curated_chromosomal_location', 'curated_cytological_location', 'flanking_type', 'first_base_of_target',
+    'problem', 'first_base_of_unique_in_natTE']
 
 pub type: [
     'computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
@@ -140,7 +142,8 @@ relationship type: [
     'nomaps_to_clone', 'nondeletes', 'nonduplicates', 'originates_from',
     'overlap_inferred', 'partially_produced_by', 'parent_grp', 'part_deletes', 'part_duplicates', 'partof',
     'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
-    'recom_right_end', 'recom_left_end', 'related_tool', 'segregant_of', 'tagged_with', 'undefined_grp']
+    'recom_right_end', 'recom_left_end', 'related_tool', 'segregant_of', 'tagged_with', 'undefined_grp',
+    'transposed_descendant_of', 'recombinant_descendant_of', 'modified_descendant_of']
 
 selected_anatomy: [
     'unassigned_class', 'selected_anatomy', 'unassigned_anatomy', 'selected_class',
