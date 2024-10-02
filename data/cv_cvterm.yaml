@@ -21,6 +21,8 @@ FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neu
                      'increased number']
 ####### End of order matters cv/cvterms
 
+anonymous: ['affectedby']
+
 cell_line_cvtermprop type: ['basis']
 cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment', 'source_genotype',
                      'source_strain', 'source_cross', 'karyotype']
@@ -40,7 +42,8 @@ feature_cvtermprop type: [
 feature_expression property type: ['curated_as', 'comment']
 feature_pubprop type: ['abstract_languages']
 feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position', 'score',
-                                'start_location', 'end_location', 'is_subset_expression', 'is_relative_wildtype']
+                                'start_location', 'end_location', 'is_subset_expression', 'is_relative_wildtype',
+                                'control_comment']
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
@@ -114,7 +117,7 @@ property type: [
     'propagate_transgenic_uses', 'protein_coding_gene', 'protocol', 'reported_antibod_gen',
     'significant_subject_in_review', 'source_prep', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role',
     'curated_chromosomal_location', 'curated_cytological_location', 'flanking_type', 'first_base_of_target',
-    'problem', 'first_base_of_unique_in_natTE']
+    'problem', 'first_base_of_unique_in_natTE', 'is_multiple_insertion_line', 'chromosomal_orientation']
 
 pub type: [
     'computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
@@ -143,7 +146,7 @@ relationship type: [
     'overlap_inferred', 'partially_produced_by', 'parent_grp', 'part_deletes', 'part_duplicates', 'partof',
     'primer_progenitor_of', 'producedby', 'progenitor', 'replacement_descendant_of', 'representative_isoform',
     'recom_right_end', 'recom_left_end', 'related_tool', 'segregant_of', 'tagged_with', 'undefined_grp',
-    'transposed_descendant_of', 'recombinant_descendant_of', 'modified_descendant_of']
+    'transposed_descendant_of', 'recombinant_descendant_of', 'modified_descendant_of', 'affectedby']
 
 selected_anatomy: [
     'unassigned_class', 'selected_anatomy', 'unassigned_anatomy', 'selected_class',

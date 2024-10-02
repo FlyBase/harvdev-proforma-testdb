@@ -117,6 +117,7 @@ def load_cv_cvterm(parsed_yaml):
     START = 0
     NEW_DB = 1
     FORMAT = 2
+    print_debug = {"FlyBase anatomy CV": 1}
     specific_dbs = {'SO':                       (0, 'SO', '{:07d}'),
                     'molecular_function':       (1000, 'GO', '{:07d}'),
                     'cellular_component':       (2000, 'GO', '{:07d}'),
@@ -141,9 +142,10 @@ def load_cv_cvterm(parsed_yaml):
 
         cursor.execute(cv_sql, (cv_name,))
         cv_id[cv_name] = cursor.fetchone()[0]
-
-        print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
+        if cv_name in print_debug:
+            print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
         # for specific cvterm we want to unique numbers as dbxrefs.
+        count = 0
         if cv_name in specific_dbs:
             count = specific_dbs[cv_name][START]
         for cvterm_name in cv_cvterm[cv_name]:
@@ -167,7 +169,9 @@ def load_cv_cvterm(parsed_yaml):
             cursor.execute(cvterm_sql, (dbxref_id[cvterm_name], cv_id[cv_name], cvterm_name))
             cvterm_id[cvterm_name] = cursor.fetchone()[0]
             cv_cvterm_id[cv_name][cvterm_name] = cvterm_id[cvterm_name]
-            print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
+            if cv_name in print_debug:
+                print(f"\t{cvterm_name} cvterm [{cvterm_id[cvterm_name]}], {cv_name} cv [{cv_id[cv_name]}] and dbxref [{dbxref_id[cvterm_name]}]")
+    # exit(-1)
     add_cvterm_namespace(cv_cvterm_id)
 
 
@@ -301,7 +305,7 @@ cvterm_id['provenance'] = cursor.fetchone()[0]
 cvprop_sql = """ INSERT INTO cvtermprop (cvterm_id, type_id, value) VALUES (%s, %s, %s) """
 
 conn.commit()
-count = cursor.rowcount
+# count = cursor.rowcount
 
 ###################
 # create chromosome

@@ -65,11 +65,11 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
             cursor.execute(feat_sql, (al_dbxref_id, org_id, al_name, unique_name, None, 0, cvterm_id['allele']))
             feature_id[al_name] = cursor.fetchone()[0]
             # add synonyms
-            cursor.execute(syn_sql, (feature_id[al_name], cvterm_id['symbol'], al_sym_name))
+            cursor.execute(syn_sql, (al_name, cvterm_id['symbol'], al_sym_name))
             syn_id = cursor.fetchone()[0]
             cursor.execute(fs_sql, (syn_id, feature_id[al_name], pub_id))
 
-            cursor.execute(syn_sql, (feature_id[al_name], cvterm_id['symbol'], al_sym_name[5:]))  # skip sp name
+            cursor.execute(syn_sql, (al_name, cvterm_id['symbol'], al_sym_name[5:]))  # skip sp name
             syn_id = cursor.fetchone()[0]
             cursor.execute(fs_sql, (syn_id, feature_id[al_name], pub_id))
             #  Scer\GAL4        | gene                            | FBgn0014445 | Scer         | alleleof
@@ -108,7 +108,7 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
     ec_sql = """INSERT INTO expression_cvterm (expression_id, cvterm_id, cvterm_type_id) VALUES (%s, %s, %s)"""
     fr_sql = """INSERT INTO feature_relationship (subject_id, object_id, type_id) VALUES (%s, %s, %s) RETURNING feature_relationship_id"""
     frp_sql = """INSERT INTO feature_relationship_pub (feature_relationship_id, pub_id) VALUES (%s, %s)"""
-
+    fp_sql = """INSERT INTO feature_pub (feature_id, pub_id) VALUES (%s, %s)"""
     for i in range(4, 9):
         # Scer\\GAL4[DBD.hb1]INTERSECTIONHsap\\RELA[AD.pxn1]
         # Scer\GAL4<up>DBD.hb1</up>∩Hsap\RELA<up>AD.pxn1</up>
@@ -122,7 +122,8 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
         cursor.execute(feat_sql, (co_dbxref_id, org_dict['Ssss'], co_name, unique_name,
                                   None, 0, cvterm_id['split system combination']))
         feature_id[co_name] = cursor.fetchone()[0]
-
+        # add feature pub
+        cursor.execute(fp_sql, (feature_id[co_name], feature_id[f'CO_paper_{i}']))
         # add synonym
         cursor.execute(syn_sql, (feature_id[co_name], cvterm_id['symbol'], co_syn))
         syn_id = cursor.fetchone()[0]
@@ -159,8 +160,11 @@ def add_driver_data(cursor, org_dict, feature_id, cvterm_id, dbxref_id, pub_id, 
 
         cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Scer\\GAL4[DBD.hb{i}]'], cvterm_id['partially_produced_by']))
         fr_id = cursor.fetchone()[0]
+        cursor.execute(fp_sql, (feature_id[f'Scer\\GAL4[DBD.hb{i}]'], feature_id[f'CO_paper_{i}']))
+
         cursor.execute(frp_sql, (fr_id, feature_id[f'CO_paper_{i}']))
         cursor.execute(fr_sql, (feature_id[co_name], feature_id[f'Hsap\RELA[AD.pxn{i}]'], cvterm_id['partially_produced_by']))
         fr_id = cursor.fetchone()[0]
+        cursor.execute(fp_sql, (feature_id[f'Hsap\RELA[AD.pxn{i}]'], feature_id[f'CO_paper_{i}']))
         cursor.execute(frp_sql, (fr_id, feature_id[f'CO_paper_{i}']))
 
