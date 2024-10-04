@@ -1,4 +1,15 @@
-# cvterm.name, dbxref.accession, db.name
+# Example of getting data from production for this yaml.
+# It will need editing to the format required.
+#
+# SELECT cvterm.name, dbxref.accession, db.name
+#   FROM cv, cvterm, dbxref, db
+#   WHERE cv.cv_id = cvterm.cv_id AND
+#      cvterm.dbxref_id = dbxref.dbxref_id AND
+#      dbxref.db_id = db.db_id AND
+#      cv.name = 'molecular_function' and
+#      cvterm.name in ('mRNA binding') order by cvterm.name;
+#
+#     name     | accession | name
 SO: [
       [  'DNA', '0000352', 'SO'],
       [  'RNA', '0000356', 'SO'],
@@ -108,3 +119,22 @@ FlyBase development CV: [
    ['laval stage' , '00000005', 'FBdv'],
    ['wandering third instar larval stage', '00005341', 'FBdv']
    ]
+
+cellular_component: [
+ ['endoplasmic reticulum', '0005783', 'GO'],
+ ['extracellular space', '0005615', 'GO'],
+ ['mitochondrial crista', '0030061', 'GO'],
+ ['mitochondrion', '0005739', 'GO'],
+ ['nucleolus', '0005730', 'GO'],
+ ['something', '0000001', 'GO']
+ ]
+
+biological_process: [
+ ['activation of immune response', '0002253', 'GO'],
+ ['defense response to other organism', '0098542', 'GO'],
+ ['rRNA processing', '0006364', 'GO']
+ ]
+
+molecular_function: [
+ ['mRNA binding', '0003729', 'GO']
+ ]

@@ -1,25 +1,11 @@
 # Each entries create a cv / cvterm entry, a db entry, and a dbxref.
 
-# order dependent cv/cvterms. i.e. accession are specific and numbered.
 #######################################################################
-# Order is important only add to end of SO list. Tests rely on this!!
-#SO: ['chromosome_arm', 'chromosome', 'gene', 'mRNA', 'DNA', 'golden_path', 'ncRNA_gene',
-#     'regulatory_region', 'chromosome_structure_variation', 'chromosomal_inversion',
-#     'natural population', 'cloned_region', 'engineered_region', 'transgenic_transposable_element',
-#     'transposable_element_insertion_site', 'chromosome_band', 'allele', 'transposable_element',
-#     'natural_transposable_element', 'gene_group', 'polypeptide', 'chromosome_breakpoint', 'engineered_plasmid', 'sgRNA',
-#     'oligo', 'engineered_foreign_gene', 'point_mutation', 'cDNA_clone', 'TSS', 'rescue_region', 'insertion_site', 'synthetic_sequence', 'RNA',
-#     'missense_variant', 'wild_type', 'transposable_element_flanking_region']
-molecular_function: ['mRNA binding']
-cellular_component: ['nucleolus', 'something' ,'extracellular space', 'endoplasmic reticulum',
-                     'mitochondrial crista', 'mitochondrion']
-biological_process: ['activation of immune response', 'defense response to other organism', 'rRNA processing']
-#FlyBase anatomy CV: ['embryo','dopaminergic PAM neuron 1', 'dopaminergic PAM neuron 5', 'dissociated larval fat cell',
-#                     'embryonic/larval hemolymph',
-#                     'anatomy 1', 'anatomy 2', 'anatomy 3', 'mesoderm',
-#                     'indirect flight muscle', 'macrochaeta', 'scutellar bristle',
-#                     'increased number']
-####### End of order matters cv/cvterms
+#
+# NOTE: if we require a specfic dbxref value then these should be moved
+#       to cvterm_dbxref.yaml
+#
+#######################################################################
 
 
 cell_line_cvtermprop type: ['basis']
@@ -45,22 +31,6 @@ feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 're
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
-
-#FlyBase development CV: ['late embryonic stage', 'embryonic stage', 'adult stage', 'development 1', 'development 2', 'development 3',
-#                         'wandering third instar larval stage', 'laval stage']
-#FlyBase miscellaneous CV: [
-#    'CRISPR/Cas9', 'amorphic allele - molecular evidence', 'assay', 'biosample', 'biotic stimulus study', 'cell isolation', 'chemical entity',
-#    'conditional', 'colocalizes_with', 'comment',
-#    'contributes_to', 'disease implicated variant', 'evidence_code',
-#    'environ1', 'environ2', 'environ3','environ4', 'environ5', 'faint', 'functional group', 'female',
-#    'in vitro construct',
-#    'inferred from direct assay', 'inferred from mutant phenotype', 'isolated cells', 'natural population',
-#    'male', 'misc 1', 'misc 2', 'misc 3', 'multi-individual sample', 'partially',
-#    'pheno1', 'pheno2', 'pheno3', 'pheno4', 'pheno5',
-#    'photoactivatable fluorescent protein', 'protein detection tool', 'project',
-#    'qualifier', 'reagent collection', 'RNA detection tool', 'single balancer', 'spontaneous',
-#    'split system combination', 'suppressible',
-#    'transcriptome', 'umbrella project', 'unspecified']
 
 GenBank feature qualifier: [
     'comment', 'linked_to', 'bound_moiety', 'na_change', 'pr_change',
