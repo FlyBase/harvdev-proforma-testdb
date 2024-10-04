@@ -21,6 +21,7 @@ biological_process: ['activation of immune response', 'defense response to other
 #                     'increased number']
 ####### End of order matters cv/cvterms
 
+
 cell_line_cvtermprop type: ['basis']
 cell_lineprop type: ['internalnotes', 'lab_of_origin', 'comment', 'source_genotype',
                      'source_strain', 'source_cross', 'karyotype']
