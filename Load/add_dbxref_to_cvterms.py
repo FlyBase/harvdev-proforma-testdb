@@ -3,9 +3,9 @@ def add_dbxref_data_to_cvterms(cursor, cv_cvterm_id, db_id, dbxref_id):
     # NOTE: these may not be correct but can be used to create some for testing.
     # The FBxx may not match the actual production ones
     cv_to_FB = {
-        "FlyBase anatomy CV": "FBbt",
-        "FlyBase development CV": "FBdv",
-        "FlyBase miscellaneous CV": "FBcv"
+        #"FlyBase anatomy CV": "FBbt",
+        "FlyBase development CV": "FBdv"
+        # "FlyBase miscellaneous CV": "FBcv"
     }
     dbx_sql = """ INSERT INTO dbxref (db_id, accession) VALUES (%s, %s) RETURNING dbxref_id """
     add_to_cvterm = """ UPDATE cvterm SET dbxref_id = %s where cvterm_id = %s """

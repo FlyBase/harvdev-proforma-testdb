@@ -73,6 +73,7 @@ def yaml_parse_and_dispatch():
     dispatch_dictionary = {
         'db_dbxref.yaml': load_db_dbxref,
         'cv_cvterm.yaml': load_cv_cvterm,
+        'cvterm_dbxref.yaml': load_cvterm_dbxref,
         'pub_author_pubprop.yaml': load_pub_author_pubprop
     }
 
@@ -81,6 +82,7 @@ def yaml_parse_and_dispatch():
     # Need to load in a specific order due to CV term reliance.
     files_to_load = [
         'db_dbxref.yaml',
+        'cvterm_dbxref.yaml',
         'cv_cvterm.yaml',
         'pub_author_pubprop.yaml'
     ]
@@ -136,11 +138,13 @@ def load_cv_cvterm(parsed_yaml):
                       'transcriptome': 3034,
                       'umbrella project': 3030}
     for cv_name in (cv_cvterm.keys()):
-        cursor.execute(db_sql, (cv_name,))
-        db_id[cv_name] = cursor.fetchone()[0]
+        if cv_name not in db_id:
+            cursor.execute(db_sql, (cv_name,))
+            db_id[cv_name] = cursor.fetchone()[0]
 
-        cursor.execute(cv_sql, (cv_name,))
-        cv_id[cv_name] = cursor.fetchone()[0]
+        if cv_name not in cv_id:
+            cursor.execute(cv_sql, (cv_name,))
+            cv_id[cv_name] = cursor.fetchone()[0]
 
         print("adding cv {} [{}] and db [{}]".format(cv_name, cv_id[cv_name], db_id[cv_name]))
         # for specific cvterm we want to unique numbers as dbxrefs.
@@ -170,6 +174,47 @@ def load_cv_cvterm(parsed_yaml):
             print("\t{} cvterm [{}] and dbxref [{}]".format(cvterm_name, cvterm_id[cvterm_name], dbxref_id[cvterm_name]))
     add_cvterm_namespace(cv_cvterm_id)
 
+
+def load_cvterm_dbxref(parsed_yaml):
+    cv_acc = parsed_yaml
+    # cvterm.name, dbxref.accession, db.name
+    cvterm_name_idx = 0
+    accession_idx = 1
+    db_name_idx = 2
+
+    for cv_name in (cv_acc.keys()):
+        print(f"BOB: {cv_name} populate.")
+        cursor.execute(cv_sql, (cv_name,))
+        cv_id[cv_name] = cursor.fetchone()[0]
+        cv_cvterm_id[cv_name] = {}
+        print("adding cvterm and dbxrefs for cv {} [{}]".format(cv_name, cv_id[cv_name]))
+        for row in cv_acc[cv_name]:
+            db_name = row[db_name_idx]
+            cvterm_name = row[cvterm_name_idx]
+            dbxref_name = row[accession_idx]
+            if db_name not in db_id:
+                cursor.execute(db_sql, (db_name,))
+                db_id[db_name] = cursor.fetchone()[0]
+            #print(f"BOB: ROW {row}")
+            cursor.execute(dbxref_sql, (db_id[db_name], dbxref_name))
+            dbxref_id[dbxref_name] = cursor.fetchone()[0]
+            cursor.execute(cvterm_sql, (dbxref_id[dbxref_name], cv_id[cv_name], cvterm_name))
+            cvterm_id[cvterm_name] = cursor.fetchone()[0]
+            cv_cvterm_id[cv_name][cvterm_name] = cvterm_id[cvterm_name]
+
+
+            print(f"\tBOB: cvterm {cvterm_name} and dbxref {dbxref_name}")
+        check_sql = f"""
+        SELECT cv.name, cvterm.name, dbxref.accession, db.name
+          FROM cv, cvterm, dbxref, db
+          WHERE cv.cv_id = cvterm.cv_id AND
+                cvterm.dbxref_id = dbxref.dbxref_id AND
+                dbxref.db_id = db.db_id AND
+                cv.name = '{cv_name}'"""
+        print(check_sql)
+        cursor.execute(check_sql)
+        for row in cursor.fetchall():
+            print(row)
 
 def add_cvterm_namespace(cv_cvterm_id):
     """Add namespace cvterm props.
@@ -216,6 +261,7 @@ def add_cvterm_namespace(cv_cvterm_id):
     for value in namespaces.keys():
         rank = 0
         for item in namespaces[value]:
+            print(f"BOB: looking up cv {item[0]} and cvterm {item[1]}")
             cvterm_id = cv_cvterm_id[item[0]][item[1]]
             type_id = cv_cvterm_id[item[2]][item[3]]
             # add cvtermprop
@@ -567,7 +613,19 @@ create_geneproducts(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id
 # transposable_element_insertion_site (teis)
 create_teis(cursor, organism_id, feature_id, cvterm_id, dbxref_id, db_id, pub_id)
 
-add_dbxref_data_to_cvterms(cursor, cv_cvterm_id, db_id, dbxref_id)
+# add_dbxref_data_to_cvterms(cursor, cv_cvterm_id, db_id, dbxref_id)
+
+check_sql = f"""
+SELECT cv.name, cvterm.name, dbxref.accession, db.name
+  FROM cv, cvterm, dbxref, db
+  WHERE cv.cv_id = cvterm.cv_id AND
+        cvterm.dbxref_id = dbxref.dbxref_id AND
+        dbxref.db_id = db.db_id AND
+        cv.name = 'FlyBase miscellaneous CV'"""
+print(check_sql)
+cursor.execute(check_sql)
+for row in cursor.fetchall():
+    print(row)
 
 conn.commit()
 conn.close()
