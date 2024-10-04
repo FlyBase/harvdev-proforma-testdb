@@ -85,7 +85,7 @@ property type: [
     'propagate_transgenic_uses', 'protein_coding_gene', 'protocol', 'reported_antibod_gen',
     'significant_subject_in_review', 'source_prep', 'stage', 'strain', 'strain_type', 'sub_datatype', 'taxgroup', 'wild_type_role',
     'curated_chromosomal_location', 'curated_cytological_location', 'flanking_type', 'first_base_of_target',
-    'problem', 'first_base_of_unique_in_natTE']
+    'problem', 'first_base_of_unique_in_natTE', 'chromosomal_orientation']
 
 pub type: [
     'computer file', 'unattributed', 'unspecified', 'personal communication to FlyBase',
