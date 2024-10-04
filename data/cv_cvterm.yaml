@@ -102,7 +102,7 @@ pub relationship type: ['also_in', 'related_to', 'published_in']
 relationship: ['located_in', 'part_of']
 
 relationship type: [
-    'alleleof', 'associated_with', 'attributed_as_expression_of',
+    'alleleof', 'affectedby', 'associated_with', 'attributed_as_expression_of',
     'belongs_to', 'bound_moiety', 'break_of', 'carried_on', 'carries_tool', 'compatible_tool',
     'cyto_left_end', 'cyto_right_end',
     'deletes', 'derived_from', 'duplicates', 'encodes_tool',
