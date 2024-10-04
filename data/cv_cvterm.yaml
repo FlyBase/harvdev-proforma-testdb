@@ -27,7 +27,8 @@ feature_cvtermprop type: [
 feature_expression property type: ['curated_as', 'comment']
 feature_pubprop type: ['abstract_languages']
 feature_relationshipprop type: ['fly_disease-implication_change', 'comment', 'relative_position', 'score',
-                                'start_location', 'end_location', 'is_subset_expression', 'is_relative_wildtype']
+                                'start_location', 'end_location', 'is_subset_expression', 'is_relative_wildtype',
+                                'control_comment']
 
 FlyBase: ['FlyBase analysis']
 FlyBase_internal: ['pubprop type:curated_by']
