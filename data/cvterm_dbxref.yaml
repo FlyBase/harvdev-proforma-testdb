@@ -60,8 +60,6 @@ FlyBase miscellaneous CV: [
   ['conditional', '0000309', 'FBcv'],
   ['contributes_to', 'contributes_to', 'FlyBase'],
   ['disease implicated variant', 'div', 'FlyBase'],
-  [ 'environ1', '0200001', 'FBcv' ],
-  [ 'environ2', '0200002', 'FBcv' ],
   ['evidence_code', 'evidence_code', 'FlyBase'],
   ['faint', '0000167', 'FBcv'],
   ['female', '0000334', 'FBcv'],
@@ -70,16 +68,10 @@ FlyBase miscellaneous CV: [
   ['inferred from direct assay', 'inferred from direct assay', 'FlyBase'],
   ['inferred from mutant phenotype', 'inferred from mutant phenotype', 'FlyBase'],
   ['isolated cells', '0003047', 'FBcv'],
-  ['madeupstuff', '007', 'FBcv'],
   ['male', '0000333', 'FBcv'],
   ['multi-individual sample', '0003141', 'FBcv'],
   ['natural population', '0000465', 'FBcv'],
   ['partially', '0000340', 'FBcv'],
-  ['pheno1', '0100001', 'FBcv'],
-  ['pheno2', '0100002', 'FBcv'],
-  ['pheno3', '0100003', 'FBcv'],
-  ['pheno4', '0100004', 'FBcv'],
-  ['pheno5', '0100005', 'FBcv'],
   ['photoactivatable fluorescent protein', '0005017', 'FBcv'],
   ['project', '0003023', 'FBcv'],
   ['protein detection tool', '0005004', 'FBcv'],
@@ -91,7 +83,19 @@ FlyBase miscellaneous CV: [
   ['suppressible', '0000622', 'FBcv'],
   ['transcriptome', '0003034', 'FBcv'],
   ['umbrella project', '0003030', 'FBcv'],
-  ['unspecified', 'unspecified', 'FlyBase']
+  ['unspecified', 'unspecified', 'FlyBase'],
+  # Fake ones not in production
+  [ 'environ1', '0200001', 'FBcv' ],
+  [ 'environ2', '0200002', 'FBcv' ],
+  [ 'pheno1', '0100001', 'FBcv' ],
+  [ 'pheno2', '0100002', 'FBcv' ],
+  [ 'pheno3', '0100003', 'FBcv' ],
+  [ 'pheno4', '0100004', 'FBcv' ],
+  [ 'pheno5', '0100005', 'FBcv' ],
+  [ 'misc 1', '0300001', 'FBcv' ],
+  [ 'misc 2', '0300002', 'FBcv' ],
+  [ 'misc 3', '0300003', 'FBcv' ],
+  [ 'madeupstuff', '007', 'FBcv']
   ]
 
 FlyBase anatomy CV: [
