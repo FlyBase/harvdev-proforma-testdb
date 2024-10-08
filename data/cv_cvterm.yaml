@@ -63,7 +63,7 @@ property type: [
     'aberr_relationships',
     'additional_disease-implication_change', 'allele_report_comment',
     'aminoacid_rep', 'availability','balancer_status', 'bodypart_expression_text', 'bodypart_expression_marker', 'bound_moiety_comment', 'breeding_comment', 'category', 'cellular_description',
-    'comment', 'complementation', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_analysis', 'data_type', 'data_link', 'data_link_bdsc', 'deliberate_omission',
+    'comment', 'complementation', 'control_comment', 'cyto_change_comment', 'cyto_loc_comment', 'curated_phenotype', 'data_analysis', 'data_type', 'data_link', 'data_link_bdsc', 'deliberate_omission',
     'deleted_segment', 
     'derived_cyto_location', 'description', 'diopt_ortholog', 'discoverer', 'disease_associated', 'div_comment',
     'dros_model_overview', 'duplicated_segment', 'etymology', 'evidence', 'extract_chr', 'foreign_seq_data',
