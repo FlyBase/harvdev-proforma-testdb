@@ -203,3 +203,28 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
         cursor.execute(dbxref_sql, (db_id['CHEBI'], chem[2]))
         dbxref_id = cursor.fetchone()[0]
         cursor.execute(f_dbx, (chem_id, dbxref_id))
+
+    # create pubchem only chemicals for renaming tests
+    chems = (['p-carbon dioxide', '116526'],
+             ['p-hydrogen peroxide', '116240'])
+    obsolete = False
+    for chem in chems:
+        cursor.execute(dbxref_sql, (db_id['FlyBase'], f"FBch00{chem[1]}"))
+        dbxref_id = cursor.fetchone()[0]
+        cursor.execute(chemical_sql, (chem[0], 'FBch0{}'.format(chem[1]),
+                       organism_id['Dmel'], cvterm_id['chemical entity'], dbxref_id, obsolete))
+        chem_id = cursor.fetchone()[0]
+
+        cursor.execute(syn_sql, ("PUBCHEM:{}".format(chem[1]), cvterm_id['symbol'], "PUBCHEM:{}".format(chem[1])))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
+
+        cursor.execute(syn_sql, ("PUBCHEM:{}".format(chem[1]), cvterm_id['fullname'], "PUBCHEM:{}".format(chem[1])))
+        syn_id = cursor.fetchone()[0]
+        cursor.execute(fs_sql, (syn_id, chem_id, pub_id, True))
+
+        cursor.execute(dbxref_sql, (db_id['PubChem'], chem[1]))
+        dbxref_id = cursor.fetchone()[0]
+        # Add feature_dbxref.
+        cursor.execute(f_dbx, (chem_id, dbxref_id))
+        cursor.execute(feat_pub_sql, (chem_id, pubchem_pub_id))

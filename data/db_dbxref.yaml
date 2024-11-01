@@ -1,5 +1,6 @@
 testdb: ['hh-1']
 testdb2: []
+CHEBI: []
 EMBL-EBI Single Cell Expression Atlas Datasets:  []
 FBbt: ['dissociated larval fat cell', 'CP1 lineage neuron', 'eye']
 FBcv: ['maternal effect', 'eye', 'visible']
