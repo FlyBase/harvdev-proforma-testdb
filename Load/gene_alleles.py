@@ -191,6 +191,7 @@ def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, 
     if 'org_abbr' in feat_details:
         org_id = org_dict[feat_details['org_abbr']]
     uniquename = feat_details['uniquename'].replace('<number>', "{:07d}".format(allele_count))
+    uniquename = uniquename.replace('<allele_name>', allele_name)
     if name not in feature_id:
         # create dbxref,  accession -> uniquename
         cursor.execute(dbxref_sql, (db_id['FlyBase'], uniquename))
@@ -374,13 +375,15 @@ def add_relationships(rela_list, cursor, count, tool_name, gene_name, allele_nam
         mess = feature_relationship_add(cursor, count, item, tool_name, gene_name, allele_name, feat1_id,
                                         cvterm_id, org_id, db_id, rela_pub, feature_id, org_dict)
         log += " {}".format(mess)
+
     return log
 
 
 def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                         num_genes=5, num_alleles=3, gene_prefix=None, allele_prefix=None,
                         tool_prefix=None, gene_relationships=None, allele_relationships=None, pub_format=None,
-                        gene_props=None, allele_props=None, org_abbr='Dmel', allele_org_abbr='Dmel'
+                        gene_props=None, allele_props=None, org_abbr='Dmel', allele_org_abbr='Dmel',
+                        add_same_name=False
                         ):
     """Create the genes and alleles.
 
@@ -411,6 +414,8 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
         alelele_props: <dict>props to be added to each allele. dict has a field: [proptype, value] format
         org_abbr: <string> (default 'Dmel') abbreviation for the organism.
         allele_org_abbr: <string> (default 'Dmel') abbreviation for the alleles organism.
+        add_same_name: <bool> Some tests require an allele relationship of the same name.
+                      See PDEV-PDEV-251
     Return List: List of genes and their alleles.
        [gene_id1, [allele_id1, allele_id2],
         gene_id2, [allele_id3, allele_id4]]
@@ -430,6 +435,11 @@ def create_gene_alleles(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id,
                                      'uniquename': 'FBto<number>',
                                      'type': 'engineered_region',
                                      'relationship': 'associated_with'})
+    if add_same_name:
+        allele_relationships.append({'name': "<allele_name>",
+                                     'uniquename': '<allele_name>',
+                                     'type': 'point_mutation',
+                                     'relationship': 'partof'})
     gene_allele_list = []
     for i in range(num_genes):
         if pub_format:
