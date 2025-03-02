@@ -192,7 +192,21 @@ def feature_relationship_add(cursor, count, feat_details, tool_name, gene_name, 
         org_id = org_dict[feat_details['org_abbr']]
     uniquename = feat_details['uniquename'].replace('<number>', "{:07d}".format(allele_count))
     uniquename = uniquename.replace('<allele_name>', allele_name)
-    if name not in feature_id:
+    print(f"NOTICE: processing {name} {uniquename}")
+    if name == uniquename:
+        cursor.execute(dbxref_sql, (db_id['FlyBase'], uniquename))
+        dbxref_id = cursor.fetchone()[0]
+        cursor.execute(feat_sql, (dbxref_id, org_id, name, uniquename,
+                                  "", 0, cvterm_id[feat_details['type']]))
+        feat2_id = cursor.fetchone()[0]
+
+        # add synonyms
+        cursor.execute(syn_sql, (name, cvterm_id['symbol'], name))
+        symbol_id = cursor.fetchone()[0]
+
+        # add feature_synonym
+        cursor.execute(fs_sql, (symbol_id, feat2_id, pub_id, True))
+    elif name not in feature_id:
         # create dbxref,  accession -> uniquename
         cursor.execute(dbxref_sql, (db_id['FlyBase'], uniquename))
         dbxref_id = cursor.fetchone()[0]
@@ -642,7 +656,8 @@ def create_merge_allele(cursor, org_dict, feature_id, cvterm_id, db_id, pub_id):
                         allele_prefix=None,
                         tool_prefix='Clk',
                         allele_relationships=allele_relationships,
-                        pub_format="merge_title_"
+                        pub_format="merge_title_",
+                        add_same_name=True
                         )
     for g_a in gene_alleles:
         print("gene {}".format(g_a[0]))
