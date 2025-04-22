@@ -48,7 +48,7 @@ def add_chemical_data(cursor, cvterm_id, organism_id, dbxref_id, pub_id, db_id, 
     pubchem_pub_id = cursor.fetchone()[0]
 
     obsolete = False
-    for i in range(20):
+    for i in range(30):
         cursor.execute(dbxref_sql, (db_id['CHEBI'], f"{i+1}"))
         chem_dbxref_id = cursor.fetchone()[0]
         ##################################################################################
